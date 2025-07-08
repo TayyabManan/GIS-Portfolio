@@ -78,24 +78,6 @@ cd gis-portfolio
 npm install
 ```
 
-3. Set up environment variables:
-Create a `.env.local` file in the root directory with the following variables:
-```env
-# Sanity CMS
-NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
-NEXT_PUBLIC_SANITY_DATASET=production
-
-# Email Configuration (for contact form)
-EMAIL_SERVER_HOST=smtp.gmail.com
-EMAIL_SERVER_PORT=587
-EMAIL_SERVER_USER=your_email@gmail.com
-EMAIL_SERVER_PASSWORD=your_app_password
-EMAIL_FROM=your_email@gmail.com
-EMAIL_TO=your_email@gmail.com
-
-# Mapbox (if using maps)
-NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_mapbox_token
-```
 
 ### Development
 
@@ -121,19 +103,6 @@ npm run start
 - `npm run lint` - Run ESLint
 
 ## 🎨 Customization
-
-### Theme Colors
-Edit the color scheme in `tailwind.config.js`:
-```javascript
-colors: {
-  primary: {
-    // Your primary color palette
-  },
-  secondary: {
-    // Your secondary color palette
-  }
-}
-```
 
 ### Project Data
 Add or modify projects in `src/lib/projects.ts`:

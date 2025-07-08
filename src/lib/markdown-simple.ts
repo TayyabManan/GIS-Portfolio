@@ -122,6 +122,7 @@ export function getAllProjectsFromMarkdown(): Project[] {
       .map(slug => getProjectBySlug(slug))
       .filter((project): project is ProjectWithContent => project !== null)
       .map((project) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { content, ...projectWithoutContent } = project
         return projectWithoutContent
       }) // Remove content for list view

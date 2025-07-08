@@ -93,17 +93,17 @@ export function getProjectBySlug(slug: string): ProjectWithContent | null {
     const { data, content } = parseFrontmatter(fileContents)
 
     return {
-      slug: data.slug || slug,
-      title: data.title || '',
-      subtitle: data.subtitle || '',
-      description: data.description || '',
-      category: data.category || '',
-      techStack: data.techStack || [],
-      image: data.image || '',
-      demoUrl: data.demoUrl,
-      githubUrl: data.githubUrl,
-      featured: data.featured || false,
-      date: data.date || '',
+      slug: (data.slug as string) || slug,
+      title: (data.title as string) || '',
+      subtitle: (data.subtitle as string) || '',
+      description: (data.description as string) || '',
+      category: (data.category as string) || '',
+      techStack: (data.techStack as string[]) || [],
+      image: (data.image as string) || '',
+      demoUrl: data.demoUrl as string | undefined,
+      githubUrl: data.githubUrl as string | undefined,
+      featured: (data.featured as boolean) || false,
+      date: (data.date as string) || '',
       content
     }
   } catch (error) {
@@ -147,5 +147,8 @@ export function getFeaturedProjectsFromMarkdown(): Project[] {
  */
 export function validateProjectData(data: Record<string, unknown>): boolean {
   const requiredFields = ['slug', 'title', 'description', 'category', 'date']
-  return requiredFields.every(field => data[field] !== undefined && data[field] !== '')
+  return requiredFields.every(field => {
+    const value = data[field]
+    return value !== undefined && value !== ''
+  })
 }

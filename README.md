@@ -128,8 +128,6 @@ The site is configured to work with Sanity CMS. Set up your Sanity studio to man
 
 ## 🔧 Key Features Implementation
 
-### Dark Mode
-The theme is managed through a Context Provider (`ThemeProvider`). Toggle is available in the header.
 
 ### Contact Form
 Located at `/contact`, the form includes:
@@ -151,12 +149,6 @@ The projects page includes category-based filtering:
 - PWA support for offline functionality
 - Turbopack for faster development builds
 
-## 📱 Progressive Web App
-
-The site includes PWA configuration for:
-- Offline support
-- App installation
-- Push notifications (if configured)
 
 ## 🚀 Deployment
 
@@ -179,12 +171,5 @@ The site is optimized for deployment on Vercel:
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👤 Contact
-
-- Email: [your-email@example.com]
-- LinkedIn: [Your LinkedIn Profile]
-- GitHub: [@your-github-username]
-
----
 
 Built with ❤️ using Next.js and TypeScript

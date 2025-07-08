@@ -11,7 +11,7 @@ export interface ProjectWithContent extends Project {
 /**
  * Simple frontmatter parser (no external dependencies)
  */
-function parseFrontmatter(fileContent: string): { data: any; content: string } {
+function parseFrontmatter(fileContent: string): { data: Record<string, unknown>; content: string } {
   const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/
   const match = fileContent.match(frontmatterRegex)
   
@@ -21,7 +21,7 @@ function parseFrontmatter(fileContent: string): { data: any; content: string } {
 
   const frontmatterText = match[1]
   const content = match[2]
-  const data: any = {}
+  const data: Record<string, unknown> = {}
 
   // Parse YAML-like frontmatter
   frontmatterText.split('\n').forEach(line => {
@@ -121,7 +121,7 @@ export function getAllProjectsFromMarkdown(): Project[] {
     const projects = slugs
       .map(slug => getProjectBySlug(slug))
       .filter((project): project is ProjectWithContent => project !== null)
-      .map(({ content, ...project }) => project) // Remove content for list view
+      .map(({ content: _, ...project }) => project) // Remove content for list view
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
     return projects
@@ -141,7 +141,7 @@ export function getFeaturedProjectsFromMarkdown(): Project[] {
 /**
  * Validate project markdown frontmatter
  */
-export function validateProjectData(data: any): boolean {
+export function validateProjectData(data: Record<string, unknown>): boolean {
   const requiredFields = ['slug', 'title', 'description', 'category', 'date']
   return requiredFields.every(field => data[field] !== undefined && data[field] !== '')
 }

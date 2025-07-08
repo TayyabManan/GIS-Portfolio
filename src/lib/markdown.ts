@@ -70,7 +70,7 @@ export function getAllProjectsFromMarkdown(): Project[] {
     const projects = slugs
       .map(slug => getProjectBySlug(slug))
       .filter((project): project is ProjectWithContent => project !== null)
-      .map(({ content, ...project }) => project) // Remove content for list view
+      .map(({ content: _, ...project }) => project) // Remove content for list view
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
     return projects
@@ -90,7 +90,7 @@ export function getFeaturedProjectsFromMarkdown(): Project[] {
 /**
  * Validate project markdown frontmatter
  */
-export function validateProjectData(data: any): boolean {
+export function validateProjectData(data: Record<string, unknown>): boolean {
   const requiredFields = ['slug', 'title', 'description', 'category', 'date']
   return requiredFields.every(field => data[field] !== undefined && data[field] !== '')
 }

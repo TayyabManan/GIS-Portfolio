@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import ProjectCard from '@/components/ui/ProjectCard'
 import ProjectModal from '@/components/ui/ProjectModal'
-import { projects, type Project } from '@/lib/projects'
+import { type Project } from '@/lib/projects'
+import { getAllProjectsFromMarkdown } from '@/lib/markdown'
 
 const categories = ['All', 'Urban Planning', 'Environmental', 'Business Intelligence', 'Transportation']
 
@@ -11,6 +12,9 @@ export default function ProjectsPageContent() {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
+
+  // Get projects from markdown files
+  const projects = getAllProjectsFromMarkdown()
 
   const filteredProjects = selectedCategory === 'All' 
     ? projects 

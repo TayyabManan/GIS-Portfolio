@@ -12,7 +12,7 @@ featured: true
 date: "2024-11-20"
 ---
 
-# GeoInsight Platform
+# Electric Vehich Suitability Analysis
 
 ## Overview
 A comprehensive spatial analysis project focused on Electric Vehicle (EV) infrastructure, adoption patterns, and related socio-economic factors using Geographic Information Systems (GIS). This project combines demographic, economic, infrastructure, and satellite data to provide insights into EV accessibility and adoption patterns in Lahore.
@@ -31,11 +31,11 @@ A comprehensive spatial analysis project focused on Electric Vehicle (EV) infras
 
 ## Environmental Impact
 The platform has been instrumental in:
-- Early detection of illegal deforestation activities
-- Monitoring air quality in urban areas
-- Tracking climate change indicators
-- Supporting conservation efforts with data-driven insights
-- Facilitating environmental policy decisions
+- Air Quality Improvement
+- Greenhouse Gas Emissions Reduction
+- Noise Pollution Mitigation
+- Urban Heat Island Reduction
+- Sustainable Urban Development
 
 ## Data Sources
 - **Open Street Map**: Freely available geospatial data.

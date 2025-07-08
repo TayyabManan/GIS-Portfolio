@@ -5,7 +5,7 @@ import ProjectCard from '@/components/ui/ProjectCard'
 import ProjectModal from '@/components/ui/ProjectModal'
 import { projects, type Project } from '@/lib/projects'
 
-const categories = ['All', 'Urban Planning', 'Environmental', 'Business Intelligence', 'Transportation']
+const categories = ['All', 'Suitability Analysis', 'Machine Learning', 'Business Intelligence', 'Transportation']
 
 export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All')

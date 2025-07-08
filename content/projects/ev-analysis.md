@@ -12,7 +12,7 @@ featured: true
 date: "2024-11-20"
 ---
 
-# Electric Vehich Suitability Analysis
+# Electric Vehicle Suitability Analysis
 
 ## Overview
 A comprehensive spatial analysis project focused on Electric Vehicle (EV) infrastructure, adoption patterns, and related socio-economic factors using Geographic Information Systems (GIS). This project combines demographic, economic, infrastructure, and satellite data to provide insights into EV accessibility and adoption patterns in Lahore.

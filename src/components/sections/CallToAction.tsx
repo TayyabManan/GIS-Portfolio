@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function CallToAction() {
   return (
-    <section className="h-[50vh] flex items-center bg-blue-600">
+    <section className="min-h-[50vh] py-16 sm:py-20 lg:py-24 flex items-center bg-blue-600">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

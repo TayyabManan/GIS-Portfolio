@@ -121,7 +121,10 @@ export function getAllProjectsFromMarkdown(): Project[] {
     const projects = slugs
       .map(slug => getProjectBySlug(slug))
       .filter((project): project is ProjectWithContent => project !== null)
-      .map(({ content: _, ...project }) => project) // Remove content for list view
+      .map((project) => {
+        const { content, ...projectWithoutContent } = project
+        return projectWithoutContent
+      }) // Remove content for list view
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
     return projects

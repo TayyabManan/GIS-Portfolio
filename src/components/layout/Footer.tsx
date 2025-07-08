@@ -20,7 +20,7 @@ export default function Footer() {
               <div className="flex items-center gap-3">
                 <EnvelopeIcon className="h-5 w-5 text-gray-400" />
                 <a 
-                  href="mailto:your.email@example.com"
+                  href="mailto:haris.a.mannan@gmail.com"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   haris.a.mannan@gmail.com

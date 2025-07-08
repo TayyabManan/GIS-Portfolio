@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-feature-settings: "liga" 1, "kern" 1;
+}
+
+/* Typography improvements */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Code and pre elements */
+code, pre {
+  font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+  font-feature-settings: "liga" 1, "calt" 1;
+}
+
+/* Selection colors */
+::selection {
+  @apply bg-blue-500/30;
+  color: inherit;
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  @apply outline-2 outline-blue-500 outline-offset-2 rounded;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-700 rounded-md;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-600;
+}
+
+/* Smooth transitions for theme switching */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 200ms ease, 
+              color 200ms ease, 
+              border-color 200ms ease,
+              fill 200ms ease,
+              stroke 200ms ease,
+              box-shadow 200ms ease !important;
+  transition-delay: 0 !important;
+}
+
+/* Professional gradient backgrounds */
+.gradient-radial {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(59, 130, 246, 0.15) 0%,
+    transparent 70%
+  );
+}
+
+.gradient-hero {
+  @apply bg-gradient-to-br from-blue-500/5 via-emerald-500/5 to-transparent;
+}
+
+/* Glass morphism effects */
+.glass {
+  @apply backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-white/20 dark:border-white/10;
+}
+
+/* Section backgrounds - semi-transparent to show animated backgrounds */
+.section-bg-transparent {
+  @apply bg-transparent;
+}
+
+.section-bg-light {
+  @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm;
+}
+
+.section-bg-dark {
+  @apply bg-gray-900/85 dark:bg-gray-900/90 backdrop-blur-sm;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.card-hover:hover {
+  @apply -translate-y-0.5 shadow-xl dark:shadow-2xl;
+}
+
+/* Link underline animation */
+.link-underline {
+  @apply relative no-underline;
+}
+
+.link-underline::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-200 ease-in-out;
+}
+
+.link-underline:hover::after {
+  @apply w-full;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply relative overflow-hidden transition-all duration-200;
+  @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 600ms ease;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+/* Loading animation */
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+/* Fade animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 600ms ease-out;
+}
+
+/* Screen reader only content */
+.sr-only {
+  @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+  clip: rect(0, 0, 0, 0);
+}
+
+/* Theme toggle animations */
+.theme-toggle {
+  @apply relative inline-flex items-center justify-center;
+}
+
+.theme-toggle svg {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.theme-toggle:hover svg {
+  @apply rotate-[15deg] scale-110;
+}
+
+.theme-toggle:active svg {
+  @apply scale-95;
+}
+
+/* Icon transitions */
+.theme-icon-light,
+.theme-icon-dark {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Utility classes */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Section spacing */
+.section-padding {
+  @apply py-20 md:py-24;
+}
+
+/* Subtle text gradient for headings */
+.text-gradient {
+  @apply bg-gradient-to-r from-blue-900 via-blue-600 to-emerald-500 dark:from-blue-400 dark:via-blue-300 dark:to-emerald-400 bg-clip-text text-transparent;
+}
+
+/* Map container styles for GIS projects */
+.map-container {
+  @apply relative overflow-hidden rounded-xl shadow-lg dark:shadow-2xl;
+}
+
+/* Skill bar animations */
+@keyframes skill-fill {
+  from {
+    width: 0%;
+  }
+}
+
+.skill-bar {
+  animation: skill-fill 1.5s ease-out forwards;
+}
+
+/* Professional tag styles */
+.tag {
+  @apply inline-flex items-center px-3 py-1 text-sm font-medium rounded-full transition-all duration-200;
+}
+
+.tag:hover {
+  @apply -translate-y-px shadow-md;
+}
+
+/* Gradient mesh background */
+.gradient-mesh {
+  @apply bg-gradient-to-tr from-blue-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900;
+}
+
+/* Animated gradient background */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-animated {
+  background: linear-gradient(-45deg, #3b82f6, #10b981, #2563eb, #059669);
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+/* Glow effects */
+.glow-primary {
+  @apply shadow-lg shadow-blue-500/25 dark:shadow-blue-400/25;
+}
+
+.glow-secondary {
+  @apply shadow-lg shadow-emerald-500/25 dark:shadow-emerald-400/25;
+}
+
+/* Border gradient */
+.border-gradient {
+  @apply relative;
+}
+
+.border-gradient::before {
+  content: '';
+  @apply absolute inset-0 rounded-lg p-[1px];
+  background: linear-gradient(to right, #3b82f6, #10b981);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: exclude;
+  mask-composite: exclude;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .theme-toggle svg {
+    transition: none !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    @apply hidden;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+  
+  a {
+    @apply underline;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  *:focus-visible {
+    outline-width: 3px;
+  }
+  
+  .btn-primary {
+    @apply border-2 border-current;
+  }
+}

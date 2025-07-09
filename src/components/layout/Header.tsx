@@ -52,13 +52,12 @@ export default function Header() {
             
             {/* Enhanced Theme Toggle with dropdown */}
             
-            <a
-              href="/resume/Muhammad_Tayyab_CV.pdf"
+            <Link
+              href="/resume"
               className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors"
-              download
             >
               Resume
-            </a>
+            </Link>
           </div>
 
           <div className="md:hidden flex items-center space-x-2">
@@ -98,13 +97,13 @@ export default function Header() {
                   {item.name}
                 </Link>
               ))}
-              <a
-                href="/resume/Muhammad_Tayyab_CV.pdf"
+              <Link
+                href="/resume"
                 className="bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 mt-4"
-                download
+                onClick={() => setMobileMenuOpen(false)}
               >
                 Resume
-              </a>
+              </Link>
             </div>
           </div>
         )}

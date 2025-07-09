@@ -5,16 +5,28 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import ProjectCard from '@/components/ui/ProjectCard'
 import ProjectModal from '@/components/ui/ProjectModal'
-import { getFeaturedProjects, type Project } from '@/lib/projects'
+import { type Project } from '@/lib/projects'
 
 export default function FeaturedProjects() {
-  const featuredProjects = getFeaturedProjects()
+  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([])
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setMounted(true)
+    fetch('/api/projects')
+      .then(res => res.json())
+      .then(data => {
+        const featured = data.filter((project: Project) => project.featured)
+        setFeaturedProjects(featured)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error('Error loading featured projects:', err)
+        setLoading(false)
+      })
   }, [])
 
   const openModal = (project: Project) => {
@@ -24,7 +36,7 @@ export default function FeaturedProjects() {
 
   const closeModal = () => {
     setModalOpen(false)
-    setTimeout(() => setSelectedProject(null), 300) // Clear after animation
+    setTimeout(() => setSelectedProject(null), 300)
   }
 
   return (
@@ -128,19 +140,25 @@ export default function FeaturedProjects() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {featuredProjects.map((project, index) => (
-            <motion.div
-              key={project.slug}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              viewport={{ once: true }}
-            >
-              <ProjectCard project={project} onClick={() => openModal(project)} />
-            </motion.div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {featuredProjects.map((project, index) => (
+              <motion.div
+                key={project.slug}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+                viewport={{ once: true }}
+              >
+                <ProjectCard project={project} onClick={() => openModal(project)} />
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

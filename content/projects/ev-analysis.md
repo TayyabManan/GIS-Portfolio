@@ -5,7 +5,7 @@ subtitle: "Spatial Analysis of Electric Vehicle Infrastructure"
 description: "Analyze EV infrastructure distribution and accessibility patterns across geographic regions."
 category: "Suitability Analysis"
 techStack: ["Python", "QGIS", "ArcGIS", "Open Street Map", "Demographic Data"]
-image: "/projects/image.png"
+image: "/projects/ev-analysis.png"
 demoUrl: "https://ev-analysis.netlify.app/"
 githubUrl: "https://github.com/TayyabManan/ev-suitability-analysis"
 featured: true

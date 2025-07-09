@@ -19,7 +19,7 @@ export function getAllProjectSlugs(): string[] {
     }
     const fileNames = fs.readdirSync(contentDirectory)
     return fileNames
-      .filter(name => name.endsWith('.md'))
+      .filter(name => name.endsWith('.md') && !name.startsWith('_'))
       .map(name => name.replace(/\.md$/, ''))
   } catch (error) {
     console.warn('Error reading project directory:', error)
@@ -68,6 +68,7 @@ export function getAllProjectsFromMarkdown(): Project[] {
   try {
     const slugs = getAllProjectSlugs()
     const projects = slugs
+      .filter(slug => !slug.startsWith('_')) // Filter out template files
       .map(slug => getProjectBySlug(slug))
       .filter((project): project is ProjectWithContent => project !== null)
       .map((project) => {

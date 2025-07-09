@@ -1,16 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ProjectCard from '@/components/ui/ProjectCard'
 import ProjectModal from '@/components/ui/ProjectModal'
-import { projects, type Project } from '@/lib/projects'
+import { type Project } from '@/lib/projects'
 
-const categories = ['All', 'Suitability Analysis', 'Machine Learning', 'Business Intelligence', 'Transportation']
+const categories = ['All', 'Suitability Analysis', 'Machine Learning', 'Environmental Monitoring', 'Transportation']
 
 export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading] = useState(true)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/projects')
+      .then(res => res.json())
+      .then(data => {
+        setProjects(data)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error('Error loading projects:', err)
+        setLoading(false)
+      })
+  }, [])
 
   const filteredProjects = selectedCategory === 'All' 
     ? projects 
@@ -56,17 +71,25 @@ export default function ProjectsPage() {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
-            <ProjectCard key={project.slug} project={project} onClick={() => openModal(project)} />
-          ))}
-        </div>
-
-        {/* Empty State */}
-        {filteredProjects.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 dark:text-gray-400">No projects found in this category.</p>
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
           </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProjects.map((project) => (
+                <ProjectCard key={project.slug} project={project} onClick={() => openModal(project)} />
+              ))}
+            </div>
+
+            {/* Empty State */}
+            {filteredProjects.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-gray-500 dark:text-gray-400">No projects found in this category.</p>
+              </div>
+            )}
+          </>
         )}
 
         {/* Coming Soon Section */}

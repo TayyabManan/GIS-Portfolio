@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import Link from 'next/link'
 import { MapIcon, ChartBarIcon, GlobeAltIcon, BuildingOffice2Icon } from '@heroicons/react/24/outline'
 
 export const metadata: Metadata = {
@@ -117,9 +118,9 @@ export default function ServicesPage() {
               >
                 Get a Quote
               </a>
-              <a href="/projects" className="text-sm font-semibold leading-6 text-gray-900">
+              <Link href="/projects" className="text-sm font-semibold leading-6 text-gray-900">
                 View Our Work <span aria-hidden="true">→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

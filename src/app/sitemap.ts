@@ -1,11 +1,11 @@
 import { MetadataRoute } from 'next'
-import { getProjects } from '@/lib/projects'
+import { getAllProjectsFromMarkdown } from '@/lib/markdown'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://tayyabmanan.vercel.app'
   
   // Get all projects dynamically
-  const projects = await getProjects()
+  const projects = await getAllProjectsFromMarkdown()
   
   const projectUrls = projects.map((project) => ({
     url: `${baseUrl}/projects/${project.slug}`,

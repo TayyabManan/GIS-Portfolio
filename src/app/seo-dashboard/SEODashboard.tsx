@@ -143,7 +143,7 @@ export default function SEODashboard() {
     <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">SEO Dashboard</h1>
-        <p className="mt-2 text-gray-600">Monitor your website's SEO performance and Core Web Vitals</p>
+        <p className="mt-2 text-gray-600">Monitor your website&apos;s SEO performance and Core Web Vitals</p>
       </div>
 
       {/* Core Web Vitals */}

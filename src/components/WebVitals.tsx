@@ -15,8 +15,9 @@ function sendToAnalytics(metric: WebVitalMetric) {
   const { name, delta, rating, value, id } = metric
   
   // Send to Google Analytics if available
-  if (typeof window !== 'undefined' && (window as Record<string, unknown>).gtag) {
-    ((window as Record<string, unknown>).gtag as (...args: unknown[]) => void)('event', name, {
+  if (typeof window !== 'undefined' && 'gtag' in window && typeof (window as unknown as { gtag: unknown }).gtag === 'function') {
+    const gtag = (window as unknown as { gtag: (...args: unknown[]) => void }).gtag
+    gtag('event', name, {
       event_category: 'Web Vitals',
       event_label: id,
       value: Math.round(name === 'CLS' ? value * 1000 : value),

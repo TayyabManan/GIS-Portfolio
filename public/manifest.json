@@ -1,0 +1,26 @@
+{
+  "name": "Tayyab Manan - GIS Analyst & Spatial Developer Portfolio",
+  "short_name": "Tayyab Manan Portfolio",
+  "description": "Professional GIS analyst and spatial developer specializing in urban planning, environmental analysis, and geospatial solutions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/profile-picture.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ],
+  "categories": ["portfolio", "business", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

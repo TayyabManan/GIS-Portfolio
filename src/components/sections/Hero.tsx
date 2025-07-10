@@ -81,15 +81,17 @@ export default function Hero() {
       
       <div className="relative flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center py-12">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl font-bold tracking-tight text-white sm:text-6xl"
-          >
-            GIS Analyst & 
-            <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent"> Spatial Developer</span>
-          </motion.h1>
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="block"
+            >
+              GIS Analyst & 
+              <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent"> Spatial Developer</span>
+            </motion.span>
+          </h1>
           
           <motion.p
             initial={{ opacity: 0, y: 20 }}

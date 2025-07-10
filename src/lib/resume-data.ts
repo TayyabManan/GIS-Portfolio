@@ -70,12 +70,12 @@ export const resumeData: ResumeData = {
     website: "https://tayyabmanan.vercel.app/",
     github: "https://github.com/TayyabManan",
     linkedin: "https://www.linkedin.com/in/muhammad-tayyab-3962a2373",
-    summary: "Experienced GIS Developer and Spatial Analyst with expertise in geospatial analysis, web development, and data visualization. Skilled in Python, React, QGIS, and various GIS technologies with a focus on solving real-world problems through spatial analysis and machine learning."
+    summary: "Experienced GIS Analyst and Spatial Developer with expertise in geospatial analysis, web development, and data visualization. Skilled in Python, React, QGIS, and various GIS technologies with a focus on solving real-world problems through spatial analysis and machine learning."
   },
   
   experience: [
     {
-      title: "GIS Developer & Spatial Analyst",
+      title: "GIS Analyst & Spatial Developer",
       company: "Freelance",
       location: "Islamabad, Pakistan",
       startDate: "2023-01",

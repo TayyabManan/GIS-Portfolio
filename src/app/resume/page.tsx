@@ -27,7 +27,7 @@ export default function ResumePage() {
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
             <div className="mb-4 sm:mb-0">
               <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Resume</h1>
-              <p className="text-sm sm:text-base text-gray-600">Muhammad Tayyab - GIS Developer & Spatial Analyst</p>
+              <p className="text-sm sm:text-base text-gray-600">Muhammad Tayyab - GIS Analyst & Spatial Developer</p>
             </div>
             <button
               onClick={downloadPDF}
@@ -55,9 +55,9 @@ export default function ResumePage() {
         <div className="bg-white" id="resume-content">
           {/* Header Section */}
           <div className="text-center mb-8 pb-6 border-b-2 border-gray-900">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
               {resumeData.personalInfo.name.toUpperCase()}
-            </h1>
+            </h2>
             <p className="text-base sm:text-lg text-gray-700 mb-4">
               {resumeData.personalInfo.title}
             </p>

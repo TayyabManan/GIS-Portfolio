@@ -42,7 +42,7 @@ export default function Footer() {
               <Link href="/contact" className="block text-gray-300 hover:text-white transition-colors">
                 Contact
               </Link>
-              <a href="/resume/Muhammad_Tayyab_CV.pdf" className="block text-gray-300 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
+              <a href="/resume" className="block text-gray-300 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
                 Resume
               </a>
             </div>

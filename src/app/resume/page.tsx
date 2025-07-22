@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline'
 import { resumeData, formatDate, calculateDuration } from '@/lib/resume-data'
 import { generateResumePDF } from '@/lib/pdf-utils'
+import ResumeChatbot from '@/components/ui/ResumeChatbot'
 
 export default function ResumePage() {
   const [downloading, setDownloading] = useState(false)
@@ -246,6 +247,9 @@ export default function ResumePage() {
           )}
         </div>
       </div>
+      
+      {/* Resume Chatbot */}
+      <ResumeChatbot />
     </div>
   )
 }

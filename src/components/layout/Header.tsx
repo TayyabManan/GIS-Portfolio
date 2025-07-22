@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline'
 import Logo from '@/components/ui/Logo'
 
 const navigation = [
@@ -15,12 +15,26 @@ const navigation = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showResumeAnimation, setShowResumeAnimation] = useState(false)
   const pathname = usePathname()
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
     return pathname.startsWith(href)
   }
+
+  // Show animation on homepage after a delay
+  useEffect(() => {
+    if (pathname === '/') {
+      const timer = setTimeout(() => {
+        setShowResumeAnimation(true)
+      }, 2000) // Show after 2 seconds on homepage
+
+      return () => clearTimeout(timer)
+    } else {
+      setShowResumeAnimation(false)
+    }
+  }, [pathname])
 
   return (
     <header className="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
@@ -54,9 +68,23 @@ export default function Header() {
             
             <Link
               href="/resume"
-              className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors"
+              className={`relative bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-all duration-300 ${
+                showResumeAnimation ? 'animate-pulse-attention' : ''
+              }`}
             >
-              Resume
+              <span className="flex items-center gap-2">
+                Resume
+                <ChatBubbleLeftRightIcon className="h-4 w-4" />
+              </span>
+              {showResumeAnimation && (
+                <>
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                  </span>
+                  <span className="absolute inset-0 rounded-md bg-blue-400 opacity-0 animate-shine"></span>
+                </>
+              )}
             </Link>
           </div>
 
@@ -99,10 +127,21 @@ export default function Header() {
               ))}
               <Link
                 href="/resume"
-                className="bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 mt-4"
+                className={`relative bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 mt-4 ${
+                  showResumeAnimation ? 'animate-pulse-attention' : ''
+                }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Resume
+                <span className="flex items-center gap-2 justify-center">
+                  Resume
+                  <ChatBubbleLeftRightIcon className="h-4 w-4" />
+                </span>
+                {showResumeAnimation && (
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                  </span>
+                )}
               </Link>
             </div>
           </div>

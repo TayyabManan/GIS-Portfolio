@@ -99,7 +99,7 @@ export default function CallToAction() {
               className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary-light)] rounded-full mb-4"
             >
               <SparklesIcon className="w-5 h-5 text-[var(--primary)]" />
-              <span className="text-sm font-medium text-[var(--primary)]">Let's Work Together</span>
+              <span className="text-sm font-medium text-[var(--primary)]">Let&apos;s Work Together</span>
             </motion.div>
             <h2 className="text-4xl font-bold text-[var(--text)] mb-4">
               Ready to Transform Your Spatial Data?

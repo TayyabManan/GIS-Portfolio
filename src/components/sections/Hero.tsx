@@ -215,13 +215,13 @@ export default function Hero() {
             <a
               href="#projects"
               onClick={scrollToProjects}
-              className="bg-[var(--primary)] px-8 py-4 text-base font-semibold text-white shadow-lg hover:bg-[var(--primary-hover)] hover:shadow-xl rounded-lg transition-all duration-200 transform hover:scale-105 cursor-pointer"
+              className="bg-[var(--primary)] px-4 sm:px-8 py-2.5 sm:py-4 text-sm sm:text-base font-semibold text-white shadow-lg hover:bg-[var(--primary-hover)] hover:shadow-xl rounded-lg transition-all duration-200 transform hover:scale-105 cursor-pointer"
             >
               View Projects
             </a>
             <a
               href="/contact"
-              className="text-base font-semibold leading-6 text-[var(--text)] hover:text-[var(--primary)] transition-all duration-200 group border-2 border-[var(--border)] hover:border-[var(--primary)] px-8 py-4 rounded-lg bg-[var(--background-secondary)] hover:bg-[var(--background-tertiary)]"
+              className="text-sm sm:text-base font-semibold leading-6 text-[var(--text)] hover:text-[var(--primary)] transition-all duration-200 group border-2 border-[var(--border)] hover:border-[var(--primary)] px-4 sm:px-8 py-2.5 sm:py-4 rounded-lg bg-[var(--background-secondary)] hover:bg-[var(--background-tertiary)]"
             >
               Get in touch <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </a>

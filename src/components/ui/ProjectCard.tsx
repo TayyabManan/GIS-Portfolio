@@ -23,10 +23,10 @@ interface ProjectCardProps {
 export default function ProjectCard({ project, onClick }: ProjectCardProps) {
   return (
     <div 
-      className="group relative bg-white dark:bg-gray-900 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 cursor-pointer"
+      className="group relative bg-[var(--background)] dark:bg-[var(--background-secondary)] rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-[var(--border)] cursor-pointer"
       onClick={onClick}
     >
-      <div className="aspect-video relative overflow-hidden bg-gray-200 dark:bg-gray-700">
+      <div className="aspect-video relative overflow-hidden bg-[var(--border)] dark:bg-[var(--background-tertiary)]">
         {project.image ? (
           <Image
             src={project.image}
@@ -36,12 +36,12 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
+          <div className="w-full h-full flex items-center justify-center text-[var(--text-tertiary)]">
             <CodeBracketIcon className="h-12 w-12 opacity-20" />
           </div>
         )}
         {project.featured && (
-          <div className="absolute top-4 left-4 bg-blue-600 text-white px-2 py-1 rounded-md text-xs font-medium z-10">
+          <div className="absolute top-4 left-4 bg-[var(--primary)] text-white px-2 py-1 rounded-md text-xs font-medium z-10">
             Featured
           </div>
         )}
@@ -51,16 +51,16 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
       <div className="p-6">
         <div className="flex items-center gap-2 mb-2">
-          <span className="inline-flex items-center rounded-md bg-emerald-100 dark:bg-emerald-900 px-2 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">
+          <span className="inline-flex items-center rounded-md bg-[var(--accent)]/10 dark:bg-[var(--accent)]/20 px-2 py-1 text-xs font-medium text-[var(--accent)] dark:text-[var(--accent)]">
             {project.category}
           </span>
         </div>
 
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+        <h3 className="text-xl font-semibold text-[var(--text)] mb-2 group-hover:text-[var(--primary)] transition-colors">
           {project.title}
         </h3>
 
-        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
+        <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">
           {project.description}
         </p>
 
@@ -68,13 +68,13 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
           {project.techStack.slice(0, 3).map((tech) => (
             <span
               key={tech}
-              className="inline-flex items-center rounded-md bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-300"
+              className="inline-flex items-center rounded-md bg-[var(--background-secondary)] dark:bg-[var(--background-tertiary)] px-2 py-1 text-xs font-medium text-[var(--text-secondary)]"
             >
               {tech}
             </span>
           ))}
           {project.techStack.length > 3 && (
-            <span className="inline-flex items-center rounded-md bg-gray-100 dark:bg-gray-800 px-2 py-1 text-xs font-medium text-gray-700 dark:text-gray-300">
+            <span className="inline-flex items-center rounded-md bg-[var(--background-secondary)] dark:bg-[var(--background-tertiary)] px-2 py-1 text-xs font-medium text-[var(--text-secondary)]">
               +{project.techStack.length - 3} more
             </span>
           )}
@@ -83,7 +83,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
         <div className="flex items-center justify-between">
           <Link
             href={`/projects/${project.slug}`}
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm flex items-center gap-1"
+            className="text-[var(--primary)] hover:text-[var(--primary-hover)] font-medium text-sm flex items-center gap-1"
             onClick={(e) => e.stopPropagation()}
           >
             View Project
@@ -96,7 +96,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
                 href={project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                className="text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors"
                 title="Live Demo"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -108,7 +108,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                className="text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors"
                 title="Source Code"
                 onClick={(e) => e.stopPropagation()}
               >

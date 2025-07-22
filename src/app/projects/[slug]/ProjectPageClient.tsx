@@ -27,9 +27,9 @@ interface ProjectPageClientProps {
 
 export default function ProjectPageClient({ project }: ProjectPageClientProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-[var(--background)]">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-emerald-600 dark:from-blue-800 dark:to-emerald-800">
+      <div className="relative overflow-hidden bg-gradient-to-r from-[var(--primary)] to-[var(--accent)]">
         <div className="absolute inset-0">
           <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -96,7 +96,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                       href={project.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors text-center"
+                      className="inline-flex items-center justify-center bg-white text-[var(--primary)] px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors text-center"
                     >
                       <ArrowTopRightOnSquareIcon className="h-5 w-5 mr-2" />
                       Live Demo
@@ -162,10 +162,10 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
-                  className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-gray-700/50"
+                  className="bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl p-6 shadow-lg border border-[var(--border)]"
                 >
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                  <h3 className="text-lg font-semibold text-[var(--text)] mb-4 flex items-center">
+                    <div className="w-2 h-2 bg-[var(--primary)] rounded-full mr-3"></div>
                     Tech Stack
                   </h3>
                   <div className="space-y-3">
@@ -175,9 +175,9 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                        className="flex items-center w-full bg-gradient-to-r from-blue-50 to-emerald-50 dark:from-gray-700 dark:to-gray-600 text-gray-700 dark:text-gray-300 px-4 py-3 rounded-lg text-sm font-medium border border-blue-100 dark:border-gray-600 hover:shadow-md transition-all duration-200"
+                        className="flex items-center w-full bg-[var(--background-tertiary)] text-[var(--text)] px-4 py-3 rounded-lg text-sm font-medium border border-[var(--border)] hover:shadow-md transition-all duration-200"
                       >
-                        <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-full mr-3"></div>
+                        <div className="w-2 h-2 bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] rounded-full mr-3"></div>
                         {tech}
                       </motion.span>
                     ))}
@@ -189,10 +189,10 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="hidden lg:block bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-gray-700/50"
+                  className="hidden lg:block bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl p-6 shadow-lg border border-[var(--border)]"
                 >
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                    <div className="w-2 h-2 bg-emerald-500 rounded-full mr-3"></div>
+                  <h3 className="text-lg font-semibold text-[var(--text)] mb-4 flex items-center">
+                    <div className="w-2 h-2 bg-[var(--accent)] rounded-full mr-3"></div>
                     Project Links
                   </h3>
                   <div className="space-y-3">
@@ -201,7 +201,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                         href={project.demoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-3 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-md"
+                        className="flex items-center text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors bg-[var(--primary-light)] px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md"
                       >
                         <ArrowTopRightOnSquareIcon className="h-5 w-5 mr-3" />
                         <span className="font-medium">Live Demo</span>
@@ -212,7 +212,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors bg-gray-50 dark:bg-gray-700/20 px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-md"
+                        className="flex items-center text-[var(--text)] hover:text-[var(--text-secondary)] transition-colors bg-[var(--background-tertiary)] px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md"
                       >
                         <CodeBracketIcon className="h-5 w-5 mr-3" />
                         <span className="font-medium">Source Code</span>
@@ -229,38 +229,27 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 dark:border-gray-700/50 overflow-hidden"
+                className="bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl shadow-lg border border-[var(--border)] overflow-hidden"
               >
                 <div className="p-6 sm:p-8 lg:p-12">
-                  <div className="prose prose-lg dark:prose-invert max-w-none 
-                    prose-headings:text-gray-900 dark:prose-headings:text-white 
-                    prose-h1:text-2xl sm:prose-h1:text-3xl prose-h1:font-bold prose-h1:mb-6 prose-h1:pb-3 prose-h1:border-b prose-h1:border-gradient-to-r prose-h1:from-blue-200 prose-h1:to-emerald-200 dark:prose-h1:from-blue-800 dark:prose-h1:to-emerald-800
-                    prose-h2:text-xl sm:prose-h2:text-2xl prose-h2:font-semibold prose-h2:mt-8 prose-h2:mb-4 prose-h2:text-blue-800 dark:prose-h2:text-blue-300
-                    prose-h3:text-lg sm:prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-6 prose-h3:mb-3 prose-h3:text-emerald-700 dark:prose-h3:text-emerald-400
-                    prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-4
-                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
-                    prose-strong:text-gray-900 dark:prose-strong:text-white prose-strong:font-semibold
-                    prose-code:text-gray-800 dark:prose-code:text-gray-200 prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-2 prose-code:py-1 prose-code:rounded
-                    prose-pre:bg-gray-100 dark:prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700 prose-pre:rounded-lg
-                    prose-ul:space-y-2 prose-li:text-gray-700 dark:prose-li:text-gray-300
-                    prose-blockquote:border-l-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-blue-900/20 prose-blockquote:p-4 prose-blockquote:rounded-r-lg"
+                  <div className="prose prose-lg max-w-none"
                   >
                     <ReactMarkdown
                       components={{
                         h1: ({ children }) => (
-                          <h1 className="text-2xl sm:text-3xl font-bold mb-6 pb-3 border-b border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white">
+                          <h1 className="text-2xl sm:text-3xl font-bold mb-6 pb-3 border-b border-[var(--border)] text-[var(--text)]">
                             {children}
                           </h1>
                         ),
                         h2: ({ children }) => (
-                          <h2 className="text-xl sm:text-2xl font-semibold mt-10 mb-4 text-blue-800 dark:text-blue-300 flex items-center">
-                            <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-emerald-500 rounded-full mr-3"></div>
+                          <h2 className="text-xl sm:text-2xl font-semibold mt-10 mb-4 text-[var(--primary)] flex items-center">
+                            <div className="w-1 h-6 bg-gradient-to-b from-[var(--primary)] to-[var(--accent)] rounded-full mr-3"></div>
                             {children}
                           </h2>
                         ),
                         h3: ({ children }) => (
-                          <h3 className="text-lg sm:text-xl font-semibold mt-8 mb-3 text-emerald-700 dark:text-emerald-400 flex items-center">
-                            <div className="w-1 h-5 bg-emerald-500 rounded-full mr-3"></div>
+                          <h3 className="text-lg sm:text-xl font-semibold mt-8 mb-3 text-[var(--accent)] flex items-center">
+                            <div className="w-1 h-5 bg-[var(--accent)] rounded-full mr-3"></div>
                             {children}
                           </h3>
                         ),
@@ -270,18 +259,18 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                           </ul>
                         ),
                         li: ({ children }) => (
-                          <li className="flex items-start text-gray-700 dark:text-gray-300">
-                            <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-emerald-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                          <li className="flex items-start text-[var(--text-secondary)]">
+                            <div className="w-2 h-2 bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] rounded-full mt-2 mr-3 flex-shrink-0"></div>
                             <span>{children}</span>
                           </li>
                         ),
                         p: ({ children }) => (
-                          <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                          <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
                             {children}
                           </p>
                         ),
                         strong: ({ children }) => (
-                          <strong className="font-semibold text-gray-900 dark:text-white">
+                          <strong className="font-semibold text-[var(--text)]">
                             {children}
                           </strong>
                         ),
@@ -313,7 +302,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                     href={project.demoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors bg-blue-50 dark:bg-blue-900/20 px-4 py-3 rounded-lg border border-blue-200 dark:border-blue-800 hover:shadow-md"
+                    className="flex items-center justify-center text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors bg-[var(--primary-light)] px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md"
                   >
                     <ArrowTopRightOnSquareIcon className="h-5 w-5 mr-3" />
                     <span className="font-medium">Live Demo</span>
@@ -324,7 +313,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors bg-gray-50 dark:bg-gray-700/20 px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-md"
+                    className="flex items-center justify-center text-[var(--text)] hover:text-[var(--text-secondary)] transition-colors bg-[var(--background-tertiary)] px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md"
                   >
                     <CodeBracketIcon className="h-5 w-5 mr-3" />
                     <span className="font-medium">Source Code</span>

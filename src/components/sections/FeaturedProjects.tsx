@@ -44,7 +44,7 @@ export default function FeaturedProjects() {
       {/* Animated GIS-themed background */}
       <div className="absolute inset-0">
         {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--projects-gradient-start)] via-[var(--projects-gradient-mid)] to-[var(--projects-gradient-end)]" />
         
         {/* Animated geometric patterns */}
         <div className="absolute inset-0">
@@ -52,7 +52,7 @@ export default function FeaturedProjects() {
           <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="hexagon-pattern" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse">
-                <polygon points="30,1 45,13 45,39 30,51 15,39 15,13" fill="none" stroke="#3b82f6" strokeWidth="0.5" opacity="0.1" />
+                <polygon points="30,1 45,13 45,39 30,51 15,39 15,13" fill="none" stroke="var(--projects-pattern-stroke)" strokeWidth="0.5" opacity="0.1" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#hexagon-pattern)" />
@@ -60,32 +60,32 @@ export default function FeaturedProjects() {
           
           {/* Animated gradient orbs */}
           <motion.div
-            className="absolute top-20 left-10 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"
+            className="absolute top-20 left-10 w-72 h-72 bg-[var(--projects-orb-primary)] rounded-full blur-3xl opacity-10"
             animate={{
-              x: [0, 100, 0],
-              y: [0, -50, 0],
+              x: [0, 50, 0],
+              y: [0, -25, 0],
             }}
             transition={{
-              duration: 20,
+              duration: 30,
               repeat: Infinity,
               ease: "easeInOut"
             }}
           />
           <motion.div
-            className="absolute bottom-20 right-10 w-96 h-96 bg-emerald-400/20 rounded-full blur-3xl"
+            className="absolute bottom-20 right-10 w-72 h-72 bg-[var(--projects-orb-secondary)] rounded-full blur-3xl opacity-10"
             animate={{
-              x: [0, -100, 0],
-              y: [0, 50, 0],
+              x: [0, -50, 0],
+              y: [0, 25, 0],
             }}
             transition={{
-              duration: 25,
+              duration: 35,
               repeat: Infinity,
               ease: "easeInOut"
             }}
           />
           
           {/* Grid overlay */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--hero-grid-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--hero-grid-color)_1px,transparent_1px)] bg-[size:24px_24px]" />
           
           {/* Floating data points */}
           {mounted && (
@@ -97,17 +97,17 @@ export default function FeaturedProjects() {
                   style={{
                     left: `${20 + (i * 10)}%`,
                     top: `${10 + (i * 12)}%`,
-                    background: i % 2 === 0 ? '#3b82f6' : '#10b981',
-                    boxShadow: `0 0 20px ${i % 2 === 0 ? '#3b82f6' : '#10b981'}`
+                    background: i % 2 === 0 ? 'var(--projects-float-color)' : 'var(--projects-float-color-alt)',
+                    boxShadow: `0 0 20px ${i % 2 === 0 ? 'var(--projects-float-color)' : 'var(--projects-float-color-alt)'}`
                   }}
                   animate={{
-                    y: [0, -30, 0],
-                    opacity: [0.3, 0.8, 0.3],
+                    y: [0, -15, 0],
+                    opacity: [0.2, 0.4, 0.2],
                   }}
                   transition={{
-                    duration: 3 + i * 0.5,
+                    duration: 5 + i * 0.5,
                     repeat: Infinity,
-                    delay: i * 0.3,
+                    delay: i * 0.5,
                     ease: "easeInOut"
                   }}
                 />
@@ -133,8 +133,8 @@ export default function FeaturedProjects() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Featured Projects</h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold text-[var(--text)] mb-4">Featured Projects</h2>
+          <p className="text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">
             Showcasing innovative GIS solutions that demonstrate expertise in spatial analysis, 
             web development, and data visualization.
           </p>
@@ -142,7 +142,7 @@ export default function FeaturedProjects() {
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--primary)]"></div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
@@ -169,7 +169,7 @@ export default function FeaturedProjects() {
         >
           <Link
             href="/projects"
-            className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center bg-[var(--primary)] text-white px-6 py-3 rounded-md font-medium hover:bg-[var(--primary-hover)] transition-colors"
           >
             View All Projects
           </Link>

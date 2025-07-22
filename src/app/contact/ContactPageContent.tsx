@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import {
   EnvelopeIcon,
@@ -43,6 +44,20 @@ export default function ContactPageContent() {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
+  const [mounted, setMounted] = useState(false);
+  const [contactDots, setContactDots] = useState<Array<{left: number, top: number, delay: number, duration: number}>>([]);
+
+  useEffect(() => {
+    setMounted(true);
+    // Generate random positions for animated contact elements
+    const dotsArray = Array.from({ length: 25 }, () => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      delay: Math.random() * 4,
+      duration: 3 + Math.random() * 3
+    }));
+    setContactDots(dotsArray);
+  }, []);
 
   const {
     register,
@@ -81,14 +96,112 @@ export default function ContactPageContent() {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 py-16 min-h-screen">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="bg-[var(--background)] py-16 min-h-screen relative overflow-hidden">
+      {/* Animated Contact Background */}
+      <div className="absolute inset-0">
+        {/* Base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--background)] via-[var(--background-secondary)] to-[var(--background-tertiary)]" />
+        
+        {/* Communication pattern - representing connectivity */}
+        <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="contact-pattern" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+              <circle cx="60" cy="60" r="2" fill="var(--primary)" opacity="0.1" />
+              <circle cx="20" cy="20" r="1.5" fill="var(--accent)" opacity="0.08" />
+              <circle cx="100" cy="20" r="1.5" fill="var(--info)" opacity="0.08" />
+              <circle cx="20" cy="100" r="1.5" fill="var(--success)" opacity="0.08" />
+              <circle cx="100" cy="100" r="1.5" fill="var(--primary)" opacity="0.08" />
+              <path d="M60,60 L20,20 M60,60 L100,20 M60,60 L20,100 M60,60 L100,100" stroke="var(--border)" strokeWidth="0.5" opacity="0.05" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#contact-pattern)" />
+        </svg>
+
+        {/* Animated gradient orbs */}
+        <motion.div
+          className="absolute top-16 left-8 w-80 h-80 bg-[var(--primary)]/8 rounded-full blur-3xl"
+          animate={{
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-16 right-8 w-80 h-80 bg-[var(--accent)]/8 rounded-full blur-3xl"
+          animate={{
+            x: [0, -100, 0],
+            y: [0, 50, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+
+        {/* Floating communication elements */}
+        {mounted && (
+          <div className="absolute inset-0">
+            {['@', '✉', '📧', '💬', '📞', '🌐'].map((symbol, i) => (
+              <motion.div
+                key={`comm-symbol-${i}`}
+                className="absolute text-2xl opacity-20"
+                style={{
+                  left: `${15 + (i * 15)}%`,
+                  top: `${20 + (i * 12)}%`,
+                  color: 'var(--primary)'
+                }}
+                animate={{
+                  y: [0, -20, 0],
+                  opacity: [0.1, 0.3, 0.1],
+                  rotate: [0, 5, 0],
+                }}
+                transition={{
+                  duration: 4 + i * 0.5,
+                  repeat: Infinity,
+                  delay: i * 0.6,
+                  ease: "easeInOut"
+                }}
+              >
+                {symbol}
+              </motion.div>
+            ))}
+            
+            {/* Floating dots */}
+            {contactDots.map((dot, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1.5 h-1.5 rounded-full bg-[var(--primary)]/20"
+                style={{
+                  left: `${dot.left}%`,
+                  top: `${dot.top}%`,
+                }}
+                animate={{
+                  opacity: [0.1, 0.6, 0.1],
+                  scale: [1, 1.8, 1],
+                }}
+                transition={{
+                  duration: dot.duration,
+                  repeat: Infinity,
+                  delay: dot.delay,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-4xl font-bold text-[var(--text)] mb-4">
             Get in Touch
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
             I&apos;m always interested in discussing new opportunities,
             collaborating on projects, or sharing insights about GIS and spatial
             analysis. Let&apos;s connect!
@@ -98,29 +211,29 @@ export default function ContactPageContent() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-2xl font-bold text-[var(--text)] mb-6">
               Contact Information
             </h2>
 
             <div className="space-y-6 mb-8">
               {contactInfo.map((item, index) => (
                 <div key={index} className="flex items-center gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
-                    <item.icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  <div className="flex-shrink-0 w-12 h-12 bg-[var(--primary-light)] dark:bg-[var(--primary)]/20 rounded-lg flex items-center justify-center">
+                    <item.icon className="h-6 w-6 text-[var(--primary)] dark:text-[var(--info)]" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    <p className="text-sm font-medium text-[var(--text)]">
                       {item.label}
                     </p>
                     {item.href ? (
                       <a
                         href={item.href}
-                        className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        className="text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors"
                       >
                         {item.value}
                       </a>
                     ) : (
-                      <p className="text-gray-600 dark:text-gray-300">
+                      <p className="text-[var(--text-secondary)]">
                         {item.value}
                       </p>
                     )}
@@ -131,7 +244,7 @@ export default function ContactPageContent() {
 
             {/* Social Links */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-lg font-semibold text-[var(--text)] mb-4">
                 Connect Online
               </h3>
               <div className="flex items-center gap-4">
@@ -139,7 +252,7 @@ export default function ContactPageContent() {
                   href="https://www.linkedin.com/in/muhammad-tayyab-3962a2373/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                  className="p-3 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--primary)] hover:text-[var(--primary-hover)]"
                   title="LinkedIn"
                 >
                   <Linkedin className="h-6 w-6" />
@@ -148,7 +261,7 @@ export default function ContactPageContent() {
                   href="https://github.com/TayyabManan"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300"
+                  className="p-3 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--text)] hover:text-[var(--text-secondary)]"
                   title="GitHub"
                 >
                   <Github className="h-6 w-6" />
@@ -157,11 +270,11 @@ export default function ContactPageContent() {
             </div>
 
             {/* Availability */}
-            <div className="mt-8 p-6 bg-blue-50 dark:bg-gray-800 rounded-lg">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            <div className="mt-8 p-6 bg-[var(--primary-light)] dark:bg-[var(--background-tertiary)] rounded-lg">
+              <h3 className="text-lg font-semibold text-[var(--text)] mb-2">
                 Availability
               </h3>
-              <p className="text-gray-700 dark:text-gray-300">
+              <p className="text-[var(--text-secondary)]">
                 Currently available for full-time positions, consulting
                 projects, and collaborative opportunities. I typically respond
                 to messages within 24 hours.
@@ -171,22 +284,22 @@ export default function ContactPageContent() {
 
           {/* Contact Form */}
           <div>
-            <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <div className="bg-[var(--background-secondary)] dark:bg-[var(--background-tertiary)] p-8 rounded-xl">
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-6">
                 Send a Message
               </h2>
 
               {submitStatus === "success" && (
-                <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                  <p className="text-green-800 dark:text-green-200">
+                <div className="mb-6 p-4 bg-[var(--success)]/10 dark:bg-[var(--success)]/20 border border-[var(--success)]/30 dark:border-[var(--success)]/40 rounded-lg">
+                  <p className="text-[var(--success)] dark:text-[var(--success)]">
                     Thank you for your message! I&apos;ll get back to you soon.
                   </p>
                 </div>
               )}
 
               {submitStatus === "error" && (
-                <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-                  <p className="text-red-800 dark:text-red-200">
+                <div className="mb-6 p-4 bg-[var(--error)]/10 dark:bg-[var(--error)]/20 border border-[var(--error)]/30 dark:border-[var(--error)]/40 rounded-lg">
+                  <p className="text-[var(--error)] dark:text-[var(--error)]">
                     Sorry, there was an error sending your message. Please try
                     again or contact me directly at haris.a.mannan@gmail.com.
                   </p>
@@ -197,7 +310,7 @@ export default function ContactPageContent() {
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    className="block text-sm font-medium text-[var(--text-secondary)] mb-2"
                   >
                     Name *
                   </label>
@@ -205,11 +318,11 @@ export default function ContactPageContent() {
                     type="text"
                     id="name"
                     {...register("name", { required: "Name is required" })}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 border border-[var(--border)] dark:border-[var(--border-hover)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--background)] dark:bg-[var(--background-tertiary)] text-[var(--text)]"
                     placeholder="Your full name"
                   />
                   {errors.name && (
-                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    <p className="mt-1 text-sm text-[var(--error)]">
                       {errors.name.message}
                     </p>
                   )}
@@ -218,7 +331,7 @@ export default function ContactPageContent() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    className="block text-sm font-medium text-[var(--text-secondary)] mb-2"
                   >
                     Email *
                   </label>
@@ -232,11 +345,11 @@ export default function ContactPageContent() {
                         message: "Invalid email address",
                       },
                     })}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 border border-[var(--border)] dark:border-[var(--border-hover)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--background)] dark:bg-[var(--background-tertiary)] text-[var(--text)]"
                     placeholder="your.email@example.com"
                   />
                   {errors.email && (
-                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    <p className="mt-1 text-sm text-[var(--error)]">
                       {errors.email.message}
                     </p>
                   )}
@@ -245,7 +358,7 @@ export default function ContactPageContent() {
                 <div>
                   <label
                     htmlFor="subject"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    className="block text-sm font-medium text-[var(--text-secondary)] mb-2"
                   >
                     Subject *
                   </label>
@@ -255,11 +368,11 @@ export default function ContactPageContent() {
                     {...register("subject", {
                       required: "Subject is required",
                     })}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 border border-[var(--border)] dark:border-[var(--border-hover)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--background)] dark:bg-[var(--background-tertiary)] text-[var(--text)]"
                     placeholder="What would you like to discuss?"
                   />
                   {errors.subject && (
-                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    <p className="mt-1 text-sm text-[var(--error)]">
                       {errors.subject.message}
                     </p>
                   )}
@@ -268,7 +381,7 @@ export default function ContactPageContent() {
                 <div>
                   <label
                     htmlFor="message"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    className="block text-sm font-medium text-[var(--text-secondary)] mb-2"
                   >
                     Message *
                   </label>
@@ -278,11 +391,11 @@ export default function ContactPageContent() {
                     {...register("message", {
                       required: "Message is required",
                     })}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 border border-[var(--border)] dark:border-[var(--border-hover)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--background)] dark:bg-[var(--background-tertiary)] text-[var(--text)]"
                     placeholder="Tell me about your project, opportunity, or question..."
                   />
                   {errors.message && (
-                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    <p className="mt-1 text-sm text-[var(--error)]">
                       {errors.message.message}
                     </p>
                   )}
@@ -300,7 +413,7 @@ export default function ContactPageContent() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="w-full bg-[var(--primary)] text-white px-6 py-3 rounded-lg font-medium hover:bg-[var(--primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}
                 </button>

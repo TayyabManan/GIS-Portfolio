@@ -32,26 +32,112 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className="relative min-h-[calc(100vh-64px)] flex flex-col overflow-hidden bg-gray-900">
+    <section className="relative min-h-[calc(100vh-64px)] flex flex-col overflow-hidden bg-[var(--hero-background)]">
       {/* Animated GIS Background Pattern */}
       <div className="absolute inset-0 overflow-hidden">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-gradient-start)] via-[var(--hero-gradient-mid)] to-[var(--hero-gradient-end)] opacity-50" />
+        
+        {/* Floating orbs */}
+        <motion.div
+          className="absolute top-[10%] left-[10%] w-96 h-96 bg-[var(--hero-orb-primary)] rounded-full blur-3xl opacity-20"
+          animate={{
+            x: [0, 50, 0],
+            y: [0, 30, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-[10%] right-[10%] w-80 h-80 bg-[var(--hero-orb-secondary)] rounded-full blur-3xl opacity-20"
+          animate={{
+            x: [0, -50, 0],
+            y: [0, -30, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
         {/* Grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--hero-grid-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--hero-grid-color)_1px,transparent_1px)] bg-[size:64px_64px]" />
         
         {/* Animated map contour lines */}
         <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="contour-pattern" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
-              <circle cx="100" cy="100" r="50" fill="none" stroke="#3b82f6" strokeWidth="0.5" opacity="0.2" />
-              <circle cx="100" cy="100" r="80" fill="none" stroke="#10b981" strokeWidth="0.5" opacity="0.2" />
-              <circle cx="100" cy="100" r="110" fill="none" stroke="#3b82f6" strokeWidth="0.5" opacity="0.1" />
+              <motion.circle 
+                cx="100" 
+                cy="100" 
+                r="50" 
+                fill="none" 
+                stroke="var(--hero-pattern-stroke)" 
+                strokeWidth="0.5" 
+                opacity="0.2"
+                animate={{ r: [50, 55, 50] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.circle 
+                cx="100" 
+                cy="100" 
+                r="80" 
+                fill="none" 
+                stroke="var(--hero-pattern-stroke-alt)" 
+                strokeWidth="0.5" 
+                opacity="0.2"
+                animate={{ r: [80, 85, 80] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.circle 
+                cx="100" 
+                cy="100" 
+                r="110" 
+                fill="none" 
+                stroke="var(--hero-pattern-stroke)" 
+                strokeWidth="0.5" 
+                opacity="0.1"
+                animate={{ r: [110, 115, 110] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#contour-pattern)" />
         </svg>
         
+        {/* Animated geometric shapes */}
+        <div className="absolute inset-0">
+          <motion.div
+            className="absolute top-[20%] right-[15%] w-32 h-32 border-2 border-[var(--hero-pattern-stroke)] opacity-10 rotate-45"
+            animate={{
+              rotate: [45, 90, 45],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div
+            className="absolute bottom-[25%] left-[20%] w-24 h-24 border-2 border-[var(--hero-pattern-stroke-alt)] opacity-10"
+            animate={{
+              rotate: [0, -45, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </div>
+        
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-gray-900/95 to-emerald-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-overlay-start)] via-[var(--hero-overlay-mid)] to-[var(--hero-overlay-end)]" />
         
         {/* Animated dots representing data points - only render after mount */}
         {mounted && (
@@ -59,7 +145,7 @@ export default function Hero() {
             {dots.map((dot, i) => (
               <motion.div
                 key={i}
-                className="absolute h-1 w-1 rounded-full bg-blue-400"
+                className="absolute h-1 w-1 rounded-full bg-[var(--hero-dot-color)]"
                 style={{
                   left: `${dot.left}%`,
                   top: `${dot.top}%`,
@@ -81,7 +167,7 @@ export default function Hero() {
       
       <div className="relative flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center py-12">
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+          <h1 className="text-4xl font-bold tracking-tight text-[var(--text)] sm:text-6xl drop-shadow-md">
             <motion.span
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -89,7 +175,7 @@ export default function Hero() {
               className="block"
             >
               GIS Analyst & 
-              <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent"> Spatial Developer</span>
+              <span className="bg-gradient-to-r from-[var(--info)] to-[var(--accent)] bg-clip-text text-transparent"> Spatial Developer</span>
             </motion.span>
           </h1>
           
@@ -97,7 +183,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-6 text-lg leading-8 text-gray-300"
+            className="mt-6 text-lg leading-8 text-[var(--text)] drop-shadow-sm font-medium"
           >
             Transforming spatial data into actionable insights through advanced analytics, 
             web development, and innovative GIS solutions. Specialized in urban planning, 
@@ -108,14 +194,14 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-300"
+            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-[var(--text)] font-medium drop-shadow-sm"
           >
             <div className="flex items-center gap-2">
-              <MapPinIcon className="h-4 w-4 text-blue-400" />
+              <MapPinIcon className="h-4 w-4 text-[var(--info)]" />
               <span>Islamabad, Pakistan</span>
             </div>
             <div className="flex items-center gap-2">
-              <EnvelopeIcon className="h-4 w-4 text-emerald-400" />
+              <EnvelopeIcon className="h-4 w-4 text-[var(--accent)]" />
               <span>Available for Remote Work</span>
             </div>
           </motion.div>
@@ -129,13 +215,13 @@ export default function Hero() {
             <a
               href="#projects"
               onClick={scrollToProjects}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:from-blue-700 hover:to-blue-800 rounded-md transition-all duration-200 transform hover:scale-105 cursor-pointer"
+              className="bg-[var(--primary)] px-8 py-4 text-base font-semibold text-white shadow-lg hover:bg-[var(--primary-hover)] hover:shadow-xl rounded-lg transition-all duration-200 transform hover:scale-105 cursor-pointer"
             >
               View Projects
             </a>
             <a
               href="/contact"
-              className="text-sm font-semibold leading-6 text-white hover:text-blue-400 transition-colors group"
+              className="text-base font-semibold leading-6 text-[var(--text)] hover:text-[var(--primary)] transition-all duration-200 group border-2 border-[var(--border)] hover:border-[var(--primary)] px-8 py-4 rounded-lg bg-[var(--background-secondary)] hover:bg-[var(--background-tertiary)]"
             >
               Get in touch <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </a>
@@ -154,7 +240,7 @@ export default function Hero() {
         <a
           href="#projects"
           onClick={scrollToProjects}
-          className="inline-block p-2 text-gray-400 hover:text-white transition-colors cursor-pointer"
+          className="inline-block p-2 text-[var(--text-tertiary)] hover:text-[var(--text)] transition-colors cursor-pointer"
           aria-label="Scroll to projects section"
         >
           <ArrowDownIcon className="h-6 w-6 animate-bounce" />

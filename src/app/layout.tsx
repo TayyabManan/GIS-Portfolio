@@ -1,16 +1,18 @@
 import type { Metadata } from 'next'
-import { Plus_Jakarta_Sans } from 'next/font/google'
+import { Space_Grotesk } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import ClientLayout from '@/components/ClientLayout'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+import { ThemeProvider } from '@/contexts/ThemeContext'
+import { themes } from '@/lib/themes'
 import './globals.css'
 
 
-const plusJakarta = Plus_Jakarta_Sans({ 
+const spaceGrotesk = Space_Grotesk({ 
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
-  variable: '--font-plus-jakarta',
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-space-grotesk',
   display: 'swap',
 })
 
@@ -186,16 +188,51 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const savedTheme = localStorage.getItem('theme') || 'system';
+                  const themes = ${JSON.stringify({
+                    light: themes.light,
+                    dark: themes.dark
+                  })};
+                  
+                  const getActualTheme = (themeMode) => {
+                    if (themeMode === 'system') {
+                      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                    }
+                    return themeMode;
+                  };
+                  
+                  const actualTheme = getActualTheme(savedTheme);
+                  const selectedTheme = themes[actualTheme] || themes.light;
+                  const root = document.documentElement;
+                  
+                  Object.entries(selectedTheme).forEach(([key, value]) => {
+                    const cssVarName = '--' + key.replace(/([A-Z])/g, '-$1').toLowerCase();
+                    root.style.setProperty(cssVarName, value);
+                  });
+                  
+                  root.setAttribute('data-theme', actualTheme);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={plusJakarta.className}>
+      <body className={spaceGrotesk.className}>
         <GoogleAnalytics />
-        <ClientLayout>
-          {children}
-          <Analytics />
-        </ClientLayout>
+        <ThemeProvider>
+          <ClientLayout>
+            {children}
+            <Analytics />
+          </ClientLayout>
+        </ThemeProvider>
         <SpeedInsights/>
       </body>
     </html>

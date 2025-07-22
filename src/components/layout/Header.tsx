@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Bars3Icon, XMarkIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline'
 import Logo from '@/components/ui/Logo'
+import { ThemeSelector } from '@/components/ui/ThemeSelector'
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -37,12 +38,12 @@ export default function Header() {
   }, [pathname])
 
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
+    <header className="bg-[var(--background)] shadow-sm sticky top-0 z-50 border-b border-[var(--border)]">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-3 text-xl font-bold text-blue-900 dark:text-white">
-              <Logo className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+            <Link href="/" className="flex items-center gap-3 text-xl font-bold text-[var(--text)]">
+              <Logo className="w-8 h-8 text-[var(--primary)]" />
               Tayyab Manan
             </Link>
           </div>
@@ -53,10 +54,10 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 text-base font-medium transition-colors ${
                     isActive(item.href)
-                      ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                      ? 'text-[var(--primary)] border-b-2 border-[var(--primary)]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--primary)]'
                   }`}
                 >
                   {item.name}
@@ -64,36 +65,38 @@ export default function Header() {
               ))}
             </div>
             
-            {/* Enhanced Theme Toggle with dropdown */}
+            {/* Enhanced Theme Selector with dropdown */}
+            <ThemeSelector />
             
             <Link
               href="/resume"
-              className={`relative bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-all duration-300 ${
+              className={`relative bg-[var(--primary)] text-white px-5 py-2.5 rounded-lg text-base font-medium hover:bg-[var(--primary-hover)] transition-all duration-300 ${
                 showResumeAnimation ? 'animate-pulse-attention' : ''
               }`}
             >
               <span className="flex items-center gap-2">
                 Resume
-                <ChatBubbleLeftRightIcon className="h-4 w-4" />
+                <ChatBubbleLeftRightIcon className="h-5 w-5" />
               </span>
               {showResumeAnimation && (
                 <>
                   <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--success)] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--success)]"></span>
                   </span>
-                  <span className="absolute inset-0 rounded-md bg-blue-400 opacity-0 animate-shine"></span>
+                  <span className="absolute inset-0 rounded-md bg-[var(--primary-hover)] opacity-0 animate-shine"></span>
                 </>
               )}
             </Link>
           </div>
 
           <div className="md:hidden flex items-center space-x-2">
-            {/* Mobile Theme Toggle - simple variant */}
+            {/* Mobile Theme Selector */}
+            <ThemeSelector />
             
             <button
               type="button"
-              className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white p-2"
+              className="text-[var(--text-secondary)] hover:text-[var(--text)] p-2"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle mobile menu"
               aria-expanded={mobileMenuOpen}
@@ -110,15 +113,15 @@ export default function Header() {
         {/* Mobile menu */}
         {mobileMenuOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 dark:border-gray-700">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-[var(--border)]">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={`block px-3 py-2 text-base font-medium ${
                     isActive(item.href)
-                      ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                      ? 'text-[var(--primary)] bg-[var(--primary-light)]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--primary)]'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -127,7 +130,7 @@ export default function Header() {
               ))}
               <Link
                 href="/resume"
-                className={`relative bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700 mt-4 ${
+                className={`relative bg-[var(--primary)] text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[var(--primary-hover)] mt-4 ${
                   showResumeAnimation ? 'animate-pulse-attention' : ''
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
@@ -138,8 +141,8 @@ export default function Header() {
                 </span>
                 {showResumeAnimation && (
                   <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--success)] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--success)]"></span>
                   </span>
                 )}
               </Link>

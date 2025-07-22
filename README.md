@@ -6,13 +6,14 @@ A modern, responsive portfolio website built with Next.js 15 and TypeScript, sho
 
 - **Modern Tech Stack**: Built with Next.js 15, React 19, and TypeScript
 - **Responsive Design**: Mobile-first approach with Tailwind CSS v4
-- **Dark Mode**: System-aware theme switching with persistent preferences
+- **Dark/Light Mode**: System-aware theme switching with persistent preferences and multiple theme options
 - **PWA Support**: Progressive Web App capabilities for offline access
 - **CMS Integration**: Sanity CMS for dynamic content management
-- **Performance Optimized**: Vercel Analytics and Speed Insights integration
+- **Performance Optimized**: Mobile-specific optimizations, Vercel Analytics and Speed Insights
 - **SEO Ready**: Built-in SEO optimization with next-seo
-- **Contact Form**: Integrated contact functionality with form validation
+- **Contact Form**: Push notifications via Pushover API integration
 - **Interactive Maps**: Mapbox GL integration for GIS project demonstrations
+- **AI Resume Assistant**: Interactive chatbot for resume exploration
 
 ## 🛠️ Tech Stack
 
@@ -30,7 +31,7 @@ A modern, responsive portfolio website built with Next.js 15 and TypeScript, sho
 ### Data & Content
 - **Sanity CMS** - Headless CMS
 - **React Hook Form + Zod** - Form handling and validation
-- **Nodemailer** - Email functionality
+- **Pushover API** - Push notification service for contact form
 
 ### Performance & Analytics
 - **Vercel Analytics** - Site analytics
@@ -78,6 +79,16 @@ cd gis-portfolio
 npm install
 ```
 
+3. Set up environment variables:
+Create a `.env.local` file in the root directory:
+```env
+# Google Analytics
+NEXT_PUBLIC_GA_MEASUREMENT_ID=your_ga_id
+
+# Pushover API (for contact form notifications)
+PUSHOVER_APP_TOKEN=your_pushover_app_token
+PUSHOVER_USER_KEY=your_pushover_user_key
+```
 
 ### Development
 
@@ -128,12 +139,19 @@ The site is configured to work with Sanity CMS. Set up your Sanity studio to man
 
 ## 🔧 Key Features Implementation
 
+### Theme System
+Multiple theme options available:
+- Light/Dark mode with system preference detection
+- Custom theme variants (Ocean, Forest, Sunset, etc.)
+- Persistent theme selection via localStorage
+- Smooth transitions between themes
 
 ### Contact Form
 Located at `/contact`, the form includes:
-- Client-side validation with Zod
-- Email sending via Nodemailer
+- Client-side validation with React Hook Form + Zod
+- Push notifications via Pushover API
 - Honeypot field for spam protection
+- Real-time form validation feedback
 
 ### Projects Filtering
 The projects page includes category-based filtering:
@@ -143,11 +161,22 @@ The projects page includes category-based filtering:
 - Business Intelligence
 - Transportation
 
+### Resume Chatbot
+Interactive AI assistant on the resume page:
+- Explore resume content through natural conversation
+- Quick access buttons for common questions
+- Responsive chat interface
+- Context-aware responses about experience and skills
+
 ### Performance Optimization
 - Image optimization with Next.js Image component
 - Lazy loading for components
 - PWA support for offline functionality
 - Turbopack for faster development builds
+- Mobile-specific performance enhancements:
+  - Reduced animations on mobile devices
+  - Optimized CSS transitions
+  - Fewer animated elements in Hero section
 
 
 ## 🚀 Deployment
@@ -156,8 +185,26 @@ The site is optimized for deployment on Vercel:
 
 1. Push your code to GitHub
 2. Import the project to Vercel
-3. Configure environment variables
+3. Configure environment variables in Vercel dashboard:
+   - `PUSHOVER_APP_TOKEN`
+   - `PUSHOVER_USER_KEY`
+   - `NEXT_PUBLIC_GA_MEASUREMENT_ID`
 4. Deploy
+
+### Environment Variables
+Required for production:
+- `PUSHOVER_APP_TOKEN` - Your Pushover application token
+- `PUSHOVER_USER_KEY` - Your Pushover user key
+
+
+## 📋 Recent Updates
+
+### Version 2.0 (Latest)
+- **Pushover Integration**: Contact form now sends push notifications
+- **Theme System**: Added multiple theme options with smooth transitions
+- **Resume Chatbot**: Interactive AI assistant for resume exploration
+- **Mobile Performance**: Optimized animations and transitions for mobile devices
+- **Bug Fixes**: Fixed SVG animation errors and improved overall stability
 
 ## 🤝 Contributing
 

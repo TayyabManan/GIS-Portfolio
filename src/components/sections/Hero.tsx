@@ -103,33 +103,36 @@ export default function Hero() {
                 <motion.circle 
                   cx="100" 
                   cy="100" 
-                  r="50" 
+                  r={50}
                   fill="none" 
                   stroke="var(--hero-pattern-stroke)" 
                   strokeWidth="0.5" 
                   opacity="0.2"
+                  initial={{ r: 50 }}
                   animate={{ r: [50, 55, 50] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 />
                 <motion.circle 
                   cx="100" 
                   cy="100" 
-                  r="80" 
+                  r={80}
                   fill="none" 
                   stroke="var(--hero-pattern-stroke-alt)" 
                   strokeWidth="0.5" 
                   opacity="0.2"
+                  initial={{ r: 80 }}
                   animate={{ r: [80, 85, 80] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                 />
                 <motion.circle 
                   cx="100" 
                   cy="100" 
-                  r="110" 
+                  r={110}
                   fill="none" 
                   stroke="var(--hero-pattern-stroke)" 
                   strokeWidth="0.5" 
                   opacity="0.1"
+                  initial={{ r: 110 }}
                   animate={{ r: [110, 115, 110] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 />

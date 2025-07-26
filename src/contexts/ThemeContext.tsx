@@ -49,7 +49,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     mediaQuery.addEventListener('change', handleSystemThemeChange);
     return () => mediaQuery.removeEventListener('change', handleSystemThemeChange);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Update actual theme when theme mode changes
   useEffect(() => {

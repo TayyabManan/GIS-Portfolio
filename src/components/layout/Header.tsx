@@ -60,7 +60,6 @@ export default function Header() {
   }, [])
 
   // Calculate dynamic styles based on scroll progress
-  const navMaxWidth = `${7 - (2 * scrollProgress)}rem`
   const navMarginTop = `${1 * scrollProgress}rem`
   const navBorderRadius = `${9999 * scrollProgress}px`
   const navBackgroundOpacity = 0.7 * scrollProgress

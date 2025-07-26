@@ -7,6 +7,7 @@ export const themes = {
     
     // Background colors
     background: '#ffffff',
+    backgroundRgb: '255, 255, 255',
     backgroundSecondary: '#f9fafb',
     backgroundTertiary: '#f3f4f6',
     
@@ -17,6 +18,7 @@ export const themes = {
     
     // Border colors
     border: '#e5e7eb',
+    borderRgb: '229, 231, 235',
     borderHover: '#d1d5db',
     
     // Status colors
@@ -75,6 +77,7 @@ export const themes = {
     
     // Background colors
     background: '#0f172a',
+    backgroundRgb: '15, 23, 42',
     backgroundSecondary: '#1e293b',
     backgroundTertiary: '#334155',
     
@@ -85,6 +88,7 @@ export const themes = {
     
     // Border colors
     border: '#334155',
+    borderRgb: '51, 65, 85',
     borderHover: '#475569',
     
     // Status colors

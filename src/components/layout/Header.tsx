@@ -17,6 +17,8 @@ const navigation = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showResumeAnimation, setShowResumeAnimation] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
   const pathname = usePathname()
 
   const isActive = (href: string) => {
@@ -37,26 +39,89 @@ export default function Header() {
     }
   }, [pathname])
 
+  // Handle scroll behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const threshold = 150 // Start transformation at this point
+      const completeAt = 300 // Complete transformation at this point
+      
+      // Calculate progress from 0 to 1
+      const progress = Math.min(Math.max((scrollY - threshold) / (completeAt - threshold), 0), 1)
+      
+      setScrollProgress(progress)
+      setIsScrolled(progress > 0)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    handleScroll() // Check initial scroll position
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Calculate dynamic styles based on scroll progress
+  const navMaxWidth = `${7 - (2 * scrollProgress)}rem`
+  const navMarginTop = `${1 * scrollProgress}rem`
+  const navBorderRadius = `${9999 * scrollProgress}px`
+  const navBackgroundOpacity = 0.7 * scrollProgress
+  const borderOpacity = scrollProgress > 0 ? (1 - scrollProgress) : 1
+
   return (
-    <header className="bg-[var(--background)] shadow-sm sticky top-0 z-50 border-b border-[var(--border)]">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="Top">
-        <div className="flex h-16 items-center justify-between">
+    <header 
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-75"
+      style={{
+        backgroundColor: scrollProgress > 0 ? 'transparent' : 'var(--background)',
+        borderBottomWidth: scrollProgress > 0 ? '0px' : '1px',
+        borderBottomColor: `rgba(var(--border-rgb), ${borderOpacity})`,
+        boxShadow: scrollProgress === 0 ? '0 1px 3px 0 rgba(0, 0, 0, 0.1)' : 'none'
+      }}
+    >
+      <nav 
+        className="mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-75 ease-out"
+        style={{
+          maxWidth: scrollProgress === 1 ? '64rem' : '80rem',
+          marginTop: navMarginTop,
+        }}
+        aria-label="Top"
+      >
+        <div 
+          className="flex items-center justify-between px-6 transition-all duration-75"
+          style={{
+            height: `${4 - (0.5 * scrollProgress)}rem`,
+            borderRadius: navBorderRadius,
+            backgroundColor: scrollProgress > 0 ? `rgba(var(--background-rgb), ${navBackgroundOpacity})` : 'transparent',
+            backdropFilter: scrollProgress > 0 ? `blur(${12 * scrollProgress}px)` : 'none',
+            boxShadow: scrollProgress > 0 ? `0 10px 30px -10px rgba(0, 0, 0, ${0.1 * scrollProgress})` : 'none',
+            borderWidth: scrollProgress > 0 ? '1px' : '0px',
+            borderColor: `rgba(var(--border-rgb), ${0.5 * scrollProgress})`
+          }}
+        >
           <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-3 text-xl font-bold text-[var(--text)]">
-              <Logo className="w-8 h-8 text-[var(--primary)]" />
-              Tayyab Manan
+            <Link href="/" className={`flex items-center gap-3 font-bold text-[var(--text)] transition-all duration-300 ${
+              isScrolled ? 'text-base sm:text-lg' : 'text-xl'
+            }`}>
+              <Logo className={`text-[var(--primary)] transition-all duration-300 ${
+                isScrolled ? 'w-6 h-6' : 'w-8 h-8'
+              }`} />
+              <span className={`transition-all duration-300 ${isScrolled ? 'text-sm sm:text-base' : ''}`}>Tayyab Manan</span>
             </Link>
           </div>
           
           <div className="hidden md:flex items-center space-x-4">
-            <div className="flex items-baseline space-x-4">
+            <div className={`flex items-baseline ${isScrolled ? 'space-x-2' : 'space-x-4'}`}>
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`px-4 py-2 text-base font-medium transition-colors ${
+                  className={`font-medium transition-colors ${
+                    isScrolled 
+                      ? 'px-3 py-1.5 text-sm' 
+                      : 'px-4 py-2 text-base'
+                  } ${
                     isActive(item.href)
-                      ? 'text-[var(--primary)] border-b-2 border-[var(--primary)]'
+                      ? isScrolled 
+                        ? 'text-[var(--primary)] bg-[var(--primary-light)] rounded-full'
+                        : 'text-[var(--primary)] border-b-2 border-[var(--primary)]'
                       : 'text-[var(--text-secondary)] hover:text-[var(--primary)]'
                   }`}
                 >
@@ -66,17 +131,21 @@ export default function Header() {
             </div>
             
             {/* Enhanced Theme Selector with dropdown */}
-            <ThemeSelector />
+            <ThemeSelector isCompact={isScrolled} />
             
             <Link
               href="/resume"
-              className={`relative bg-[var(--primary)] text-white px-5 py-2.5 rounded-lg text-base font-medium hover:bg-[var(--primary-hover)] transition-all duration-300 ${
+              className={`relative bg-[var(--primary)] text-white font-medium hover:bg-[var(--primary-hover)] transition-all duration-300 ${
+                isScrolled 
+                  ? 'px-4 py-1.5 rounded-full text-sm' 
+                  : 'px-5 py-2.5 rounded-lg text-base'
+              } ${
                 showResumeAnimation ? 'animate-pulse-attention' : ''
               }`}
             >
               <span className="flex items-center gap-2">
                 Resume
-                <ChatBubbleLeftRightIcon className="h-5 w-5" />
+                <ChatBubbleLeftRightIcon className={`${isScrolled ? 'h-4 w-4' : 'h-5 w-5'}`} />
               </span>
               {showResumeAnimation && (
                 <>
@@ -92,7 +161,7 @@ export default function Header() {
 
           <div className="md:hidden flex items-center space-x-2">
             {/* Mobile Theme Selector */}
-            <ThemeSelector />
+            <ThemeSelector isCompact={isScrolled} />
             
             <button
               type="button"
@@ -112,8 +181,8 @@ export default function Header() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-[var(--border)]">
+          <div className="md:hidden absolute top-full left-0 right-0 mt-2 mx-4">
+            <div className="bg-[var(--background)] rounded-lg shadow-lg border border-[var(--border)] px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navigation.map((item) => (
                 <Link
                   key={item.name}

@@ -10,7 +10,11 @@ const themes = [
   { id: 'system', label: 'System', icon: Monitor },
 ];
 
-export function ThemeSelector() {
+interface ThemeSelectorProps {
+  isCompact?: boolean;
+}
+
+export function ThemeSelector({ isCompact = false }: ThemeSelectorProps) {
   const { theme, setTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -39,12 +43,14 @@ export function ThemeSelector() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-lg bg-[var(--background-secondary)] border border-[var(--border)] hover:border-[var(--border-hover)] transition-all duration-200 flex items-center gap-2"
+        className={`${
+          isCompact ? 'p-1.5 rounded-full' : 'p-2 rounded-lg'
+        } bg-[var(--background-secondary)] border border-[var(--border)] hover:border-[var(--border-hover)] transition-all duration-200 flex items-center gap-2`}
         aria-label="Select theme"
         aria-expanded={isOpen}
       >
-        <CurrentIcon className="w-5 h-5 text-[var(--text)]" />
-        <span className="hidden sm:inline text-sm text-[var(--text)]">{currentTheme.label}</span>
+        <CurrentIcon className={`${isCompact ? 'w-4 h-4' : 'w-5 h-5'} text-[var(--text)]`} />
+        <span className={`hidden sm:inline text-[var(--text)] ${isCompact ? 'text-xs' : 'text-sm'}`}>{currentTheme.label}</span>
         <svg
           className={`w-4 h-4 text-[var(--text-secondary)] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
           fill="none"

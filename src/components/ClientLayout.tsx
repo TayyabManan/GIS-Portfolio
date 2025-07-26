@@ -9,7 +9,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     
       <div className="bg-[var(--background)] min-h-screen transition-colors">
         <Header />
-        <main className="min-h-screen">
+        <main className="min-h-screen pt-16">
           {children}
         </main>
         <Footer />

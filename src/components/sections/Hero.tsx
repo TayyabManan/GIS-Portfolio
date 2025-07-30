@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowDownIcon } from '@heroicons/react/24/outline'
 import { MapPinIcon, EnvelopeIcon } from '@heroicons/react/24/solid'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
 
 export default function Hero() {
+  const prefersReducedMotion = useReducedMotion()
   const scrollToProjects = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
     const projectsSection = document.getElementById('projects')
@@ -47,8 +49,8 @@ export default function Hero() {
         {/* Animated gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-gradient-start)] via-[var(--hero-gradient-mid)] to-[var(--hero-gradient-end)] opacity-50" />
         
-        {/* Floating orbs - use CSS animation on mobile for better performance */}
-        {isMobile ? (
+        {/* Floating orbs - use CSS animation on mobile or reduced motion for better performance */}
+        {isMobile || prefersReducedMotion ? (
           <>
             <div className="absolute top-[10%] left-[10%] w-96 h-96 bg-[var(--hero-orb-primary)] rounded-full blur-3xl opacity-20" />
             <div className="absolute bottom-[10%] right-[10%] w-80 h-80 bg-[var(--hero-orb-secondary)] rounded-full blur-3xl opacity-20" />
@@ -84,8 +86,8 @@ export default function Hero() {
         {/* Grid pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--hero-grid-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--hero-grid-color)_1px,transparent_1px)] bg-[size:64px_64px]" />
         
-        {/* Animated map contour lines - static on mobile */}
-        {isMobile ? (
+        {/* Animated map contour lines - static on mobile or reduced motion */}
+        {isMobile || prefersReducedMotion ? (
           <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="contour-pattern" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
@@ -142,8 +144,8 @@ export default function Hero() {
           </svg>
         )}
         
-        {/* Animated geometric shapes - static on mobile */}
-        {!isMobile && (
+        {/* Animated geometric shapes - static on mobile or reduced motion */}
+        {!isMobile && !prefersReducedMotion && (
           <div className="absolute inset-0">
             <motion.div
               className="absolute top-[20%] right-[15%] w-32 h-32 border-2 border-[var(--hero-pattern-stroke)] opacity-10 rotate-45"
@@ -175,8 +177,8 @@ export default function Hero() {
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-overlay-start)] via-[var(--hero-overlay-mid)] to-[var(--hero-overlay-end)]" />
         
-        {/* Animated dots representing data points - only render after mount */}
-        {mounted && (
+        {/* Animated dots representing data points - only render after mount and respect reduced motion */}
+        {mounted && !prefersReducedMotion && (
           <div className="absolute inset-0">
             {dots.map((dot, i) => (
               <motion.div

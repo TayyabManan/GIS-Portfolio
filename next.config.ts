@@ -40,6 +40,52 @@ const nextConfig: NextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()'
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains'
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: `
+              default-src 'self';
+              script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://vercel.live;
+              style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+              font-src 'self' https://fonts.gstatic.com;
+              img-src 'self' data: https: blob:;
+              connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://vitals.vercel-insights.com https://api.pushover.net;
+              frame-src 'self' https://vercel.live;
+              object-src 'none';
+              base-uri 'self';
+              form-action 'self';
+              frame-ancestors 'none';
+              upgrade-insecure-requests;
+            `.replace(/\s+/g, ' ').trim()
+          }
+        ]
+      },
+      {
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Credentials',
+            value: 'true'
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: 'https://tayyabmanan.vercel.app'
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET,DELETE,PATCH,POST,PUT'
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
           }
         ]
       }

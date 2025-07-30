@@ -5,6 +5,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import ClientLayout from '@/components/ClientLayout'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { ThemeProvider } from '@/contexts/ThemeContext'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { themes } from '@/lib/themes'
 import './globals.css'
 
@@ -87,9 +88,22 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/logo.svg',
-    shortcut: '/logo.svg',
-    apple: '/logo.svg',
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      {
+        rel: 'mask-icon',
+        url: '/logo.svg',
+        color: '#3b82f6',
+      },
+    ],
   },
   manifest: '/manifest.json',
   alternates: {
@@ -224,15 +238,21 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
       </head>
       <body className={spaceGrotesk.className}>
         <GoogleAnalytics />
-        <ThemeProvider>
-          <ClientLayout>
-            {children}
-            <Analytics />
-          </ClientLayout>
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider>
+            <ClientLayout>
+              {children}
+              <Analytics />
+            </ClientLayout>
+          </ThemeProvider>
+        </ErrorBoundary>
         <SpeedInsights/>
       </body>
     </html>

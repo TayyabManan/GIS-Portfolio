@@ -1,9 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { rateLimit } from '@/lib/rate-limit';
+import { contactFormSchema } from '@/lib/validation';
+import { z } from 'zod';
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting check
+    const rateLimitResult = await rateLimit(request, {
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      maxRequests: 3 // 3 requests per 15 minutes
+    });
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { 
+          error: 'Too many requests. Please try again later.',
+          retryAfter: Math.ceil((rateLimitResult.reset - Date.now()) / 1000)
+        },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+            'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+            'X-RateLimit-Reset': new Date(rateLimitResult.reset).toISOString(),
+            'Retry-After': Math.ceil((rateLimitResult.reset - Date.now()) / 1000).toString()
+          }
+        }
+      );
+    }
+
     const body = await request.json();
-    const { name, email, subject, message, honeypot } = body;
+    const { honeypot, subject, ...formData } = body;
 
     // Anti-spam check
     if (honeypot) {
@@ -13,23 +40,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate required fields
-    if (!name || !email || !subject || !message) {
+    // Validate and sanitize input
+    let validatedData: z.infer<typeof contactFormSchema>;
+    try {
+      validatedData = contactFormSchema.parse(formData);
+    } catch (validationError) {
+      if (validationError instanceof z.ZodError) {
+        return NextResponse.json(
+          { error: 'Invalid input', details: validationError.errors },
+          { status: 400 }
+        );
+      }
+      throw validationError;
+    }
+
+    // Validate subject separately (not in schema as it's not in the original form fields)
+    if (!subject || typeof subject !== 'string' || subject.length > 200) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Invalid subject' },
         { status: 400 }
       );
     }
 
-    // Prepare Pushover notification
+    // Prepare Pushover notification with validated data
     const pushoverMessage = `New Contact Form Submission
 
-Name: ${name}
-Email: ${email}
+Name: ${validatedData.name}
+Email: ${validatedData.email}
 Subject: ${subject}
 
 Message:
-${message}`;
+${validatedData.message}`;
 
     // Check if environment variables are set
     const appToken = process.env.PUSHOVER_APP_TOKEN;

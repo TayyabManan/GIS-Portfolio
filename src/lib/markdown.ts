@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { Project } from './projects'
+import { projectSlugSchema } from './validation'
 
 const contentDirectory = path.join(process.cwd(), 'content/projects')
 
@@ -32,7 +33,19 @@ export function getAllProjectSlugs(): string[] {
  */
 export function getProjectBySlug(slug: string): ProjectWithContent | null {
   try {
-    const fullPath = path.join(contentDirectory, `${slug}.md`)
+    // Validate slug to prevent path traversal
+    const validatedSlug = projectSlugSchema.parse(slug)
+    
+    const fullPath = path.join(contentDirectory, `${validatedSlug}.md`)
+    
+    // Additional safety check: ensure the resolved path is within content directory
+    const resolvedPath = path.resolve(fullPath)
+    const resolvedContentDir = path.resolve(contentDirectory)
+    
+    if (!resolvedPath.startsWith(resolvedContentDir)) {
+      console.warn(`Attempted path traversal: ${slug}`)
+      return null
+    }
     
     if (!fs.existsSync(fullPath)) {
       return null

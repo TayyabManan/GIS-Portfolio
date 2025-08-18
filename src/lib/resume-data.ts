@@ -231,25 +231,25 @@ export const resumeData: ResumeData = {
     {
       name: "Going Places with Spatial Analysis",
       issuer: "ESRI",
-      date: "September 2024",
+      date: "2024-09-01",
       credentialUrl: ""
     },
     {
       name: "Cartography",
       issuer: "ESRI",
-      date: "March 2024",
+      date: "2024-03-01",
       credentialUrl: ""
     },
     {
       name: "Spatial Data Science",
       issuer: "ESRI",
-      date: "November 2023",
+      date: "2023-11-01",
       credentialUrl: ""
     },
     {
       name: "Shade Equity",
       issuer: "ESRI",
-      date: "June 2023",
+      date: "2023-06-01",
       credentialUrl: ""
     }
   ],
@@ -269,6 +269,14 @@ export function formatDate(dateString: string): string {
   if (dateString === "Present") return "Present"
   
   const date = new Date(dateString)
+  
+  // Check if date is invalid (for iOS Safari compatibility)
+  if (isNaN(date.getTime())) {
+    // If the date string is already in a readable format, return it as is
+    // This handles cases like "September 2024" on iOS
+    return dateString
+  }
+  
   return date.toLocaleDateString('en-US', { 
     year: 'numeric', 
     month: 'short' 

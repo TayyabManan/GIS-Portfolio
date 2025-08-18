@@ -16,9 +16,13 @@ const chatMessageSchema = z.object({
 export const runtime = 'nodejs'
 export const maxDuration = 30 // 30 seconds timeout
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// Initialize OpenAI client only when API key is available
+let openai: OpenAI | null = null
+if (process.env.OPENAI_API_KEY) {
+  openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  })
+}
 
 function getResumeContext() {
   const { personalInfo, experience, education, skills, projects, certifications } = resumeData
@@ -101,7 +105,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Check API key configuration
-    if (!process.env.OPENAI_API_KEY) {
+    if (!process.env.OPENAI_API_KEY || !openai) {
       return NextResponse.json(
         { error: 'Chat service not configured. Please contact the administrator.' },
         { status: 503 }

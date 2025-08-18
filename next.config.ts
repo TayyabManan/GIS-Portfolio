@@ -64,8 +64,7 @@ const nextConfig: NextConfig = {
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
               font-src 'self' https://fonts.gstatic.com;
               img-src 'self' data: https: blob:;
-              connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://vitals.vercel-insights.com https://api.pushover.net;
-              frame-src 'self' https://vercel.live https://tayyabmanan-resumechatbot.hf.space https://*.hf.space;
+              connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://vitals.vercel-insights.com https://ntfy.sh;
               object-src 'none';
               base-uri 'self';
               form-action 'self';

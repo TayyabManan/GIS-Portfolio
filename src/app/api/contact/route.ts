@@ -67,14 +67,18 @@ ${validatedData.message}`;
     const ntfyTopic = process.env.NTFY_TOPIC;
 
     if (!ntfyTopic) {
+      console.error('NTFY_TOPIC environment variable is not set');
       return NextResponse.json(
-        { error: 'Notification service not configured' },
+        { error: 'Notification service not configured. Please check server configuration.' },
         { status: 500 }
       );
     }
 
     // Send ntfy notification
-    const ntfyResponse = await fetch(`https://ntfy.sh/${ntfyTopic}`, {
+    const ntfyUrl = `https://ntfy.sh/${ntfyTopic}`;
+    console.log('Sending notification to:', ntfyUrl);
+    
+    const ntfyResponse = await fetch(ntfyUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'text/plain',
@@ -86,13 +90,16 @@ ${validatedData.message}`;
     });
 
     if (!ntfyResponse.ok) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const errorText = await ntfyResponse.text();
+      console.error('ntfy.sh error:', ntfyResponse.status, errorText);
       return NextResponse.json(
-        { error: 'Failed to send notification' },
+        { error: 'Failed to send notification. Please try again later.' },
         { status: 500 }
       );
     }
+    
+    const successResponse = await ntfyResponse.json();
+    console.log('ntfy.sh success:', successResponse);
 
     return NextResponse.json(
       { message: 'Message sent successfully' },

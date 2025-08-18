@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Space_Grotesk } from 'next/font/google'
+import { Bricolage_Grotesque } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import ClientLayout from '@/components/ClientLayout'
@@ -10,10 +10,10 @@ import { themes } from '@/lib/themes'
 import './globals.css'
 
 
-const spaceGrotesk = Space_Grotesk({ 
+const bricolageGrotesque = Bricolage_Grotesque({ 
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-space-grotesk',
+  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-bricolage-grotesque',
   display: 'swap',
 })
 
@@ -243,7 +243,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
       </head>
-      <body className={spaceGrotesk.className}>
+      <body className={bricolageGrotesque.className}>
         {/* Skip to main content link for screen readers */}
         <a 
           href="#main-content" 

@@ -8,10 +8,10 @@ import Logo from '@/components/ui/Logo'
 import { ThemeSelector } from '@/components/ui/ThemeSelector'
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Home', href: '/', shortcut: 'Alt+H' },
+  { name: 'Projects', href: '/projects', shortcut: 'Alt+P' },
+  { name: 'About', href: '/about', shortcut: 'Alt+A' },
+  { name: 'Contact', href: '/contact', shortcut: 'Alt+C' },
 ]
 
 export default function Header() {
@@ -81,7 +81,8 @@ export default function Header() {
           maxWidth: scrollProgress === 1 ? '64rem' : '80rem',
           marginTop: navMarginTop,
         }}
-        aria-label="Top"
+        role="navigation"
+        aria-label="Main navigation"
       >
         <div 
           className="flex items-center justify-between px-6 transition-all duration-75"
@@ -107,24 +108,28 @@ export default function Header() {
           </div>
           
           <div className="hidden md:flex items-center space-x-4">
-            <div className={`flex items-baseline ${isScrolled ? 'space-x-2' : 'space-x-4'}`}>
+            <div className={`flex items-center ${isScrolled ? 'space-x-2' : 'space-x-4'}`}>
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`font-medium transition-colors ${
+                  className={`font-medium transition-all duration-300 flex items-center relative group ${
                     isScrolled 
-                      ? 'px-3 py-1.5 text-sm' 
+                      ? 'px-3 py-1.5 text-sm h-8' 
                       : 'px-4 py-2 text-base'
                   } ${
                     isActive(item.href)
                       ? isScrolled 
-                        ? 'text-[var(--primary)] bg-[var(--primary-light)] rounded-full'
+                        ? 'text-[var(--primary)] bg-[var(--primary)]/10 rounded-full'
                         : 'text-[var(--primary)] border-b-2 border-[var(--primary)]'
                       : 'text-[var(--text-secondary)] hover:text-[var(--primary)]'
                   }`}
                 >
                   {item.name}
+                  <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                    {item.shortcut}
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-b-gray-900 dark:border-b-gray-700"></div>
+                  </div>
                 </Link>
               ))}
             </div>
@@ -134,9 +139,9 @@ export default function Header() {
             
             <Link
               href="/resume"
-              className={`relative bg-[var(--primary)] text-white font-medium hover:bg-[var(--primary-hover)] transition-all duration-300 ${
+              className={`relative bg-[var(--primary)] text-white font-medium hover:bg-[var(--primary-hover)] transition-all duration-300 flex items-center group ${
                 isScrolled 
-                  ? 'px-4 py-1.5 rounded-full text-sm' 
+                  ? 'px-4 py-1.5 rounded-full text-sm h-8' 
                   : 'px-5 py-2.5 rounded-lg text-base'
               } ${
                 showResumeAnimation ? 'animate-pulse-attention' : ''
@@ -146,6 +151,10 @@ export default function Header() {
                 Resume
                 <ChatBubbleLeftRightIcon className={`${isScrolled ? 'h-4 w-4' : 'h-5 w-5'}`} />
               </span>
+              <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                Alt+R
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-b-gray-900 dark:border-b-gray-700"></div>
+              </div>
               {showResumeAnimation && (
                 <>
                   <span className="absolute -top-1 -right-1 flex h-3 w-3">

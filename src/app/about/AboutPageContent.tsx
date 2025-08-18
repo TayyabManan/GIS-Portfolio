@@ -110,7 +110,7 @@ export default function AboutPage() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-[var(--text)] mb-4">About Me</h1>
           <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
-            Passionate GIS professional with expertise in spatial analysis, web development, 
+            Experienced GIS professional with expertise in spatial analysis, web development, 
             and innovative solutions for complex geographic challenges.
           </p>
         </div>

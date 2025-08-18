@@ -5,8 +5,10 @@ import ProjectCard from '@/components/ui/ProjectCard'
 import ProjectModal from '@/components/ui/ProjectModal'
 import { type Project } from '@/lib/projects'
 import { motion } from 'framer-motion'
+import { LoadingError } from '@/components/ui/ErrorState'
+import { toast } from '@/components/ui/Toast'
 
-const categories = ['All', 'Urban Planning', 'Environmental', 'Business Intelligence', 'Transportation']
+const categories = ['All', 'Urban Planning', 'Environmental Monitoring', 'Business Intelligence', 'Suitability Analysis']
 
 export default function ProjectsPageContent() {
   const [selectedCategory, setSelectedCategory] = useState('All')
@@ -15,20 +17,30 @@ export default function ProjectsPageContent() {
   const [mounted, setMounted] = useState(false)
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
   
   useEffect(() => {
     setMounted(true)
     // Fetch projects from API
-    fetch('/api/projects')
-      .then(res => res.json())
-      .then(data => {
+    const loadProjects = async () => {
+      try {
+        const res = await fetch('/api/projects')
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`)
+        }
+        const data = await res.json()
         setProjects(data)
+        setError(null)
+      } catch (err) {
+        setError(err as Error)
+        setProjects([])
+        toast.error('Failed to load projects', 'Please try refreshing the page')
+      } finally {
         setLoading(false)
-      })
-      .catch(err => {
-        console.error('Error loading projects:', err)
-        setLoading(false)
-      })
+      }
+    }
+    
+    loadProjects()
   }, [])
 
   const filteredProjects = selectedCategory === 'All' 
@@ -149,6 +161,25 @@ export default function ProjectsPageContent() {
           <div className="flex justify-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--primary)]"></div>
           </div>
+        ) : error ? (
+          <LoadingError 
+            resource="projects" 
+            onRetry={() => {
+              setLoading(true)
+              setError(null)
+              fetch('/api/projects')
+                .then(res => res.json())
+                .then(data => {
+                  setProjects(data)
+                  setError(null)
+                })
+                .catch(err => {
+                  setError(err)
+                  toast.error('Failed to load projects')
+                })
+                .finally(() => setLoading(false))
+            }}
+          />
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -158,7 +189,7 @@ export default function ProjectsPageContent() {
             </div>
 
             {/* Empty State */}
-            {filteredProjects.length === 0 && (
+            {filteredProjects.length === 0 && !error && (
               <div className="text-center py-12">
                 <p className="text-[var(--text-secondary)]">No projects found in this category.</p>
               </div>

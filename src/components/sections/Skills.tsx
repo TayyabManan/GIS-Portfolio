@@ -1,22 +1,42 @@
 'use client'
 
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { CheckCircleIcon } from '@heroicons/react/24/solid'
-import { useEffect, useState } from 'react'
+import { CheckCircleIcon, CodeBracketIcon, GlobeAltIcon, CircleStackIcon, CloudIcon, BeakerIcon } from '@heroicons/react/24/solid'
+import { resumeData } from '@/lib/resume-data'
 
-const skills = [
-  { name: 'Spatial Analysis & Modeling', level: 95 },
-  { name: 'Web Development (React, Node.js)', level: 85 },
-  { name: 'Database Management (PostGIS)', level: 90 },
-  { name: 'Python Programming', level: 88 },
-  { name: 'Machine Learning for Spatial Data', level: 80 },
-  { name: 'Project Management', level: 75 },
-]
+// Map skill categories to proficiency levels for progress bars
+const skillLevels: Record<string, number> = {
+  'Programming Languages': 90,
+  'GIS & Remote Sensing': 95,
+  'Web Development': 85,
+  'Data Analysis & ML': 82,
+  'Databases': 88,
+  'Cloud & Tools': 80,
+}
 
-const tools = [
-  'ArcGIS Pro', 'QGIS', 'PostGIS', 'React.js', 'Node.js', 
-  'Python', 'JavaScript', 'Docker', 'AWS', 'PostgreSQL'
-]
+// Convert resume skills to the format needed for progress bars
+const skills = resumeData.skills.map(category => ({
+  name: category.category,
+  level: skillLevels[category.category] || 75
+}))
+
+// Get icons for each category
+const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+  'Programming Languages': CodeBracketIcon,
+  'GIS & Remote Sensing': GlobeAltIcon,
+  'Web Development': CodeBracketIcon,
+  'Data Analysis & ML': BeakerIcon,
+  'Databases': CircleStackIcon,
+  'Cloud & Tools': CloudIcon,
+}
+
+// Group tools by category for tabbed display
+const toolCategories = resumeData.skills.map(category => ({
+  name: category.category,
+  icon: categoryIcons[category.category] || CheckCircleIcon,
+  items: category.items
+}))
 
 // Progress bar component with animation
 const SkillBar = ({ skill, index }: { skill: typeof skills[0], index: number }) => {
@@ -54,6 +74,7 @@ const SkillBar = ({ skill, index }: { skill: typeof skills[0], index: number }) 
 
 export default function Skills() {
   const [mounted, setMounted] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState(0)
 
   useEffect(() => {
     setMounted(true)
@@ -210,15 +231,15 @@ export default function Skills() {
         >
           <h2 className="text-3xl font-bold text-[var(--text)] mb-4">Skills & Expertise</h2>
           <p className="text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">
-            A comprehensive skill set combining traditional GIS analysis with modern 
-            web development technologies.
+            Bridging the gap between geospatial analysis and modern software development, 
+            with expertise across {resumeData.skills.length} specialized technology domains.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Skills with Progress Bars */}
           <div>
-            <h3 className="text-xl font-semibold text-[var(--text)] mb-6">Core Competencies</h3>
+            <h3 className="text-xl font-semibold text-[var(--text)] mb-6">Technical Proficiency</h3>
             <div className="space-y-4">
               {skills.map((skill, index) => (
                 <SkillBar key={skill.name} skill={skill} index={index} />
@@ -226,23 +247,72 @@ export default function Skills() {
             </div>
           </div>
 
-          {/* Tools & Technologies */}
+          {/* Tools & Technologies - Compact Tabbed View */}
           <div>
-            <h3 className="text-xl font-semibold text-[var(--text)] mb-6">Tools & Technologies</h3>
-            <div className="grid grid-cols-2 gap-3">
-              {tools.map((tool, index) => (
-                <motion.div
-                  key={tool}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  viewport={{ once: true }}
-                  className="flex items-center gap-2 p-3 bg-[var(--background-secondary)] rounded-lg hover:bg-[var(--background-tertiary)] transition-colors"
-                >
-                  <CheckCircleIcon className="h-5 w-5 text-[var(--primary)]" />
-                  <span className="text-sm font-medium text-[var(--text)]">{tool}</span>
-                </motion.div>
-              ))}
+            <h3 className="text-xl font-semibold text-[var(--text)] mb-6">Technologies & Frameworks</h3>
+            
+            {/* Category Tabs */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {toolCategories.map((category, index) => {
+                const Icon = category.icon
+                return (
+                  <motion.button
+                    key={category.name}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    onClick={() => setSelectedCategory(index)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      selectedCategory === index
+                        ? 'bg-[var(--primary)] text-white'
+                        : 'bg-[var(--background-secondary)] text-[var(--text-secondary)] hover:bg-[var(--background-tertiary)]'
+                    }`}
+                  >
+                    <Icon className="h-3.5 w-3.5" />
+                    <span className="hidden sm:inline">{category.name.split('&')[0].trim()}</span>
+                  </motion.button>
+                )
+              })}
+            </div>
+
+            {/* Category Content */}
+            <motion.div
+              key={selectedCategory}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-[var(--background-secondary)] rounded-lg p-4"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                {React.createElement(toolCategories[selectedCategory].icon, {
+                  className: "h-5 w-5 text-[var(--primary)]"
+                })}
+                <h4 className="font-medium text-[var(--text)]">
+                  {toolCategories[selectedCategory].name}
+                </h4>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {toolCategories[selectedCategory].items.map((item, index) => (
+                  <motion.span
+                    key={item}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-[var(--background)] rounded-full text-sm"
+                  >
+                    <CheckCircleIcon className="h-3.5 w-3.5 text-[var(--primary)]" />
+                    <span className="text-[var(--text)]">{item}</span>
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Skills Summary */}
+            <div className="mt-4 p-3 bg-[var(--background-secondary)] rounded-lg">
+              <p className="text-xs text-[var(--text-secondary)]">
+                <span className="font-semibold text-[var(--primary)]">{resumeData.skills.reduce((acc, cat) => acc + cat.items.length, 0)}</span> total technologies across{' '}
+                <span className="font-semibold text-[var(--primary)]">{resumeData.skills.length}</span> specialized areas
+              </p>
             </div>
           </div>
         </div>

@@ -23,20 +23,17 @@ function parseFrontmatter(fileContent: string): { data: Record<string, unknown>;
   const content = match[2]
   const data: Record<string, unknown> = {}
 
-  // Parse YAML-like frontmatter
   frontmatterText.split('\n').forEach(line => {
     const colonIndex = line.indexOf(':')
     if (colonIndex > 0) {
       const key = line.substring(0, colonIndex).trim()
       let value = line.substring(colonIndex + 1).trim()
 
-      // Remove quotes
       if ((value.startsWith('"') && value.endsWith('"')) || 
           (value.startsWith("'") && value.endsWith("'"))) {
         value = value.slice(1, -1)
       }
 
-      // Handle arrays
       if (value.startsWith('[') && value.endsWith(']')) {
         const arrayContent = value.slice(1, -1)
         data[key] = arrayContent
@@ -44,13 +41,11 @@ function parseFrontmatter(fileContent: string): { data: Record<string, unknown>;
           .map(item => item.trim().replace(/^["']|["']$/g, ''))
           .filter(item => item.length > 0)
       }
-      // Handle booleans
       else if (value === 'true') {
         data[key] = true
       } else if (value === 'false') {
         data[key] = false
       }
-      // Handle strings
       else {
         data[key] = value
       }
@@ -72,8 +67,7 @@ export function getAllProjectSlugs(): string[] {
     return fileNames
       .filter(name => name.endsWith('.md'))
       .map(name => name.replace(/\.md$/, ''))
-  } catch (error) {
-    console.warn('Error reading project directory:', error)
+  } catch {
     return []
   }
 }
@@ -106,8 +100,7 @@ export function getProjectBySlug(slug: string): ProjectWithContent | null {
       date: (data.date as string) || '',
       content
     }
-  } catch (error) {
-    console.warn(`Error reading project ${slug}:`, error)
+  } catch {
     return null
   }
 }
@@ -125,12 +118,11 @@ export function getAllProjectsFromMarkdown(): Project[] {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { content, ...projectWithoutContent } = project
         return projectWithoutContent
-      }) // Remove content for list view
+      })
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
     return projects
-  } catch (error) {
-    console.warn('Error getting all projects from markdown:', error)
+  } catch {
     return []
   }
 }

@@ -87,8 +87,7 @@ export default function ContactPageContent() {
 
       setSubmitStatus("success");
       reset();
-    } catch (error) {
-      console.error("Contact form error:", error);
+    } catch {
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -367,6 +366,10 @@ export default function ContactPageContent() {
                     id="subject"
                     {...register("subject", {
                       required: "Subject is required",
+                      minLength: {
+                        value: 2,
+                        message: "Subject must be at least 2 characters long"
+                      }
                     })}
                     className="w-full px-4 py-3 border border-[var(--border)] dark:border-[var(--border-hover)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--background)] dark:bg-[var(--background-tertiary)] text-[var(--text)]"
                     placeholder="What would you like to discuss?"
@@ -390,9 +393,13 @@ export default function ContactPageContent() {
                     rows={6}
                     {...register("message", {
                       required: "Message is required",
+                      minLength: {
+                        value: 10,
+                        message: "Message must be at least 10 characters long"
+                      }
                     })}
                     className="w-full px-4 py-3 border border-[var(--border)] dark:border-[var(--border-hover)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--background)] dark:bg-[var(--background-tertiary)] text-[var(--text)]"
-                    placeholder="Tell me about your project, opportunity, or question..."
+                    placeholder="Tell me about your project, opportunity, or question... (minimum 10 characters)"
                   />
                   {errors.message && (
                     <p className="mt-1 text-sm text-[var(--error)]">

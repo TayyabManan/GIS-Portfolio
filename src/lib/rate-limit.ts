@@ -14,26 +14,71 @@ interface RateLimitStore {
 
 class RateLimiter {
   private store: RateLimitStore = {}
-  private cleanupInterval: NodeJS.Timeout
+  private cleanupInterval: NodeJS.Timeout | null = null
+  private isDestroyed = false
 
   constructor() {
-    // Clean up expired entries every minute
-    this.cleanupInterval = setInterval(() => this.cleanup(), 60000)
+    if (typeof process !== 'undefined' && !this.isDestroyed) {
+      this.cleanupInterval = setInterval(() => this.cleanup(), 60000)
+      this.setupProcessHandlers()
+    }
+  }
+
+  private setupProcessHandlers() {
+    const cleanup = () => {
+      if (!this.isDestroyed) {
+        this.destroy()
+      }
+    }
+
+    if (typeof process !== 'undefined') {
+      process.once('exit', cleanup)
+      process.once('SIGINT', cleanup)
+      process.once('SIGTERM', cleanup)
+      process.once('SIGUSR1', cleanup)
+      process.once('SIGUSR2', cleanup)
+      
+      // Critical error handlers - keep these for production monitoring
+      process.once('uncaughtException', (error) => {
+        console.error('Uncaught Exception:', error)
+        cleanup()
+        process.exit(1)
+      })
+      
+      process.once('unhandledRejection', (reason, promise) => {
+        console.error('Unhandled Rejection at:', promise, 'reason:', reason)
+        cleanup()
+        process.exit(1)
+      })
+    }
   }
 
   cleanup() {
+    if (this.isDestroyed) return
+    
     const now = Date.now()
+    const keysToDelete: string[] = []
+    
     Object.keys(this.store).forEach(key => {
       if (this.store[key].resetTime < now) {
-        delete this.store[key]
+        keysToDelete.push(key)
       }
+    })
+    
+    keysToDelete.forEach(key => {
+      delete this.store[key]
     })
   }
 
   async limit(identifier: string, config: RateLimitConfig): Promise<{ success: boolean; limit: number; remaining: number; reset: number }> {
+    if (this.isDestroyed) {
+      throw new Error('RateLimiter has been destroyed')
+    }
+
     const now = Date.now()
     const resetTime = now + config.windowMs
 
+    // Check if entry exists and is still valid
     if (!this.store[identifier] || this.store[identifier].resetTime < now) {
       this.store[identifier] = {
         count: 0,
@@ -56,12 +101,31 @@ class RateLimiter {
   }
 
   destroy() {
-    clearInterval(this.cleanupInterval)
+    if (this.isDestroyed) return
+    
+    this.isDestroyed = true
+    
+    if (this.cleanupInterval) {
+      clearInterval(this.cleanupInterval)
+      this.cleanupInterval = null
+    }
+    
+    this.store = {}
+  }
+
+  getStoreSize(): number {
+    return Object.keys(this.store).length
   }
 }
 
-// Global rate limiter instance
-const rateLimiter = new RateLimiter()
+let rateLimiterInstance: RateLimiter | null = null
+
+function getRateLimiter(): RateLimiter {
+  if (!rateLimiterInstance) {
+    rateLimiterInstance = new RateLimiter()
+  }
+  return rateLimiterInstance
+}
 
 export async function rateLimit(
   request: NextRequest,
@@ -69,14 +133,37 @@ export async function rateLimit(
     windowMs: 60 * 1000, // 1 minute
     maxRequests: 5 // 5 requests per minute
   }
-) {
-  // Get IP address from request
+): Promise<{ success: boolean; limit: number; remaining: number; reset: number }> {
   const forwarded = request.headers.get('x-forwarded-for')
-  const ip = forwarded ? forwarded.split(',')[0] : 'unknown'
+  const realIp = request.headers.get('x-real-ip')
+  const ip = forwarded ? forwarded.split(',')[0].trim() : realIp || 'unknown'
   
-  const identifier = `${ip}:${request.nextUrl.pathname}`
+  const pathname = request.nextUrl.pathname
+  const identifier = `${ip}:${pathname}`
   
-  const result = await rateLimiter.limit(identifier, config)
+  const rateLimiter = getRateLimiter()
   
-  return result
+  try {
+    const result = await rateLimiter.limit(identifier, config)
+    return result
+  } catch {
+    // Return a permissive result on error to avoid blocking legitimate requests
+    return {
+      success: true,
+      limit: config.maxRequests,
+      remaining: config.maxRequests,
+      reset: Date.now() + config.windowMs
+    }
+  }
+}
+
+// Export for testing purposes
+export const __testing = {
+  getRateLimiter,
+  resetInstance: () => {
+    if (rateLimiterInstance) {
+      rateLimiterInstance.destroy()
+      rateLimiterInstance = null
+    }
+  }
 }

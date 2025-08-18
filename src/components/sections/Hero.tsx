@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { ArrowDownIcon } from '@heroicons/react/24/outline'
 import { MapPinIcon, EnvelopeIcon } from '@heroicons/react/24/solid'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { SimpleCommandHint } from '@/components/ui/SimpleCommandHint'
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion()
@@ -284,6 +285,8 @@ export default function Hero() {
           <ArrowDownIcon className="h-6 w-6 animate-bounce" />
         </a>
       </motion.div>
+      {/* Command Palette Hint */}
+      <SimpleCommandHint />
     </section>
   )
 }

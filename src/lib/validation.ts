@@ -5,11 +5,15 @@ export const contactFormSchema = z.object({
   name: z.string()
     .min(2, 'Name must be at least 2 characters')
     .max(100, 'Name must be less than 100 characters')
-    .regex(/^[a-zA-Z\s\-']+$/, 'Name contains invalid characters'),
+    .trim(),
   
   email: z.string()
     .email('Invalid email address')
     .max(255, 'Email must be less than 255 characters'),
+  
+  subject: z.string()
+    .min(2, 'Subject must be at least 2 characters')
+    .max(200, 'Subject must be less than 200 characters'),
   
   message: z.string()
     .min(10, 'Message must be at least 10 characters')
@@ -26,8 +30,7 @@ export const projectSlugSchema = z.string()
 export const envSchema = z.object({
   NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: z.string().optional(),
   NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: z.string().optional(),
-  PUSHOVER_USER_KEY: z.string().optional(),
-  PUSHOVER_API_TOKEN: z.string().optional(),
+  NTFY_TOPIC: z.string().optional(),
 })
 
 export type ContactFormData = z.infer<typeof contactFormSchema>

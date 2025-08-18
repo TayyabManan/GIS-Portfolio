@@ -5,8 +5,7 @@ export async function GET() {
   try {
     const projects = getAllProjectsFromMarkdown()
     return NextResponse.json(projects)
-  } catch (error) {
-    console.error('Error fetching projects:', error)
+  } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

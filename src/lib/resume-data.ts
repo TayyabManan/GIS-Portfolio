@@ -75,10 +75,24 @@ export const resumeData: ResumeData = {
   
   experience: [
     {
+      title: "Cointegration.ai",
+      company: "Cointegration.ai",
+      location: "Islamabad, Pakistan",
+      startDate: "2023-01",
+      endDate: "Present",
+      current: true,
+      description: [
+        "Designed and implemented machine learning models leveraging Python.",
+        "Used platforms like Lang-Graph, AutoGen, and OpenAIAgentSDK.",
+        "Implemented python libraries like numpy, scipy, matplotlib etc."
+      ],
+      technologies: ["LangChain", "OpenAISdk", "AutoGen", "Model Context Protocol", "CrewAI"]
+    },
+    {
       title: "GIS Analyst & Spatial Developer",
       company: "Freelance",
       location: "Islamabad, Pakistan",
-      startDate: "2023-01",
+      startDate: "2022-01",
       endDate: "Present",
       current: true,
       description: [
@@ -134,6 +148,18 @@ export const resumeData: ResumeData = {
   
   projects: [
     {
+      name: "Machine Learning Model for Wheat Yield Prediction",
+      description: "Machine Learning model to predict wheat yield in Sahiwal Division",
+      technologies: ["Python", "Matplotlib", "NumPy", "Google Earth Engine", "Artificial Intelligence"],
+      url: "https://drive.google.com/drive/folders/1mccSUwvL9DRoHLEP0CiiKqybhka_rf2k?usp=sharing",
+      github: "https://github.com/TayyabManan",
+      highlights: [
+        "Developed a Machine Learning Model by training on previously available data",
+        "Predicted wheat yield in the Sahiwal Division with an error of 0.137 tonnes/hectare",
+        "Final year project demonstrating practical application of ML in agriculture"
+      ]
+    },
+    {
       name: "WaterTrace Pakistan",
       description: "Groundwater monitoring system analyzing 22 years of satellite data (2002-2024)",
       technologies: ["React", "Flask", "Google Earth Engine", "Machine Learning", "GRACE/GLDAS"],
@@ -156,14 +182,74 @@ export const resumeData: ResumeData = {
         "Integrated demographic, economic, and infrastructure data for site selection",
         "Developed weighted scoring algorithm achieving 90%+ coverage target"
       ]
+    },
+    {
+      name: "NDVI Time Series Smoothing",
+      description: "Vegetation health monitoring and assessment using NDVI smoothing techniques",
+      technologies: ["R", "RStudio", "Remote Sensing", "Time Series Analysis"],
+      url: "",
+      highlights: [
+        "Utilized RStudio to perform NDVI smoothing for Sheikhupura district",
+        "Monitored and assessed vegetation health and dynamics over time",
+        "Applied advanced time series analysis techniques for environmental monitoring"
+      ]
+    },
+    {
+      name: "Digitization of West-African Countries",
+      description: "Digital mapping project for West African countries",
+      technologies: ["GIS", "ArcGIS", "QGIS", "Digital Mapping"],
+      url: "https://drive.google.com/drive/folders/1H6issi4A8G4akwhV0mUrJUu69gO1lQVu?usp=sharing",
+      highlights: [
+        "Utilized ArcMap tools to digitize accurate maps of West African countries",
+        "Created comprehensive digital maps for geographic analysis",
+        "Ensured high accuracy in boundary delineation and feature extraction"
+      ]
+    },
+    {
+      name: "Object-Based Image Analysis for Punjab Region",
+      description: "Satellite imagery interpretation using object-based classification",
+      technologies: ["eCognition", "OBIA", "Remote Sensing", "Image Classification"],
+      highlights: [
+        "Employed eCognition software for Object-Based Image Analysis (OBIA)",
+        "Interpreted satellite imagery of Punjab Region for land use classification",
+        "Improved classification accuracy compared to pixel-based methods"
+      ]
+    },
+    {
+      name: "Land Surface Temperature Analysis",
+      description: "Temperature analysis for Gujranwala and Hafizabad regions",
+      technologies: ["ArcGIS", "QGIS", "Landsat", "Digital Mapping", "Remote Sensing"],
+      highlights: [
+        "Conducted atmospheric correction on Landsat Level 1 data",
+        "Analyzed land surface temperature patterns for urban heat island studies",
+        "Created thermal maps for environmental assessment and planning"
+      ]
     }
   ],
   
   certifications: [
     {
-      name: "Going Places With Spatial Analysis",
+      name: "Going Places with Spatial Analysis",
       issuer: "ESRI",
-      date: "2024",
+      date: "September 2024",
+      credentialUrl: ""
+    },
+    {
+      name: "Cartography",
+      issuer: "ESRI",
+      date: "March 2024",
+      credentialUrl: ""
+    },
+    {
+      name: "Spatial Data Science",
+      issuer: "ESRI",
+      date: "November 2023",
+      credentialUrl: ""
+    },
+    {
+      name: "Shade Equity",
+      issuer: "ESRI",
+      date: "June 2023",
       credentialUrl: ""
     }
   ],
@@ -173,7 +259,7 @@ export const resumeData: ResumeData = {
     {
       title: "Open Source Contributor",
       description: "Active contributor to GIS and web development open source projects",
-      date: "2023-Present"
+      date: "2022-Present"
     }
   ]
 }

@@ -75,15 +75,15 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4 text-[var(--text)]">Contact</h3>
             <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <MapPinIcon className="h-5 w-5 text-[var(--text-tertiary)]" />
+              <div className="flex items-start gap-3">
+                <MapPinIcon className="h-5 w-5 text-[var(--text-tertiary)] mt-0.5 flex-shrink-0" />
                 <span className="text-[var(--text-secondary)]">Islamabad, Pakistan</span>
               </div>
-              <div className="flex items-center gap-3">
-                <EnvelopeIcon className="h-5 w-5 text-[var(--text-tertiary)]" />
+              <div className="flex items-start gap-3">
+                <EnvelopeIcon className="h-5 w-5 text-[var(--text-tertiary)] mt-0.5 flex-shrink-0" />
                 <a 
                   href="mailto:haris.a.mannan@gmail.com"
-                  className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                  className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors break-all"
                 >
                   haris.a.mannan@gmail.com
                 </a>

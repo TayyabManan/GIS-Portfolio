@@ -23,8 +23,7 @@ export default function FeaturedProjects() {
         setFeaturedProjects(featured)
         setLoading(false)
       })
-      .catch(err => {
-        console.error('Error loading featured projects:', err)
+      .catch(() => {
         setLoading(false)
       })
   }, [])

@@ -22,8 +22,7 @@ export function getAllProjectSlugs(): string[] {
     return fileNames
       .filter(name => name.endsWith('.md') && !name.startsWith('_'))
       .map(name => name.replace(/\.md$/, ''))
-  } catch (error) {
-    console.warn('Error reading project directory:', error)
+  } catch {
     return []
   }
 }
@@ -43,7 +42,6 @@ export function getProjectBySlug(slug: string): ProjectWithContent | null {
     const resolvedContentDir = path.resolve(contentDirectory)
     
     if (!resolvedPath.startsWith(resolvedContentDir)) {
-      console.warn(`Attempted path traversal: ${slug}`)
       return null
     }
     
@@ -68,8 +66,7 @@ export function getProjectBySlug(slug: string): ProjectWithContent | null {
       date: data.date || '',
       content
     }
-  } catch (error) {
-    console.warn(`Error reading project ${slug}:`, error)
+  } catch {
     return null
   }
 }
@@ -81,19 +78,18 @@ export function getAllProjectsFromMarkdown(): Project[] {
   try {
     const slugs = getAllProjectSlugs()
     const projects = slugs
-      .filter(slug => !slug.startsWith('_')) // Filter out template files
+      .filter(slug => !slug.startsWith('_'))
       .map(slug => getProjectBySlug(slug))
       .filter((project): project is ProjectWithContent => project !== null)
       .map((project) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { content, ...projectWithoutContent } = project
         return projectWithoutContent
-      }) // Remove content for list view
+      })
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
     return projects
-  } catch (error) {
-    console.warn('Error getting all projects from markdown:', error)
+  } catch {
     return []
   }
 }

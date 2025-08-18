@@ -28,8 +28,8 @@ export default function ResumePage() {
     setDownloading(true)
     try {
       await generateResumePDF(resumeData)
-    } catch (error) {
-      console.error('Error downloading PDF:', error)
+    } catch {
+      // Error is handled in generateResumePDF
     } finally {
       setDownloading(false)
     }

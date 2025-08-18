@@ -96,10 +96,10 @@ export default function CallToAction() {
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary-light)] rounded-full mb-4"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-hover)] rounded-full mb-4 shadow-lg"
             >
-              <SparklesIcon className="w-5 h-5 text-[var(--primary)]" />
-              <span className="text-sm font-medium text-[var(--primary)]">Let&apos;s Work Together</span>
+              <SparklesIcon className="w-5 h-5 text-white" />
+              <span className="text-sm font-semibold text-white uppercase tracking-wider">Let&apos;s Work Together</span>
             </motion.div>
             <h2 className="text-4xl font-bold text-[var(--text)] mb-4">
               Ready to Transform Your Spatial Data?

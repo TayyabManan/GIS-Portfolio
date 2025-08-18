@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { honeypot, subject, ...formData } = body;
+    const { honeypot, ...formData } = body;
 
     // Anti-spam check
     if (honeypot) {
@@ -54,61 +54,42 @@ export async function POST(request: NextRequest) {
       throw validationError;
     }
 
-    // Validate subject separately (not in schema as it's not in the original form fields)
-    if (!subject || typeof subject !== 'string' || subject.length > 200) {
-      return NextResponse.json(
-        { error: 'Invalid subject' },
-        { status: 400 }
-      );
-    }
-
     // Prepare Pushover notification with validated data
     const pushoverMessage = `New Contact Form Submission
 
 Name: ${validatedData.name}
 Email: ${validatedData.email}
-Subject: ${subject}
+Subject: ${validatedData.subject}
 
 Message:
 ${validatedData.message}`;
 
-    // Check if environment variables are set
-    const appToken = process.env.PUSHOVER_APP_TOKEN;
-    const userKey = process.env.PUSHOVER_USER_KEY;
+    const ntfyTopic = process.env.NTFY_TOPIC;
 
-    if (!appToken || !userKey) {
-      console.error('Pushover credentials not configured');
+    if (!ntfyTopic) {
       return NextResponse.json(
         { error: 'Notification service not configured' },
         { status: 500 }
       );
     }
 
-    // Send Pushover notification
-    const pushoverResponse = await fetch('https://api.pushover.net/1/messages.json', {
+    // Send ntfy notification
+    const ntfyResponse = await fetch(`https://ntfy.sh/${ntfyTopic}`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'text/plain',
+        'Title': `Contact Form: ${validatedData.subject}`,
+        'Priority': '3', // Default priority
+        'Tags': 'envelope,email',
       },
-      body: new URLSearchParams({
-        token: appToken,
-        user: userKey,
-        title: `Contact Form: ${subject}`,
-        message: pushoverMessage,
-        priority: '0', // Normal priority
-        sound: 'pushover', // Default sound
-      }),
+      body: pushoverMessage,
     });
 
-    const pushoverResult = await pushoverResponse.json();
-
-    if (!pushoverResponse.ok || pushoverResult.status !== 1) {
-      console.error('Pushover API error:', {
-        status: pushoverResponse.status,
-        result: pushoverResult,
-      });
+    if (!ntfyResponse.ok) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const errorText = await ntfyResponse.text();
       return NextResponse.json(
-        { error: 'Failed to send notification', details: pushoverResult.errors },
+        { error: 'Failed to send notification' },
         { status: 500 }
       );
     }
@@ -118,9 +99,12 @@ ${validatedData.message}`;
       { status: 200 }
     );
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error('Contact form error:', error instanceof Error ? error.message : String(error));
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: 'Internal server error', 
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }

@@ -15,6 +15,13 @@ const nextConfig: NextConfig = {
   // Compress output for better performance
   compress: true,
   
+  // Security: Limit request body size
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '1mb', // Limit server action body size
+    },
+  },
+  
   // Headers for security and SEO
   async headers() {
     return [
@@ -58,7 +65,7 @@ const nextConfig: NextConfig = {
               font-src 'self' https://fonts.gstatic.com;
               img-src 'self' data: https: blob:;
               connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://vitals.vercel-insights.com https://api.pushover.net;
-              frame-src 'self' https://vercel.live;
+              frame-src 'self' https://vercel.live https://tayyabmanan-resumechatbot.hf.space https://*.hf.space;
               object-src 'none';
               base-uri 'self';
               form-action 'self';

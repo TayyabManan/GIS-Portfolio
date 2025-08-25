@@ -42,7 +42,6 @@ export default function Header() {
   // Handle scroll behavior with debouncing and RAF
   useEffect(() => {
     let ticking = false
-    let lastScrollY = 0
     
     const updateScrollProgress = () => {
       const scrollY = window.scrollY
@@ -54,7 +53,6 @@ export default function Header() {
       
       setScrollProgress(progress)
       setIsScrolled(progress > 0)
-      lastScrollY = scrollY
       ticking = false
     }
     

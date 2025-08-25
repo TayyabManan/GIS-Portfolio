@@ -97,13 +97,15 @@ export default function Header() {
           }}
         >
           <div className="flex items-center">
-            <Link href="/" className={`flex items-center gap-3 font-bold text-[var(--text)] transition-all duration-300 ${
-              isScrolled ? 'text-base sm:text-lg' : 'text-xl'
-            }`}>
+            <Link href="/" className={`flex items-center gap-2 sm:gap-3 font-bold text-[var(--text)] transition-all duration-300`}>
               <Logo className={`text-[var(--primary)] transition-all duration-300 ${
-                isScrolled ? 'w-6 h-6' : 'w-8 h-8'
+                isScrolled ? 'w-5 h-5 sm:w-6 sm:h-6' : 'w-6 h-6 sm:w-8 sm:h-8'
               }`} />
-              <span className={`transition-all duration-300 ${isScrolled ? 'text-sm sm:text-base' : ''}`}>Tayyab Manan</span>
+              <span className={`transition-all duration-300 ${
+                isScrolled 
+                  ? 'text-sm sm:text-base' 
+                  : 'text-base sm:text-lg md:text-xl'
+              }`}>Tayyab Manan</span>
             </Link>
           </div>
           

@@ -29,20 +29,30 @@
   --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Smooth theme transitions */
-* {
+/* Smooth theme transitions - OPTIMIZED: Only apply to elements that need it */
+.theme-transition {
+  transition: background-color var(--transition-speed) var(--transition-timing),
+              border-color var(--transition-speed) var(--transition-timing),
+              color var(--transition-speed) var(--transition-timing);
+}
+
+/* Apply transitions only to interactive elements */
+button, a, input, select, textarea,
+.card, .project-card, .btn,
+[role="button"], [role="link"] {
   transition: background-color var(--transition-speed) var(--transition-timing),
               border-color var(--transition-speed) var(--transition-timing),
               color var(--transition-speed) var(--transition-timing),
-              box-shadow var(--transition-speed) var(--transition-timing),
-              fill var(--transition-speed) var(--transition-timing),
-              stroke var(--transition-speed) var(--transition-timing);
+              transform var(--transition-speed) var(--transition-timing),
+              box-shadow var(--transition-speed) var(--transition-timing);
 }
 
 /* Mobile optimization - reduce transition overhead */
 @media (max-width: 640px) {
-  * {
+  button, a, input, select, textarea,
+  .card, .project-card, .btn {
     transition-property: background-color, color, border-color;
+    transition-duration: 150ms;
   }
 }
 

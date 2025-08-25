@@ -39,9 +39,12 @@ export default function Header() {
     }
   }, [pathname])
 
-  // Handle scroll behavior
+  // Handle scroll behavior with debouncing and RAF
   useEffect(() => {
-    const handleScroll = () => {
+    let ticking = false
+    let lastScrollY = 0
+    
+    const updateScrollProgress = () => {
       const scrollY = window.scrollY
       const threshold = 150 // Start transformation at this point
       const completeAt = 300 // Complete transformation at this point
@@ -51,10 +54,20 @@ export default function Header() {
       
       setScrollProgress(progress)
       setIsScrolled(progress > 0)
+      lastScrollY = scrollY
+      ticking = false
+    }
+    
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateScrollProgress)
+        ticking = true
+      }
     }
 
-    window.addEventListener('scroll', handleScroll)
-    handleScroll() // Check initial scroll position
+    // Use passive listener for better scroll performance
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    updateScrollProgress() // Check initial scroll position
 
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])

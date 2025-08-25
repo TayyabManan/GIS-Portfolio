@@ -10,6 +10,8 @@ import { toast } from '@/components/ui/Toast'
 
 const categories = ['All', 'Urban Planning', 'Environmental Monitoring', 'Business Intelligence', 'Suitability Analysis']
 
+const PROJECTS_PER_PAGE = 6
+
 export default function ProjectsPageContent() {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
@@ -18,6 +20,8 @@ export default function ProjectsPageContent() {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
   
   useEffect(() => {
     setMounted(true)
@@ -46,6 +50,27 @@ export default function ProjectsPageContent() {
   const filteredProjects = selectedCategory === 'All' 
     ? projects 
     : projects.filter(project => project.category === selectedCategory)
+  
+  // Paginate projects
+  const totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE)
+  const paginatedProjects = filteredProjects.slice(0, currentPage * PROJECTS_PER_PAGE)
+  const hasMore = currentPage < totalPages
+  
+  const loadMore = () => {
+    if (!isLoadingMore && hasMore) {
+      setIsLoadingMore(true)
+      // Simulate loading delay for smooth UX
+      setTimeout(() => {
+        setCurrentPage(prev => prev + 1)
+        setIsLoadingMore(false)
+      }, 300)
+    }
+  }
+  
+  // Reset pagination when category changes
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [selectedCategory])
 
   const openModal = (project: Project) => {
     setSelectedProject(project)
@@ -183,10 +208,35 @@ export default function ProjectsPageContent() {
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProjects.map((project) => (
+              {paginatedProjects.map((project) => (
                 <ProjectCard key={project.slug} project={project} onClick={() => openModal(project)} />
               ))}
             </div>
+
+            {/* Load More Button */}
+            {hasMore && (
+              <div className="flex justify-center mt-12">
+                <button
+                  onClick={loadMore}
+                  disabled={isLoadingMore}
+                  className="px-6 py-3 bg-[var(--primary)] text-white rounded-lg hover:bg-[var(--primary-hover)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  {isLoadingMore ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                      Loading...
+                    </>
+                  ) : (
+                    <>
+                      Load More Projects
+                      <span className="text-sm opacity-75">
+                        ({filteredProjects.length - paginatedProjects.length} remaining)
+                      </span>
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
 
             {/* Empty State */}
             {filteredProjects.length === 0 && !error && (

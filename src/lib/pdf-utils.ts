@@ -1,7 +1,9 @@
-import jsPDF from 'jspdf'
 import { ResumeData, formatDate, calculateDuration } from './resume-data'
 
 export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
+  // Dynamically import jsPDF only when needed
+  const { default: jsPDF } = await import('jspdf')
+  
   const pdf = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',

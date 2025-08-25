@@ -298,7 +298,7 @@ export default function Skills() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.05 }}
-                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-[var(--background)] rounded-full text-sm"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-[var(--background)] rounded-full text-sm cursor-pointer hover:bg-[var(--background-tertiary)] hover:scale-105 transition-all"
                   >
                     <CheckCircleIcon className="h-3.5 w-3.5 text-[var(--primary)]" />
                     <span className="text-[var(--text)]">{item}</span>

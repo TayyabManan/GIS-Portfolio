@@ -275,30 +275,30 @@ export function CommandPalette({ isOpen, onClose, additionalCommands = [] }: Com
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="mx-auto max-w-2xl transform divide-y divide-gray-100 dark:divide-gray-700 overflow-hidden rounded-xl bg-white dark:bg-gray-900 shadow-2xl ring-1 ring-black/5 dark:ring-white/10 transition-all">
+            <Dialog.Panel className="mx-auto max-w-2xl transform divide-y divide-[var(--border)] overflow-hidden rounded-xl bg-[var(--background)] shadow-2xl ring-1 ring-black/5 dark:ring-white/10 transition-all">
               <div className="relative">
                 <MagnifyingGlassIcon
-                  className="pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-gray-400 dark:text-gray-500"
+                  className="pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-[var(--text-tertiary)]"
                   aria-hidden="true"
                 />
                 <input
                   type="text"
-                  className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-0 sm:text-sm"
+                  className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-[var(--text)] placeholder:text-[var(--text-tertiary)] focus:ring-0 sm:text-sm"
                   placeholder="Search commands..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   autoFocus
                 />
-                <div className="absolute right-4 top-3 text-xs text-gray-400 dark:text-gray-500">
-                  Press <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded">ESC</kbd> to close
+                <div className="absolute right-4 top-3 text-xs text-[var(--text-tertiary)]">
+                  Press <kbd className="px-1.5 py-0.5 bg-[var(--background-secondary)] rounded">ESC</kbd> to close
                 </div>
               </div>
 
               {filteredCommands.length > 0 ? (
-                <ul ref={listRef} className="max-h-80 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-700 dark:text-gray-200">
+                <ul ref={listRef} className="max-h-80 scroll-py-2 overflow-y-auto py-2 text-sm text-[var(--text)]">
                   {Object.entries(groupedCommands).map(([category, commands]) => (
                     <li key={category}>
-                      <h2 className="bg-gray-50 dark:bg-gray-800/50 px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">
+                      <h2 className="bg-[var(--background-secondary)] px-4 py-2 text-xs font-semibold text-[var(--text-secondary)]">
                         {category}
                       </h2>
                       <ul className="text-sm">
@@ -314,8 +314,8 @@ export function CommandPalette({ isOpen, onClose, additionalCommands = [] }: Com
                               className={cn(
                                 'cursor-pointer select-none px-4 py-2 flex items-center justify-between group',
                                 isSelected
-                                  ? 'bg-blue-500 text-white'
-                                  : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                                  ? 'bg-[var(--primary)] text-white'
+                                  : 'hover:bg-[var(--background-secondary)]'
                               )}
                               onClick={command.action}
                               onMouseEnter={() => setSelectedIndex(currentIndex)}
@@ -327,21 +327,21 @@ export function CommandPalette({ isOpen, onClose, additionalCommands = [] }: Com
                                       'h-5 w-5 flex-shrink-0',
                                       isSelected
                                         ? 'text-white'
-                                        : 'text-gray-400 dark:text-gray-500'
+                                        : 'text-[var(--text-tertiary)]'
                                     )}
                                   />
                                 )}
                                 <div>
                                   <p className={cn(
                                     'font-medium',
-                                    isSelected ? 'text-white' : 'text-gray-900 dark:text-gray-100'
+                                    isSelected ? 'text-white' : 'text-[var(--text)]'
                                   )}>
                                     {command.title}
                                   </p>
                                   {command.description && (
                                     <p className={cn(
                                       'text-xs',
-                                      isSelected ? 'text-blue-100' : 'text-gray-500 dark:text-gray-400'
+                                      isSelected ? 'text-blue-100' : 'text-[var(--text-secondary)]'
                                     )}>
                                       {command.description}
                                     </p>
@@ -353,8 +353,8 @@ export function CommandPalette({ isOpen, onClose, additionalCommands = [] }: Com
                                   <kbd className={cn(
                                     'px-1.5 py-0.5 text-xs rounded',
                                     isSelected
-                                      ? 'bg-blue-400 text-white'
-                                      : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
+                                      ? 'bg-white/20 text-white'
+                                      : 'bg-[var(--background-tertiary)] text-[var(--text-secondary)]'
                                   )}>
                                     {command.shortcut}
                                   </kbd>
@@ -362,7 +362,7 @@ export function CommandPalette({ isOpen, onClose, additionalCommands = [] }: Com
                                 <ArrowRightIcon
                                   className={cn(
                                     'h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity',
-                                    isSelected ? 'text-white opacity-100' : 'text-gray-400'
+                                    isSelected ? 'text-white opacity-100' : 'text-[var(--text-tertiary)]'
                                   )}
                                 />
                               </div>
@@ -376,30 +376,30 @@ export function CommandPalette({ isOpen, onClose, additionalCommands = [] }: Com
               ) : (
                 <div className="px-6 py-14 text-center text-sm sm:px-14">
                   <CommandLineIcon
-                    className="mx-auto h-6 w-6 text-gray-400 dark:text-gray-500"
+                    className="mx-auto h-6 w-6 text-[var(--text-tertiary)]"
                     aria-hidden="true"
                   />
-                  <p className="mt-4 font-medium text-gray-900 dark:text-gray-100">
+                  <p className="mt-4 font-medium text-[var(--text)]">
                     No commands found
                   </p>
-                  <p className="mt-2 text-gray-500 dark:text-gray-400">
+                  <p className="mt-2 text-[var(--text-secondary)]">
                     Try searching for something else.
                   </p>
                 </div>
               )}
 
-              <div className="flex items-center justify-between border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 px-4 py-2.5 text-xs text-gray-500 dark:text-gray-400">
+              <div className="flex items-center justify-between border-t border-[var(--border)] bg-[var(--background-secondary)] px-4 py-2.5 text-xs text-[var(--text-secondary)]">
                 <div className="flex gap-2">
                   <span>Navigate</span>
-                  <kbd className="px-1.5 py-0.5 bg-white dark:bg-gray-900 rounded">↑↓</kbd>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--background)] rounded">↑↓</kbd>
                 </div>
                 <div className="flex gap-2">
                   <span>Select</span>
-                  <kbd className="px-1.5 py-0.5 bg-white dark:bg-gray-900 rounded">Enter</kbd>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--background)] rounded">Enter</kbd>
                 </div>
                 <div className="flex gap-2">
                   <span>Close</span>
-                  <kbd className="px-1.5 py-0.5 bg-white dark:bg-gray-900 rounded">ESC</kbd>
+                  <kbd className="px-1.5 py-0.5 bg-[var(--background)] rounded">ESC</kbd>
                 </div>
               </div>
             </Dialog.Panel>

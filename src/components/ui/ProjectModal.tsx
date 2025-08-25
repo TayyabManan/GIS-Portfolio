@@ -44,18 +44,17 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-xl bg-[var(--background)] dark:bg-[var(--background-secondary)] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
-                {/* Close button */}
-                <button
-                  type="button"
-                  className="absolute right-4 top-4 text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] z-10"
-                  onClick={onClose}
-                >
-                  <span className="sr-only">Close</span>
-                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-
                 {/* Image section */}
                 <div className="relative h-64 sm:h-80 bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] overflow-hidden">
+                  {/* Close button - positioned inside image section for proper alignment */}
+                  <button
+                    type="button"
+                    className="absolute right-3 top-3 bg-black/50 backdrop-blur-sm rounded-full p-2 text-white/90 hover:text-white hover:bg-black/70 transition-all z-20 border border-white/20 flex items-center justify-center"
+                    onClick={onClose}
+                  >
+                    <span className="sr-only">Close</span>
+                    <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                  </button>
                   {project.image ? (
                     <Image
                       src={project.image}

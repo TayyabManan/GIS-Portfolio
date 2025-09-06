@@ -40,11 +40,15 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
             <CodeBracketIcon className="h-12 w-12 opacity-20" />
           </div>
         )}
-        {project.featured && (
+        {project.category === 'Full Stack' ? (
+          <div className="absolute top-4 left-4 bg-[var(--primary)] text-white px-2 py-1 rounded-md text-xs font-medium z-10">
+            Full Stack
+          </div>
+        ) : project.featured ? (
           <div className="absolute top-4 left-4 bg-[var(--primary)] text-white px-2 py-1 rounded-md text-xs font-medium z-10">
             Featured
           </div>
-        )}
+        ) : null}
         {/* Gradient overlay for better text contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
@@ -83,20 +87,20 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
         <div className="flex items-center justify-between">
           <Link
             href={`/projects/${project.slug}`}
-            className="text-[var(--primary)] hover:text-[var(--primary-hover)] font-medium text-sm flex items-center gap-1"
+            className="text-[var(--primary)] hover:text-[var(--primary-hover)] font-medium text-sm inline-flex items-center gap-1"
             onClick={(e) => e.stopPropagation()}
           >
             View Project
             <ArrowTopRightOnSquareIcon className="h-4 w-4" />
           </Link>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {project.demoUrl && (
               <a
                 href={project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors"
+                className="inline-flex items-center justify-center text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors"
                 title="Live Demo"
                 onClick={(e) => e.stopPropagation()}
               >
@@ -108,7 +112,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors"
+                className="inline-flex items-center justify-center text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors"
                 title="Source Code"
                 onClick={(e) => e.stopPropagation()}
               >

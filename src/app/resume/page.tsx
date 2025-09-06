@@ -113,7 +113,7 @@ export default function ResumePage() {
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
             <div className="mb-4 sm:mb-0">
               <h1 className="text-xl sm:text-2xl font-bold text-[var(--text)]">Resume</h1>
-              <p className="text-sm sm:text-base text-[var(--text-secondary)]">Tayyab Manan - GIS Analyst & Spatial Developer</p>
+              <p className="text-sm sm:text-base text-[var(--text-secondary)]">Tayyab Manan - GIS Analyst & Full Stack Developer</p>
             </div>
             <button
               onClick={downloadPDF}

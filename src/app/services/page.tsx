@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { MapIcon, ChartBarIcon, GlobeAltIcon, BuildingOffice2Icon } from '@heroicons/react/24/outline'
 
 export const metadata: Metadata = {
-  title: 'GIS Services',
-  description: 'Professional GIS consulting services including spatial analysis, urban planning, environmental assessment, and custom mapping solutions for local businesses and organizations.',
+  title: 'GIS & Development Services',
+  description: 'Professional GIS consulting and full-stack development services. Offering custom web applications, spatial analysis, mapping solutions, and modern software development for businesses and organizations.',
   keywords: [
     'GIS services',
     'spatial analysis',
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     'location intelligence'
   ],
   openGraph: {
-    title: 'Professional GIS Services - Tayyab Manan',
-    description: 'Expert GIS consulting and spatial analysis services for urban planning, environmental projects, and business intelligence.',
+    title: 'GIS & Full Stack Development Services - Tayyab Manan',
+    description: 'Expert GIS consulting and full-stack development services. Building custom web applications, spatial analysis solutions, and modern software for diverse industries.',
     url: '/services',
   },
 }
@@ -38,26 +38,26 @@ const services = [
   },
   {
     icon: BuildingOffice2Icon,
-    title: 'Urban Planning & Development',
-    description: 'Comprehensive GIS solutions for urban planners, developers, and municipal governments. Supporting sustainable development and smart city initiatives.',
+    title: 'Web Development & System Integration',
+    description: 'Full-stack web development services creating modern, scalable applications with GIS integration. Building responsive interfaces and robust backend systems for data-driven solutions.',
     features: [
-      'Land Use Planning',
-      'Zoning Analysis',
-      'Transportation Planning',
-      'Infrastructure Assessment',
-      'Growth Modeling'
+      'React & Next.js Applications',
+      'RESTful API Development',
+      'Database Design & Optimization',
+      'Real-time Data Processing',
+      'Cloud Deployment & DevOps'
     ]
   },
   {
     icon: ChartBarIcon,
-    title: 'Environmental Assessment',
-    description: 'Environmental impact studies, habitat analysis, and natural resource management using cutting-edge GIS technology and remote sensing data.',
+    title: 'Data Analytics & Visualization',
+    description: 'Transform complex spatial and business data into actionable insights through interactive dashboards, custom analytics platforms, and advanced visualization techniques.',
     features: [
-      'Environmental Impact Assessment',
-      'Habitat Mapping',
-      'Watershed Analysis',
-      'Climate Change Modeling',
-      'Biodiversity Studies'
+      'Interactive Dashboard Creation',
+      'Machine Learning Integration',
+      'Business Intelligence Solutions',
+      'Real-time Analytics',
+      'Custom Reporting Systems'
     ]
   },
   {

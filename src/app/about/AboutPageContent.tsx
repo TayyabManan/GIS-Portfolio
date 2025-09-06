@@ -8,12 +8,12 @@ import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 
 const skills = [
-  'Spatial Analysis & Modeling',
-  'Web Development (React, Node.js)',
-  'Database Management (PostGIS, PostgreSQL)',
+  'Full Stack Development (React, Next.js, Node.js)',
+  'Spatial Analysis & GIS Modeling',
+  'Database Design (PostgreSQL, PostGIS, MongoDB)',
   'Python Programming & Automation',
-  'Machine Learning for Spatial Data',
-  'Project Management & Communication'
+  'Machine Learning & Data Analytics',
+  'API Development & System Integration'
 ]
 
 const education = [
@@ -110,8 +110,8 @@ export default function AboutPage() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-[var(--text)] mb-4">About Me</h1>
           <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
-            Experienced GIS professional with expertise in spatial analysis, web development, 
-            and innovative solutions for complex geographic challenges.
+            Experienced GIS Analyst and Full Stack Developer creating innovative web applications 
+            and geospatial solutions that bridge the gap between data analysis and modern software development.
           </p>
         </div>
 
@@ -122,7 +122,7 @@ export default function AboutPage() {
             <div className="relative aspect-square w-64 mx-auto mb-8 rounded-xl overflow-hidden shadow-lg">
               <Image
                 src="/images/profile.jpg"
-                alt="Tayyab Manan - GIS Analyst"
+                alt="Tayyab Manan - GIS Analyst & Full Stack Developer"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 256px"
@@ -148,20 +148,21 @@ export default function AboutPage() {
               <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Professional Summary</h2>
               <div className="prose prose-lg text-[var(--text-secondary)]">
                 <p className="mb-4">
-                  I&apos;m a dedicated GIS analyst with a passion for transforming complex spatial data 
-                  into actionable insights. With a strong foundation in both traditional GIS methodologies 
-                  and modern web development, I bridge the gap between technical analysis and 
-                  user-friendly applications.
+                  I&apos;m a passionate GIS Analyst and Full Stack Developer specializing in building 
+                  innovative web applications that leverage spatial data. With expertise in modern web 
+                  technologies and GIS methodologies, I create data-driven solutions that transform 
+                  complex geographic information into intuitive, user-friendly applications.
                 </p>
                 <p className="mb-4">
-                  My expertise spans urban planning, environmental analysis, and real-time data 
-                  visualization. I specialize in developing full-stack GIS applications that combine 
-                  robust spatial analysis with intuitive user interfaces, making complex geographic 
-                  information accessible to diverse stakeholders.
+                  My expertise spans full-stack web development, spatial analysis, and real-time data 
+                  processing. I excel at building scalable applications using React, Next.js, and Node.js 
+                  while integrating advanced GIS capabilities, creating powerful solutions that make 
+                  geographic data accessible and actionable for businesses and organizations.
                 </p>
                 <p>
-                  Currently focused on leveraging machine learning and real-time data processing 
-                  to solve urban mobility challenges and optimize transportation systems.
+                  Currently focused on developing cutting-edge web applications that integrate machine 
+                  learning, real-time data processing, and spatial analytics to solve complex business 
+                  and environmental challenges.
                 </p>
               </div>
             </section>
@@ -228,7 +229,7 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Let&apos;s Work Together</h2>
           <p className="text-[var(--text-secondary)] mb-6 max-w-2xl mx-auto">
             I&apos;m always interested in discussing new opportunities, collaborating on innovative 
-            projects, or sharing insights about spatial analysis and GIS development.
+            projects, or sharing insights about full-stack development and geospatial technologies.
           </p>
           <Link
             href="/contact"

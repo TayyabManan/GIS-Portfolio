@@ -102,11 +102,11 @@ export default function CallToAction() {
               <span className="text-sm font-semibold text-white uppercase tracking-wider">Let&apos;s Work Together</span>
             </motion.div>
             <h2 className="text-4xl font-bold text-[var(--text)] mb-4">
-              Ready to Transform Your Spatial Data?
+              Ready to Build Your Next Digital Solution?
             </h2>
             <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
-              Let&apos;s collaborate on innovative GIS solutions that turn complex geographic 
-              information into actionable insights for your organization.
+              Let&apos;s collaborate on building modern web applications and geospatial solutions 
+              that transform your data into powerful, user-friendly digital experiences.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

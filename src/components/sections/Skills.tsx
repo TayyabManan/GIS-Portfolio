@@ -231,8 +231,8 @@ export default function Skills() {
         >
           <h2 className="text-3xl font-bold text-[var(--text)] mb-4">Skills & Expertise</h2>
           <p className="text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">
-            Bridging the gap between geospatial analysis and modern software development, 
-            with expertise across {resumeData.skills.length} specialized technology domains.
+            Combining full-stack development expertise with advanced GIS capabilities, 
+            delivering innovative solutions across {resumeData.skills.length} specialized technology domains.
           </p>
         </motion.div>
 

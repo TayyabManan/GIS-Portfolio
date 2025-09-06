@@ -20,13 +20,13 @@ const bricolageGrotesque = Bricolage_Grotesque({
 export const metadata: Metadata = {
   metadataBase: new URL('https://tayyabmanan.vercel.app'),
   title: {
-    default: 'Tayyab Manan - GIS Analyst & Spatial Developer | Portfolio',
+    default: 'Tayyab Manan - GIS Analyst & Full Stack Developer | Portfolio',
     template: '%s | Tayyab Manan - GIS Specialist'
   },
-  description: 'Professional GIS analyst and spatial developer specializing in urban planning, environmental analysis, real-time data visualization, and geospatial solutions. Expertise in ArcGIS, QGIS, Python, and web mapping technologies.',
+  description: 'Professional GIS Analyst and Full Stack Developer building innovative web applications and geospatial solutions. Expertise in React, Next.js, Python, ArcGIS, QGIS, and modern web technologies for spatial data visualization and analysis.',
   keywords: [
     'GIS Analyst',
-    'Spatial Developer',
+    'Full Stack Developer',
     'Geographic Information Systems',
     'Urban Planning',
     'Environmental Analysis',
@@ -54,8 +54,8 @@ export const metadata: Metadata = {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
   openGraph: {
-    title: 'Tayyab Manan - GIS Analyst & Spatial Developer',
-    description: 'Professional GIS analyst specializing in urban planning, environmental analysis, and real-time data visualization. View my portfolio and projects.',
+    title: 'Tayyab Manan - GIS Analyst & Full Stack Developer',
+    description: 'Professional GIS Analyst and Full Stack Developer creating innovative web applications and geospatial solutions. View my portfolio showcasing modern web development and GIS projects.',
     url: 'https://tayyabmanan.vercel.app',
     siteName: 'Tayyab Manan Portfolio',
     locale: 'en_US',
@@ -71,8 +71,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tayyab Manan - GIS Analyst & Spatial Developer',
-    description: 'Professional GIS analyst specializing in urban planning and geospatial solutions.',
+    title: 'Tayyab Manan - GIS Analyst & Full Stack Developer',
+    description: 'Professional GIS Analyst and Full Stack Developer specializing in web applications and geospatial solutions.',
     images: ['/images/profile-picture.jpg'],
     creator: '@tayyabmanan',
   },
@@ -123,12 +123,12 @@ const jsonLd = [
       'https://github.com/tayyabmanan',
       'https://twitter.com/tayyabmanan'
     ],
-    jobTitle: 'GIS Analyst & Spatial Developer',
+    jobTitle: 'GIS Analyst & Full Stack Developer',
     worksFor: {
       '@type': 'Organization',
       name: 'Freelance GIS Services'
     },
-    description: 'Professional GIS analyst and spatial developer specializing in urban planning, environmental analysis, and geospatial solutions.',
+    description: 'Professional GIS Analyst and Full Stack Developer building innovative web applications with expertise in spatial data analysis, modern web technologies, and geospatial solutions.',
     knowsAbout: [
       'Geographic Information Systems',
       'Urban Planning',

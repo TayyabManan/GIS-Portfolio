@@ -134,8 +134,8 @@ export default function FeaturedProjects() {
         >
           <h2 className="text-3xl font-bold text-[var(--text)] mb-4">Featured Projects</h2>
           <p className="text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">
-            Showcasing innovative GIS solutions that demonstrate expertise in spatial analysis, 
-            web development, and data visualization.
+            Showcasing innovative web applications and geospatial solutions that demonstrate 
+            expertise in full-stack development, spatial analysis, and data visualization.
           </p>
         </motion.div>
 

@@ -63,14 +63,14 @@ export interface ResumeData {
 export const resumeData: ResumeData = {
   personalInfo: {
     name: "Tayyab Manan",
-    title: "GIS Analyst & Spatial Developer",
+    title: "GIS Analyst & Full Stack Developer",
     email: "haris.a.mannan@gmail.com",
     phone: "+92-324-9941206",
     location: "Islamabad, Pakistan",
     website: "https://tayyabmanan.vercel.app/",
     github: "https://github.com/TayyabManan",
     linkedin: "https://www.linkedin.com/in/muhammad-tayyab-3962a2373",
-    summary: "Experienced GIS Analyst and Spatial Developer with expertise in geospatial analysis, web development, and data visualization. Skilled in Python, React, QGIS, and various GIS technologies with a focus on solving real-world problems through spatial analysis and machine learning."
+    summary: "Experienced GIS Analyst and Full Stack Developer specializing in building innovative web applications and geospatial solutions. Proficient in modern web technologies (React, Next.js, Node.js) and GIS tools (QGIS, ArcGIS, Python), combining full-stack development expertise with spatial analysis to create data-driven applications and interactive mapping solutions."
   },
   
   experience: [
@@ -89,7 +89,7 @@ export const resumeData: ResumeData = {
       technologies: ["LangChain", "OpenAISdk", "AutoGen", "Model Context Protocol", "CrewAI"]
     },
     {
-      title: "GIS Analyst & Spatial Developer",
+      title: "GIS Analyst & Full Stack Developer",
       company: "Freelance",
       location: "Islamabad, Pakistan",
       startDate: "2022-01",
@@ -157,6 +157,17 @@ export const resumeData: ResumeData = {
         "Developed a Machine Learning Model by training on previously available data",
         "Predicted wheat yield in the Sahiwal Division with an error of 0.137 tonnes/hectare",
         "Final year project demonstrating practical application of ML in agriculture"
+      ]
+    },
+    {
+      name: "TeacherRank",
+      description: "Comprehensive teacher rating and review platform for educational institutions",
+      technologies: ["React", "TypeScript", "Supabase", "TanStack Query", "Tailwind CSS", "Vite"],
+      url: "https://teacherrank.vercel.app",
+      highlights: [
+        "Built full-stack web application with real-time data synchronization and authentication",
+        "Implemented multi-dimensional rating system with advanced search and filtering capabilities",
+        "Achieved 60% bundle size reduction through code splitting and lazy loading optimizations"
       ]
     },
     {

@@ -206,15 +206,15 @@ export default function Hero() {
       
       <div className="relative flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center py-12">
-          <h1 className="text-4xl font-bold tracking-tight text-[var(--text)] sm:text-6xl drop-shadow-md">
+          <h1 className="text-3xl font-bold tracking-tight text-[var(--text)] sm:text-5xl md:text-6xl drop-shadow-md">
             <motion.span
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="block"
             >
-              GIS Analyst & 
-              <span className="bg-gradient-to-r from-[var(--info)] to-[var(--accent)] bg-clip-text text-transparent"> Spatial Developer</span>
+              <span className="block">GIS Analyst &</span>
+              <span className="bg-gradient-to-r from-[var(--info)] to-[var(--accent)] bg-clip-text text-transparent block">Full Stack Developer</span>
             </motion.span>
           </h1>
           
@@ -224,9 +224,9 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mt-6 text-lg leading-8 text-[var(--text)] drop-shadow-sm font-medium"
           >
-            Transforming spatial data into actionable insights through advanced analytics, 
-            web development, and innovative GIS solutions. Specialized in urban planning, 
-            environmental analysis, and real-time data visualization.
+            Building innovative web applications and geospatial solutions through modern development 
+            practices and advanced GIS analytics. Specialized in full-stack development, real-time 
+            data visualization, and transforming complex spatial data into user-friendly applications.
           </motion.p>
 
           <motion.div

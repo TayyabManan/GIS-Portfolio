@@ -8,7 +8,7 @@ import { motion } from 'framer-motion'
 import { LoadingError } from '@/components/ui/ErrorState'
 import { toast } from '@/components/ui/Toast'
 
-const categories = ['All', 'Urban Planning', 'Environmental Monitoring', 'Business Intelligence', 'Suitability Analysis']
+const categories = ['All', 'Environmental Monitoring', 'Business Intelligence', 'Suitability Analysis', 'Web Application']
 
 const PROJECTS_PER_PAGE = 6
 

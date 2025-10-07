@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline'
-import { resumeData, formatDate, calculateDuration } from '@/lib/resume-data'
+import { resumeData, formatDate } from '@/lib/resume-data'
 import { generateResumePDF } from '@/lib/pdf-utils'
 import ResumeChatbot from '@/components/ui/ResumeChatbot'
 
@@ -153,11 +153,14 @@ export default function ResumePage() {
               </a>
               <span>{resumeData.personalInfo.phone}</span>
               <span className="text-center">{resumeData.personalInfo.location}</span>
-              <a href={resumeData.personalInfo.github} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--primary)] break-all transition-colors">
-                {resumeData.personalInfo.github}
+              <a href={resumeData.personalInfo.website} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--primary)] transition-colors">
+                Portfolio
               </a>
-              <a href={resumeData.personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--primary)] break-all transition-colors">
-                {resumeData.personalInfo.linkedin}
+              <a href={resumeData.personalInfo.github} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--primary)] transition-colors">
+                GitHub
+              </a>
+              <a href={resumeData.personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--primary)] transition-colors">
+                LinkedIn
               </a>
             </div>
           </div>
@@ -182,11 +185,12 @@ export default function ResumePage() {
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
                   <div className="mb-2 sm:mb-0">
                     <h3 className="text-base font-bold text-[var(--text)]">{job.title}</h3>
-                    <p className="text-[var(--text-secondary)] font-medium">{job.company}, {job.location}</p>
+                    <p className="text-[var(--text-secondary)]">
+                      <span className="font-bold">{job.company}</span>, {job.location}
+                    </p>
                   </div>
                   <div className="text-sm text-[var(--text-secondary)] sm:text-right">
-                    <div>{formatDate(job.startDate)} - {formatDate(job.endDate)}</div>
-                    <div className="text-xs">({calculateDuration(job.startDate, job.endDate)})</div>
+                    {formatDate(job.startDate)} - {formatDate(job.endDate)}
                   </div>
                 </div>
                 <ul className="list-disc list-inside space-y-1 text-[var(--text-secondary)] ml-4">
@@ -213,7 +217,9 @@ export default function ResumePage() {
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
                   <div className="mb-2 sm:mb-0">
                     <h3 className="text-base font-bold text-[var(--text)]">{edu.degree}</h3>
-                    <p className="text-[var(--text-secondary)]">{edu.institution}, {edu.location}</p>
+                    <p className="text-[var(--text-secondary)]">
+                      <span className="font-bold">{edu.institution}</span>, {edu.location}
+                    </p>
                     {edu.gpa && (
                       <p className="text-sm text-[var(--text-secondary)]">GPA: {edu.gpa}</p>
                     )}
@@ -261,20 +267,16 @@ export default function ResumePage() {
               <div key={index} className="mb-6">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2">
                   <h3 className="text-base font-bold text-[var(--text)] mb-2 sm:mb-0">{project.name}</h3>
-                  <div className="text-xs text-[var(--text-secondary)] sm:text-right">
+                  <div className="text-xs text-[var(--text-secondary)] sm:text-right space-x-3">
                     {project.url && (
-                      <div className="mb-1">
-                        <a href={project.url} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--primary)] break-all">
-                          Demo: {project.url}
-                        </a>
-                      </div>
+                      <a href={project.url} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--primary)] inline-block">
+                        {project.urlText || 'View Project'}
+                      </a>
                     )}
                     {project.github && (
-                      <div>
-                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--primary)] break-all">
-                          GitHub: {project.github}
-                        </a>
-                      </div>
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--primary)] inline-block">
+                        {project.githubText || 'GitHub'}
+                      </a>
                     )}
                   </div>
                 </div>
@@ -302,7 +304,9 @@ export default function ResumePage() {
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start">
                     <div className="mb-1 sm:mb-0">
                       <h3 className="text-sm font-bold text-[var(--text)]">{cert.name}</h3>
-                      <p className="text-sm text-[var(--text-secondary)]">{cert.issuer}</p>
+                      <p className="text-sm text-[var(--text-secondary)]">
+                        <span className="font-bold">{cert.issuer}</span>
+                      </p>
                     </div>
                     <p className="text-sm text-[var(--text-secondary)]">{formatDate(cert.date)}</p>
                   </div>

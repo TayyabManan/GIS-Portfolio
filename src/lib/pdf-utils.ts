@@ -1,4 +1,4 @@
-import { ResumeData, formatDate, calculateDuration } from './resume-data'
+import { ResumeData, formatDate } from './resume-data'
 
 export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
   // Dynamically import jsPDF only when needed
@@ -7,7 +7,8 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
   const pdf = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
-    format: 'a4'
+    format: 'a4',
+    compress: true
   })
 
   // Page dimensions and margins
@@ -30,7 +31,7 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
     pdf.setFontSize(fontSize)
     pdf.setFont('helvetica', isBold ? 'bold' : 'normal')
     const lines = pdf.splitTextToSize(text, maxWidth)
-    const lineHeight = fontSize * 0.35
+    const lineHeight = fontSize * 0.45
     
     checkPageBreak(lines.length * lineHeight)
     
@@ -42,13 +43,13 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
   }
 
   // Header
-  pdf.setFontSize(18)
+  pdf.setFontSize(20)
   pdf.setFont('helvetica', 'bold')
   const nameWidth = pdf.getTextWidth(resumeData.personalInfo.name.toUpperCase())
   pdf.text(resumeData.personalInfo.name.toUpperCase(), (pageWidth - nameWidth) / 2, currentY)
-  currentY += 8
+  currentY += 9
 
-  pdf.setFontSize(12)
+  pdf.setFontSize(13)
   pdf.setFont('helvetica', 'normal')
   const titleWidth = pdf.getTextWidth(resumeData.personalInfo.title)
   pdf.text(resumeData.personalInfo.title, (pageWidth - titleWidth) / 2, currentY)
@@ -56,46 +57,104 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
 
   // Contact info
   pdf.setFontSize(9)
-  const contactLine1 = `${resumeData.personalInfo.email} | ${resumeData.personalInfo.phone} | ${resumeData.personalInfo.location}`
-  const contactLine2 = `${resumeData.personalInfo.github} | ${resumeData.personalInfo.linkedin}`
-  
-  const contact1Width = pdf.getTextWidth(contactLine1)
-  const contact2Width = pdf.getTextWidth(contactLine2)
-  
-  pdf.text(contactLine1, (pageWidth - contact1Width) / 2, currentY)
+
+  // First line: email, phone, location
+  const emailText = resumeData.personalInfo.email
+  const phoneText = resumeData.personalInfo.phone
+  const locationText = resumeData.personalInfo.location
+  const separator = ' | '
+
+  const emailWidth = pdf.getTextWidth(emailText)
+  const phoneWidth = pdf.getTextWidth(phoneText)
+  const locationWidth = pdf.getTextWidth(locationText)
+  const separatorWidth = pdf.getTextWidth(separator)
+
+  const totalWidth1 = emailWidth + phoneWidth + locationWidth + 2 * separatorWidth
+  let startX1 = (pageWidth - totalWidth1) / 2
+
+  pdf.setTextColor(0, 0, 255) // Blue for email link
+  pdf.text(emailText, startX1, currentY)
+  pdf.link(startX1, currentY - 3, emailWidth, 4, { url: `mailto:${emailText}` })
+  startX1 += emailWidth
+
+  pdf.setTextColor(0, 0, 0) // Black for separator
+  pdf.text(separator, startX1, currentY)
+  startX1 += separatorWidth
+
+  pdf.text(phoneText, startX1, currentY)
+  startX1 += phoneWidth
+
+  pdf.text(separator, startX1, currentY)
+  startX1 += separatorWidth
+
+  pdf.text(locationText, startX1, currentY)
   currentY += 4
-  pdf.text(contactLine2, (pageWidth - contact2Width) / 2, currentY)
-  currentY += 8
+
+  // Second line: portfolio, github and linkedin
+  const portfolioText = 'Portfolio'
+  const githubText = 'GitHub'
+  const linkedinText = 'LinkedIn'
+
+  const portfolioTextWidth = pdf.getTextWidth(portfolioText)
+  const githubTextWidth = pdf.getTextWidth(githubText)
+  const linkedinTextWidth = pdf.getTextWidth(linkedinText)
+  const totalWidth2 = portfolioTextWidth + githubTextWidth + linkedinTextWidth + 2 * separatorWidth
+  let startX2 = (pageWidth - totalWidth2) / 2
+
+  pdf.setTextColor(0, 0, 255) // Blue for links
+  pdf.text(portfolioText, startX2, currentY)
+  pdf.link(startX2, currentY - 3, portfolioTextWidth, 4, { url: resumeData.personalInfo.website })
+  startX2 += portfolioTextWidth
+
+  pdf.setTextColor(0, 0, 0) // Black for separator
+  pdf.text(separator, startX2, currentY)
+  startX2 += separatorWidth
+
+  pdf.setTextColor(0, 0, 255) // Blue for links
+  pdf.text(githubText, startX2, currentY)
+  pdf.link(startX2, currentY - 3, githubTextWidth, 4, { url: resumeData.personalInfo.github })
+  startX2 += githubTextWidth
+
+  pdf.setTextColor(0, 0, 0) // Black for separator
+  pdf.text(separator, startX2, currentY)
+  startX2 += separatorWidth
+
+  pdf.setTextColor(0, 0, 255) // Blue for links
+  pdf.text(linkedinText, startX2, currentY)
+  pdf.link(startX2, currentY - 3, linkedinTextWidth, 4, { url: resumeData.personalInfo.linkedin })
+
+  pdf.setTextColor(0, 0, 0) // Reset to black
+  currentY += 10
 
   // Add line under header
   pdf.setLineWidth(0.5)
   pdf.line(margin, currentY, pageWidth - margin, currentY)
-  currentY += 8
+  currentY += 10
 
   // Professional Summary
   checkPageBreak(20)
   pdf.setFontSize(12)
   pdf.setFont('helvetica', 'bold')
   pdf.text('PROFESSIONAL SUMMARY', margin, currentY)
-  currentY += 2
-  
+  currentY += 3
+
   pdf.setLineWidth(0.2)
   pdf.line(margin, currentY, pageWidth - margin, currentY)
-  currentY += 6
-  
+  currentY += 7
+
   addText(resumeData.personalInfo.summary, 10)
-  currentY += 6
+  currentY += 8
 
   // Experience
   checkPageBreak(20)
   pdf.setFontSize(12)
   pdf.setFont('helvetica', 'bold')
   pdf.text('PROFESSIONAL EXPERIENCE', margin, currentY)
-  currentY += 2
-  
+  currentY += 3
+
   pdf.setLineWidth(0.2)
   pdf.line(margin, currentY, pageWidth - margin, currentY)
-  currentY += 6
+  currentY += 7
 
   resumeData.experience.forEach((job) => {
     checkPageBreak(25)
@@ -112,22 +171,20 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
     
     // Company
     pdf.setFontSize(10)
+    pdf.setFont('helvetica', 'bold')
+    pdf.text(job.company, margin, currentY)
+    const companyWidth = pdf.getTextWidth(job.company)
     pdf.setFont('helvetica', 'normal')
-    pdf.text(`${job.company}, ${job.location}`, margin, currentY)
-    currentY += 4
-    
-    // Duration
-    pdf.setFontSize(9)
-    pdf.text(`(${calculateDuration(job.startDate, job.endDate)})`, margin, currentY)
-    currentY += 4
-    
+    pdf.text(`, ${job.location}`, margin + companyWidth, currentY)
+    currentY += 6
+
     // Description
     job.description.forEach((desc) => {
       checkPageBreak(8)
       pdf.setFontSize(9)
       pdf.text('• ' + desc, margin + 5, currentY)
       const lines = pdf.splitTextToSize(desc, contentWidth - 10)
-      currentY += lines.length * 3.5
+      currentY += lines.length * 4.2
     })
     
     // Technologies
@@ -138,7 +195,7 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
     pdf.setFont('helvetica', 'normal')
     const techWidth = pdf.getTextWidth(techLabel)
     pdf.text(job.technologies.join(', '), margin + techWidth + 1, currentY)
-    currentY += 8
+    currentY += 10
   })
 
   // Education
@@ -146,11 +203,11 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
   pdf.setFontSize(12)
   pdf.setFont('helvetica', 'bold')
   pdf.text('EDUCATION', margin, currentY)
-  currentY += 2
-  
+  currentY += 3
+
   pdf.setLineWidth(0.2)
   pdf.line(margin, currentY, pageWidth - margin, currentY)
-  currentY += 6
+  currentY += 7
 
   resumeData.education.forEach((edu) => {
     checkPageBreak(15)
@@ -165,8 +222,11 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
     currentY += 4
     
     pdf.setFontSize(10)
+    pdf.setFont('helvetica', 'bold')
+    pdf.text(edu.institution, margin, currentY)
+    const institutionWidth = pdf.getTextWidth(edu.institution)
     pdf.setFont('helvetica', 'normal')
-    pdf.text(`${edu.institution}, ${edu.location}`, margin, currentY)
+    pdf.text(`, ${edu.location}`, margin + institutionWidth, currentY)
     currentY += 4
     
     if (edu.gpa) {
@@ -180,10 +240,10 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
         checkPageBreak(6)
         pdf.setFontSize(9)
         pdf.text('• ' + achievement, margin + 5, currentY)
-        currentY += 3.5
+        currentY += 4.2
       })
     }
-    currentY += 4
+    currentY += 6
   })
 
   // Skills
@@ -191,11 +251,11 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
   pdf.setFontSize(12)
   pdf.setFont('helvetica', 'bold')
   pdf.text('TECHNICAL SKILLS', margin, currentY)
-  currentY += 2
-  
+  currentY += 3
+
   pdf.setLineWidth(0.2)
   pdf.line(margin, currentY, pageWidth - margin, currentY)
-  currentY += 6
+  currentY += 7
 
   const skillsPerRow = 2
   const skillWidth = contentWidth / skillsPerRow
@@ -217,10 +277,10 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
       const skillLines = pdf.splitTextToSize(skillText, skillWidth - 10)
       
       for (let k = 0; k < skillLines.length; k++) {
-        pdf.text(skillLines[k], xPos, currentY + 4 + k * 3.5)
+        pdf.text(skillLines[k], xPos, currentY + 4 + k * 4)
       }
     }
-    currentY += 15
+    currentY += 17
   }
 
   // Projects
@@ -228,11 +288,11 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
   pdf.setFontSize(12)
   pdf.setFont('helvetica', 'bold')
   pdf.text('KEY PROJECTS', margin, currentY)
-  currentY += 2
-  
+  currentY += 3
+
   pdf.setLineWidth(0.2)
   pdf.line(margin, currentY, pageWidth - margin, currentY)
-  currentY += 6
+  currentY += 7
 
   resumeData.projects.forEach((project) => {
     checkPageBreak(25)
@@ -241,17 +301,29 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
     pdf.setFont('helvetica', 'bold')
     pdf.text(project.name, margin, currentY)
     currentY += 4
-    
+
     pdf.setFontSize(9)
     pdf.setFont('helvetica', 'normal')
+    pdf.setTextColor(0, 0, 255) // Blue color for links
+
+    let linkX = margin
     if (project.url) {
-      pdf.text(`Demo: ${project.url}`, margin, currentY)
-      currentY += 3.5
+      const linkText = project.urlText || 'View Project'
+      pdf.text(linkText, linkX, currentY)
+      const linkWidth = pdf.getTextWidth(linkText)
+      pdf.link(linkX, currentY - 3, linkWidth, 4, { url: project.url })
+      linkX += linkWidth + 10
     }
+
     if (project.github) {
-      pdf.text(`GitHub: ${project.github}`, margin, currentY)
-      currentY += 3.5
+      const githubText = project.githubText || 'GitHub'
+      pdf.text(githubText, linkX, currentY)
+      const githubWidth = pdf.getTextWidth(githubText)
+      pdf.link(linkX, currentY - 3, githubWidth, 4, { url: project.github })
     }
+
+    pdf.setTextColor(0, 0, 0) // Reset to black
+    currentY += project.url || project.github ? 4 : 0
     
     pdf.setFontSize(10)
     addText(project.description, 10)
@@ -262,7 +334,7 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
       pdf.setFontSize(9)
       pdf.text('• ' + highlight, margin + 5, currentY)
       const lines = pdf.splitTextToSize(highlight, contentWidth - 10)
-      currentY += lines.length * 3.5
+      currentY += lines.length * 4.2
     })
     
     pdf.setFontSize(8)
@@ -272,7 +344,7 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
     pdf.setFont('helvetica', 'normal')
     const projectTechWidth = pdf.getTextWidth(projectTechLabel)
     pdf.text(project.technologies.join(', '), margin + projectTechWidth + 1, currentY)
-    currentY += 8
+    currentY += 10
   })
 
   // Certifications
@@ -281,11 +353,11 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
     pdf.setFontSize(12)
     pdf.setFont('helvetica', 'bold')
     pdf.text('CERTIFICATIONS', margin, currentY)
-    currentY += 2
-    
+    currentY += 3
+
     pdf.setLineWidth(0.2)
     pdf.line(margin, currentY, pageWidth - margin, currentY)
-    currentY += 6
+    currentY += 7
 
     resumeData.certifications.forEach((cert) => {
       checkPageBreak(10)
@@ -300,9 +372,10 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
       currentY += 4
       
       pdf.setFontSize(9)
-      pdf.setFont('helvetica', 'normal')
+      pdf.setFont('helvetica', 'bold')
       pdf.text(cert.issuer, margin, currentY)
-      currentY += 6
+      pdf.setFont('helvetica', 'normal')
+      currentY += 7
     })
   }
 
@@ -312,11 +385,11 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
     pdf.setFontSize(12)
     pdf.setFont('helvetica', 'bold')
     pdf.text('ACHIEVEMENTS', margin, currentY)
-    currentY += 2
-    
+    currentY += 3
+
     pdf.setLineWidth(0.2)
     pdf.line(margin, currentY, pageWidth - margin, currentY)
-    currentY += 6
+    currentY += 7
 
     resumeData.achievements.forEach((achievement) => {
       checkPageBreak(12)
@@ -333,7 +406,7 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
       pdf.setFontSize(9)
       pdf.setFont('helvetica', 'normal')
       addText(achievement.description, 9)
-      currentY += 4
+      currentY += 6
     })
   }
 

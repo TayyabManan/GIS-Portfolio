@@ -10,7 +10,12 @@ export interface ResumeData {
     linkedin: string
     summary: string
   }
-  
+
+  skills: {
+    category: string
+    items: string[]
+  }[]
+
   experience: {
     title: string
     company: string
@@ -21,7 +26,18 @@ export interface ResumeData {
     description: string[]
     technologies: string[]
   }[]
-  
+
+  projects: {
+    name: string
+    description: string
+    technologies: string[]
+    url?: string
+    urlText?: string
+    github?: string
+    githubText?: string
+    highlights: string[]
+  }[]
+
   education: {
     degree: string
     institution: string
@@ -31,28 +47,14 @@ export interface ResumeData {
     gpa?: string
     achievements?: string[]
   }[]
-  
-  skills: {
-    category: string
-    items: string[]
-  }[]
-  
-  projects: {
-    name: string
-    description: string
-    technologies: string[]
-    url?: string
-    github?: string
-    highlights: string[]
-  }[]
-  
+
   certifications: {
     name: string
     issuer: string
     date: string
     credentialUrl?: string
   }[]
-  
+
   achievements: {
     title: string
     description: string
@@ -70,55 +72,9 @@ export const resumeData: ResumeData = {
     website: "https://tayyabmanan.vercel.app/",
     github: "https://github.com/TayyabManan",
     linkedin: "https://www.linkedin.com/in/muhammad-tayyab-3962a2373",
-    summary: "Experienced GIS Analyst and Full Stack Developer specializing in building innovative web applications and geospatial solutions. Proficient in modern web technologies (React, Next.js, Node.js) and GIS tools (QGIS, ArcGIS, Python), combining full-stack development expertise with spatial analysis to create data-driven applications and interactive mapping solutions."
+    summary: "Full Stack Developer with 4 years experience building GIS-powered web applications. Combining expertise in React/Python development with spatial analysis to deliver data-driven solutions. Currently pursuing MS in AI Engineering while working on ML/AI integration projects."
   },
-  
-  experience: [
-    {
-      title: "Cointegration.ai",
-      company: "Cointegration.ai",
-      location: "Islamabad, Pakistan",
-      startDate: "2023-01",
-      endDate: "Present",
-      current: true,
-      description: [
-        "Designed and implemented machine learning models leveraging Python.",
-        "Used platforms like Lang-Graph, AutoGen, and OpenAIAgentSDK.",
-        "Implemented python libraries like numpy, scipy, matplotlib etc."
-      ],
-      technologies: ["LangChain", "OpenAISdk", "AutoGen", "Model Context Protocol", "CrewAI"]
-    },
-    {
-      title: "GIS Analyst & Full Stack Developer",
-      company: "Freelance",
-      location: "Islamabad, Pakistan",
-      startDate: "2022-01",
-      endDate: "Present",
-      current: true,
-      description: [
-        "Developed comprehensive GIS applications for spatial analysis and data visualization",
-        "Created interactive web mapping applications using React and modern web technologies",
-        "Implemented machine learning algorithms for predictive modeling in geospatial contexts",
-        "Collaborated with clients to deliver high-quality geospatial solutions and dashboards"
-      ],
-      technologies: ["Python", "React", "QGIS", "ArcGIS", "PostgreSQL", "PostGIS", "JavaScript", "Next.js"]
-    }
-  ],
-  
-  education: [
-    {
-      degree: "Bachelor of Science in Geography/GIS",
-      institution: "University of the Punjab",
-      location: "Lahore, Pakistan",
-      startDate: "2021",
-      endDate: "2025",
-      gpa: "3.0/4.0",
-      achievements: [
-        "Outstanding performance in GIS and Remote Sensing"
-      ]
-    }
-  ],
-  
+
   skills: [
     {
       category: "Programming Languages",
@@ -142,17 +98,52 @@ export const resumeData: ResumeData = {
     },
     {
       category: "Cloud & Tools",
-      items: ["Google Cloud", "Vercel", "Git",  "Jupyter"]
+      items: ["Google Cloud", "Vercel", "Docker", "CI/CD", "Git version control", "Jupyter", "Agile methodology"]
     }
   ],
-  
+
+  experience: [
+    {
+      title: "Junior AI Developer",
+      company: "COINTEGRATION",
+      location: "Islamabad, Pakistan",
+      startDate: "2023-01",
+      endDate: "Present",
+      current: true,
+      description: [
+        "Built 5+ production ML models reducing processing time by 40%",
+        "Developed multi-agent systems using LangChain and AutoGen serving 100+ daily users",
+        "Implemented automated workflows with Model Context Protocol, saving 15 hours/week",
+        "Collaborated in Agile methodology with cross-functional teams for iterative development"
+      ],
+      technologies: ["LangChain", "OpenAISdk", "AutoGen", "Model Context Protocol", "CrewAI"]
+    },
+    {
+      title: "GIS Analyst & Full Stack Developer",
+      company: "Freelance",
+      location: "Islamabad, Pakistan",
+      startDate: "2022-01",
+      endDate: "Present",
+      current: true,
+      description: [
+        "Delivered 15+ GIS web applications with responsive design for clients across 3 industries",
+        "Built React dashboards and REST APIs processing 10K+ daily map requests",
+        "Reduced client data processing time by 60% through ML automation",
+        "Utilized Git version control for collaborative development and code management"
+      ],
+      technologies: ["Python", "React", "QGIS", "ArcGIS", "PostgreSQL", "PostGIS", "JavaScript", "Next.js"]
+    }
+  ],
+
   projects: [
     {
       name: "Machine Learning Model for Wheat Yield Prediction",
       description: "Machine Learning model to predict wheat yield in Sahiwal Division",
       technologies: ["Python", "Matplotlib", "NumPy", "Google Earth Engine", "Artificial Intelligence"],
       url: "https://drive.google.com/drive/folders/1mccSUwvL9DRoHLEP0CiiKqybhka_rf2k?usp=sharing",
+      urlText: "View Project",
       github: "https://github.com/TayyabManan",
+      githubText: "GitHub",
       highlights: [
         "Developed a Machine Learning Model by training on previously available data",
         "Predicted wheat yield in the Sahiwal Division with an error of 0.137 tonnes/hectare",
@@ -164,9 +155,10 @@ export const resumeData: ResumeData = {
       description: "Comprehensive teacher rating and review platform for educational institutions",
       technologies: ["React", "TypeScript", "Supabase", "TanStack Query", "Tailwind CSS", "Vite"],
       url: "https://teacherrank.vercel.app",
+      urlText: "Live Demo",
       highlights: [
-        "Built full-stack web application with real-time data synchronization and authentication",
-        "Implemented multi-dimensional rating system with advanced search and filtering capabilities",
+        "Built full-stack web application with REST APIs for real-time data synchronization",
+        "Implemented responsive design delivering seamless experience across all devices",
         "Achieved 60% bundle size reduction through code splitting and lazy loading optimizations"
       ]
     },
@@ -175,9 +167,11 @@ export const resumeData: ResumeData = {
       description: "Groundwater monitoring system analyzing 22 years of satellite data (2002-2024)",
       technologies: ["React", "Flask", "Google Earth Engine", "Machine Learning", "GRACE/GLDAS"],
       url: "https://watertrace.vercel.app",
+      urlText: "Live Demo",
       github: "https://github.com/TayyabManan/WaterTrace",
+      githubText: "GitHub",
       highlights: [
-        "Processed GRACE satellite data for groundwater trend analysis across 145 districts",
+        "Built Flask REST APIs for processing GRACE satellite data across 145 districts",
         "Implemented predictive models for water resource management using machine learning",
         "Created interactive dashboard with real-time data visualization and trend analysis"
       ]
@@ -187,57 +181,43 @@ export const resumeData: ResumeData = {
       description: "Spatial analysis for Electric Vehicle infrastructure planning in Lahore",
       technologies: ["Python", "QGIS", "ArcGIS", "OpenStreetMap", "Demographic Data"],
       url: "https://ev-analysis.netlify.app/",
+      urlText: "Live Demo",
       github: "https://github.com/TayyabManan/ev-suitability-analysis",
+      githubText: "GitHub",
       highlights: [
         "Analyzed 5 tehsils of Lahore for optimal EV charging station placement",
         "Integrated demographic, economic, and infrastructure data for site selection",
         "Developed weighted scoring algorithm achieving 90%+ coverage target"
       ]
-    },
+    }
+  ],
+
+  education: [
     {
-      name: "NDVI Time Series Smoothing",
-      description: "Vegetation health monitoring and assessment using NDVI smoothing techniques",
-      technologies: ["R", "RStudio", "Remote Sensing", "Time Series Analysis"],
-      url: "",
-      highlights: [
-        "Utilized RStudio to perform NDVI smoothing for Sheikhupura district",
-        "Monitored and assessed vegetation health and dynamics over time",
-        "Applied advanced time series analysis techniques for environmental monitoring"
+      degree: "Bachelor of Science in Geography/GIS",
+      institution: "University of the Punjab",
+      location: "Lahore, Pakistan",
+      startDate: "2021",
+      endDate: "2025",
+      gpa: "3.0/4.0",
+      achievements: [
+        "Outstanding performance in GIS and Remote Sensing"
       ]
     },
     {
-      name: "Digitization of West-African Countries",
-      description: "Digital mapping project for West African countries",
-      technologies: ["GIS", "ArcGIS", "QGIS", "Digital Mapping"],
-      url: "https://drive.google.com/drive/folders/1H6issi4A8G4akwhV0mUrJUu69gO1lQVu?usp=sharing",
-      highlights: [
-        "Utilized ArcMap tools to digitize accurate maps of West African countries",
-        "Created comprehensive digital maps for geographic analysis",
-        "Ensured high accuracy in boundary delineation and feature extraction"
-      ]
-    },
-    {
-      name: "Object-Based Image Analysis for Punjab Region",
-      description: "Satellite imagery interpretation using object-based classification",
-      technologies: ["eCognition", "OBIA", "Remote Sensing", "Image Classification"],
-      highlights: [
-        "Employed eCognition software for Object-Based Image Analysis (OBIA)",
-        "Interpreted satellite imagery of Punjab Region for land use classification",
-        "Improved classification accuracy compared to pixel-based methods"
-      ]
-    },
-    {
-      name: "Land Surface Temperature Analysis",
-      description: "Temperature analysis for Gujranwala and Hafizabad regions",
-      technologies: ["ArcGIS", "QGIS", "Landsat", "Digital Mapping", "Remote Sensing"],
-      highlights: [
-        "Conducted atmospheric correction on Landsat Level 1 data",
-        "Analyzed land surface temperature patterns for urban heat island studies",
-        "Created thermal maps for environmental assessment and planning"
+      degree: "Masters in Artificial Intelligence Engineering",
+      institution: "COMSATS",
+      location: "Islamabad, Pakistan",
+      startDate: "2025",
+      endDate: "Present (Expected 2027)",
+      gpa: "",
+      achievements: [
+        "Distinguished academic record in AI Engineering and Deep Learning",
+        "Excellence in AI Engineering with focus on Computer Vision"
       ]
     }
   ],
-  
+
   certifications: [
     {
       name: "Going Places with Spatial Analysis",

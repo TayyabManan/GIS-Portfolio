@@ -18,10 +18,16 @@ const skills = [
 
 const education = [
   {
-    degree: 'Bachelor of Science in Geographic Information Systems',
-    school: 'University of the Punjab',
+    degree: 'Bachelor of Science in Geographic Information Systems(GIS)',
+    school: 'University of the Punjab, Lahore',
     year: '2025',
-    description: 'Specialized in spatial analysis, remote sensing, and GIS application development.'
+    description: 'Developing GIS solutions using Python, QGIS, and Google Earth Engine to transform satellite data into actionable insights.'
+  },
+  {
+    degree: 'Masters in Artificial Intelligence Engineering',
+    school: 'COMSATS Islamabad',
+    year: '2027 (Expected)',
+    description: 'Graduate student specializing in computer vision, deep learning architectures, and practical AI system deployment.'
   }
 ]
 
@@ -30,7 +36,13 @@ const experience = [
     role: 'AI Developer',
     company: 'Cointegration',
     period: '2023 - Present',
-    description: 'Using Machine Learning techniques to create RAG bots and scrape web data.'
+    description: 'Building multi-agent AI systems that automate complex workflows, reducing processing time by 40% and serving 100+ daily users in production.'
+  },
+  {
+    role: 'Open Source Contributor',
+    company: 'Freelance',
+    period: '2022 - Present',
+    description: 'Contributing to open source projects that collectively serve millions of users, from GIS tools to web frameworks.'
   }
 ]
 

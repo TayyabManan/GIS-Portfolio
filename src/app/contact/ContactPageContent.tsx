@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import {
   EnvelopeIcon,
-  PhoneIcon,
   MapPinIcon,
 } from "@heroicons/react/24/outline";
 import { Github, Linkedin } from "lucide-react";

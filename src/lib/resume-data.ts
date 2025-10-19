@@ -1,3 +1,10 @@
+export interface SkillMetadata {
+  yearsOfExperience: number
+  proficiencyLevel: 'Expert' | 'Advanced' | 'Proficient' | 'Familiar'
+  usageFrequency: 'Daily' | 'Weekly' | 'Project-based' | 'Occasional'
+  projectCount?: number
+}
+
 export interface ResumeData {
   personalInfo: {
     name: string
@@ -14,6 +21,7 @@ export interface ResumeData {
   skills: {
     category: string
     items: string[]
+    metadata?: Record<string, SkillMetadata>
   }[]
 
   experience: {
@@ -78,27 +86,70 @@ export const resumeData: ResumeData = {
   skills: [
     {
       category: "Programming Languages",
-      items: ["Python", "JavaScript", "TypeScript", "SQL", "R"]
+      items: ["Python", "JavaScript", "TypeScript", "SQL", "R"],
+      metadata: {
+        "Python": { yearsOfExperience: 4, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 15 },
+        "JavaScript": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 12 },
+        "TypeScript": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 8 },
+        "SQL": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 10 },
+        "R": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Project-based", projectCount: 3 }
+      }
     },
     {
       category: "GIS & Remote Sensing",
-      items: ["QGIS", "ArcGIS", "Google Earth Engine", "PostGIS", "GDAL"]
+      items: ["QGIS", "ArcGIS", "Google Earth Engine", "PostGIS", "GDAL"],
+      metadata: {
+        "QGIS": { yearsOfExperience: 4, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 20 },
+        "ArcGIS": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 15 },
+        "Google Earth Engine": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 5 },
+        "PostGIS": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Project-based", projectCount: 8 },
+        "GDAL": { yearsOfExperience: 2, proficiencyLevel: "Proficient", usageFrequency: "Project-based", projectCount: 6 }
+      }
     },
     {
       category: "Web Development",
-      items: ["React", "Next.js", "Node.js", "HTML/CSS", "Tailwind CSS", "Flask"]
+      items: ["React", "Next.js", "Node.js", "HTML/CSS", "Tailwind CSS", "Flask"],
+      metadata: {
+        "React": { yearsOfExperience: 3, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 12 },
+        "Next.js": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 8 },
+        "Node.js": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 10 },
+        "HTML/CSS": { yearsOfExperience: 3, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 15 },
+        "Tailwind CSS": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 10 },
+        "Flask": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 6 }
+      }
     },
     {
       category: "Data Analysis & ML",
-      items: ["Pandas", "NumPy", "Scikit-learn", "Matplotlib", "TensorFlow"]
+      items: ["Pandas", "NumPy", "Scikit-learn", "Matplotlib", "TensorFlow"],
+      metadata: {
+        "Pandas": { yearsOfExperience: 3, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 15 },
+        "NumPy": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 15 },
+        "Scikit-learn": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 8 },
+        "Matplotlib": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 12 },
+        "TensorFlow": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Project-based", projectCount: 4 }
+      }
     },
     {
       category: "Databases",
-      items: ["PostgreSQL", "SQLite", "Firebase"]
+      items: ["PostgreSQL", "SQLite", "Firebase"],
+      metadata: {
+        "PostgreSQL": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 10 },
+        "SQLite": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Project-based", projectCount: 8 },
+        "Firebase": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 6 }
+      }
     },
     {
       category: "Cloud & Tools",
-      items: ["Google Cloud", "Vercel", "Docker", "CI/CD", "Git version control", "Jupyter", "Agile methodology"]
+      items: ["Google Cloud", "Vercel", "Docker", "CI/CD", "Git version control", "Jupyter", "Agile methodology"],
+      metadata: {
+        "Google Cloud": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 8 },
+        "Vercel": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 10 },
+        "Docker": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Project-based", projectCount: 5 },
+        "CI/CD": { yearsOfExperience: 2, proficiencyLevel: "Proficient", usageFrequency: "Weekly", projectCount: 8 },
+        "Git version control": { yearsOfExperience: 4, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 20 },
+        "Jupyter": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 15 },
+        "Agile methodology": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 10 }
+      }
     }
   ],
 

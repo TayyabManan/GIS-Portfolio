@@ -5,22 +5,6 @@ import { motion } from 'framer-motion'
 import { CheckCircleIcon, CodeBracketIcon, GlobeAltIcon, CircleStackIcon, CloudIcon, BeakerIcon } from '@heroicons/react/24/solid'
 import { resumeData } from '@/lib/resume-data'
 
-// Map skill categories to proficiency levels for progress bars
-const skillLevels: Record<string, number> = {
-  'Programming Languages': 90,
-  'GIS & Remote Sensing': 95,
-  'Web Development': 85,
-  'Data Analysis & ML': 82,
-  'Databases': 88,
-  'Cloud & Tools': 80,
-}
-
-// Convert resume skills to the format needed for progress bars
-const skills = resumeData.skills.map(category => ({
-  name: category.category,
-  level: skillLevels[category.category] || 75
-}))
-
 // Get icons for each category
 const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   'Programming Languages': CodeBracketIcon,
@@ -31,50 +15,31 @@ const categoryIcons: Record<string, React.ComponentType<{ className?: string }>>
   'Cloud & Tools': CloudIcon,
 }
 
-// Group tools by category for tabbed display
+// Group tools by category
 const toolCategories = resumeData.skills.map(category => ({
   name: category.category,
   icon: categoryIcons[category.category] || CheckCircleIcon,
   items: category.items
 }))
 
-// Progress bar component with animation
-const SkillBar = ({ skill, index }: { skill: typeof skills[0], index: number }) => {
-  const [animatedLevel, setAnimatedLevel] = useState(0)
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAnimatedLevel(skill.level)
-    }, 500 + index * 200) // Stagger the animations
-
-    return () => clearTimeout(timer)
-  }, [skill.level, index])
-
+// Simple skill badge component
+const SkillBadge = ({ name, index }: { name: string, index: number }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8, delay: index * 0.1 }}
+    <motion.span
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3, delay: index * 0.03 }}
       viewport={{ once: true }}
-      className="space-y-2"
+      className="inline-flex items-center gap-1.5 px-4 py-2 bg-[var(--background-secondary)] rounded-lg text-sm text-[var(--text)] border border-[var(--border)] hover:border-[var(--primary)] transition-all hover:scale-105"
     >
-      <div className="flex justify-between">
-        <span className="text-sm font-medium text-[var(--text)]">{skill.name}</span>
-        <span className="text-sm text-[var(--text-secondary)]">{skill.level}%</span>
-      </div>
-      <div className="w-full bg-[var(--border)] rounded-full h-2">
-        <div
-          className="bg-gradient-to-r from-[var(--primary)] to-[var(--primary-hover)] h-2 rounded-full transition-all duration-1000 ease-out"
-          style={{ width: `${animatedLevel}%` }}
-        />
-      </div>
-    </motion.div>
+      <CheckCircleIcon className="h-3.5 w-3.5 text-[var(--primary)]" />
+      <span className="font-medium">{name}</span>
+    </motion.span>
   )
 }
 
 export default function Skills() {
   const [mounted, setMounted] = useState(false)
-  const [selectedCategory, setSelectedCategory] = useState(0)
 
   useEffect(() => {
     setMounted(true)
@@ -231,90 +196,55 @@ export default function Skills() {
         >
           <h2 className="text-3xl font-bold text-[var(--text)] mb-4">Skills & Expertise</h2>
           <p className="text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">
-            Combining full-stack development expertise with advanced GIS capabilities, 
+            Combining full-stack development expertise with advanced GIS capabilities,
             delivering innovative solutions across {resumeData.skills.length} specialized technology domains.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Skills with Progress Bars */}
-          <div>
-            <h3 className="text-xl font-semibold text-[var(--text)] mb-6">Technical Proficiency</h3>
-            <div className="space-y-4">
-              {skills.map((skill, index) => (
-                <SkillBar key={skill.name} skill={skill} index={index} />
-              ))}
-            </div>
-          </div>
+        {/* Skills in Compact Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-w-6xl mx-auto">
+          {toolCategories.map((category, categoryIndex) => {
+            const Icon = category.icon
 
-          {/* Tools & Technologies - Compact Tabbed View */}
-          <div>
-            <h3 className="text-xl font-semibold text-[var(--text)] mb-6">Technologies & Frameworks</h3>
-            
-            {/* Category Tabs */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              {toolCategories.map((category, index) => {
-                const Icon = category.icon
-                return (
-                  <motion.button
-                    key={category.name}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    onClick={() => setSelectedCategory(index)}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                      selectedCategory === index
-                        ? 'bg-[var(--primary)] text-white'
-                        : 'bg-[var(--background-secondary)] text-[var(--text-secondary)] hover:bg-[var(--background-tertiary)]'
-                    }`}
-                  >
-                    <Icon className="h-3.5 w-3.5" />
-                    <span className="hidden sm:inline">{category.name.split('&')[0].trim()}</span>
-                  </motion.button>
-                )
-              })}
-            </div>
+            return (
+              <motion.div
+                key={category.name}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: categoryIndex * 0.08 }}
+                viewport={{ once: true }}
+                className="group relative bg-[var(--background-secondary)] rounded-xl p-4 border border-[var(--border)] hover:border-[var(--primary)] transition-all hover:shadow-lg"
+              >
+                {/* Animated gradient background on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
 
-            {/* Category Content */}
-            <motion.div
-              key={selectedCategory}
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
-              className="bg-[var(--background-secondary)] rounded-lg p-4"
-            >
-              <div className="flex items-center gap-2 mb-3">
-                {React.createElement(toolCategories[selectedCategory].icon, {
-                  className: "h-5 w-5 text-[var(--primary)]"
-                })}
-                <h4 className="font-medium text-[var(--text)]">
-                  {toolCategories[selectedCategory].name}
-                </h4>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {toolCategories[selectedCategory].items.map((item, index) => (
-                  <motion.span
-                    key={item}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-[var(--background)] rounded-full text-sm cursor-pointer hover:bg-[var(--background-tertiary)] hover:scale-105 transition-all"
-                  >
-                    <CheckCircleIcon className="h-3.5 w-3.5 text-[var(--primary)]" />
-                    <span className="text-[var(--text)]">{item}</span>
-                  </motion.span>
-                ))}
-              </div>
-            </motion.div>
+                {/* Content */}
+                <div className="relative z-10">
+                  {/* Compact Category Header */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <Icon className="h-4 w-4 text-[var(--primary)] group-hover:scale-110 transition-transform" />
+                    <h3 className="text-sm font-semibold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">
+                      {category.name}
+                    </h3>
+                    <span className="ml-auto text-xs text-[var(--text-secondary)]">
+                      {category.items.length}
+                    </span>
+                  </div>
 
-            {/* Skills Summary */}
-            <div className="mt-4 p-3 bg-[var(--background-secondary)] rounded-lg">
-              <p className="text-xs text-[var(--text-secondary)]">
-                <span className="font-semibold text-[var(--primary)]">{resumeData.skills.reduce((acc, cat) => acc + cat.items.length, 0)}</span> total technologies across{' '}
-                <span className="font-semibold text-[var(--primary)]">{resumeData.skills.length}</span> specialized areas
-              </p>
-            </div>
-          </div>
+                  {/* Skills as compact badges */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {category.items.map((item, index) => (
+                      <SkillBadge
+                        key={item}
+                        name={item}
+                        index={index}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>

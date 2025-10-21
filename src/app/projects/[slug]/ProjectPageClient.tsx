@@ -90,16 +90,16 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                   </div>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <div className="flex flex-row gap-2 sm:gap-4">
                   {project.demoUrl && (
                     <a
                       href={project.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center bg-white text-[var(--primary)] px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors text-center"
+                      className="inline-flex items-center justify-center bg-white text-[var(--primary)] px-3 xs:px-4 sm:px-6 py-3 rounded-lg text-xs xs:text-sm sm:text-base font-medium hover:bg-gray-100 transition-colors whitespace-nowrap"
                     >
-                      <ArrowTopRightOnSquareIcon className="h-5 w-5 mr-2" />
-                      Live Demo
+                      <ArrowTopRightOnSquareIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
+                      <span className="hidden xs:inline">Live </span>Demo
                     </a>
                   )}
                   {project.githubUrl && (
@@ -107,10 +107,10 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center bg-white/10 backdrop-blur-sm text-white border border-white/20 px-6 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors text-center"
+                      className="inline-flex items-center justify-center bg-white/10 backdrop-blur-sm text-white border border-white/20 px-3 xs:px-4 sm:px-6 py-3 rounded-lg text-xs xs:text-sm sm:text-base font-medium hover:bg-white/20 transition-colors whitespace-nowrap"
                     >
-                      <CodeBracketIcon className="h-5 w-5 mr-2" />
-                      Source Code
+                      <CodeBracketIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
+                      <span className="hidden xs:inline">Source </span>Code
                     </a>
                   )}
                 </div>
@@ -296,16 +296,16 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                 <div className="w-2 h-2 bg-emerald-500 rounded-full mr-3"></div>
                 Project Links
               </h3>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-row gap-2 sm:gap-3">
                 {project.demoUrl && (
                   <a
                     href={project.demoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors bg-[var(--primary-light)] px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md"
+                    className="flex items-center justify-center text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors bg-[var(--primary-light)] px-3 xs:px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md text-xs xs:text-sm sm:text-base whitespace-nowrap"
                   >
-                    <ArrowTopRightOnSquareIcon className="h-5 w-5 mr-3" />
-                    <span className="font-medium">Live Demo</span>
+                    <ArrowTopRightOnSquareIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-3" />
+                    <span className="font-medium"><span className="hidden xs:inline">Live </span>Demo</span>
                   </a>
                 )}
                 {project.githubUrl && (
@@ -313,10 +313,10 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center text-[var(--text)] hover:text-[var(--text-secondary)] transition-colors bg-[var(--background-tertiary)] px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md"
+                    className="flex items-center justify-center text-[var(--text)] hover:text-[var(--text-secondary)] transition-colors bg-[var(--background-tertiary)] px-3 xs:px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md text-xs xs:text-sm sm:text-base whitespace-nowrap"
                   >
-                    <CodeBracketIcon className="h-5 w-5 mr-3" />
-                    <span className="font-medium">Source Code</span>
+                    <CodeBracketIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-3" />
+                    <span className="font-medium"><span className="hidden xs:inline">Source </span>Code</span>
                   </a>
                 )}
               </div>

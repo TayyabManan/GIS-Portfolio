@@ -140,15 +140,15 @@ export default function ServicesPage() {
               Professional machine learning engineering and AI development services. Building production ML systems,
               Computer Vision solutions, NLP applications, and intelligent automation for businesses and startups.
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
+            <div className="mt-10 flex items-center justify-center gap-x-3 sm:gap-x-6">
               <a
                 href="/contact"
-                className="rounded-md bg-black px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                className="rounded-md bg-black px-3 xs:px-3.5 py-2.5 text-xs xs:text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black whitespace-nowrap"
               >
-                Get a Quote
+                <span className="hidden xs:inline">Get a </span>Quote
               </a>
-              <Link href="/projects" className="text-sm font-semibold leading-6 text-gray-900">
-                View Our Work <span aria-hidden="true">→</span>
+              <Link href="/projects" className="text-xs xs:text-sm font-semibold leading-6 text-gray-900 whitespace-nowrap">
+                <span className="hidden xs:inline">View Our </span>Work <span aria-hidden="true">→</span>
               </Link>
             </div>
           </div>
@@ -233,15 +233,15 @@ export default function ServicesPage() {
               <p className="mt-6 text-lg leading-8 text-gray-300">
                 Contact us today for a free consultation and discover how machine learning and AI can transform your business.
               </p>
-              <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
+              <div className="mt-10 flex items-center justify-center gap-x-3 sm:gap-x-6 lg:justify-start">
                 <a
                   href="/contact"
-                  className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  className="rounded-md bg-white px-3 xs:px-3.5 py-2.5 text-xs xs:text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white whitespace-nowrap"
                 >
-                  Get started
+                  <span className="hidden xs:inline">Get </span>started
                 </a>
-                <a href="mailto:haris.a.mannan@gmail.com" className="text-sm font-semibold leading-6 text-white">
-                  Email us <span aria-hidden="true">→</span>
+                <a href="mailto:haris.a.mannan@gmail.com" className="text-xs xs:text-sm font-semibold leading-6 text-white whitespace-nowrap">
+                  Email<span className="hidden xs:inline"> us</span> <span aria-hidden="true">→</span>
                 </a>
               </div>
             </div>

@@ -290,22 +290,22 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 dark:border-gray-700/50"
+              className="bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl p-6 shadow-lg border border-[var(--border)]"
             >
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full mr-3"></div>
+              <h3 className="text-lg font-semibold text-[var(--text)] mb-4 flex items-center">
+                <div className="w-2 h-2 bg-[var(--accent)] rounded-full mr-3"></div>
                 Project Links
               </h3>
-              <div className="flex flex-row gap-2 sm:gap-3">
+              <div className="flex flex-row gap-3 flex-wrap">
                 {project.demoUrl && (
                   <a
                     href={project.demoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors bg-[var(--primary-light)] px-3 xs:px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md text-xs xs:text-sm sm:text-base whitespace-nowrap"
+                    className="flex items-center justify-center text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors bg-[var(--primary-light)] px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md whitespace-nowrap"
                   >
-                    <ArrowTopRightOnSquareIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-3" />
-                    <span className="font-medium"><span className="hidden xs:inline">Live </span>Demo</span>
+                    <ArrowTopRightOnSquareIcon className="h-5 w-5 mr-3" />
+                    <span className="font-medium">Live Demo</span>
                   </a>
                 )}
                 {project.githubUrl && (
@@ -313,10 +313,10 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center text-[var(--text)] hover:text-[var(--text-secondary)] transition-colors bg-[var(--background-tertiary)] px-3 xs:px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md text-xs xs:text-sm sm:text-base whitespace-nowrap"
+                    className="flex items-center justify-center text-[var(--text)] hover:text-[var(--text-secondary)] transition-colors bg-[var(--background-tertiary)] px-4 py-3 rounded-lg border border-[var(--border)] hover:shadow-md whitespace-nowrap"
                   >
-                    <CodeBracketIcon className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-3" />
-                    <span className="font-medium"><span className="hidden xs:inline">Source </span>Code</span>
+                    <CodeBracketIcon className="h-5 w-5 mr-3" />
+                    <span className="font-medium">Source Code</span>
                   </a>
                 )}
               </div>

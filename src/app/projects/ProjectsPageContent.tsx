@@ -8,7 +8,7 @@ import { motion } from 'framer-motion'
 import { LoadingError } from '@/components/ui/ErrorState'
 import { toast } from '@/components/ui/Toast'
 
-const categories = ['All', 'Environmental Monitoring', 'Business Intelligence', 'Suitability Analysis', 'Web Application']
+const categories = ['All', 'Geospatial AI & Predictive Analytics', 'Geospatial AI & Optimization', 'Computer Vision', 'Natural Language Processing', 'MLOps', 'Web Application']
 
 const PROJECTS_PER_PAGE = 6
 
@@ -155,25 +155,25 @@ export default function ProjectsPageContent() {
       </div>
       
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-[var(--text)] mb-4">Projects</h1>
-          <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
-            A collection of GIS analysis projects, web applications, and spatial solutions 
-            that demonstrate my expertise in transforming complex geographic data into actionable insights.
+        {/* Header - Left aligned */}
+        <div className="mb-12 max-w-4xl">
+          <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text)] mb-4">ML & AI Projects</h1>
+          <p className="text-lg sm:text-xl text-[var(--text-secondary)]">
+            A collection of machine learning and AI projects demonstrating expertise in computer vision,
+            NLP, geospatial AI, and MLOps—transforming complex data into intelligent, production-ready solutions.
           </p>
         </div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        {/* Category Filter - Left aligned */}
+        <div className="flex flex-wrap gap-3 mb-12">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+              className={`px-4 py-2 rounded-lg font-medium transition-all text-sm sm:text-base ${
                 selectedCategory === category
-                  ? 'bg-[var(--primary)] text-white'
-                  : 'bg-[var(--background-secondary)] text-[var(--text)] hover:bg-[var(--background-tertiary)]'
+                  ? 'bg-[var(--primary)] text-white shadow-lg scale-105'
+                  : 'bg-[var(--background-secondary)] text-[var(--text)] hover:bg-[var(--background-tertiary)] border border-[var(--border)] hover:border-[var(--primary)]'
               }`}
             >
               {category}
@@ -247,13 +247,106 @@ export default function ProjectsPageContent() {
           </>
         )}
         
-        {/* Coming Soon Section */}
-        <div className="text-center mt-16 bg-[var(--background-secondary)] rounded-2xl p-8 border border-[var(--border)]">
-          <h2 className="text-2xl font-bold text-[var(--text)] mb-4">More Projects Coming Soon</h2>
-          <p className="text-[var(--text-secondary)] max-w-2xl mx-auto">
-            I&apos;m continuously working on new projects and expanding my portfolio. 
-            Check back regularly for updates, or follow my GitHub for the latest developments.
-          </p>
+        {/* Coming Soon Section - Two column layout */}
+        <div className="mt-16 bg-[var(--background-secondary)] rounded-2xl p-8 lg:p-12 border border-[var(--border)]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            {/* Left - Content */}
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text)] mb-4">More ML Projects Coming Soon</h2>
+              <p className="text-[var(--text-secondary)] text-base sm:text-lg">
+                I&apos;m continuously working on new machine learning and AI projects, including RAG systems,
+                computer vision applications, and MLOps platforms. Check back regularly for updates, or follow my GitHub for the latest developments.
+              </p>
+            </div>
+
+            {/* Right - SVG Illustration */}
+            <div className="hidden lg:flex items-center justify-center">
+              <svg className="w-full max-w-xs" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                {/* Rocket illustration representing upcoming projects */}
+                <g>
+                  {/* Rocket body */}
+                  <path d="M100 40 L120 120 L100 110 L80 120 Z" fill="var(--primary)" opacity="0.8" />
+
+                  {/* Rocket window */}
+                  <circle cx="100" cy="70" r="8" fill="var(--background)" stroke="var(--info)" strokeWidth="2" />
+
+                  {/* Rocket fins */}
+                  <path d="M80 100 L70 130 L80 120 Z" fill="var(--accent)" opacity="0.7" />
+                  <path d="M120 100 L130 130 L120 120 Z" fill="var(--accent)" opacity="0.7" />
+
+                  {/* Flame */}
+                  <motion.path
+                    d="M90 120 L85 140 L90 135 L95 145 L100 130 L105 145 L110 135 L115 140 L110 120 Z"
+                    fill="var(--warning)"
+                    opacity="0.8"
+                    animate={{
+                      scaleY: [1, 1.2, 1],
+                      opacity: [0.8, 1, 0.8]
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  />
+
+                  {/* Stars around */}
+                  {[...Array(8)].map((_, i) => (
+                    <motion.circle
+                      key={i}
+                      cx={50 + (i % 4) * 40}
+                      cy={30 + Math.floor(i / 4) * 100}
+                      r="2"
+                      fill="var(--primary)"
+                      initial={{ opacity: 0.3, scale: 0.5 }}
+                      animate={{ opacity: [0.3, 1, 0.3], scale: [0.5, 1, 0.5] }}
+                      transition={{
+                        duration: 2 + i * 0.2,
+                        repeat: Infinity,
+                        delay: i * 0.3,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  ))}
+
+                  {/* Code symbols floating */}
+                  <motion.text
+                    x="40"
+                    y="80"
+                    fontSize="16"
+                    fill="var(--info)"
+                    opacity="0.5"
+                    animate={{ y: [80, 70, 80], opacity: [0.5, 0.8, 0.5] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    &lt;/&gt;
+                  </motion.text>
+                  <motion.text
+                    x="145"
+                    y="60"
+                    fontSize="14"
+                    fill="var(--accent)"
+                    opacity="0.5"
+                    animate={{ y: [60, 50, 60], opacity: [0.5, 0.8, 0.5] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  >
+                    &#123;&#125;
+                  </motion.text>
+                  <motion.text
+                    x="150"
+                    y="120"
+                    fontSize="12"
+                    fill="var(--success)"
+                    opacity="0.5"
+                    animate={{ y: [120, 110, 120], opacity: [0.5, 0.8, 0.5] }}
+                    transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  >
+                    AI
+                  </motion.text>
+                </g>
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
       

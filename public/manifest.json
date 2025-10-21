@@ -1,11 +1,11 @@
 {
-  "name": "Tayyab Manan - GIS Analyst & Full Stack Developer Portfolio",
+  "name": "Tayyab Manan - ML Engineer & AI Developer Portfolio",
   "short_name": "Tayyab Manan Portfolio",
-  "description": "Professional GIS analyst and Full Stack Developer specializing in urban planning, environmental analysis, and geospatial solutions.",
+  "description": "ML Engineer and AI Developer specializing in Computer Vision, NLP, MLOps, and Geospatial AI. Expert in PyTorch, TensorFlow, and LangChain.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "theme_color": "#3b82f6",
   "orientation": "portrait-primary",
   "icons": [
     {

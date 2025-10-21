@@ -24,25 +24,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const projectUrl = `https://tayyabmanan.vercel.app/projects/${project.slug}`
 
   // Create rich description with tech stack
-  const techStackText = project.techStack?.slice(0, 5).join(', ') || 'GIS technologies'
-  const fullDescription = `${project.description} Built with ${techStackText}. ${project.category} project showcasing expertise in geospatial analysis and full-stack development.`
+  const techStackText = project.techStack?.slice(0, 5).join(', ') || 'ML/AI technologies'
+  const fullDescription = `${project.description} Built with ${techStackText}. ${project.category} project showcasing expertise in machine learning, AI development, and geospatial intelligence.`
 
   return {
-    title: `${project.title} - ${project.subtitle || 'GIS Project'}`,
+    title: `${project.title} - ${project.subtitle || 'ML Project'}`,
     description: fullDescription,
     keywords: [
       project.title,
-      'GIS project',
-      'geospatial analysis',
-      'web mapping',
+      'ML project',
+      'machine learning',
+      'AI development',
+      'geospatial AI',
+      'computer vision',
+      'MLOps',
       project.category,
       ...(project.techStack || []),
-      'spatial data visualization',
-      'GIS developer',
-      'full stack development'
+      'data science',
+      'predictive analytics',
+      'ML engineer',
+      'AI developer'
     ],
     openGraph: {
-      title: `${project.title} | Tayyab Manan GIS Portfolio`,
+      title: `${project.title} | Tayyab Manan ML Portfolio`,
       description: project.description,
       url: projectUrl,
       type: 'article',
@@ -54,13 +58,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           url: imageUrl,
           width: 1200,
           height: 630,
-          alt: `${project.title} - ${project.subtitle || 'GIS Project Screenshot'}`,
+          alt: `${project.title} - ${project.subtitle || 'ML Project Screenshot'}`,
         }
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${project.title} - ${project.subtitle || 'GIS Project'}`,
+      title: `${project.title} - ${project.subtitle || 'ML Project'}`,
       description: project.description,
       images: [imageUrl],
       creator: '@tayyabmanan',

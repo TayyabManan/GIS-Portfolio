@@ -73,22 +73,56 @@ export interface ResumeData {
 export const resumeData: ResumeData = {
   personalInfo: {
     name: "Tayyab Manan",
-    title: "GIS Analyst & Full Stack Developer",
+    title: "ML Engineer & AI Developer",
     email: "haris.a.mannan@gmail.com",
     phone: "+92-324-9941206",
     location: "Islamabad, Pakistan",
     website: "https://tayyabmanan.vercel.app/",
     github: "https://github.com/TayyabManan",
     linkedin: "https://www.linkedin.com/in/muhammad-tayyab-3962a2373",
-    summary: "Full Stack Developer with 4 years experience building GIS-powered web applications. Combining expertise in React/Python development with spatial analysis to deliver data-driven solutions. Currently pursuing MS in AI Engineering while working on ML/AI integration projects."
+    summary: "ML Engineer specializing in Computer Vision, NLP, and MLOps with 2 years of hands-on experience building production ML systems. Expert in PyTorch, TensorFlow, and LangChain for developing multi-agent AI systems serving 100+ daily users. Combining deep learning expertise with geospatial AI to deliver scalable, data-driven solutions. Currently pursuing MS in AI Engineering at COMSATS with focus on Computer Vision."
   },
 
   skills: [
     {
+      category: "Machine Learning & AI",
+      items: ["PyTorch", "TensorFlow", "Scikit-learn", "LangChain", "AutoGen", "CrewAI"],
+      metadata: {
+        "PyTorch": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 8 },
+        "TensorFlow": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 6 },
+        "Scikit-learn": { yearsOfExperience: 2, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 10 },
+        "LangChain": { yearsOfExperience: 1, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 5 },
+        "AutoGen": { yearsOfExperience: 1, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 3 },
+        "CrewAI": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Weekly", projectCount: 3 }
+      }
+    },
+    {
+      category: "Deep Learning & Computer Vision",
+      items: ["Computer Vision", "NLP", "Neural Networks", "Model Training", "Transfer Learning"],
+      metadata: {
+        "Computer Vision": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 5 },
+        "NLP": { yearsOfExperience: 1, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 6 },
+        "Neural Networks": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 8 },
+        "Model Training": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 10 },
+        "Transfer Learning": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Project-based", projectCount: 4 }
+      }
+    },
+    {
+      category: "MLOps & Deployment",
+      items: ["Flask APIs", "Model Deployment", "Docker", "CI/CD", "Model Context Protocol"],
+      metadata: {
+        "Flask APIs": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 8 },
+        "Model Deployment": { yearsOfExperience: 1, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 5 },
+        "Docker": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Weekly", projectCount: 5 },
+        "CI/CD": { yearsOfExperience: 2, proficiencyLevel: "Proficient", usageFrequency: "Weekly", projectCount: 8 },
+        "Model Context Protocol": { yearsOfExperience: 1, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 3 }
+      }
+    },
+    {
       category: "Programming Languages",
       items: ["Python", "JavaScript", "TypeScript", "SQL", "R"],
       metadata: {
-        "Python": { yearsOfExperience: 4, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 15 },
+        "Python": { yearsOfExperience: 4, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 20 },
         "JavaScript": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 12 },
         "TypeScript": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 8 },
         "SQL": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 10 },
@@ -96,59 +130,58 @@ export const resumeData: ResumeData = {
       }
     },
     {
-      category: "GIS & Remote Sensing",
-      items: ["QGIS", "ArcGIS", "Google Earth Engine", "PostGIS", "GDAL"],
+      category: "Data Science & Analysis",
+      items: ["Pandas", "NumPy", "Matplotlib", "Seaborn", "Jupyter"],
       metadata: {
-        "QGIS": { yearsOfExperience: 4, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 20 },
-        "ArcGIS": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 15 },
-        "Google Earth Engine": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 5 },
+        "Pandas": { yearsOfExperience: 4, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 20 },
+        "NumPy": { yearsOfExperience: 4, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 20 },
+        "Matplotlib": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 15 },
+        "Seaborn": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 10 },
+        "Jupyter": { yearsOfExperience: 3, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 15 }
+      }
+    },
+    {
+      category: "Geospatial AI & Remote Sensing",
+      items: ["Google Earth Engine", "QGIS", "ArcGIS", "PostGIS", "GDAL"],
+      metadata: {
+        "Google Earth Engine": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 6 },
+        "QGIS": { yearsOfExperience: 4, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 12 },
+        "ArcGIS": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Project-based", projectCount: 10 },
         "PostGIS": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Project-based", projectCount: 8 },
         "GDAL": { yearsOfExperience: 2, proficiencyLevel: "Proficient", usageFrequency: "Project-based", projectCount: 6 }
       }
     },
     {
       category: "Web Development",
-      items: ["React", "Next.js", "Node.js", "HTML/CSS", "Tailwind CSS", "Flask"],
+      items: ["React", "Next.js", "Node.js", "Tailwind CSS", "REST APIs"],
       metadata: {
         "React": { yearsOfExperience: 3, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 12 },
         "Next.js": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 8 },
         "Node.js": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 10 },
-        "HTML/CSS": { yearsOfExperience: 3, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 15 },
         "Tailwind CSS": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 10 },
-        "Flask": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 6 }
+        "REST APIs": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 12 }
       }
     },
     {
-      category: "Data Analysis & ML",
-      items: ["Pandas", "NumPy", "Scikit-learn", "Matplotlib", "TensorFlow"],
-      metadata: {
-        "Pandas": { yearsOfExperience: 3, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 15 },
-        "NumPy": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 15 },
-        "Scikit-learn": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 8 },
-        "Matplotlib": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 12 },
-        "TensorFlow": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Project-based", projectCount: 4 }
-      }
-    },
-    {
-      category: "Databases",
-      items: ["PostgreSQL", "SQLite", "Firebase"],
+      category: "Databases & Cloud",
+      items: ["PostgreSQL", "SQLite", "Firebase", "Google Cloud", "Vercel"],
       metadata: {
         "PostgreSQL": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 10 },
         "SQLite": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Project-based", projectCount: 8 },
-        "Firebase": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 6 }
+        "Firebase": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 6 },
+        "Google Cloud": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 8 },
+        "Vercel": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 10 }
       }
     },
     {
-      category: "Cloud & Tools",
-      items: ["Google Cloud", "Vercel", "Docker", "CI/CD", "Git version control", "Jupyter", "Agile methodology"],
+      category: "Tools & Methodologies",
+      items: ["Git", "Agile", "OpenAI SDK", "Model Optimization", "A/B Testing"],
       metadata: {
-        "Google Cloud": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 8 },
-        "Vercel": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 10 },
-        "Docker": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Project-based", projectCount: 5 },
-        "CI/CD": { yearsOfExperience: 2, proficiencyLevel: "Proficient", usageFrequency: "Weekly", projectCount: 8 },
-        "Git version control": { yearsOfExperience: 4, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 20 },
-        "Jupyter": { yearsOfExperience: 3, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 15 },
-        "Agile methodology": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 10 }
+        "Git": { yearsOfExperience: 4, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 25 },
+        "Agile": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 10 },
+        "OpenAI SDK": { yearsOfExperience: 1, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 5 },
+        "Model Optimization": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 8 },
+        "A/B Testing": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Project-based", projectCount: 4 }
       }
     }
   ],
@@ -170,35 +203,35 @@ export const resumeData: ResumeData = {
       technologies: ["LangChain", "OpenAISdk", "AutoGen", "Model Context Protocol", "CrewAI"]
     },
     {
-      title: "GIS Analyst & Full Stack Developer",
+      title: "ML Engineer & Geospatial AI Developer",
       company: "Freelance",
       location: "Islamabad, Pakistan",
       startDate: "2022-01",
       endDate: "Present",
       current: true,
       description: [
-        "Delivered 15+ GIS web applications with responsive design for clients across 3 industries",
-        "Built React dashboards and REST APIs processing 10K+ daily map requests",
-        "Reduced client data processing time by 60% through ML automation",
-        "Utilized Git version control for collaborative development and code management"
+        "Built ML-powered geospatial applications achieving R²=0.89 for water resource prediction models",
+        "Deployed Flask REST APIs serving ML models for 145 districts with real-time satellite data processing",
+        "Reduced client data processing time by 60% through ML automation and predictive analytics",
+        "Developed computer vision solutions for remote sensing applications using TensorFlow and PyTorch"
       ],
-      technologies: ["Python", "React", "QGIS", "ArcGIS", "PostgreSQL", "PostGIS", "JavaScript", "Next.js"]
+      technologies: ["Python", "Scikit-learn", "TensorFlow", "Flask", "Google Earth Engine", "React", "Next.js", "PostgreSQL"]
     }
   ],
 
   projects: [
     {
-      name: "Machine Learning Model for Wheat Yield Prediction",
-      description: "Machine Learning model to predict wheat yield in Sahiwal Division",
-      technologies: ["Python", "Matplotlib", "NumPy", "Google Earth Engine", "Artificial Intelligence"],
+      name: "Wheat Yield Prediction using Machine Learning",
+      description: "ML regression model for agricultural yield forecasting using satellite imagery and climate data",
+      technologies: ["Scikit-learn", "Python", "NumPy", "Pandas", "Google Earth Engine", "Feature Engineering"],
       url: "https://drive.google.com/drive/folders/1mccSUwvL9DRoHLEP0CiiKqybhka_rf2k?usp=sharing",
       urlText: "View Project",
       github: "https://github.com/TayyabManan",
       githubText: "GitHub",
       highlights: [
-        "Developed a Machine Learning Model by training on previously available data",
-        "Predicted wheat yield in the Sahiwal Division with an error of 0.137 tonnes/hectare",
-        "Final year project demonstrating practical application of ML in agriculture"
+        "Built supervised ML model achieving 0.137 t/ha prediction error on test set",
+        "Engineered features from multi-spectral satellite imagery and climate variables using Google Earth Engine",
+        "Applied cross-validation and hyperparameter tuning for optimal model performance"
       ]
     },
     {
@@ -215,30 +248,30 @@ export const resumeData: ResumeData = {
     },
     {
       name: "WaterTrace Pakistan",
-      description: "Groundwater monitoring system analyzing 22 years of satellite data (2002-2024)",
-      technologies: ["React", "Flask", "Google Earth Engine", "Machine Learning", "GRACE/GLDAS"],
+      description: "Geospatial AI system analyzing 22 years of satellite data for groundwater prediction (2002-2024)",
+      technologies: ["Scikit-learn", "Flask", "Google Earth Engine", "React", "Predictive Analytics", "GRACE/GLDAS"],
       url: "https://watertrace.vercel.app",
       urlText: "Live Demo",
       github: "https://github.com/TayyabManan/WaterTrace",
       githubText: "GitHub",
       highlights: [
-        "Built Flask REST APIs for processing GRACE satellite data across 145 districts",
-        "Implemented predictive models for water resource management using machine learning",
-        "Created interactive dashboard with real-time data visualization and trend analysis"
+        "Developed ML regression models achieving R²=0.89 for groundwater level predictions across 145 districts",
+        "Deployed Flask REST API serving ML models with real-time GRACE satellite data processing",
+        "Engineered feature extraction pipeline processing 22 years of geospatial time-series data"
       ]
     },
     {
-      name: "EV Suitability Analysis",
-      description: "Spatial analysis for Electric Vehicle infrastructure planning in Lahore",
-      technologies: ["Python", "QGIS", "ArcGIS", "OpenStreetMap", "Demographic Data"],
+      name: "EV Suitability Analysis - Geospatial AI",
+      description: "ML-driven spatial optimization for Electric Vehicle infrastructure planning",
+      technologies: ["Python", "Scikit-learn", "QGIS", "ArcGIS", "OpenStreetMap", "Multi-criteria Analysis"],
       url: "https://ev-analysis.netlify.app/",
       urlText: "Live Demo",
       github: "https://github.com/TayyabManan/ev-suitability-analysis",
       githubText: "GitHub",
       highlights: [
-        "Analyzed 5 tehsils of Lahore for optimal EV charging station placement",
-        "Integrated demographic, economic, and infrastructure data for site selection",
-        "Developed weighted scoring algorithm achieving 90%+ coverage target"
+        "Implemented weighted scoring algorithm processing demographic, economic, and infrastructure layers for 5 tehsils",
+        "Applied geospatial ML techniques for optimal site selection achieving 90%+ coverage target",
+        "Integrated multi-criteria decision analysis with spatial data processing pipeline"
       ]
     }
   ],
@@ -300,7 +333,7 @@ export const resumeData: ResumeData = {
 
     {
       title: "Open Source Contributor",
-      description: "Active contributor to GIS and web development open source projects",
+      description: "Active contributor to ML, AI, and web development open source projects",
       date: "2022-Present"
     }
   ]

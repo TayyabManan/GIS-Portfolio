@@ -7,6 +7,7 @@ category: "Web Application"
 techStack: ["React", "TypeScript", "Supabase", "TanStack Query", "React Router", "Tailwind CSS", "DaisyUI", "Vite", "React Hook Form", "Zod"]
 image: "/projects/teacher-rank.png"
 demoUrl: "https://teacherrank.vercel.app/"
+githubUrl: "https://github.com/TayyabManan/TeacherRank"
 featured: true
 date: "2025-01-06"
 ---
@@ -66,9 +67,13 @@ The application is built with React 18 and TypeScript for type-safe development,
 - **Web Vitals**: Automated performance reporting for continuous improvement
 
 ## Future Enhancements
-- AI-powered sentiment analysis for review moderation
-- Recommendation engine for suggesting teachers based on learning preferences
-- Video testimonials and multimedia review support
-- Integration with academic calendars and course scheduling
-- Mobile applications for iOS and Android platforms
-- Advanced analytics dashboard for institutional insights
+- **AI-Powered Sentiment Analysis**: NLP models for automated review moderation and emotion detection
+- **ML Recommendation Engine**: Personalized teacher suggestions using collaborative filtering and neural networks
+- **Computer Vision Integration**: Video testimonials with automated transcription and analysis
+- **Predictive Analytics**: ML models for teacher performance trends and student success prediction
+- **NLP Text Classification**: Automated categorization of reviews by topic and quality metrics
+- **Anomaly Detection**: ML algorithms for identifying fake or biased reviews
+- **Academic Calendar Integration**: AI-powered course scheduling optimization
+- **Mobile ML Applications**: iOS and Android apps with on-device inference
+- **Advanced Analytics Dashboard**: Deep learning insights for institutional decision-making
+- **LLM Integration**: ChatGPT-style Q&A about teachers and courses using RAG (Retrieval-Augmented Generation)

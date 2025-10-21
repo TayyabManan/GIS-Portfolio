@@ -34,7 +34,7 @@ export default function Footer() {
   }, [])
 
   return (
-    <footer className="bg-[var(--background)] text-[var(--text)] min-h-[50vh] py-16 sm:py-20 flex items-center relative overflow-hidden border-t border-[var(--border)]">
+    <footer className="bg-[var(--background)] text-[var(--text)] py-8 sm:py-12 flex items-center relative overflow-hidden border-t border-[var(--border)]">
       {/* Subtle Footer Animation */}
       <div className="absolute inset-0">
         {/* Base gradient */}
@@ -89,7 +89,7 @@ export default function Footer() {
               <div className="flex justify-between items-start">
                 <div>
                   <h2 className="text-lg font-bold text-[var(--text)] mb-1">Tayyab Manan</h2>
-                  <p className="text-xs text-[var(--text-secondary)]">GIS Analyst & Full Stack Developer</p>
+                  <p className="text-xs text-[var(--text-secondary)]">ML Engineer & AI Developer</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <a 

@@ -20,27 +20,35 @@ const bricolageGrotesque = Bricolage_Grotesque({
 export const metadata: Metadata = {
   metadataBase: new URL('https://tayyabmanan.vercel.app'),
   title: {
-    default: 'Tayyab Manan - GIS Analyst & Full Stack Developer | Portfolio',
-    template: '%s | Tayyab Manan - GIS Specialist'
+    default: 'Tayyab Manan - ML Engineer & AI Developer | Portfolio',
+    template: '%s | Tayyab Manan - ML Engineer'
   },
-  description: 'Professional GIS Analyst and Full Stack Developer building innovative web applications and geospatial solutions. Expertise in React, Next.js, Python, ArcGIS, QGIS, and modern web technologies for spatial data visualization and analysis.',
+  description: 'ML Engineer specializing in Computer Vision, NLP & MLOps. Expert in PyTorch, TensorFlow & LangChain. Building production AI systems serving 100+ users.',
   keywords: [
-    'GIS Analyst',
-    'Full Stack Developer',
-    'Geographic Information Systems',
-    'Urban Planning',
-    'Environmental Analysis',
-    'Geospatial Data',
-    'ArcGIS',
-    'QGIS',
-    'Python GIS',
-    'Web Mapping',
-    'Remote Sensing',
-    'Spatial Analysis',
+    'ML Engineer',
+    'Machine Learning Engineer',
+    'AI Developer',
+    'Computer Vision',
+    'Deep Learning',
+    'PyTorch',
+    'TensorFlow',
+    'LangChain',
+    'NLP',
+    'Natural Language Processing',
+    'MLOps',
+    'Model Deployment',
+    'Scikit-learn',
+    'AutoGen',
+    'CrewAI',
+    'Multi-agent Systems',
+    'Geospatial AI',
+    'Python ML',
+    'Neural Networks',
+    'Model Training',
     'Tayyab Manan',
-    'GIS Portfolio',
-    'Cartography',
-    'Data Visualization'
+    'AI Portfolio',
+    'LLMs',
+    'OpenAI'
   ],
   authors: [{ name: 'Tayyab Manan' }],
   creator: 'Tayyab Manan',
@@ -54,8 +62,8 @@ export const metadata: Metadata = {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
   openGraph: {
-    title: 'Tayyab Manan - GIS Analyst & Full Stack Developer',
-    description: 'Professional GIS Analyst and Full Stack Developer creating innovative web applications and geospatial solutions. View my portfolio showcasing modern web development and GIS projects.',
+    title: 'Tayyab Manan - ML Engineer & AI Developer',
+    description: 'ML Engineer specializing in Computer Vision, NLP, and MLOps. Building production AI systems with PyTorch, TensorFlow, and LangChain. View my portfolio showcasing deep learning projects and ML deployments.',
     url: 'https://tayyabmanan.vercel.app',
     siteName: 'Tayyab Manan Portfolio',
     locale: 'en_US',
@@ -65,14 +73,14 @@ export const metadata: Metadata = {
         url: '/images/profile-picture.jpg',
         width: 1200,
         height: 630,
-        alt: 'Tayyab Manan - GIS Analyst',
+        alt: 'Tayyab Manan - ML Engineer',
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tayyab Manan - GIS Analyst & Full Stack Developer',
-    description: 'Professional GIS Analyst and Full Stack Developer specializing in web applications and geospatial solutions.',
+    title: 'Tayyab Manan - ML Engineer & AI Developer',
+    description: 'ML Engineer specializing in Computer Vision, NLP, MLOps, and Geospatial AI. Expert in PyTorch, TensorFlow, and LangChain.',
     images: ['/images/profile-picture.jpg'],
     creator: '@tayyabmanan',
   },
@@ -123,7 +131,7 @@ const jsonLd = [
       'https://github.com/TayyabManan',
       'https://twitter.com/tayyabmanan'
     ],
-    jobTitle: 'GIS Analyst & Full Stack Developer',
+    jobTitle: 'ML Engineer & AI Developer',
     worksFor: {
       '@type': 'Organization',
       name: 'COINTEGRATION'
@@ -140,25 +148,30 @@ const jsonLd = [
         location: 'Islamabad, Pakistan'
       }
     ],
-    description: 'Professional GIS Analyst and Full Stack Developer with 4 years of experience building innovative web applications with expertise in React, Python, QGIS, ArcGIS, spatial data analysis, and geospatial solutions.',
+    description: 'ML Engineer and AI Developer with 2 years of experience building production ML systems. Expertise in PyTorch, TensorFlow, LangChain, Computer Vision, NLP, MLOps, and Geospatial AI. Specialized in multi-agent systems and model deployment.',
     knowsAbout: [
-      'Geographic Information Systems',
-      'Full Stack Development',
-      'Spatial Analysis',
-      'Web Mapping',
-      'Python Programming',
-      'React Development',
-      'Next.js',
-      'QGIS',
-      'ArcGIS',
-      'Google Earth Engine',
-      'PostGIS',
-      'Remote Sensing',
-      'Environmental Monitoring',
-      'Urban Planning',
-      'Data Visualization',
       'Machine Learning',
-      'Geospatial Data Science'
+      'Deep Learning',
+      'Computer Vision',
+      'Natural Language Processing',
+      'PyTorch',
+      'TensorFlow',
+      'Scikit-learn',
+      'LangChain',
+      'AutoGen',
+      'CrewAI',
+      'MLOps',
+      'Model Deployment',
+      'Neural Networks',
+      'Multi-agent Systems',
+      'Python Programming',
+      'Geospatial AI',
+      'Google Earth Engine',
+      'Model Training',
+      'Transfer Learning',
+      'Model Context Protocol',
+      'OpenAI',
+      'LLMs'
     ],
     email: 'haris.a.mannan@gmail.com',
     telephone: '+92-324-9941206',
@@ -172,8 +185,8 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     '@id': 'https://tayyabmanan.vercel.app/#service',
-    name: 'Tayyab Manan - GIS & Development Services',
-    description: 'Professional GIS consulting, spatial analysis, full-stack web development, and geospatial solutions. Specializing in custom web mapping applications, environmental monitoring systems, and data-driven spatial decision support tools.',
+    name: 'Tayyab Manan - ML Engineering & AI Development Services',
+    description: 'Professional ML Engineering, AI development, MLOps consulting, and geospatial AI solutions. Specializing in computer vision, NLP, multi-agent systems, model deployment, and production ML systems.',
     url: 'https://tayyabmanan.vercel.app',
     telephone: '+92-324-9941206',
     email: 'haris.a.mannan@gmail.com',
@@ -188,49 +201,49 @@ const jsonLd = [
       name: 'Worldwide (Remote Services)'
     },
     serviceType: [
-      'GIS Analysis',
-      'Spatial Analysis',
-      'Web Mapping',
-      'Full Stack Development',
-      'Geospatial Consulting',
-      'Environmental Monitoring',
-      'Urban Planning Analysis',
-      'Custom GIS Applications'
+      'Machine Learning Engineering',
+      'AI Development',
+      'Computer Vision',
+      'Natural Language Processing',
+      'MLOps & Model Deployment',
+      'Multi-agent Systems',
+      'Geospatial AI',
+      'Deep Learning Solutions'
     ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'GIS and Development Services',
+      name: 'ML Engineering and AI Services',
       itemListElement: [
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Spatial Analysis & Modeling',
-            description: 'Advanced spatial analysis for urban planning, environmental impact assessment, and site selection.'
+            name: 'ML Model Development & Training',
+            description: 'Custom machine learning models using PyTorch, TensorFlow, and Scikit-learn for computer vision, NLP, and predictive analytics.'
           }
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Web Development & System Integration',
-            description: 'Full-stack web development with GIS integration, responsive interfaces, and robust backend systems.'
+            name: 'Multi-agent AI Systems',
+            description: 'Building production-ready multi-agent systems using LangChain, AutoGen, and CrewAI for complex automation workflows.'
           }
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Custom Mapping Solutions',
-            description: 'Interactive web maps, dashboard development, and custom GIS applications.'
+            name: 'MLOps & Model Deployment',
+            description: 'End-to-end ML pipeline development, model deployment, monitoring, and optimization for production environments.'
           }
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Data Analytics & Visualization',
-            description: 'Transform complex spatial data into actionable insights through interactive dashboards and visualization.'
+            name: 'Geospatial AI Solutions',
+            description: 'ML-powered geospatial analysis, satellite imagery processing, and predictive modeling for environmental and agricultural applications.'
           }
         }
       ]
@@ -241,8 +254,8 @@ const jsonLd = [
     '@type': 'WebSite',
     '@id': 'https://tayyabmanan.vercel.app/#website',
     url: 'https://tayyabmanan.vercel.app',
-    name: 'Tayyab Manan - GIS Analyst & Full Stack Developer Portfolio',
-    description: 'Professional portfolio showcasing GIS projects, web applications, and geospatial solutions.',
+    name: 'Tayyab Manan - ML Engineer & AI Developer Portfolio',
+    description: 'Professional portfolio showcasing machine learning projects, AI systems, deep learning applications, and geospatial AI solutions.',
     publisher: {
       '@type': 'Person',
       name: 'Tayyab Manan'
@@ -295,6 +308,102 @@ const jsonLd = [
         name: 'Contact',
         item: 'https://tayyabmanan.vercel.app/contact'
       }
+    ]
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': 'https://tayyabmanan.vercel.app/#localbusiness',
+    name: 'Tayyab Manan - ML Engineer & AI Developer',
+    image: 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
+    description: 'Professional ML Engineering and AI Development services in Islamabad, Pakistan. Specializing in Computer Vision, NLP, MLOps, and Geospatial AI solutions.',
+    url: 'https://tayyabmanan.vercel.app',
+    telephone: '+92-324-9941206',
+    email: 'haris.a.mannan@gmail.com',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '',
+      addressLocality: 'Islamabad',
+      addressRegion: 'Islamabad Capital Territory',
+      postalCode: '',
+      addressCountry: 'PK'
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 33.6844,
+      longitude: 73.0479
+    },
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday'
+      ],
+      opens: '09:00',
+      closes: '18:00'
+    },
+    priceRange: '$$',
+    areaServed: [
+      {
+        '@type': 'City',
+        name: 'Islamabad',
+        '@id': 'https://www.wikidata.org/wiki/Q1362'
+      },
+      {
+        '@type': 'Country',
+        name: 'Pakistan',
+        '@id': 'https://www.wikidata.org/wiki/Q843'
+      },
+      {
+        '@type': 'Place',
+        name: 'Worldwide (Remote Services)'
+      }
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'ML Engineering and AI Development Services',
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Computer Vision Solutions',
+            description: 'Custom computer vision models for object detection, image classification, and segmentation using PyTorch and TensorFlow.'
+          }
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'NLP & LangChain Development',
+            description: 'Natural Language Processing solutions and LangChain-powered applications for intelligent text processing and chatbots.'
+          }
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'MLOps & Model Deployment',
+            description: 'Production ML pipeline setup, model deployment, monitoring, and optimization for scalable AI systems.'
+          }
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Geospatial AI Solutions',
+            description: 'ML-powered geospatial analysis and satellite imagery processing for environmental and agricultural applications.'
+          }
+        }
+      ]
+    },
+    sameAs: [
+      'https://www.linkedin.com/in/muhammad-tayyab-3962a2373',
+      'https://github.com/TayyabManan',
+      'https://www.upwork.com/users/~0155edcc7d42fc5b51'
     ]
   }
 ]

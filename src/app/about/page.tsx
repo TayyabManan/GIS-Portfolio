@@ -2,23 +2,23 @@ import { Metadata } from 'next'
 import AboutPageContent from './AboutPageContent'
 
 export const metadata: Metadata = {
-  title: 'About - GIS Analyst & Full Stack Developer',
-  description: 'Meet Tayyab Manan, a professional GIS Analyst and Full Stack Developer with 4 years of experience in Python, React, QGIS, and ArcGIS. Specializing in spatial analysis, web mapping, environmental monitoring, and geospatial web development. Learn about my background, skills, and passion for solving geographic challenges.',
+  title: 'About - ML Engineer & AI Developer',
+  description: 'ML Engineer with 2 years experience in PyTorch, TensorFlow & LangChain. Specializing in Computer Vision, NLP, MLOps & Geospatial AI. MS in AI Engineering.',
   keywords: [
     'about Tayyab Manan',
-    'GIS analyst profile',
-    'geospatial developer',
-    'spatial analysis expert',
-    'web mapping specialist',
-    'GIS background',
-    'Python developer',
-    'React GIS developer',
-    'environmental GIS',
-    'urban planning GIS'
+    'ML engineer profile',
+    'AI developer background',
+    'machine learning expert',
+    'computer vision specialist',
+    'NLP developer',
+    'MLOps engineer',
+    'Python ML developer',
+    'PyTorch developer',
+    'geospatial AI'
   ],
   openGraph: {
-    title: 'About Tayyab Manan - GIS Analyst & Full Stack Developer',
-    description: 'Professional GIS Analyst and Full Stack Developer specializing in spatial analysis, web mapping, and geospatial solutions. 4 years of experience building innovative GIS applications.',
+    title: 'About Tayyab Manan - ML Engineer & AI Developer',
+    description: 'ML Engineer specializing in Computer Vision, NLP, and MLOps. 2 years of experience building production AI systems with PyTorch, TensorFlow, and LangChain.',
     url: 'https://tayyabmanan.vercel.app/about',
     type: 'profile',
     images: [
@@ -26,14 +26,14 @@ export const metadata: Metadata = {
         url: '/images/profile-picture.jpg',
         width: 1200,
         height: 630,
-        alt: 'Tayyab Manan - GIS Analyst and Full Stack Developer',
+        alt: 'Tayyab Manan - ML Engineer and AI Developer',
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About Tayyab Manan - GIS Analyst & Developer',
-    description: 'GIS Analyst and Full Stack Developer with expertise in spatial analysis, web mapping, and modern geospatial technologies.',
+    title: 'About Tayyab Manan - ML Engineer & AI Developer',
+    description: 'ML Engineer with expertise in Computer Vision, NLP, MLOps, and Geospatial AI. Expert in PyTorch, TensorFlow, and LangChain.',
     images: ['/images/profile-picture.jpg'],
   },
   alternates: {

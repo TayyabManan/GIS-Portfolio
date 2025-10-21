@@ -130,12 +130,12 @@ export default function FeaturedProjects() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="mb-12 max-w-4xl"
         >
-          <h2 className="text-3xl font-bold text-[var(--text)] mb-4">Featured Projects</h2>
-          <p className="text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">
-            Showcasing innovative web applications and geospatial solutions that demonstrate 
-            expertise in full-stack development, spatial analysis, and data visualization.
+          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4">Featured Projects</h2>
+          <p className="text-base sm:text-lg text-[var(--text-secondary)]">
+            Showcasing machine learning and AI projects that demonstrate expertise in
+            computer vision, NLP, geospatial AI, and production ML systems.
           </p>
         </motion.div>
 

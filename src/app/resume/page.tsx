@@ -2,25 +2,27 @@ import { Metadata } from 'next'
 import ResumePageContent from './ResumePageContent'
 
 export const metadata: Metadata = {
-  title: 'Resume - GIS Analyst & Full Stack Developer',
-  description: 'Professional resume of Tayyab Manan - GIS Analyst and Full Stack Developer with 4 years of experience in Python, React, Next.js, QGIS, ArcGIS, spatial analysis, and geospatial web development. Download PDF resume or view interactive online version.',
+  title: 'Resume - ML Engineer & AI Developer | Tayyab Manan',
+  description: 'ML Engineer resume - 2+ years building production AI systems with PyTorch, TensorFlow & LangChain. Expertise in Computer Vision, NLP, MLOps, and Geospatial AI. Currently pursuing MS in AI Engineering at COMSATS.',
   keywords: [
-    'GIS analyst resume',
-    'full stack developer resume',
-    'GIS developer CV',
-    'geospatial analyst',
-    'Python GIS developer',
-    'React developer',
-    'spatial analysis expert',
-    'QGIS specialist',
-    'ArcGIS professional',
-    'web mapping developer',
-    'remote sensing analyst',
-    'Tayyab Manan resume'
+    'ML engineer resume',
+    'machine learning engineer CV',
+    'AI developer resume',
+    'computer vision engineer resume',
+    'PyTorch developer CV',
+    'TensorFlow engineer resume',
+    'NLP engineer CV',
+    'MLOps engineer resume',
+    'deep learning engineer',
+    'LangChain developer',
+    'ML engineer Pakistan',
+    'remote ML engineer resume',
+    'Tayyab Manan resume',
+    'AI engineering resume'
   ],
   openGraph: {
-    title: 'Resume - Tayyab Manan | GIS Analyst & Full Stack Developer',
-    description: '4 years of experience building GIS-powered web applications. Expertise in React, Python, QGIS, ArcGIS, spatial analysis, and modern web technologies. View resume and download PDF.',
+    title: 'Resume - Tayyab Manan | ML Engineer & AI Developer',
+    description: '2+ years building production ML systems. Expert in PyTorch, TensorFlow, LangChain, Computer Vision, NLP & MLOps. MS in AI Engineering student at COMSATS.',
     url: 'https://tayyabmanan.vercel.app/resume',
     type: 'profile',
     images: [
@@ -28,14 +30,14 @@ export const metadata: Metadata = {
         url: '/images/profile-picture.jpg',
         width: 1200,
         height: 630,
-        alt: 'Tayyab Manan - GIS Analyst Resume',
+        alt: 'Tayyab Manan - ML Engineer Resume',
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Resume - Tayyab Manan | GIS Analyst & Full Stack Developer',
-    description: '4 years of experience in GIS development, spatial analysis, and full-stack web applications.',
+    title: 'Resume - ML Engineer & AI Developer | Tayyab Manan',
+    description: '2+ years in ML engineering, Computer Vision, NLP & MLOps. PyTorch, TensorFlow & LangChain expert.',
     images: ['/images/profile-picture.jpg'],
   },
   alternates: {

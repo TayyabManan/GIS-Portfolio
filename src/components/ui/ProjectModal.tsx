@@ -58,7 +58,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                   {project.image ? (
                     <Image
                       src={project.image}
-                      alt={project.title}
+                      alt={`${project.title} - ${project.category} project featuring ${project.techStack.slice(0, 2).join(' and ')} for ${project.subtitle}`}
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, 768px"

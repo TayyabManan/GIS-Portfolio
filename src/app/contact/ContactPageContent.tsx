@@ -188,15 +188,15 @@ export default function ContactPageContent() {
         )}
       </div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-[var(--text)] mb-4">
+        {/* Header - Left aligned */}
+        <div className="mb-16 max-w-4xl">
+          <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text)] mb-4">
             Get in Touch
           </h1>
-          <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl text-[var(--text-secondary)]">
             I&apos;m always interested in discussing new opportunities,
-            collaborating on projects, or sharing insights about GIS and spatial
-            analysis. Let&apos;s connect!
+            collaborating on projects, or sharing insights about machine learning,
+            AI development, and geospatial intelligence. Let&apos;s connect!
           </p>
         </div>
 

@@ -2,23 +2,25 @@ import { Metadata } from 'next'
 import ContactPageContent from './ContactPageContent'
 
 export const metadata: Metadata = {
-  title: 'Contact - GIS Analyst & Developer Services',
-  description: 'Get in touch with Tayyab Manan for GIS consulting, spatial analysis projects, full-stack web development, and geospatial solutions. Available for remote work, freelance projects, and collaboration opportunities. Expert in QGIS, ArcGIS, Python, React, and modern web mapping technologies.',
+  title: 'Contact - ML Engineer & AI Developer Services',
+  description: 'Contact ML Engineer for AI development, MLOps & Geospatial AI services. Available for remote work. Expert in PyTorch, TensorFlow, Computer Vision & NLP.',
   keywords: [
-    'contact GIS analyst',
-    'hire GIS developer',
-    'GIS consulting services',
-    'spatial analysis consultant',
-    'web mapping developer',
-    'freelance GIS developer',
-    'geospatial consulting',
-    'GIS project inquiry',
-    'remote GIS work',
-    'full stack developer hire'
+    'contact ML engineer',
+    'hire AI developer',
+    'ML consulting services',
+    'machine learning consultant',
+    'AI development services',
+    'freelance ML engineer',
+    'geospatial AI consulting',
+    'MLOps services',
+    'remote ML work',
+    'AI developer hire',
+    'predictive analytics consultant',
+    'computer vision developer'
   ],
   openGraph: {
-    title: 'Contact Tayyab Manan - GIS & Development Services',
-    description: 'Reach out for GIS consulting, spatial analysis, and full-stack web development services. Available for remote work and innovative geospatial solutions.',
+    title: 'Contact Tayyab Manan - ML & AI Development Services',
+    description: 'Reach out for machine learning consulting, AI development, geospatial AI, and MLOps services. Available for remote work and innovative ML/AI solutions.',
     url: 'https://tayyabmanan.vercel.app/contact',
     type: 'website',
     images: [
@@ -26,14 +28,14 @@ export const metadata: Metadata = {
         url: '/images/profile-picture.jpg',
         width: 1200,
         height: 630,
-        alt: 'Contact Tayyab Manan for GIS Services',
+        alt: 'Contact Tayyab Manan for ML & AI Services',
       }
     ],
   },
   twitter: {
     card: 'summary',
-    title: 'Contact - GIS & Development Services',
-    description: 'Get in touch for GIS consulting, spatial analysis, and web development services.',
+    title: 'Contact - ML & AI Development Services',
+    description: 'Get in touch for machine learning consulting, AI development, and geospatial AI services.',
     images: ['/images/profile-picture.jpg'],
   },
   alternates: {

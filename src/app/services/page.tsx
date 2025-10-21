@@ -1,75 +1,104 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { MapIcon, ChartBarIcon, GlobeAltIcon, BuildingOffice2Icon } from '@heroicons/react/24/outline'
+import { CpuChipIcon, ChartBarIcon, CloudIcon, CodeBracketIcon } from '@heroicons/react/24/outline'
 
 export const metadata: Metadata = {
-  title: 'GIS & Development Services',
-  description: 'Professional GIS consulting and full-stack development services. Offering custom web applications, spatial analysis, mapping solutions, and modern software development for businesses and organizations.',
+  title: 'ML Engineering & AI Development Services',
+  description: 'Professional ML engineering, AI development, and MLOps consulting services. Specializing in Computer Vision, NLP, multi-agent AI systems, and Geospatial AI solutions using PyTorch, TensorFlow, and LangChain.',
   keywords: [
-    'GIS services',
-    'spatial analysis',
-    'urban planning consultant',
-    'environmental assessment',
-    'mapping services',
-    'GIS consulting',
-    'geospatial solutions',
-    'land use planning',
-    'location intelligence'
+    'ML engineering services',
+    'AI development consulting',
+    'machine learning consultant',
+    'MLOps services',
+    'computer vision development',
+    'NLP solutions',
+    'AI developer hire',
+    'PyTorch consulting',
+    'TensorFlow services',
+    'LangChain development',
+    'multi-agent AI systems',
+    'geospatial AI services',
+    'model deployment',
+    'production ML systems',
+    'AI consulting Pakistan',
+    'remote ML engineer'
   ],
   openGraph: {
-    title: 'GIS & Full Stack Development Services - Tayyab Manan',
-    description: 'Expert GIS consulting and full-stack development services. Building custom web applications, spatial analysis solutions, and modern software for diverse industries.',
-    url: '/services',
+    title: 'ML Engineering & AI Development Services - Tayyab Manan',
+    description: 'Expert ML engineering, AI development, and MLOps consulting. Building production ML systems, Computer Vision solutions, NLP applications, and Geospatial AI.',
+    url: 'https://tayyabmanan.vercel.app/services',
+    type: 'website',
+    images: [
+      {
+        url: '/images/profile-picture.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'ML Engineering & AI Development Services',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ML Engineering & AI Development Services',
+    description: 'Professional ML engineering, Computer Vision, NLP, and MLOps consulting services.',
+    images: ['/images/profile-picture.jpg'],
+  },
+  alternates: {
+    canonical: 'https://tayyabmanan.vercel.app/services',
   },
 }
 
 const services = [
   {
-    icon: MapIcon,
-    title: 'Spatial Analysis & Modeling',
-    description: 'Advanced spatial analysis for urban planning, environmental impact assessment, and site selection. Includes proximity analysis, suitability modeling, and predictive analytics.',
+    icon: CpuChipIcon,
+    title: 'ML Model Development & Training',
+    description: 'Custom machine learning models using PyTorch, TensorFlow, and Scikit-learn for Computer Vision, NLP, and predictive analytics. From data preprocessing to production deployment.',
     features: [
-      'Site Suitability Analysis',
-      'Buffer & Proximity Analysis',
-      'Hotspot Detection',
-      'Spatial Statistics',
-      'Predictive Modeling'
+      'Deep Learning Model Architecture',
+      'Computer Vision Solutions (Object Detection, Image Segmentation)',
+      'NLP & Text Analysis (Sentiment Analysis, Named Entity Recognition)',
+      'Time Series Forecasting',
+      'Transfer Learning & Fine-tuning',
+      'Model Optimization & Quantization'
     ]
   },
   {
-    icon: BuildingOffice2Icon,
-    title: 'Web Development & System Integration',
-    description: 'Full-stack web development services creating modern, scalable applications with GIS integration. Building responsive interfaces and robust backend systems for data-driven solutions.',
+    icon: CodeBracketIcon,
+    title: 'Multi-Agent AI Systems',
+    description: 'Building production-ready multi-agent AI systems using LangChain, AutoGen, and CrewAI for complex automation workflows, intelligent assistants, and autonomous decision-making.',
     features: [
-      'React & Next.js Applications',
-      'RESTful API Development',
-      'Database Design & Optimization',
-      'Real-time Data Processing',
-      'Cloud Deployment & DevOps'
+      'LangChain Application Development',
+      'AutoGen Multi-Agent Orchestration',
+      'CrewAI Workflow Automation',
+      'RAG (Retrieval-Augmented Generation)',
+      'Custom LLM Integration (OpenAI, Claude)',
+      'Model Context Protocol Implementation'
+    ]
+  },
+  {
+    icon: CloudIcon,
+    title: 'MLOps & Model Deployment',
+    description: 'End-to-end ML pipeline development, model deployment, monitoring, and optimization for production environments. Ensuring your ML models are scalable, reliable, and maintainable.',
+    features: [
+      'Flask/FastAPI Model Serving',
+      'Docker Containerization',
+      'CI/CD Pipeline Setup',
+      'Model Monitoring & A/B Testing',
+      'Cloud Deployment (AWS, GCP, Vercel)',
+      'Performance Optimization & Scaling'
     ]
   },
   {
     icon: ChartBarIcon,
-    title: 'Data Analytics & Visualization',
-    description: 'Transform complex spatial and business data into actionable insights through interactive dashboards, custom analytics platforms, and advanced visualization techniques.',
+    title: 'Geospatial AI Solutions',
+    description: 'ML-powered geospatial analysis combining satellite imagery processing, predictive modeling, and location intelligence for environmental monitoring and agricultural applications.',
     features: [
-      'Interactive Dashboard Creation',
-      'Machine Learning Integration',
-      'Business Intelligence Solutions',
-      'Real-time Analytics',
-      'Custom Reporting Systems'
-    ]
-  },
-  {
-    icon: GlobeAltIcon,
-    title: 'Custom Mapping Solutions',
-    description: 'Interactive web maps, dashboard development, and custom GIS applications tailored to your specific business needs and workflows.',
-    features: [
-      'Interactive Web Maps',
-      'Dashboard Development',
-      'Mobile GIS Apps',
-      'Data Visualization',
-      'API Integration'
+      'Satellite Imagery Analysis (Google Earth Engine)',
+      'Geospatial Predictive Modeling',
+      'Environmental Monitoring Systems',
+      'Agricultural Yield Prediction',
+      'Remote Sensing & Computer Vision',
+      'Interactive Geospatial Dashboards'
     ]
   }
 ]
@@ -77,23 +106,23 @@ const services = [
 const process = [
   {
     step: '01',
-    title: 'Consultation',
-    description: 'Initial meeting to understand your project requirements, objectives, and constraints.'
+    title: 'Consultation & Requirements',
+    description: 'Understanding your ML/AI needs, data landscape, and success metrics. Defining project scope and technical approach.'
   },
   {
     step: '02',
-    title: 'Data Collection',
-    description: 'Gathering and processing relevant spatial data from various sources including government databases and field surveys.'
+    title: 'Data Engineering & EDA',
+    description: 'Data collection, cleaning, preprocessing, and exploratory analysis. Feature engineering and dataset preparation for model training.'
   },
   {
     step: '03',
-    title: 'Analysis',
-    description: 'Performing sophisticated spatial analysis using industry-standard GIS software and methodologies.'
+    title: 'Model Development & Training',
+    description: 'Building and training ML models using PyTorch, TensorFlow, or Scikit-learn. Hyperparameter tuning and performance optimization.'
   },
   {
     step: '04',
-    title: 'Delivery',
-    description: 'Providing comprehensive reports, maps, and interactive solutions with ongoing support.'
+    title: 'Deployment & Monitoring',
+    description: 'Production deployment with MLOps best practices. Continuous monitoring, A/B testing, and ongoing model improvements.'
   }
 ]
 
@@ -105,11 +134,11 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-4xl py-16 sm:py-24">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Professional GIS Services
+              ML Engineering & AI Development Services
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Expert geospatial consulting and spatial analysis services for businesses, government agencies, 
-              and organizations. Transforming location data into actionable insights.
+              Professional machine learning engineering and AI development services. Building production ML systems,
+              Computer Vision solutions, NLP applications, and intelligent automation for businesses and startups.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a
@@ -132,11 +161,11 @@ export default function ServicesPage() {
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-black">Our Services</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Comprehensive GIS Solutions
+              Comprehensive ML & AI Solutions
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              From spatial analysis to custom mapping applications, we provide end-to-end GIS services 
-              that help you make informed decisions based on location intelligence.
+              From custom ML model development to production deployment, we provide end-to-end AI engineering services
+              using PyTorch, TensorFlow, LangChain, and modern MLOps practices.
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
@@ -199,10 +228,10 @@ export default function ServicesPage() {
           <div className="relative isolate overflow-hidden bg-gray-900 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
             <div className="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
               <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                Ready to start your GIS project?
+                Ready to start your ML/AI project?
               </h2>
               <p className="mt-6 text-lg leading-8 text-gray-300">
-                Contact us today for a free consultation and discover how our GIS expertise can benefit your organization.
+                Contact us today for a free consultation and discover how machine learning and AI can transform your business.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
                 <a
@@ -211,7 +240,7 @@ export default function ServicesPage() {
                 >
                   Get started
                 </a>
-                <a href="mailto:contact@tayyabmanan.com" className="text-sm font-semibold leading-6 text-white">
+                <a href="mailto:haris.a.mannan@gmail.com" className="text-sm font-semibold leading-6 text-white">
                   Email us <span aria-hidden="true">→</span>
                 </a>
               </div>

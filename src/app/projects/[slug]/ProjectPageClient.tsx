@@ -121,7 +121,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                   <div className="relative rounded-xl overflow-hidden shadow-2xl mx-auto max-w-sm lg:max-w-none">
                     <Image
                       src={project.image}
-                      alt={project.title}
+                      alt={`${project.title} - ${project.category} project using ${project.techStack.slice(0, 3).join(', ')}`}
                       width={320}
                       height={240}
                       className="object-cover w-full h-48 sm:h-60"

@@ -2,25 +2,27 @@ import { Metadata } from 'next'
 import ProjectsPageContent from './ProjectsPageContent'
 
 export const metadata: Metadata = {
-  title: 'GIS Projects & Portfolio',
-  description: 'Explore innovative GIS projects, web mapping applications, and spatial analysis solutions. Full-stack development portfolio featuring React, Python, QGIS, ArcGIS, and modern geospatial technologies for environmental monitoring, urban planning, and data visualization.',
+  title: 'ML & AI Projects Portfolio',
+  description: 'ML & AI projects portfolio featuring Computer Vision, NLP, Geospatial AI & predictive analytics. Built with PyTorch, TensorFlow, LangChain & Scikit-learn.',
   keywords: [
-    'GIS projects',
-    'geospatial portfolio',
-    'web mapping applications',
-    'spatial analysis projects',
-    'GIS developer portfolio',
-    'React GIS applications',
-    'Python GIS projects',
-    'environmental monitoring GIS',
-    'urban planning analysis',
-    'QGIS projects',
-    'ArcGIS solutions',
-    'full stack GIS developer'
+    'ML projects',
+    'AI portfolio',
+    'machine learning applications',
+    'geospatial AI',
+    'computer vision projects',
+    'ML engineer portfolio',
+    'Python ML projects',
+    'predictive analytics',
+    'time series forecasting',
+    'MLOps',
+    'data science projects',
+    'AI developer',
+    'deep learning',
+    'NLP projects'
   ],
   openGraph: {
-    title: 'GIS Projects & Spatial Analysis Portfolio - Tayyab Manan',
-    description: 'Browse cutting-edge GIS projects including groundwater monitoring systems, EV infrastructure planning, and interactive web mapping applications built with React, Python, and modern geospatial technologies.',
+    title: 'ML & AI Projects Portfolio - Tayyab Manan',
+    description: 'Browse cutting-edge ML projects including groundwater prediction systems using machine learning, geospatial AI for infrastructure planning, and data-driven applications built with Python, Scikit-learn, and modern AI technologies.',
     url: 'https://tayyabmanan.vercel.app/projects',
     type: 'website',
     images: [
@@ -28,14 +30,14 @@ export const metadata: Metadata = {
         url: '/projects/watertrace.png',
         width: 1200,
         height: 630,
-        alt: 'GIS Projects Portfolio - WaterTrace Pakistan',
+        alt: 'ML Projects Portfolio - WaterTrace Pakistan ML System',
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'GIS Projects Portfolio - Tayyab Manan',
-    description: 'Innovative GIS projects featuring web mapping, spatial analysis, and full-stack development solutions.',
+    title: 'ML & AI Projects Portfolio - Tayyab Manan',
+    description: 'Innovative ML projects featuring predictive analytics, geospatial AI, and intelligent data-driven solutions.',
     images: ['/projects/watertrace.png'],
   },
   alternates: {

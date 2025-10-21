@@ -192,12 +192,12 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="mb-12 max-w-4xl"
         >
-          <h2 className="text-3xl font-bold text-[var(--text)] mb-4">Skills & Expertise</h2>
-          <p className="text-lg text-[var(--text-secondary)] max-w-3xl mx-auto">
-            Combining full-stack development expertise with advanced GIS capabilities,
-            delivering innovative solutions across {resumeData.skills.length} specialized technology domains.
+          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4">Skills & Expertise</h2>
+          <p className="text-base sm:text-lg text-[var(--text-secondary)]">
+            Specialized in machine learning engineering with expertise across {resumeData.skills.length} technology domains,
+            from deep learning frameworks to production MLOps and deployment.
           </p>
         </motion.div>
 

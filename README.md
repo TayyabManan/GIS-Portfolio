@@ -1,13 +1,13 @@
-# GIS Portfolio Website
+# ML & AI Portfolio Website
 
-A modern, responsive portfolio website showcasing my expertise in Geographic Information Systems (GIS), spatial analysis, and web development. Built with cutting-edge technologies and optimized for performance.
+A modern, responsive portfolio website showcasing my expertise in Machine Learning, Artificial Intelligence, Computer Vision, NLP, and Geospatial AI. Built with cutting-edge technologies and optimized for performance.
 
 ## 🚀 Live Demo
 [Visit Portfolio](https://tayyabmanan.vercel.app/)
 
 ## 📋 Overview
 
-This portfolio demonstrates my ability to bridge the gap between geospatial analysis and modern web development. It features interactive project showcases, an AI-powered resume assistant, and seamless user experience across all devices.
+This portfolio demonstrates my ability to build production-ready ML systems and intelligent AI solutions. It features ML/AI project showcases, an AI-powered resume chatbot, and seamless user experience across all devices, highlighting my work in Computer Vision, NLP, MLOps, and Geospatial AI.
 
 ## 🛠️ Technology Stack
 
@@ -151,13 +151,14 @@ Deployed on Vercel's Edge Network for optimal global performance:
 
 ## 📈 Future Enhancements
 
-- [ ] Blog section with MDX support
-- [ ] Interactive map showcases for GIS projects
+- [ ] Blog section with MDX support for ML/AI tutorials
+- [ ] Interactive ML model demos and visualizations
 - [ ] Multi-language support
 - [ ] Advanced animation sequences
+- [ ] Project deployment metrics dashboard
 
 ---
 
-**Built with passion for GIS and modern web development** 🌍
+**Built with passion for ML, AI, and modern web development** 🤖
 
-*This portfolio represents my commitment to creating performant, accessible, and beautiful web experiences.*
+*This portfolio represents my commitment to creating intelligent, performant, and accessible AI solutions.*

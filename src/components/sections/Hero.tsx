@@ -248,20 +248,20 @@ export default function Hero() {
                   </div>
                 </div>
 
-                <div className="mt-8 flex flex-row items-center gap-2 sm:gap-4">
+                <div className="mt-8 flex flex-row items-center gap-3 sm:gap-4 flex-wrap">
                   <a
                     href="#projects"
                     onClick={scrollToProjects}
-                    className="bg-[var(--primary)] px-3 xs:px-4 sm:px-8 py-3 sm:py-4 text-xs xs:text-sm sm:text-base font-semibold text-white shadow-lg hover:bg-[var(--primary-hover)] hover:shadow-xl rounded-lg transition-all duration-200 transform hover:scale-105 cursor-pointer inline-flex items-center gap-1 sm:gap-2 whitespace-nowrap"
+                    className="bg-[var(--primary)] px-4 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-white shadow-lg hover:bg-[var(--primary-hover)] hover:shadow-xl rounded-lg transition-all duration-200 transform hover:scale-105 cursor-pointer inline-flex items-center gap-2 whitespace-nowrap"
                   >
-                    <span className="hidden xs:inline">View </span>Projects
+                    View Projects
                     <span aria-hidden="true">→</span>
                   </a>
                   <a
                     href="/contact"
-                    className="text-xs xs:text-sm sm:text-base font-semibold leading-6 text-[var(--text)] hover:text-[var(--primary)] transition-all duration-200 group border-2 border-[var(--border)] hover:border-[var(--primary)] px-3 xs:px-4 sm:px-8 py-3 sm:py-4 rounded-lg bg-[var(--background-secondary)] hover:bg-[var(--background-tertiary)] inline-flex items-center gap-1 sm:gap-2 whitespace-nowrap"
+                    className="text-sm sm:text-base font-semibold leading-6 text-[var(--text)] hover:text-[var(--primary)] transition-all duration-200 group border-2 border-[var(--border)] hover:border-[var(--primary)] px-4 sm:px-8 py-3 sm:py-4 rounded-lg bg-[var(--background-secondary)] hover:bg-[var(--background-tertiary)] inline-flex items-center gap-2 whitespace-nowrap"
                   >
-                    <span className="hidden xs:inline">Get in </span>touch
+                    Get in touch
                     <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1">→</span>
                   </a>
                 </div>

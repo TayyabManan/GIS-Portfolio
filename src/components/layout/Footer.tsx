@@ -18,7 +18,6 @@ const UpworkIcon = ({ className }: { className?: string }) => (
 )
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear()
   const [mounted, setMounted] = useState(false)
   const [footerDots, setFooterDots] = useState<Array<{left: number, top: number, delay: number}>>([])
 

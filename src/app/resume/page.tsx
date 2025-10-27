@@ -2,27 +2,26 @@ import { Metadata } from 'next'
 import ResumePageContent from './ResumePageContent'
 
 export const metadata: Metadata = {
-  title: 'Resume - ML Engineer & AI Developer | Tayyab Manan',
-  description: 'ML Engineer resume - 2+ years building production AI systems with PyTorch, TensorFlow & LangChain. Expertise in Computer Vision, NLP, MLOps, and Geospatial AI. Currently pursuing MS in AI Engineering at COMSATS.',
+  title: 'Resume - AI Engineering Student | Tayyab Manan',
+  description: 'AI Engineering graduate student resume - Building ML systems with PyTorch, TensorFlow & LangChain. Expertise in Computer Vision, NLP, and Geospatial AI. Currently pursuing MS in AI Engineering at COMSATS. Seeking Summer 2026 internships.',
   keywords: [
-    'ML engineer resume',
-    'machine learning engineer CV',
-    'AI developer resume',
-    'computer vision engineer resume',
-    'PyTorch developer CV',
-    'TensorFlow engineer resume',
-    'NLP engineer CV',
-    'MLOps engineer resume',
-    'deep learning engineer',
-    'LangChain developer',
-    'ML engineer Pakistan',
-    'remote ML engineer resume',
+    'AI engineering student resume',
+    'machine learning student CV',
+    'AI graduate student resume',
+    'computer vision student resume',
+    'PyTorch student CV',
+    'TensorFlow student resume',
+    'NLP student CV',
+    'ML internship resume',
+    'deep learning student',
+    'AI engineering COMSATS',
+    'ML student Pakistan',
     'Tayyab Manan resume',
     'AI engineering resume'
   ],
   openGraph: {
-    title: 'Resume - Tayyab Manan | ML Engineer & AI Developer',
-    description: '2+ years building production ML systems. Expert in PyTorch, TensorFlow, LangChain, Computer Vision, NLP & MLOps. MS in AI Engineering student at COMSATS.',
+    title: 'Resume - Tayyab Manan | AI Engineering Student',
+    description: 'AI Engineering graduate student building ML systems with PyTorch, TensorFlow, LangChain. Specializing in Computer Vision, NLP & Geospatial AI. MS in AI Engineering at COMSATS. Seeking Summer 2026 internships.',
     url: 'https://tayyabmanan.vercel.app/resume',
     type: 'profile',
     images: [
@@ -30,14 +29,14 @@ export const metadata: Metadata = {
         url: '/images/profile-picture.jpg',
         width: 1200,
         height: 630,
-        alt: 'Tayyab Manan - ML Engineer Resume',
+        alt: 'Tayyab Manan - AI Engineering Student Resume',
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Resume - ML Engineer & AI Developer | Tayyab Manan',
-    description: '2+ years in ML engineering, Computer Vision, NLP & MLOps. PyTorch, TensorFlow & LangChain expert.',
+    title: 'Resume - AI Engineering Student | Tayyab Manan',
+    description: 'AI Engineering graduate student. Computer Vision, NLP & Geospatial AI. PyTorch, TensorFlow & LangChain. Seeking Summer 2026 internships.',
     images: ['/images/profile-picture.jpg'],
   },
   alternates: {

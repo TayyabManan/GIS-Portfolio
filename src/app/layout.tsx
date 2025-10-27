@@ -20,14 +20,14 @@ const bricolageGrotesque = Bricolage_Grotesque({
 export const metadata: Metadata = {
   metadataBase: new URL('https://tayyabmanan.vercel.app'),
   title: {
-    default: 'Tayyab Manan - ML Engineer & AI Developer | Portfolio',
-    template: '%s | Tayyab Manan - ML Engineer'
+    default: 'Tayyab Manan - AI Engineering Student | Portfolio',
+    template: '%s | Tayyab Manan'
   },
-  description: 'ML Engineer specializing in Computer Vision, NLP & MLOps. Expert in PyTorch, TensorFlow & LangChain. Building production AI systems serving 100+ users.',
+  description: 'AI Engineering graduate student specializing in Computer Vision, NLP & Geospatial AI. Building ML systems with PyTorch, TensorFlow & LangChain. Seeking Summer 2026 internships.',
   keywords: [
-    'ML Engineer',
-    'Machine Learning Engineer',
-    'AI Developer',
+    'AI Engineering Student',
+    'Machine Learning Student',
+    'AI Graduate Student',
     'Computer Vision',
     'Deep Learning',
     'PyTorch',
@@ -38,17 +38,14 @@ export const metadata: Metadata = {
     'MLOps',
     'Model Deployment',
     'Scikit-learn',
-    'AutoGen',
-    'CrewAI',
-    'Multi-agent Systems',
     'Geospatial AI',
     'Python ML',
     'Neural Networks',
     'Model Training',
     'Tayyab Manan',
     'AI Portfolio',
-    'LLMs',
-    'OpenAI'
+    'ML Internship',
+    'COMSATS AI Engineering'
   ],
   authors: [{ name: 'Tayyab Manan' }],
   creator: 'Tayyab Manan',
@@ -62,8 +59,8 @@ export const metadata: Metadata = {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
   openGraph: {
-    title: 'Tayyab Manan - ML Engineer & AI Developer',
-    description: 'ML Engineer specializing in Computer Vision, NLP, and MLOps. Building production AI systems with PyTorch, TensorFlow, and LangChain. View my portfolio showcasing deep learning projects and ML deployments.',
+    title: 'Tayyab Manan - AI Engineering Student',
+    description: 'AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Building ML systems with PyTorch, TensorFlow, and LangChain. View my portfolio showcasing deep learning projects.',
     url: 'https://tayyabmanan.vercel.app',
     siteName: 'Tayyab Manan Portfolio',
     locale: 'en_US',
@@ -73,14 +70,14 @@ export const metadata: Metadata = {
         url: '/images/profile-picture.jpg',
         width: 1200,
         height: 630,
-        alt: 'Tayyab Manan - ML Engineer',
+        alt: 'Tayyab Manan - AI Engineering Student',
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tayyab Manan - ML Engineer & AI Developer',
-    description: 'ML Engineer specializing in Computer Vision, NLP, MLOps, and Geospatial AI. Expert in PyTorch, TensorFlow, and LangChain.',
+    title: 'Tayyab Manan - AI Engineering Student',
+    description: 'AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Building ML systems with PyTorch, TensorFlow, and LangChain.',
     images: ['/images/profile-picture.jpg'],
     creator: '@tayyabmanan',
   },

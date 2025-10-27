@@ -89,7 +89,7 @@ export default function Footer() {
               <div className="flex justify-between items-start">
                 <div>
                   <h2 className="text-lg font-bold text-[var(--text)] mb-1">Tayyab Manan</h2>
-                  <p className="text-xs text-[var(--text-secondary)]">ML Engineer & AI Developer</p>
+                  <p className="text-xs text-[var(--text-secondary)]">AI Engineering Student</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <a 

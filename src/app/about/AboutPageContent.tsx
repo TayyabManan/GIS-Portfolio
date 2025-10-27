@@ -35,16 +35,16 @@ const education = [
 
 const experience = [
   {
-    role: 'AI Developer',
-    company: 'Cointegration',
-    period: '2023 - Present',
-    description: 'Building multi-agent AI systems that automate complex workflows, reducing processing time by 40% and serving 100+ daily users in production.'
+    role: 'Project Experience',
+    company: 'WaterTrace Pakistan',
+    period: '2024 - 2025',
+    description: 'Built ML-powered groundwater prediction system using 22 years of satellite data. Achieved R²=0.89 through feature engineering and model optimization. Deployed full-stack application with React and Flask.'
   },
   {
-    role: 'ML Engineer & AI Developer',
-    company: 'Freelance',
-    period: '2022 - Present',
-    description: 'Developing custom ML solutions, computer vision applications, and AI-powered systems for clients. Specialized in PyTorch, TensorFlow, and LangChain implementations.'
+    role: 'Academic Projects',
+    company: 'University Coursework',
+    period: '2023 - Present',
+    description: 'Developing ML solutions for coursework including computer vision applications, NLP systems, and geospatial analysis projects. Building hands-on experience with PyTorch, TensorFlow, and modern ML frameworks.'
   }
 ]
 
@@ -124,8 +124,8 @@ export default function AboutPage() {
         <div className="mb-16 max-w-4xl">
           <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text)] mb-4">About Me</h1>
           <p className="text-xl text-[var(--text-secondary)]">
-            ML Engineer and AI Developer building production machine learning systems with expertise
-            in Computer Vision, NLP, and Geospatial AI.
+            AI Engineering graduate student building machine learning systems with focus
+            on Computer Vision, NLP, and Geospatial AI. Seeking Summer 2026 internships.
           </p>
         </div>
 
@@ -134,26 +134,27 @@ export default function AboutPage() {
           {/* Bio & Skills - Left side on desktop, order-1 on mobile */}
           <div className="lg:col-span-2 space-y-8 order-2 lg:order-1">
             <section>
-              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">Professional Summary</h2>
+              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">About My Journey</h2>
               <div className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed space-y-4">
                 <p>
-                  I&apos;m a Machine Learning Engineer specializing in building production AI systems
-                  with expertise in Computer Vision, Natural Language Processing, and Geospatial AI.
-                  Currently pursuing my MS in AI Engineering at COMSATS while working as a Junior AI Developer
-                  at COINTEGRATION, where I build multi-agent systems serving 100+ daily users.
+                  I&apos;m an AI Engineering graduate student specializing in Computer Vision, Natural Language Processing,
+                  and Geospatial AI. Currently pursuing my Master&apos;s in AI Engineering at COMSATS Islamabad,
+                  I&apos;m passionate about applying machine learning to solve real-world problems, particularly in
+                  environmental monitoring and sustainable development.
                 </p>
                 <p>
-                  My work focuses on end-to-end ML engineering from data pipelines and model training
-                  to deployment and monitoring. I have hands-on experience with PyTorch, TensorFlow,
-                  and LangChain, building systems that combine deep learning with practical software engineering.
-                  My unique background in geospatial analysis allows me to apply computer vision and ML
-                  techniques to satellite imagery and environmental monitoring.
+                  My journey into AI started with a fascination for how satellite imagery and geospatial data could be
+                  transformed into actionable insights. Through my Bachelor&apos;s in Geographic Information Systems and
+                  hands-on projects, I&apos;ve developed skills in end-to-end ML development - from data collection and
+                  preprocessing to model training and deployment. I&apos;m proficient with PyTorch, TensorFlow, and modern
+                  ML frameworks like LangChain for building intelligent systems.
                 </p>
                 <p>
-                  I&apos;m passionate about MLOps and creating scalable, maintainable AI systems. Whether it&apos;s
-                  deploying models with FastAPI and Docker, building RAG systems with LangChain, or
-                  training CNNs for image classification, I focus on solutions that work reliably in production
-                  and deliver measurable business impact.
+                  I&apos;m actively seeking Summer 2026 internship opportunities where I can contribute to impactful ML projects,
+                  learn from experienced engineers, and grow my skills in production ML systems. My projects like WaterTrace
+                  (groundwater prediction) and EV Suitability Analysis demonstrate my ability to tackle complex problems and
+                  build full-stack ML applications. I&apos;m excited to bring my enthusiasm for learning, problem-solving
+                  skills, and technical foundation to a collaborative team environment.
                 </p>
               </div>
             </section>

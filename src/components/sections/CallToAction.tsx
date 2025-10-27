@@ -91,8 +91,9 @@ export default function CallToAction() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="text-left"
           >
-            <div className="mb-8">
+            <div className="mb-8 text-left">
               <motion.div
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
@@ -100,14 +101,14 @@ export default function CallToAction() {
                 className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-hover)] rounded-full mb-4 shadow-lg"
               >
                 <SparklesIcon className="w-5 h-5 text-white" />
-                <span className="text-sm font-semibold text-white uppercase tracking-wider">Let&apos;s Work Together</span>
+                <span className="text-sm font-semibold text-white uppercase tracking-wider">Let&apos;s Connect</span>
               </motion.div>
-              <h2 className="text-4xl font-bold text-[var(--text)] mb-4">
-                Ready to Build Your Next AI Solution?
+              <h2 className="text-4xl font-bold text-[var(--text)] mb-4 text-left">
+                Interested in Collaborating?
               </h2>
-              <p className="text-xl text-[var(--text-secondary)]">
-                Let&apos;s collaborate on building production ML systems and AI-powered applications
-                that transform your data into intelligent, actionable insights.
+              <p className="text-xl text-[var(--text-secondary)] text-left">
+                I&apos;m excited to learn, contribute, and build impactful ML solutions.
+                Let&apos;s discuss opportunities, projects, or just chat about AI and machine learning!
               </p>
             </div>
             <div className="flex flex-row items-start gap-3 sm:gap-4">
@@ -115,8 +116,8 @@ export default function CallToAction() {
                 href="/contact"
                 className="group bg-[var(--primary)] text-white px-4 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold hover:bg-[var(--primary-hover)] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl inline-flex items-center gap-2 whitespace-nowrap"
               >
-                <span className="hidden sm:inline">Start a Project</span>
-                <span className="sm:hidden">Start Project</span>
+                <span className="hidden sm:inline">Get in Touch</span>
+                <span className="sm:hidden">Contact</span>
                 <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
@@ -140,7 +141,7 @@ export default function CallToAction() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="hidden lg:flex items-center justify-center"
+            className="flex items-center justify-center mt-8 lg:mt-0"
           >
             <svg className="w-full h-full max-w-md" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
               <defs>

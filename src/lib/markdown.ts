@@ -5,6 +5,7 @@ import { Project } from './projects'
 import { projectSlugSchema } from './validation'
 
 const contentDirectory = path.join(process.cwd(), 'content/projects')
+const blogDirectory = path.join(process.cwd(), 'content/blog')
 
 export interface ProjectWithContent extends Project {
   content: string

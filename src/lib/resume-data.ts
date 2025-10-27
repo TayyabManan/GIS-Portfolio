@@ -73,14 +73,14 @@ export interface ResumeData {
 export const resumeData: ResumeData = {
   personalInfo: {
     name: "Tayyab Manan",
-    title: "ML Engineer & AI Developer",
+    title: "AI Engineering Student | ML Developer",
     email: "haris.a.mannan@gmail.com",
     phone: "+92-324-9941206",
     location: "Islamabad, Pakistan",
     website: "https://tayyabmanan.vercel.app/",
     github: "https://github.com/TayyabManan",
     linkedin: "https://www.linkedin.com/in/muhammad-tayyab-3962a2373",
-    summary: "ML Engineer specializing in Computer Vision, NLP, and MLOps with 2 years of hands-on experience building production ML systems. Expert in PyTorch, TensorFlow, and LangChain for developing multi-agent AI systems serving 100+ daily users. Combining deep learning expertise with geospatial AI to deliver scalable, data-driven solutions. Currently pursuing MS in AI Engineering at COMSATS with focus on Computer Vision."
+    summary: "AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Building ML systems with PyTorch, TensorFlow, and LangChain through coursework and hands-on projects. Strong foundation in deep learning, computer vision, and full-stack ML development. Passionate about applying machine learning to solve real-world problems in environmental monitoring and sustainability. Currently pursuing Master's in AI Engineering at COMSATS Islamabad. Seeking Summer 2026 internship opportunities."
   },
 
   skills: [
@@ -88,12 +88,12 @@ export const resumeData: ResumeData = {
       category: "Machine Learning & AI",
       items: ["PyTorch", "TensorFlow", "Scikit-learn", "LangChain", "AutoGen", "CrewAI"],
       metadata: {
-        "PyTorch": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 8 },
-        "TensorFlow": { yearsOfExperience: 2, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 6 },
-        "Scikit-learn": { yearsOfExperience: 2, proficiencyLevel: "Expert", usageFrequency: "Daily", projectCount: 10 },
-        "LangChain": { yearsOfExperience: 1, proficiencyLevel: "Advanced", usageFrequency: "Daily", projectCount: 5 },
-        "AutoGen": { yearsOfExperience: 1, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 3 },
-        "CrewAI": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Weekly", projectCount: 3 }
+        "PyTorch": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Weekly", projectCount: 5 },
+        "TensorFlow": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Project-based", projectCount: 4 },
+        "Scikit-learn": { yearsOfExperience: 1, proficiencyLevel: "Advanced", usageFrequency: "Weekly", projectCount: 6 },
+        "LangChain": { yearsOfExperience: 1, proficiencyLevel: "Proficient", usageFrequency: "Project-based", projectCount: 3 },
+        "AutoGen": { yearsOfExperience: 1, proficiencyLevel: "Familiar", usageFrequency: "Occasional", projectCount: 2 },
+        "CrewAI": { yearsOfExperience: 1, proficiencyLevel: "Familiar", usageFrequency: "Occasional", projectCount: 2 }
       }
     },
     {

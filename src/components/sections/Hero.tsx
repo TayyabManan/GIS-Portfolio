@@ -47,7 +47,7 @@ export default function Hero() {
     <section className="relative min-h-[calc(100vh-64px)] flex flex-col overflow-hidden bg-[var(--hero-background)]">
       {/* Animated GIS Background Pattern */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Animated gradient background */}
+        {/* Base gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-gradient-start)] via-[var(--hero-gradient-mid)] to-[var(--hero-gradient-end)] opacity-50" />
         
         {/* Floating orbs - use CSS animation on mobile or reduced motion for better performance */}
@@ -84,99 +84,16 @@ export default function Hero() {
             />
           </>
         )}
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--hero-grid-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--hero-grid-color)_1px,transparent_1px)] bg-[size:64px_64px]" />
         
-        {/* Animated map contour lines - static on mobile or reduced motion */}
-        {isMobile || prefersReducedMotion ? (
-          <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="contour-pattern" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
-                <circle cx="100" cy="100" r="50" fill="none" stroke="var(--hero-pattern-stroke)" strokeWidth="0.5" opacity="0.2" />
-                <circle cx="100" cy="100" r="80" fill="none" stroke="var(--hero-pattern-stroke-alt)" strokeWidth="0.5" opacity="0.2" />
-                <circle cx="100" cy="100" r="110" fill="none" stroke="var(--hero-pattern-stroke)" strokeWidth="0.5" opacity="0.1" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#contour-pattern)" />
-          </svg>
-        ) : (
-          <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="contour-pattern" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
-                <motion.circle 
-                  cx="100" 
-                  cy="100" 
-                  r={50}
-                  fill="none" 
-                  stroke="var(--hero-pattern-stroke)" 
-                  strokeWidth="0.5" 
-                  opacity="0.2"
-                  initial={{ r: 50 }}
-                  animate={{ r: [50, 55, 50] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <motion.circle 
-                  cx="100" 
-                  cy="100" 
-                  r={80}
-                  fill="none" 
-                  stroke="var(--hero-pattern-stroke-alt)" 
-                  strokeWidth="0.5" 
-                  opacity="0.2"
-                  initial={{ r: 80 }}
-                  animate={{ r: [80, 85, 80] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <motion.circle 
-                  cx="100" 
-                  cy="100" 
-                  r={110}
-                  fill="none" 
-                  stroke="var(--hero-pattern-stroke)" 
-                  strokeWidth="0.5" 
-                  opacity="0.1"
-                  initial={{ r: 110 }}
-                  animate={{ r: [110, 115, 110] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#contour-pattern)" />
-          </svg>
-        )}
-        
-        {/* Animated geometric shapes - static on mobile or reduced motion */}
-        {!isMobile && !prefersReducedMotion && (
-          <div className="absolute inset-0">
-            <motion.div
-              className="absolute top-[20%] right-[15%] w-32 h-32 border-2 border-[var(--hero-pattern-stroke)] opacity-10 rotate-45"
-              animate={{
-                rotate: [45, 90, 45],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            <motion.div
-              className="absolute bottom-[25%] left-[20%] w-24 h-24 border-2 border-[var(--hero-pattern-stroke-alt)] opacity-10"
-              animate={{
-                rotate: [0, -45, 0],
-                scale: [1, 1.2, 1],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-          </div>
-        )}
-        
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-overlay-start)] via-[var(--hero-overlay-mid)] to-[var(--hero-overlay-end)]" />
+        {/* Gradient overlay - animated on desktop using CSS animation */}
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{
+            background: 'linear-gradient(135deg, var(--hero-overlay-start), var(--hero-overlay-mid), var(--hero-overlay-end), var(--hero-overlay-start))',
+            backgroundSize: '400% 400%',
+            animation: isMobile || prefersReducedMotion ? 'none' : 'gradientFlow 25s ease infinite'
+          }}
+        />
         
         {/* Animated dots representing data points - only render after mount and respect reduced motion */}
         {mounted && !prefersReducedMotion && (
@@ -223,8 +140,8 @@ export default function Hero() {
                 </div>
 
                 <h1 className="text-4xl font-bold tracking-tight text-[var(--text)] sm:text-5xl md:text-6xl lg:text-7xl drop-shadow-md">
-                  <span className="block">Machine Learning</span>
-                  <span className="block">Engineer</span>
+                  <span className="block">AI Engineering</span>
+                  <span className="block">Student</span>
                 </h1>
 
                 <p className="mt-4 text-xl sm:text-2xl font-semibold bg-gradient-to-r from-[var(--info)] to-[var(--accent)] bg-clip-text text-transparent">
@@ -232,8 +149,8 @@ export default function Hero() {
                 </p>
 
                 <p className="mt-6 text-base sm:text-lg leading-relaxed text-[var(--text-secondary)] max-w-xl">
-                  Building production ML systems and AI-powered applications using PyTorch, TensorFlow, and LangChain.
-                  Developing multi-agent systems serving 100+ daily users with proven performance metrics.
+                  Building ML systems and AI-powered applications with PyTorch, TensorFlow, and LangChain through coursework and projects.
+                  Passionate about solving real-world problems with machine learning.
                 </p>
 
                 <div className="mt-8 flex flex-row items-center gap-3 text-sm text-[var(--text-secondary)] flex-wrap">

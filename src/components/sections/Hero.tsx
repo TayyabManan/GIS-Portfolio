@@ -19,11 +19,9 @@ export default function Hero() {
       window.scrollTo({ top: y, behavior: 'smooth' })
     }
   }
-  const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     // Check if mobile
     const checkMobile = () => setIsMobile(window.innerWidth < 640)
     checkMobile()
@@ -72,37 +70,6 @@ export default function Hero() {
               }}
             />
           </>
-        )}
-
-        {/* Grid pattern overlay - similar to About page */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:48px_48px] opacity-[0.05]" />
-
-        {/* Floating icon boxes - similar to About page */}
-        {mounted && !prefersReducedMotion && (
-          <div className="absolute inset-0">
-            {[...Array(8)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute"
-                style={{
-                  left: `${10 + (i * 12)}%`,
-                  top: `${15 + (i * 10)}%`,
-                }}
-                animate={{
-                  y: [0, -20, 0],
-                  rotate: [0, 10, 0],
-                }}
-                transition={{
-                  duration: 6 + i,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.5,
-                }}
-              >
-                <div className="w-12 h-12 border-2 border-[var(--border)] rounded-lg opacity-20" />
-              </motion.div>
-            ))}
-          </div>
         )}
       </div>
       

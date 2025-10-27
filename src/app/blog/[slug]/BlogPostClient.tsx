@@ -191,8 +191,8 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
               ),
               img: ({ src, alt }) => (
                 <Image
-                  src={src || ''}
-                  alt={alt || ''}
+                  src={typeof src === 'string' ? src : ''}
+                  alt={typeof alt === 'string' ? alt : ''}
                   width={800}
                   height={450}
                   className="rounded-lg my-6 w-full h-auto"

@@ -28,12 +28,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const fullDescription = `${project.description} Built with ${techStackText}. ${project.category} project showcasing expertise in machine learning, AI development, and geospatial intelligence.`
 
   return {
-    title: `${project.title} - ${project.subtitle || 'ML Project'}`,
+    title: `${project.title} - ${project.subtitle || 'ML Project'} | Tayyab Manan`,
     description: fullDescription,
     keywords: [
       project.title,
       'ML project',
-      'machine learning',
+      'machine learning application',
       'AI development',
       'geospatial AI',
       'computer vision',
@@ -42,8 +42,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ...(project.techStack || []),
       'data science',
       'predictive analytics',
-      'ML engineer',
-      'AI developer'
+      'ML engineer portfolio',
+      'AI developer portfolio',
+      'Tayyab Manan'
     ],
     openGraph: {
       title: `${project.title} | Tayyab Manan ML Portfolio`,
@@ -83,7 +84,115 @@ export default async function ProjectPage({ params }: PageProps) {
     notFound()
   }
 
-  return <ProjectPageClient project={project} />
+  // Generate SoftwareApplication schema for ML/AI projects
+  const softwareSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: project.title,
+    description: project.description,
+    applicationCategory: 'MachineLearningApplication',
+    operatingSystem: 'Web',
+    image: project.image || 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
+    screenshot: project.image || 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
+    url: project.demoUrl || `https://tayyabmanan.vercel.app/projects/${project.slug}`,
+    codeRepository: project.githubUrl,
+    applicationSubCategory: project.category,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock'
+    },
+    author: {
+      '@type': 'Person',
+      name: 'Tayyab Manan',
+      url: 'https://tayyabmanan.vercel.app',
+      jobTitle: 'AI Engineering Student',
+      sameAs: [
+        'https://www.linkedin.com/in/muhammad-tayyab-3962a2373',
+        'https://github.com/TayyabManan',
+        'https://twitter.com/tayyabmanan'
+      ]
+    },
+    creator: {
+      '@type': 'Person',
+      name: 'Tayyab Manan'
+    },
+    datePublished: project.date || new Date().toISOString(),
+    keywords: project.techStack?.join(', '),
+    programmingLanguage: project.techStack?.includes('Python') ? 'Python' : 'JavaScript',
+    softwareVersion: '1.0',
+    aggregateRating: project.featured ? {
+      '@type': 'AggregateRating',
+      ratingValue: '5',
+      ratingCount: '1',
+      bestRating: '5',
+      worstRating: '1'
+    } : undefined
+  }
+
+  // CreativeWork schema for portfolio item
+  const creativeWorkSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.title,
+    description: project.description,
+    image: project.image || 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
+    url: `https://tayyabmanan.vercel.app/projects/${project.slug}`,
+    datePublished: project.date || new Date().toISOString(),
+    author: {
+      '@type': 'Person',
+      name: 'Tayyab Manan',
+      url: 'https://tayyabmanan.vercel.app'
+    },
+    creator: {
+      '@type': 'Person',
+      name: 'Tayyab Manan'
+    },
+    about: {
+      '@type': 'Thing',
+      name: project.category
+    },
+    keywords: project.techStack?.join(', '),
+    inLanguage: 'en-US',
+    isAccessibleForFree: 'True'
+  }
+
+  // Breadcrumb schema
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://tayyabmanan.vercel.app'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Projects',
+        item: 'https://tayyabmanan.vercel.app/projects'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: project.title,
+        item: `https://tayyabmanan.vercel.app/projects/${project.slug}`
+      }
+    ]
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([softwareSchema, creativeWorkSchema, breadcrumbSchema]) }}
+      />
+      <ProjectPageClient project={project} />
+    </>
+  )
 }
 
 export async function generateStaticParams() {

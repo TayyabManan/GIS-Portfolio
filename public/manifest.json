@@ -1,37 +1,43 @@
 {
-  "name": "Tayyab Manan - ML Engineer & AI Developer Portfolio",
-  "short_name": "Tayyab Manan Portfolio",
-  "description": "ML Engineer and AI Developer specializing in Computer Vision, NLP, MLOps, and Geospatial AI. Expert in PyTorch, TensorFlow, and LangChain.",
+  "name": "Tayyab Manan - AI Engineering Student Portfolio",
+  "short_name": "Tayyab Manan",
+  "description": "AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Portfolio showcasing ML projects built with PyTorch, TensorFlow, and LangChain. Seeking Summer 2026 internships.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#3b82f6",
   "orientation": "portrait-primary",
+  "scope": "/",
   "icons": [
     {
       "src": "/favicon-16x16.png",
       "sizes": "16x16",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/favicon-32x32.png",
       "sizes": "32x32",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/apple-touch-icon.png",
       "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/logo.svg",
@@ -40,7 +46,8 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["portfolio", "business", "productivity"],
+  "categories": ["education", "portfolio", "productivity", "developer-tools"],
   "lang": "en-US",
-  "dir": "ltr"
+  "dir": "ltr",
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7"
 }

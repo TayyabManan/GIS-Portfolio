@@ -238,6 +238,8 @@ export const resumeData: ResumeData = {
       technologies: ["React", "TypeScript", "Supabase", "TanStack Query", "Tailwind CSS", "Vite"],
       url: "https://teacherrank.vercel.app",
       urlText: "Live Demo",
+      github: "https://github.com/TayyabManan/TeacherRank",
+      githubText: "GitHub",
       highlights: [
         "Built full-stack web application with REST APIs for real-time data synchronization",
         "Implemented responsive design delivering seamless experience across all devices",

@@ -15,7 +15,7 @@ export function Skeleton({
   height,
   animation = 'pulse'
 }: SkeletonProps) {
-  const baseClasses = 'bg-gray-200 dark:bg-gray-700'
+  const baseClasses = 'bg-[var(--background-tertiary)]'
   
   const animationClasses = {
     pulse: 'animate-pulse',
@@ -49,7 +49,7 @@ export function Skeleton({
 
 export function SkeletonCard() {
   return (
-    <div className="bg-[var(--background)] dark:bg-[var(--background-secondary)] rounded-xl shadow-sm border border-[var(--border)] overflow-hidden">
+    <div className="bg-[var(--background)] rounded-xl shadow-sm border border-[var(--border)] overflow-hidden">
       <Skeleton variant="rectangular" height={200} />
       <div className="p-6 space-y-4">
         <Skeleton variant="text" width="30%" height={20} />

@@ -255,7 +255,9 @@ html.theme-transition *::after {
 
 /* Glass morphism effects */
 .glass {
-  @apply backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-white/20 dark:border-white/10;
+  backdrop-filter: blur(12px);
+  background-color: rgba(var(--background-rgb), 0.7);
+  border: 1px solid rgba(var(--border-rgb), 0.2);
 }
 
 /* Section backgrounds - semi-transparent to show animated backgrounds */
@@ -264,11 +266,13 @@ html.theme-transition *::after {
 }
 
 .section-bg-light {
-  @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm;
+  background-color: rgba(var(--background-rgb), 0.8);
+  backdrop-filter: blur(4px);
 }
 
 .section-bg-dark {
-  @apply bg-gray-900/85 dark:bg-gray-900/90 backdrop-blur-sm;
+  background-color: rgba(var(--background-rgb), 0.9);
+  backdrop-filter: blur(4px);
 }
 
 /* Card hover effects */
@@ -278,8 +282,8 @@ html.theme-transition *::after {
 }
 
 .card-hover:hover {
-  @apply -translate-y-2 shadow-xl dark:shadow-2xl;
   transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Enhanced project card animations */
@@ -552,12 +556,16 @@ html.theme-transition *::after {
 
 /* Subtle text gradient for headings */
 .text-gradient {
-  @apply bg-gradient-to-r from-blue-900 via-blue-600 to-emerald-500 dark:from-blue-400 dark:via-blue-300 dark:to-emerald-400 bg-clip-text text-transparent;
+  background: linear-gradient(to right, var(--primary), var(--info), var(--accent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Map container styles for GIS projects */
 .map-container {
-  @apply relative overflow-hidden rounded-xl shadow-lg dark:shadow-2xl;
+  @apply relative overflow-hidden rounded-xl;
+  box-shadow: var(--shadow-lg);
 }
 
 /* Skill bar animations */
@@ -582,7 +590,7 @@ html.theme-transition *::after {
 
 /* Gradient mesh background */
 .gradient-mesh {
-  @apply bg-gradient-to-tr from-blue-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900;
+  background: linear-gradient(to top right, var(--background-secondary), var(--background), var(--background-tertiary));
 }
 
 /* Animated gradient background */
@@ -606,11 +614,11 @@ html.theme-transition *::after {
 
 /* Glow effects */
 .glow-primary {
-  @apply shadow-lg shadow-blue-500/25 dark:shadow-blue-400/25;
+  box-shadow: 0 10px 15px -3px rgba(96, 165, 250, 0.25), 0 4px 6px -2px rgba(96, 165, 250, 0.15);
 }
 
 .glow-secondary {
-  @apply shadow-lg shadow-emerald-500/25 dark:shadow-emerald-400/25;
+  box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.25), 0 4px 6px -2px rgba(16, 185, 129, 0.15);
 }
 
 /* Border gradient */

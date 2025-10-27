@@ -24,19 +24,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const postUrl = `https://tayyabmanan.vercel.app/blog/${post.slug}`
 
   return {
-    title: `${post.title} | Blog`,
+    title: `${post.title} | AI Engineering Blog`,
     description: post.description,
     keywords: [
       post.title,
       'AI engineering blog',
       'ML student blog',
-      'machine learning',
-      'computer vision',
+      'machine learning insights',
+      'computer vision tutorials',
       'deep learning',
+      'AI development',
       post.category,
       ...(post.tags || []),
       'AI student',
-      'ML tutorials'
+      'ML tutorials',
+      'Tayyab Manan',
+      'AI learning journey'
     ],
     openGraph: {
       title: `${post.title} | Tayyab Manan`,
@@ -76,7 +79,88 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound()
   }
 
-  return <BlogPostClient post={post} />
+  // Generate Article schema for SEO
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.description,
+    image: post.image || 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      '@type': 'Person',
+      name: post.author || 'Tayyab Manan',
+      url: 'https://tayyabmanan.vercel.app',
+      jobTitle: 'AI Engineering Student',
+      sameAs: [
+        'https://www.linkedin.com/in/muhammad-tayyab-3962a2373',
+        'https://github.com/TayyabManan',
+        'https://twitter.com/tayyabmanan'
+      ]
+    },
+    publisher: {
+      '@type': 'Person',
+      name: 'Tayyab Manan',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://tayyabmanan.vercel.app/logo.svg'
+      }
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://tayyabmanan.vercel.app/blog/${post.slug}`
+    },
+    articleSection: post.category,
+    keywords: post.tags?.join(', ') || 'AI, Machine Learning, Computer Vision',
+    about: {
+      '@type': 'Thing',
+      name: post.category
+    },
+    inLanguage: 'en-US',
+    isAccessibleForFree: 'True',
+    isPartOf: {
+      '@type': 'Blog',
+      '@id': 'https://tayyabmanan.vercel.app/blog',
+      name: 'AI Engineering Student Blog - Tayyab Manan'
+    }
+  }
+
+  // Breadcrumb schema
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://tayyabmanan.vercel.app'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://tayyabmanan.vercel.app/blog'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post.title,
+        item: `https://tayyabmanan.vercel.app/blog/${post.slug}`
+      }
+    ]
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([articleSchema, breadcrumbSchema]) }}
+      />
+      <BlogPostClient post={post} />
+    </>
+  )
 }
 
 export async function generateStaticParams() {

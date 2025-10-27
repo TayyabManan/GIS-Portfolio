@@ -21,32 +21,81 @@ const bricolageGrotesque = Bricolage_Grotesque({
 export const metadata: Metadata = {
   metadataBase: new URL('https://tayyabmanan.vercel.app'),
   title: {
-    default: 'Tayyab Manan - AI Engineering Student | Portfolio',
+    default: 'Tayyab Manan - AI Engineering Student | ML & Computer Vision Portfolio',
     template: '%s | Tayyab Manan'
   },
-  description: 'AI Engineering graduate student specializing in Computer Vision, NLP & Geospatial AI. Building ML systems with PyTorch, TensorFlow & LangChain. Seeking Summer 2026 internships.',
+  description: 'AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Building production ML systems with PyTorch, TensorFlow, and LangChain. Portfolio showcasing machine learning projects, deep learning applications, and AI-powered solutions. Seeking Summer 2026 ML/AI internships.',
   keywords: [
+    // Primary AI/ML Keywords
     'AI Engineering Student',
     'Machine Learning Student',
+    'Computer Vision Student',
     'AI Graduate Student',
+    'ML Engineering Student',
+    'Deep Learning Student',
+    'AI Student Portfolio',
+    'ML Student Portfolio',
+
+    // Technical Skills - Frameworks
+    'PyTorch Developer',
+    'TensorFlow Developer',
+    'Scikit-learn',
+    'LangChain Developer',
+    'Keras',
+    'Hugging Face Transformers',
+
+    // Technical Skills - Domains
     'Computer Vision',
-    'Deep Learning',
-    'PyTorch',
-    'TensorFlow',
-    'LangChain',
-    'NLP',
     'Natural Language Processing',
+    'NLP Student',
+    'Geospatial AI',
     'MLOps',
     'Model Deployment',
-    'Scikit-learn',
-    'Geospatial AI',
-    'Python ML',
+    'Deep Learning',
     'Neural Networks',
-    'Model Training',
+    'Time Series Forecasting',
+    'Predictive Analytics',
+
+    // GIS & Geospatial (Secondary)
+    'Geospatial Machine Learning',
+    'Google Earth Engine',
+    'Remote Sensing AI',
+    'Satellite Imagery Analysis',
+    'GIS Python',
+    'GeoPandas',
+
+    // Programming & Tools
+    'Python Machine Learning',
+    'Python AI Developer',
+    'Pandas',
+    'NumPy',
+    'Matplotlib',
+    'Data Science',
+    'FastAPI',
+    'Flask ML API',
+
+    // Project Types
+    'ML Projects',
+    'AI Applications',
+    'Computer Vision Projects',
+    'NLP Projects',
+    'Geospatial AI Projects',
+    'ML Portfolio Projects',
+
+    // Career & Location
     'Tayyab Manan',
-    'AI Portfolio',
-    'ML Internship',
-    'COMSATS AI Engineering'
+    'ML Internship 2026',
+    'AI Internship Summer 2026',
+    'ML Student Pakistan',
+    'AI Engineering COMSATS',
+    'Remote ML Internship',
+    'ML Engineer Entry Level',
+
+    // Education
+    'AI Engineering Masters',
+    'MS AI Engineering',
+    'COMSATS University',
+    'AI Graduate Program'
   ],
   authors: [{ name: 'Tayyab Manan' }],
   creator: 'Tayyab Manan',
@@ -60,10 +109,10 @@ export const metadata: Metadata = {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
   openGraph: {
-    title: 'Tayyab Manan - AI Engineering Student',
-    description: 'AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Building ML systems with PyTorch, TensorFlow, and LangChain. View my portfolio showcasing deep learning projects.',
+    title: 'Tayyab Manan - AI Engineering Student | ML & Computer Vision Portfolio',
+    description: 'AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Building production ML systems with PyTorch, TensorFlow & LangChain. Portfolio showcasing innovative machine learning projects and AI-powered applications. Seeking Summer 2026 ML/AI internships.',
     url: 'https://tayyabmanan.vercel.app',
-    siteName: 'Tayyab Manan Portfolio',
+    siteName: 'Tayyab Manan - AI Engineering Portfolio',
     locale: 'en_US',
     type: 'website',
     images: [
@@ -71,14 +120,14 @@ export const metadata: Metadata = {
         url: '/images/profile-picture.jpg',
         width: 1200,
         height: 630,
-        alt: 'Tayyab Manan - AI Engineering Student',
+        alt: 'Tayyab Manan - AI Engineering Student Portfolio - Machine Learning & Computer Vision Projects',
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tayyab Manan - AI Engineering Student',
-    description: 'AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Building ML systems with PyTorch, TensorFlow, and LangChain.',
+    title: 'Tayyab Manan - AI Engineering Student | ML & Computer Vision',
+    description: 'AI Engineering graduate student building ML systems with PyTorch, TensorFlow & LangChain. Specializing in Computer Vision, NLP & Geospatial AI. View portfolio of ML projects.',
     images: ['/images/profile-picture.jpg'],
     creator: '@tayyabmanan',
   },
@@ -129,47 +178,83 @@ const jsonLd = [
       'https://github.com/TayyabManan',
       'https://twitter.com/tayyabmanan'
     ],
-    jobTitle: 'ML Engineer & AI Developer',
-    worksFor: {
-      '@type': 'Organization',
-      name: 'COINTEGRATION'
+    jobTitle: 'AI Engineering Graduate Student',
+    seeks: {
+      '@type': 'JobPosting',
+      title: 'Machine Learning Internship',
+      jobStartDate: '2026-05',
+      employmentType: 'INTERN'
     },
     alumniOf: [
       {
         '@type': 'CollegeOrUniversity',
         name: 'University of the Punjab',
         location: 'Lahore, Pakistan'
-      },
-      {
-        '@type': 'CollegeOrUniversity',
-        name: 'COMSATS',
-        location: 'Islamabad, Pakistan'
       }
     ],
-    description: 'ML Engineer and AI Developer with 2 years of experience building production ML systems. Expertise in PyTorch, TensorFlow, LangChain, Computer Vision, NLP, MLOps, and Geospatial AI. Specialized in multi-agent systems and model deployment.',
+    affiliation: {
+      '@type': 'CollegeOrUniversity',
+      name: 'COMSATS University Islamabad',
+      location: 'Islamabad, Pakistan'
+    },
+    description: 'AI Engineering graduate student specializing in Computer Vision, Natural Language Processing, and Geospatial AI. Building production machine learning systems with PyTorch, TensorFlow, and LangChain. Experienced in developing ML models for computer vision tasks, NLP applications, time-series forecasting, and geospatial analysis. Proficient in Python, deep learning frameworks, MLOps, model deployment, and AI system architecture. Portfolio showcases projects in groundwater prediction, satellite imagery analysis, multi-agent systems, and intelligent applications.',
     knowsAbout: [
       'Machine Learning',
-      'Deep Learning',
+      'Artificial Intelligence',
       'Computer Vision',
-      'Natural Language Processing',
+      'Natural Language Processing (NLP)',
+      'Deep Learning',
       'PyTorch',
       'TensorFlow',
       'Scikit-learn',
+      'Keras',
       'LangChain',
-      'AutoGen',
-      'CrewAI',
+      'Hugging Face Transformers',
+      'OpenAI GPT',
+      'Neural Networks',
+      'Convolutional Neural Networks (CNN)',
+      'Recurrent Neural Networks (RNN)',
+      'Transformer Models',
+      'BERT',
+      'GPT',
+      'Object Detection',
+      'Image Classification',
+      'Semantic Segmentation',
+      'Text Classification',
+      'Named Entity Recognition',
+      'Sentiment Analysis',
       'MLOps',
       'Model Deployment',
-      'Neural Networks',
-      'Multi-agent Systems',
-      'Python Programming',
+      'FastAPI',
+      'Flask',
+      'Docker',
+      'Time Series Forecasting',
+      'Predictive Analytics',
       'Geospatial AI',
       'Google Earth Engine',
-      'Model Training',
+      'Satellite Imagery Analysis',
+      'Remote Sensing',
+      'GeoPandas',
+      'Python Programming',
+      'Pandas',
+      'NumPy',
+      'Matplotlib',
+      'Seaborn',
+      'Data Science',
+      'Feature Engineering',
+      'Model Optimization',
+      'Hyperparameter Tuning',
+      'Cross Validation',
+      'Data Visualization',
+      'Jupyter Notebooks',
+      'Git',
+      'GitHub',
+      'Multi-agent Systems',
+      'AutoGen',
+      'CrewAI',
+      'Reinforcement Learning',
       'Transfer Learning',
-      'Model Context Protocol',
-      'OpenAI',
-      'LLMs'
+      'Model Fine-tuning'
     ],
     email: 'haris.a.mannan@gmail.com',
     address: {
@@ -182,8 +267,8 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     '@id': 'https://tayyabmanan.vercel.app/#service',
-    name: 'Tayyab Manan - ML Engineering & AI Development Services',
-    description: 'Professional ML Engineering, AI development, MLOps consulting, and geospatial AI solutions. Specializing in computer vision, NLP, multi-agent systems, model deployment, and production ML systems.',
+    name: 'Tayyab Manan - AI Engineering Student Portfolio',
+    description: 'AI Engineering graduate student portfolio showcasing machine learning projects, computer vision applications, NLP systems, and geospatial AI solutions. Expertise in PyTorch, TensorFlow, LangChain, and production ML deployment. Available for Summer 2026 ML/AI internships.',
     url: 'https://tayyabmanan.vercel.app',
     email: 'haris.a.mannan@gmail.com',
     address: {
@@ -191,39 +276,47 @@ const jsonLd = [
       addressLocality: 'Islamabad',
       addressCountry: 'Pakistan'
     },
-    priceRange: '$$',
+    priceRange: 'Internship',
     areaServed: {
       '@type': 'Place',
-      name: 'Worldwide (Remote Services)'
+      name: 'Worldwide (Remote Work Available)'
     },
     serviceType: [
-      'Machine Learning Engineering',
-      'AI Development',
-      'Computer Vision',
+      'Machine Learning Development',
+      'Computer Vision Applications',
       'Natural Language Processing',
+      'Deep Learning Projects',
       'MLOps & Model Deployment',
-      'Multi-agent Systems',
-      'Geospatial AI',
-      'Deep Learning Solutions'
+      'Geospatial AI Solutions',
+      'Time Series Forecasting',
+      'Predictive Analytics'
     ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'ML Engineering and AI Services',
+      name: 'ML & AI Project Portfolio',
       itemListElement: [
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'ML Model Development & Training',
-            description: 'Custom machine learning models using PyTorch, TensorFlow, and Scikit-learn for computer vision, NLP, and predictive analytics.'
+            name: 'Computer Vision Projects',
+            description: 'Object detection, image classification, and semantic segmentation using PyTorch, TensorFlow, and OpenCV. Experience with CNNs, Vision Transformers, and transfer learning.'
           }
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Multi-agent AI Systems',
-            description: 'Building production-ready multi-agent systems using LangChain, AutoGen, and CrewAI for complex automation workflows.'
+            name: 'NLP & LangChain Applications',
+            description: 'Natural language processing projects including text classification, sentiment analysis, and LLM-powered applications using LangChain and Hugging Face Transformers.'
+          }
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Geospatial AI & Predictive Analytics',
+            description: 'Machine learning for geospatial analysis, satellite imagery processing, time-series forecasting, and predictive modeling using Google Earth Engine and Scikit-learn.'
           }
         },
         {
@@ -231,15 +324,7 @@ const jsonLd = [
           itemOffered: {
             '@type': 'Service',
             name: 'MLOps & Model Deployment',
-            description: 'End-to-end ML pipeline development, model deployment, monitoring, and optimization for production environments.'
-          }
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Geospatial AI Solutions',
-            description: 'ML-powered geospatial analysis, satellite imagery processing, and predictive modeling for environmental and agricultural applications.'
+            description: 'Experience deploying ML models as REST APIs using FastAPI/Flask, containerization with Docker, and building end-to-end ML pipelines.'
           }
         }
       ]
@@ -250,8 +335,8 @@ const jsonLd = [
     '@type': 'WebSite',
     '@id': 'https://tayyabmanan.vercel.app/#website',
     url: 'https://tayyabmanan.vercel.app',
-    name: 'Tayyab Manan - ML Engineer & AI Developer Portfolio',
-    description: 'Professional portfolio showcasing machine learning projects, AI systems, deep learning applications, and geospatial AI solutions.',
+    name: 'Tayyab Manan - AI Engineering Student Portfolio',
+    description: 'AI Engineering graduate student portfolio showcasing machine learning projects, computer vision applications, NLP systems, deep learning implementations, and geospatial AI solutions built with PyTorch, TensorFlow, and LangChain.',
     publisher: {
       '@type': 'Person',
       name: 'Tayyab Manan'
@@ -308,98 +393,29 @@ const jsonLd = [
   },
   {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    '@id': 'https://tayyabmanan.vercel.app/#localbusiness',
-    name: 'Tayyab Manan - ML Engineer & AI Developer',
-    image: 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
-    description: 'Professional ML Engineering and AI Development services in Islamabad, Pakistan. Specializing in Computer Vision, NLP, MLOps, and Geospatial AI solutions.',
-    url: 'https://tayyabmanan.vercel.app',
-    email: 'haris.a.mannan@gmail.com',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '',
-      addressLocality: 'Islamabad',
-      addressRegion: 'Islamabad Capital Territory',
-      postalCode: '',
-      addressCountry: 'PK'
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: 33.6844,
-      longitude: 73.0479
-    },
-    openingHoursSpecification: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday'
-      ],
-      opens: '09:00',
-      closes: '18:00'
-    },
-    priceRange: '$$',
-    areaServed: [
-      {
-        '@type': 'City',
-        name: 'Islamabad',
-        '@id': 'https://www.wikidata.org/wiki/Q1362'
-      },
-      {
-        '@type': 'Country',
-        name: 'Pakistan',
-        '@id': 'https://www.wikidata.org/wiki/Q843'
-      },
-      {
-        '@type': 'Place',
-        name: 'Worldwide (Remote Services)'
-      }
+    '@type': 'EducationalOccupationalCredential',
+    '@id': 'https://tayyabmanan.vercel.app/#education',
+    name: 'AI Engineering Graduate Student',
+    credentialCategory: 'degree',
+    educationalLevel: 'Master\'s Degree',
+    competencyRequired: [
+      'Machine Learning',
+      'Computer Vision',
+      'Natural Language Processing',
+      'Deep Learning',
+      'PyTorch',
+      'TensorFlow',
+      'Python Programming'
     ],
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'ML Engineering and AI Development Services',
-      itemListElement: [
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Computer Vision Solutions',
-            description: 'Custom computer vision models for object detection, image classification, and segmentation using PyTorch and TensorFlow.'
-          }
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'NLP & LangChain Development',
-            description: 'Natural Language Processing solutions and LangChain-powered applications for intelligent text processing and chatbots.'
-          }
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'MLOps & Model Deployment',
-            description: 'Production ML pipeline setup, model deployment, monitoring, and optimization for scalable AI systems.'
-          }
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Geospatial AI Solutions',
-            description: 'ML-powered geospatial analysis and satellite imagery processing for environmental and agricultural applications.'
-          }
-        }
-      ]
-    },
-    sameAs: [
-      'https://www.linkedin.com/in/muhammad-tayyab-3962a2373',
-      'https://github.com/TayyabManan',
-      'https://www.upwork.com/users/~0155edcc7d42fc5b51'
-    ]
+    recognizedBy: {
+      '@type': 'CollegeOrUniversity',
+      name: 'COMSATS University Islamabad',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Islamabad',
+        addressCountry: 'Pakistan'
+      }
+    }
   }
 ]
 

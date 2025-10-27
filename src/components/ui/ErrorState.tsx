@@ -146,7 +146,7 @@ export function ErrorState({
   const containerClasses = cn(
     'flex flex-col items-center justify-center text-center',
     variant === 'minimal' && 'py-8',
-    variant === 'card' && 'p-8 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700',
+    variant === 'card' && 'p-8 bg-[var(--background)] rounded-lg border border-[var(--border)]',
     variant === 'full' && 'min-h-[400px] py-16',
     className
   )
@@ -162,11 +162,11 @@ export function ErrorState({
         <Icon className="w-16 h-16 mx-auto" />
       </div>
 
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+      <h3 className="text-lg font-semibold text-[var(--text)] mb-2">
         {title || config.title}
       </h3>
 
-      <p className="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-sm">
+      <p className="text-sm text-[var(--text-secondary)] mb-6 max-w-sm">
         {description || config.description}
       </p>
 
@@ -174,11 +174,11 @@ export function ErrorState({
         <div className="mb-6 w-full max-w-md">
           <button
             onClick={() => setShowErrorDetails(!showErrorDetails)}
-            className="text-sm text-blue-600 dark:text-blue-400 hover:underline mb-2"
+            className="text-sm text-[var(--primary)] hover:underline mb-2"
           >
             {showErrorDetails ? 'Hide' : 'Show'} error details
           </button>
-          
+
           <AnimatePresence>
             {showErrorDetails && (
               <motion.div
@@ -188,7 +188,7 @@ export function ErrorState({
                 transition={{ duration: 0.2 }}
                 className="overflow-hidden"
               >
-                <pre className="text-xs text-left bg-gray-100 dark:bg-gray-800 p-3 rounded-md overflow-x-auto">
+                <pre className="text-xs text-left bg-[var(--background-secondary)] p-3 rounded-md overflow-x-auto">
                   <code>{errorMessage}</code>
                 </pre>
               </motion.div>
@@ -198,13 +198,13 @@ export function ErrorState({
       )}
 
       {retryCount > 0 && retryCount < maxRetries && (
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
+        <p className="text-xs text-[var(--text-tertiary)] mb-4">
           Retry attempt {retryCount} of {maxRetries}
         </p>
       )}
 
       {countdown !== null && (
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+        <p className="text-sm text-[var(--text-secondary)] mb-4">
           Retrying in {countdown} seconds...
         </p>
       )}
@@ -246,9 +246,9 @@ export function ErrorState({
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 rounded-md"
+          className="mt-4 p-3 bg-[var(--error)]/10 border border-[var(--error)]/20 rounded-md"
         >
-          <p className="text-sm text-red-600 dark:text-red-400">
+          <p className="text-sm text-[var(--error)]">
             Maximum retry attempts reached. Please try again later or contact support.
           </p>
         </motion.div>

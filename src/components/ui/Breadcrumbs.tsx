@@ -51,7 +51,7 @@ export function Breadcrumbs({
 
   const containerClasses = cn(
     'flex items-center',
-    variant === 'contained' && 'px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg',
+    variant === 'contained' && 'px-4 py-2 bg-[var(--background-secondary)] rounded-lg',
     variant === 'minimal' && 'text-sm',
     size === 'sm' && 'text-sm space-x-1',
     size === 'md' && 'text-base space-x-2',
@@ -62,15 +62,15 @@ export function Breadcrumbs({
   const itemClasses = (isCurrent: boolean) => cn(
     'inline-flex items-center gap-1 transition-colors duration-200',
     isCurrent
-      ? 'text-gray-900 dark:text-gray-100 font-medium cursor-default'
-      : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200',
+      ? 'text-[var(--text)] font-medium cursor-default'
+      : 'text-[var(--text-secondary)] hover:text-[var(--text)]',
     size === 'sm' && 'text-sm',
     size === 'md' && 'text-base',
     size === 'lg' && 'text-lg'
   )
 
   const separatorClasses = cn(
-    'text-gray-400 dark:text-gray-600',
+    'text-[var(--text-tertiary)]',
     size === 'sm' && 'mx-1',
     size === 'md' && 'mx-2',
     size === 'lg' && 'mx-3'
@@ -239,31 +239,31 @@ export function MobileBreadcrumbs({ items, ...props }: BreadcrumbsProps) {
   return (
     <nav aria-label="Breadcrumb" className="flex items-center space-x-2">
       {firstItem.href ? (
-        <Link href={firstItem.href} className="text-gray-500 hover:text-gray-700">
+        <Link href={firstItem.href} className="text-[var(--text-secondary)] hover:text-[var(--text)]">
           {firstItem.icon || firstItem.label}
         </Link>
       ) : (
-        <span className="text-gray-500">{firstItem.icon || firstItem.label}</span>
+        <span className="text-[var(--text-secondary)]">{firstItem.icon || firstItem.label}</span>
       )}
-      
-      <ChevronRightIcon className="w-4 h-4 text-gray-400" />
-      
+
+      <ChevronRightIcon className="w-4 h-4 text-[var(--text-tertiary)]" />
+
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="text-gray-500 hover:text-gray-700"
+          className="text-[var(--text-secondary)] hover:text-[var(--text)]"
           aria-label="Show more breadcrumbs"
         >
           ...
         </button>
-        
+
         {isOpen && (
-          <div className="absolute top-full left-0 mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-10">
+          <div className="absolute top-full left-0 mt-1 bg-[var(--background)] border border-[var(--border)] rounded-md shadow-lg z-10">
             {middleItems.map((item, index) => (
               <Link
                 key={index}
                 href={item.href || '#'}
-                className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--background-secondary)]"
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}
@@ -272,10 +272,10 @@ export function MobileBreadcrumbs({ items, ...props }: BreadcrumbsProps) {
           </div>
         )}
       </div>
-      
-      <ChevronRightIcon className="w-4 h-4 text-gray-400" />
-      
-      <span className="text-gray-900 dark:text-gray-100 font-medium">
+
+      <ChevronRightIcon className="w-4 h-4 text-[var(--text-tertiary)]" />
+
+      <span className="text-[var(--text)] font-medium">
         {lastItem.label}
       </span>
     </nav>

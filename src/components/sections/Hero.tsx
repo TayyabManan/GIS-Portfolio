@@ -20,7 +20,6 @@ export default function Hero() {
     }
   }
   const [mounted, setMounted] = useState(false)
-  const [dots, setDots] = useState<Array<{left: number, top: number, delay: number, duration: number}>>([])
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -29,93 +28,79 @@ export default function Hero() {
     const checkMobile = () => setIsMobile(window.innerWidth < 640)
     checkMobile()
     window.addEventListener('resize', checkMobile)
-    
-    // Generate fewer dots on mobile for better performance
-    const dotCount = window.innerWidth < 640 ? 10 : 30
-    const dotsArray = Array.from({ length: dotCount }, () => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      delay: Math.random() * 3,
-      duration: 3 + Math.random() * 2
-    }))
-    setDots(dotsArray)
-    
+
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
   return (
     <section className="relative min-h-[calc(100vh-64px)] flex flex-col overflow-hidden bg-[var(--hero-background)]">
       {/* Animated GIS Background Pattern */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Base gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-gradient-start)] via-[var(--hero-gradient-mid)] to-[var(--hero-gradient-end)] opacity-50" />
-        
+      <div className="fixed inset-0 overflow-hidden">
+        {/* Base gradient background - similar to About page */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary-light)] via-[var(--background)] to-[var(--accent)] opacity-30" />
+
         {/* Floating orbs - use CSS animation on mobile or reduced motion for better performance */}
         {isMobile || prefersReducedMotion ? (
           <>
-            <div className="absolute top-[10%] left-[10%] w-96 h-96 bg-[var(--hero-orb-primary)] rounded-full blur-3xl opacity-20" />
-            <div className="absolute bottom-[10%] right-[10%] w-80 h-80 bg-[var(--hero-orb-secondary)] rounded-full blur-3xl opacity-20" />
+            <div className="absolute top-[20%] left-[10%] w-96 h-96 bg-[var(--primary)] rounded-full blur-3xl opacity-20" />
+            <div className="absolute bottom-[20%] right-[10%] w-80 h-80 bg-[var(--accent)] rounded-full blur-3xl opacity-20" />
           </>
         ) : (
           <>
             <motion.div
-              className="absolute top-[10%] left-[10%] w-96 h-96 bg-[var(--hero-orb-primary)] rounded-full blur-3xl opacity-20"
+              className="absolute top-[20%] left-[10%] w-96 h-96 bg-[var(--primary)] rounded-full blur-3xl opacity-20"
               animate={{
-                x: [0, 50, 0],
-                y: [0, 30, 0],
+                x: [0, 100, 0],
+                y: [0, -50, 0],
               }}
               transition={{
-                duration: 20,
+                duration: 30,
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
             />
             <motion.div
-              className="absolute bottom-[10%] right-[10%] w-80 h-80 bg-[var(--hero-orb-secondary)] rounded-full blur-3xl opacity-20"
+              className="absolute bottom-[20%] right-[10%] w-80 h-80 bg-[var(--accent)] rounded-full blur-3xl opacity-20"
               animate={{
-                x: [0, -50, 0],
-                y: [0, -30, 0],
+                x: [0, -80, 0],
+                y: [0, 50, 0],
               }}
               transition={{
-                duration: 15,
+                duration: 35,
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
             />
           </>
         )}
-        
-        {/* Gradient overlay - animated on desktop using CSS animation */}
-        <div
-          className="absolute inset-0 opacity-40"
-          style={{
-            background: 'linear-gradient(135deg, var(--hero-overlay-start), var(--hero-overlay-mid), var(--hero-overlay-end), var(--hero-overlay-start))',
-            backgroundSize: '400% 400%',
-            animation: isMobile || prefersReducedMotion ? 'none' : 'gradientFlow 25s ease infinite'
-          }}
-        />
-        
-        {/* Animated dots representing data points - only render after mount and respect reduced motion */}
+
+        {/* Grid pattern overlay - similar to About page */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:48px_48px] opacity-[0.05]" />
+
+        {/* Floating icon boxes - similar to About page */}
         {mounted && !prefersReducedMotion && (
           <div className="absolute inset-0">
-            {dots.map((dot, i) => (
+            {[...Array(8)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute h-1 w-1 rounded-full bg-[var(--hero-dot-color)]"
+                className="absolute"
                 style={{
-                  left: `${dot.left}%`,
-                  top: `${dot.top}%`,
+                  left: `${10 + (i * 12)}%`,
+                  top: `${15 + (i * 10)}%`,
                 }}
                 animate={{
-                  opacity: [0, 1, 0],
-                  scale: [0, 1.5, 0],
+                  y: [0, -20, 0],
+                  rotate: [0, 10, 0],
                 }}
                 transition={{
-                  duration: dot.duration,
+                  duration: 6 + i,
                   repeat: Infinity,
-                  delay: dot.delay,
+                  ease: "easeInOut",
+                  delay: i * 0.5,
                 }}
-              />
+              >
+                <div className="w-12 h-12 border-2 border-[var(--border)] rounded-lg opacity-20" />
+              </motion.div>
             ))}
           </div>
         )}

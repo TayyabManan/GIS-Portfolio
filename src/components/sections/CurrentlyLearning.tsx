@@ -76,7 +76,7 @@ export default function CurrentlyLearning() {
   }
 
   return (
-    <section className="py-16 sm:py-24 bg-[var(--background-secondary)]">
+    <section className="py-16 sm:py-24 bg-transparent">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -85,14 +85,14 @@ export default function CurrentlyLearning() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--background)] border border-[var(--border)] mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--background)]/90 backdrop-blur-sm border border-[var(--border)] mb-4 shadow-md">
             <SparklesIcon className="h-5 w-5 text-[var(--accent)]" />
-            <span className="text-sm font-medium text-[var(--text-secondary)]">Continuous Learning</span>
+            <span className="text-sm font-semibold text-[var(--text-secondary)]" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>Continuous Learning</span>
           </div>
-          <h2 className="text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl">
+          <h2 className="text-3xl font-extrabold tracking-tight text-[var(--text)] sm:text-4xl" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
             Currently Learning & Exploring
           </h2>
-          <p className="mt-4 text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
+          <p className="mt-4 text-lg font-semibold text-[var(--text-secondary)] max-w-2xl mx-auto" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
             Actively expanding my skills and knowledge in AI/ML through courses, experiments, and research
           </p>
         </motion.div>
@@ -107,13 +107,13 @@ export default function CurrentlyLearning() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-[var(--background)] border border-[var(--border)] rounded-2xl p-6 sm:p-8 hover:border-[var(--primary)] transition-all duration-300 hover:shadow-lg"
+                className="bg-[var(--background)]/95 backdrop-blur-md border border-[var(--border)] rounded-2xl p-6 sm:p-8 hover:border-[var(--primary)] transition-all duration-300 hover:shadow-xl shadow-lg"
               >
                 <div className="flex items-center gap-3 mb-6">
                   <div className={`p-3 ${colors.bg} rounded-xl border ${colors.border}`}>
                     <section.icon className={`h-6 w-6 ${colors.text}`} />
                   </div>
-                  <h3 className="text-xl font-bold text-[var(--text)]">
+                  <h3 className="text-xl font-extrabold text-[var(--text)]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.15)' }}>
                     {section.category}
                   </h3>
                 </div>
@@ -129,7 +129,7 @@ export default function CurrentlyLearning() {
                       className="flex items-start gap-3 text-sm text-[var(--text-secondary)] group"
                     >
                       <span className={`mt-1.5 w-2 h-2 rounded-full ${colors.text} flex-shrink-0 group-hover:scale-150 transition-transform opacity-80`} style={{ backgroundColor: 'currentColor' }} />
-                      <span className="group-hover:text-[var(--text)] transition-colors">
+                      <span className="font-medium group-hover:text-[var(--text)] transition-colors" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
                         {item}
                       </span>
                     </motion.li>

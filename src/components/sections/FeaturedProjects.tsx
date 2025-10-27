@@ -42,8 +42,8 @@ export default function FeaturedProjects() {
     <section id="projects" className="relative pt-20 pb-16 overflow-hidden">
       {/* Animated GIS-themed background */}
       <div className="absolute inset-0">
-        {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--projects-gradient-start)] via-[var(--projects-gradient-mid)] to-[var(--projects-gradient-end)]" />
+        {/* Transparent overlay - let hero gradient show through */}
+        <div className="absolute inset-0 bg-transparent" />
         
         {/* Animated geometric patterns */}
         <div className="absolute inset-0">
@@ -57,9 +57,9 @@ export default function FeaturedProjects() {
             <rect width="100%" height="100%" fill="url(#hexagon-pattern)" />
           </svg>
           
-          {/* Animated gradient orbs */}
+          {/* Animated gradient orbs - reduced opacity */}
           <motion.div
-            className="absolute top-20 left-10 w-72 h-72 bg-[var(--projects-orb-primary)] rounded-full blur-3xl opacity-10"
+            className="absolute top-20 left-10 w-72 h-72 bg-[var(--projects-orb-primary)] rounded-full blur-3xl opacity-5"
             animate={{
               x: [0, 50, 0],
               y: [0, -25, 0],
@@ -71,7 +71,7 @@ export default function FeaturedProjects() {
             }}
           />
           <motion.div
-            className="absolute bottom-20 right-10 w-72 h-72 bg-[var(--projects-orb-secondary)] rounded-full blur-3xl opacity-10"
+            className="absolute bottom-20 right-10 w-72 h-72 bg-[var(--projects-orb-secondary)] rounded-full blur-3xl opacity-5"
             animate={{
               x: [0, -50, 0],
               y: [0, 25, 0],
@@ -132,8 +132,8 @@ export default function FeaturedProjects() {
           viewport={{ once: true }}
           className="mb-12 max-w-4xl"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4">Featured Projects</h2>
-          <p className="text-base sm:text-lg text-[var(--text-secondary)]">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>Featured Projects</h2>
+          <p className="text-base sm:text-lg text-[var(--text-secondary)]" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
             Showcasing machine learning and AI projects that demonstrate expertise in
             computer vision, NLP, geospatial AI, and production ML systems.
           </p>
@@ -168,7 +168,7 @@ export default function FeaturedProjects() {
         >
           <Link
             href="/projects"
-            className="inline-flex items-center bg-[var(--primary)] text-white px-6 py-3 rounded-md font-medium hover:bg-[var(--primary-hover)] transition-colors"
+            className="inline-flex items-center bg-[var(--primary)] text-white px-6 py-3 rounded-md font-medium hover:bg-[var(--primary-hover)] transition-colors shadow-lg"
           >
             View All Projects
           </Link>

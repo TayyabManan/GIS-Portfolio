@@ -36,6 +36,22 @@ export function SimpleCommandHint() {
     }
   }, [isDismissed, isDesktop])
 
+  useEffect(() => {
+    // Auto-dismiss after 5 seconds
+    if (isVisible) {
+      const autoDismissTimer = setTimeout(() => {
+        setIsVisible(false)
+        setIsDismissed(true)
+        // Reset dismissed state after 30 seconds so it can show again
+        setTimeout(() => {
+          setIsDismissed(false)
+        }, 30000)
+      }, 5000)
+
+      return () => clearTimeout(autoDismissTimer)
+    }
+  }, [isVisible])
+
   const openCommandPalette = () => {
     // Dispatch keyboard event to open command palette
     const event = new KeyboardEvent('keydown', {

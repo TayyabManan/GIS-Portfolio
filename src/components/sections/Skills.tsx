@@ -49,8 +49,8 @@ export default function Skills() {
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Animated skills-themed background */}
       <div className="absolute inset-0">
-        {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--skills-gradient-start)] via-[var(--skills-gradient-mid)] to-[var(--skills-gradient-end)]" />
+        {/* Transparent overlay - let hero gradient show through */}
+        <div className="absolute inset-0 bg-transparent" />
         
         {/* Animated skill elements */}
         <div className="absolute inset-0">
@@ -69,9 +69,9 @@ export default function Skills() {
             <rect width="100%" height="100%" fill="url(#circuit-pattern)" />
           </svg>
           
-          {/* Animated gradient orbs */}
+          {/* Animated gradient orbs - reduced opacity */}
           <motion.div
-            className="absolute top-20 left-10 w-64 h-64 bg-[var(--skills-orb-primary)] rounded-full blur-3xl opacity-10"
+            className="absolute top-20 left-10 w-64 h-64 bg-[var(--skills-orb-primary)] rounded-full blur-3xl opacity-5"
             animate={{
               x: [0, 30, 0],
               y: [0, -20, 0],
@@ -83,7 +83,7 @@ export default function Skills() {
             }}
           />
           <motion.div
-            className="absolute bottom-20 right-10 w-64 h-64 bg-[var(--skills-orb-secondary)] rounded-full blur-3xl opacity-10"
+            className="absolute bottom-20 right-10 w-64 h-64 bg-[var(--skills-orb-secondary)] rounded-full blur-3xl opacity-5"
             animate={{
               x: [0, -30, 0],
               y: [0, 20, 0],
@@ -194,8 +194,8 @@ export default function Skills() {
           viewport={{ once: true }}
           className="mb-12 max-w-4xl"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4">Skills & Expertise</h2>
-          <p className="text-base sm:text-lg text-[var(--text-secondary)]">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>Skills & Expertise</h2>
+          <p className="text-base sm:text-lg text-[var(--text-secondary)]" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
             Specialized in machine learning engineering with expertise across {resumeData.skills.length} technology domains,
             from deep learning frameworks to production MLOps and deployment.
           </p>

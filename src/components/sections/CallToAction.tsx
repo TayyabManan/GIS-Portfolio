@@ -13,11 +13,11 @@ export default function CallToAction() {
   }, [])
   
   return (
-    <section className="relative min-h-[50vh] py-16 sm:py-20 lg:py-24 flex items-center bg-[var(--background-secondary)] border-y border-[var(--border)] overflow-hidden">
+    <section className="relative min-h-[50vh] py-16 sm:py-20 lg:py-24 flex items-center bg-transparent border-y border-[var(--border)] overflow-hidden">
       {/* Animated background */}
       <div className="absolute inset-0">
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--primary-light)] via-transparent to-[var(--accent)] opacity-5" />
+        {/* Transparent overlay - let hero gradient show through */}
+        <div className="absolute inset-0 bg-transparent opacity-5" />
         
         {/* Animated shapes */}
         <motion.div
@@ -103,10 +103,10 @@ export default function CallToAction() {
                 <SparklesIcon className="w-5 h-5 text-white" />
                 <span className="text-sm font-semibold text-white uppercase tracking-wider">Let&apos;s Connect</span>
               </motion.div>
-              <h2 className="text-4xl font-bold text-[var(--text)] mb-4 text-left">
+              <h2 className="text-4xl font-bold text-[var(--text)] mb-4 text-left" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
                 Interested in Collaborating?
               </h2>
-              <p className="text-xl text-[var(--text-secondary)] text-left">
+              <p className="text-xl text-[var(--text-secondary)] text-left" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
                 I&apos;m excited to learn, contribute, and build impactful ML solutions.
                 Let&apos;s discuss opportunities, projects, or just chat about AI and machine learning!
               </p>

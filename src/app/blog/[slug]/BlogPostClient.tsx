@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import { CalendarIcon, ClockIcon, UserIcon, ArrowLeftIcon, TagIcon } from '@heroicons/react/24/outline'
 import { BlogPostWithContent } from '@/lib/markdown'
@@ -103,12 +104,13 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mb-12 rounded-2xl overflow-hidden"
+            className="mb-12 rounded-2xl overflow-hidden relative w-full aspect-video"
           >
-            <img
+            <Image
               src={post.image}
               alt={post.title}
-              className="w-full h-auto"
+              fill
+              className="object-cover"
             />
           </motion.div>
         )}
@@ -188,10 +190,13 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
                 </a>
               ),
               img: ({ src, alt }) => (
-                <img
-                  src={src}
+                <Image
+                  src={src || ''}
                   alt={alt || ''}
-                  className="rounded-lg my-6 w-full"
+                  width={800}
+                  height={450}
+                  className="rounded-lg my-6 w-full h-auto"
+                  unoptimized
                 />
               ),
             }}

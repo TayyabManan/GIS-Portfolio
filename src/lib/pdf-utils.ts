@@ -58,18 +58,16 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
   // Contact info
   pdf.setFontSize(9)
 
-  // First line: email, phone, location
+  // First line: email, location
   const emailText = resumeData.personalInfo.email
-  const phoneText = resumeData.personalInfo.phone
   const locationText = resumeData.personalInfo.location
   const separator = ' | '
 
   const emailWidth = pdf.getTextWidth(emailText)
-  const phoneWidth = pdf.getTextWidth(phoneText)
   const locationWidth = pdf.getTextWidth(locationText)
   const separatorWidth = pdf.getTextWidth(separator)
 
-  const totalWidth1 = emailWidth + phoneWidth + locationWidth + 2 * separatorWidth
+  const totalWidth1 = emailWidth + locationWidth + separatorWidth
   let startX1 = (pageWidth - totalWidth1) / 2
 
   pdf.setTextColor(0, 0, 255) // Blue for email link
@@ -78,12 +76,6 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
   startX1 += emailWidth
 
   pdf.setTextColor(0, 0, 0) // Black for separator
-  pdf.text(separator, startX1, currentY)
-  startX1 += separatorWidth
-
-  pdf.text(phoneText, startX1, currentY)
-  startX1 += phoneWidth
-
   pdf.text(separator, startX1, currentY)
   startX1 += separatorWidth
 

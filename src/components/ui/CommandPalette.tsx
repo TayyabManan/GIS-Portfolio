@@ -13,6 +13,7 @@ import {
   CommandLineIcon,
   ArrowRightIcon,
   SunIcon,
+  NewspaperIcon,
 } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
@@ -60,7 +61,7 @@ export function CommandPalette({ isOpen, onClose, additionalCommands = [] }: Com
     {
       id: 'projects',
       title: 'View Projects',
-      description: 'Browse all GIS projects',
+      description: 'Browse all projects',
       icon: BriefcaseIcon,
       action: () => {
         router.push('/projects')
@@ -69,6 +70,19 @@ export function CommandPalette({ isOpen, onClose, additionalCommands = [] }: Com
       keywords: ['work', 'portfolio', 'gis'],
       category: 'Navigation',
       shortcut: 'Alt+P',
+    },
+    {
+      id: 'blog',
+      title: 'Read Blog',
+      description: 'Browse blog posts and articles',
+      icon: NewspaperIcon,
+      action: () => {
+        router.push('/blog')
+        onClose()
+      },
+      keywords: ['blog', 'articles', 'posts', 'writing'],
+      category: 'Navigation',
+      shortcut: 'Alt+B',
     },
     {
       id: 'about',

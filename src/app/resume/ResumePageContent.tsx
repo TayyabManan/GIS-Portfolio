@@ -151,7 +151,6 @@ export default function ResumePageContent() {
               <a href={`mailto:${resumeData.personalInfo.email}`} className="hover:text-[var(--primary)] break-all transition-colors">
                 {resumeData.personalInfo.email}
               </a>
-              <span>{resumeData.personalInfo.phone}</span>
               <span className="text-center">{resumeData.personalInfo.location}</span>
               <a href={resumeData.personalInfo.website} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--primary)] transition-colors">
                 Portfolio

@@ -131,6 +131,11 @@ export default function Footer() {
                       </Link>
                     </li>
                     <li>
+                      <Link href="/blog" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors">
+                        Blog
+                      </Link>
+                    </li>
+                    <li>
                       <Link href="/about" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors">
                         About
                       </Link>
@@ -199,6 +204,9 @@ export default function Footer() {
             <div className="space-y-2">
               <Link href="/projects" className="block text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors">
                 Projects
+              </Link>
+              <Link href="/blog" className="block text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors">
+                Blog
               </Link>
               <Link href="/about" className="block text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors">
                 About

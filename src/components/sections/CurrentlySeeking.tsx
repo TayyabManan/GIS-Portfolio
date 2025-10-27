@@ -144,7 +144,7 @@ export default function CurrentlySeeking() {
             Interested in Working Together?
           </h3>
           <p className="text-[var(--text-secondary)] mb-8 max-w-2xl mx-auto">
-            I'm always excited to discuss potential opportunities, collaborate on projects, or just chat about ML and AI.
+            I&apos;m always excited to discuss potential opportunities, collaborate on projects, or just chat about ML and AI.
             Feel free to reach out!
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

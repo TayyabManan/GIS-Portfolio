@@ -10,7 +10,6 @@ export interface ResumeData {
     name: string
     title: string
     email: string
-    phone: string
     location: string
     website: string
     github: string
@@ -75,7 +74,6 @@ export const resumeData: ResumeData = {
     name: "Tayyab Manan",
     title: "AI Engineering Student | ML Developer",
     email: "haris.a.mannan@gmail.com",
-    phone: "+92-324-9941206",
     location: "Islamabad, Pakistan",
     website: "https://tayyabmanan.vercel.app/",
     github: "https://github.com/TayyabManan",

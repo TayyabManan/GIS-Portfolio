@@ -109,3 +109,121 @@ export function validateProjectData(data: Record<string, unknown>): boolean {
   const requiredFields = ['slug', 'title', 'description', 'category', 'date']
   return requiredFields.every(field => data[field] !== undefined && data[field] !== '')
 }
+
+// ============================================================================
+// BLOG FUNCTIONS
+// ============================================================================
+
+export interface BlogPost {
+  slug: string
+  title: string
+  description: string
+  date: string
+  author: string
+  category: string
+  tags: string[]
+  image?: string
+  readTime?: string
+}
+
+export interface BlogPostWithContent extends BlogPost {
+  content: string
+}
+
+/**
+ * Get all blog post markdown files
+ */
+export function getAllBlogSlugs(): string[] {
+  try {
+    if (!fs.existsSync(blogDirectory)) {
+      return []
+    }
+    const fileNames = fs.readdirSync(blogDirectory)
+    return fileNames
+      .filter(name => name.endsWith('.md') && !name.startsWith('_'))
+      .map(name => name.replace(/\.md$/, ''))
+  } catch {
+    return []
+  }
+}
+
+/**
+ * Get blog post data by slug from markdown file
+ */
+export function getBlogPostBySlug(slug: string): BlogPostWithContent | null {
+  try {
+    // Validate slug to prevent path traversal
+    const validatedSlug = projectSlugSchema.parse(slug)
+
+    const fullPath = path.join(blogDirectory, `${validatedSlug}.md`)
+
+    // Additional safety check: ensure the resolved path is within blog directory
+    const resolvedPath = path.resolve(fullPath)
+    const resolvedBlogDir = path.resolve(blogDirectory)
+
+    if (!resolvedPath.startsWith(resolvedBlogDir)) {
+      return null
+    }
+
+    if (!fs.existsSync(fullPath)) {
+      return null
+    }
+
+    const fileContents = fs.readFileSync(fullPath, 'utf8')
+    const { data, content } = matter(fileContents)
+
+    return {
+      slug: data.slug || slug,
+      title: data.title || '',
+      description: data.description || '',
+      date: data.date || '',
+      author: data.author || 'Tayyab Manan',
+      category: data.category || 'General',
+      tags: data.tags || [],
+      image: data.image,
+      readTime: data.readTime,
+      content
+    }
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Get all blog posts from markdown files
+ */
+export function getAllBlogPosts(): BlogPost[] {
+  try {
+    const slugs = getAllBlogSlugs()
+    const posts = slugs
+      .filter(slug => !slug.startsWith('_'))
+      .map(slug => getBlogPostBySlug(slug))
+      .filter((post): post is BlogPostWithContent => post !== null)
+      .map((post) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { content, ...postWithoutContent } = post
+        return postWithoutContent
+      })
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
+    return posts
+  } catch {
+    return []
+  }
+}
+
+/**
+ * Get blog posts by category
+ */
+export function getBlogPostsByCategory(category: string): BlogPost[] {
+  return getAllBlogPosts().filter(post => post.category.toLowerCase() === category.toLowerCase())
+}
+
+/**
+ * Get blog posts by tag
+ */
+export function getBlogPostsByTag(tag: string): BlogPost[] {
+  return getAllBlogPosts().filter(post =>
+    post.tags.some(t => t.toLowerCase() === tag.toLowerCase())
+  )
+}

@@ -99,6 +99,15 @@ export function useGlobalKeyboardShortcuts() {
       description: 'Go to Projects',
     },
     {
+      key: 'b',
+      alt: true,
+      action: () => {
+        router.push('/blog')
+        toast.info('Navigated to Blog')
+      },
+      description: 'Go to Blog',
+    },
+    {
       key: 'a',
       alt: true,
       action: () => {
@@ -167,6 +176,7 @@ function showShortcutsHelp() {
     { keys: '⌘K / Ctrl+K', description: 'Open Command Palette' },
     { keys: 'Alt+H', description: 'Go to Home' },
     { keys: 'Alt+P', description: 'Go to Projects' },
+    { keys: 'Alt+B', description: 'Go to Blog' },
     { keys: 'Alt+A', description: 'Go to About' },
     { keys: 'Alt+R', description: 'Go to Resume' },
     { keys: 'Alt+C', description: 'Go to Contact' },

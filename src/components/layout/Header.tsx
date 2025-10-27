@@ -10,6 +10,7 @@ import { ThemeSelector } from '@/components/ui/ThemeSelector'
 const navigation = [
   { name: 'Home', href: '/', shortcut: 'Alt+H' },
   { name: 'Projects', href: '/projects', shortcut: 'Alt+P' },
+  { name: 'Blog', href: '/blog', shortcut: 'Alt+B' },
   { name: 'About', href: '/about', shortcut: 'Alt+A' },
   { name: 'Contact', href: '/contact', shortcut: 'Alt+C' },
 ]

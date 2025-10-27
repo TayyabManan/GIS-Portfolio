@@ -95,10 +95,10 @@ export const themes = {
     success: '#34d399',
     error: '#f87171',
     warning: '#fbbf24',
-    info: '#60a5fa',
-    
+    info: '#93c5fd',
+
     // Special colors
-    accent: '#10b981',
+    accent: '#34d399',
     highlight: '#fbbf24',
     
     // Animated background colors

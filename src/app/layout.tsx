@@ -171,7 +171,6 @@ const jsonLd = [
       'LLMs'
     ],
     email: 'haris.a.mannan@gmail.com',
-    telephone: '+92-324-9941206',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Islamabad',
@@ -185,7 +184,6 @@ const jsonLd = [
     name: 'Tayyab Manan - ML Engineering & AI Development Services',
     description: 'Professional ML Engineering, AI development, MLOps consulting, and geospatial AI solutions. Specializing in computer vision, NLP, multi-agent systems, model deployment, and production ML systems.',
     url: 'https://tayyabmanan.vercel.app',
-    telephone: '+92-324-9941206',
     email: 'haris.a.mannan@gmail.com',
     address: {
       '@type': 'PostalAddress',
@@ -315,7 +313,6 @@ const jsonLd = [
     image: 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
     description: 'Professional ML Engineering and AI Development services in Islamabad, Pakistan. Specializing in Computer Vision, NLP, MLOps, and Geospatial AI solutions.',
     url: 'https://tayyabmanan.vercel.app',
-    telephone: '+92-324-9941206',
     email: 'haris.a.mannan@gmail.com',
     address: {
       '@type': 'PostalAddress',

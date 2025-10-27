@@ -35,8 +35,8 @@ export default function CurrentlyLearning() {
       icon: BookOpenIcon,
       category: "Reading",
       items: [
-        "Chip Huyen's \'AI Engineering: Building Applications with Foundation Models\'",
-        "Aurélien Géron's \'Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow\'"
+        "Chip Huyen's 'AI Engineering: Building Applications with Foundation Models'",
+        "Aurélien Géron's 'Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow'"
       ],
       color: "info"
     },
@@ -128,7 +128,7 @@ export default function CurrentlyLearning() {
                       transition={{ duration: 0.3, delay: index * 0.1 + idx * 0.05 }}
                       className="flex items-start gap-3 text-sm text-[var(--text-secondary)] group"
                     >
-                      <span className={`mt-1.5 w-1.5 h-1.5 rounded-full ${colors.bg} ${colors.text} flex-shrink-0 group-hover:scale-150 transition-transform`} />
+                      <span className={`mt-1.5 w-2 h-2 rounded-full ${colors.text} flex-shrink-0 group-hover:scale-150 transition-transform opacity-80`} style={{ backgroundColor: 'currentColor' }} />
                       <span className="group-hover:text-[var(--text)] transition-colors">
                         {item}
                       </span>

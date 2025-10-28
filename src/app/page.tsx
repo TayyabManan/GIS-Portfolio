@@ -30,6 +30,7 @@ export const metadata: Metadata = {
     title: 'Tayyab Manan - AI Engineering Student | Computer Vision & Geospatial AI',
     description: 'AI Engineering graduate student building ML systems with PyTorch, TensorFlow & LangChain. Specializing in Computer Vision, NLP, and Geospatial AI. Seeking Summer 2026 internships.',
     url: 'https://tayyabmanan.vercel.app',
+    siteName: 'Tayyab Manan Portfolio',
     type: 'website',
     images: [
       {

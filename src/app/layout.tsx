@@ -113,7 +113,7 @@ export const metadata: Metadata = {
     title: 'Tayyab Manan - AI Engineering Student | ML & Computer Vision Portfolio',
     description: 'AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Building production ML systems with PyTorch, TensorFlow & LangChain. Portfolio showcasing innovative machine learning projects and AI-powered applications. Seeking Summer 2026 ML/AI internships.',
     url: 'https://tayyabmanan.com',
-    siteName: 'Tayyab Manan Portfolio',
+    siteName: 'Tayyab Manan',
     locale: 'en_US',
     type: 'website',
     images: [

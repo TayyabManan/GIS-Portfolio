@@ -29,12 +29,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tayyab Manan - AI Engineering Student | Computer Vision & Geospatial AI',
     description: 'AI Engineering graduate student building ML systems with PyTorch, TensorFlow & LangChain. Specializing in Computer Vision, NLP, and Geospatial AI. Seeking Summer 2026 internships.',
-    url: 'https://tayyabmanan.vercel.app',
+    url: 'https://tayyabmanan.com',
     siteName: 'Tayyab Manan Portfolio',
     type: 'website',
     images: [
       {
-        url: '/images/profile-picture.jpg',
+        url: '/images/profile-picture.webp',
         width: 1200,
         height: 630,
         alt: 'Tayyab Manan - AI Engineering Student & ML Developer',
@@ -45,11 +45,11 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Tayyab Manan - AI Engineering Student | Computer Vision',
     description: 'AI Engineering graduate student building ML systems with PyTorch, TensorFlow & LangChain. Computer Vision, NLP & Geospatial AI. Seeking internships.',
-    images: ['/images/profile-picture.jpg'],
+    images: ['/images/profile-picture.webp'],
     creator: '@tayyabmanan',
   },
   alternates: {
-    canonical: 'https://tayyabmanan.vercel.app',
+    canonical: 'https://tayyabmanan.com',
   },
 }
 

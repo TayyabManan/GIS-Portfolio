@@ -1,3 +1,4 @@
+import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowTopRightOnSquareIcon, CodeBracketIcon } from '@heroicons/react/24/outline'
@@ -20,9 +21,9 @@ interface ProjectCardProps {
   onClick?: () => void
 }
 
-export default function ProjectCard({ project, onClick }: ProjectCardProps) {
+const ProjectCard = React.memo(function ProjectCard({ project, onClick }: ProjectCardProps) {
   return (
-    <div 
+    <div
       className="group relative bg-[var(--background)] dark:bg-[var(--background-secondary)] rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-[var(--border)] cursor-pointer"
       onClick={onClick}
     >
@@ -124,4 +125,6 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       </div>
     </div>
   )
-}
+})
+
+export default ProjectCard

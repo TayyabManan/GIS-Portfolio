@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeftIcon, ArrowTopRightOnSquareIcon, CodeBracketIcon, CalendarIcon, TagIcon } from '@heroicons/react/24/outline'
-import ReactMarkdown from 'react-markdown'
+import { DynamicReactMarkdown } from '@/lib/dynamic-imports'
 
 interface Project {
   slug: string
@@ -234,7 +234,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                 <div className="p-6 sm:p-8 lg:p-12">
                   <div className="prose prose-lg max-w-none"
                   >
-                    <ReactMarkdown
+                    <DynamicReactMarkdown
                       components={{
                         h1: ({ children }) => (
                           <h1 className="text-2xl sm:text-3xl font-bold mb-6 pb-3 border-b border-[var(--border)] text-[var(--text)]">
@@ -277,7 +277,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                       }}
                     >
                       {project.content}
-                    </ReactMarkdown>
+                    </DynamicReactMarkdown>
                   </div>
                 </div>
               </motion.div>

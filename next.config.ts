@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'tayyabmanan.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.tayyabmanan.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'tayyabmanan.vercel.app',
       },
     ],
@@ -88,7 +96,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Access-Control-Allow-Origin',
-            value: 'https://tayyabmanan.vercel.app'
+            value: 'https://tayyabmanan.com'
           },
           {
             key: 'Access-Control-Allow-Methods',

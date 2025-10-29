@@ -19,7 +19,7 @@ const bricolageGrotesque = Bricolage_Grotesque({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tayyabmanan.vercel.app'),
+  metadataBase: new URL('https://tayyabmanan.com'),
   applicationName: 'Tayyab Manan',
   title: {
     default: 'Tayyab Manan - AI Engineering Student | ML & Computer Vision Portfolio',
@@ -112,13 +112,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tayyab Manan - AI Engineering Student | ML & Computer Vision Portfolio',
     description: 'AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Building production ML systems with PyTorch, TensorFlow & LangChain. Portfolio showcasing innovative machine learning projects and AI-powered applications. Seeking Summer 2026 ML/AI internships.',
-    url: 'https://tayyabmanan.vercel.app',
+    url: 'https://tayyabmanan.com',
     siteName: 'Tayyab Manan Portfolio',
     locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: '/images/profile-picture.jpg',
+        url: '/images/profile-picture.webp',
         width: 1200,
         height: 630,
         alt: 'Tayyab Manan - AI Engineering Student Portfolio - Machine Learning & Computer Vision Projects',
@@ -129,7 +129,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Tayyab Manan - AI Engineering Student | ML & Computer Vision',
     description: 'AI Engineering graduate student building ML systems with PyTorch, TensorFlow & LangChain. Specializing in Computer Vision, NLP & Geospatial AI. View portfolio of ML projects.',
-    images: ['/images/profile-picture.jpg'],
+    images: ['/images/profile-picture.webp'],
     creator: '@tayyabmanan',
   },
   robots: {
@@ -163,7 +163,7 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   alternates: {
-    canonical: 'https://tayyabmanan.vercel.app',
+    canonical: 'https://tayyabmanan.com',
   },
 }
 
@@ -172,8 +172,8 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Tayyab Manan',
-    url: 'https://tayyabmanan.vercel.app',
-    image: 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
+    url: 'https://tayyabmanan.com',
+    image: 'https://tayyabmanan.com/images/profile-picture.webp',
     sameAs: [
       'https://www.linkedin.com/in/muhammad-tayyab-3962a2373',
       'https://github.com/TayyabManan',
@@ -183,8 +183,40 @@ const jsonLd = [
     seeks: {
       '@type': 'JobPosting',
       title: 'Machine Learning Internship',
+      datePosted: '2025-01-01',
+      validThrough: '2026-08-31',
+      description: 'Seeking Summer 2026 Machine Learning internship position to apply skills in Computer Vision, Natural Language Processing, and Deep Learning. Interested in opportunities to work with production ML systems, model deployment, MLOps, and cutting-edge AI technologies. Experienced with PyTorch, TensorFlow, LangChain, and building end-to-end ML solutions. Open to roles in ML Engineering, Computer Vision, NLP, or Geospatial AI.',
       jobStartDate: '2026-05',
-      employmentType: 'INTERN'
+      employmentType: 'INTERN',
+      hiringOrganization: {
+        '@type': 'Organization',
+        name: 'Seeking Opportunities',
+        url: 'https://tayyabmanan.com'
+      },
+      jobLocation: {
+        '@type': 'Place',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Remote or Islamabad',
+          addressRegion: 'Islamabad Capital Territory',
+          addressCountry: 'Pakistan'
+        }
+      },
+      baseSalary: {
+        '@type': 'MonetaryAmount',
+        currency: 'USD',
+        value: {
+          '@type': 'QuantitativeValue',
+          minValue: 0,
+          maxValue: 0,
+          unitText: 'HOUR'
+        }
+      },
+      applicantLocationRequirements: {
+        '@type': 'Country',
+        name: 'Worldwide (Remote Work Available)'
+      },
+      jobLocationType: 'TELECOMMUTE'
     },
     alumniOf: [
       {
@@ -267,10 +299,10 @@ const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    '@id': 'https://tayyabmanan.vercel.app/#service',
+    '@id': 'https://tayyabmanan.com/#service',
     name: 'Tayyab Manan - AI Engineering Student Portfolio',
     description: 'AI Engineering graduate student portfolio showcasing machine learning projects, computer vision applications, NLP systems, and geospatial AI solutions. Expertise in PyTorch, TensorFlow, LangChain, and production ML deployment. Available for Summer 2026 ML/AI internships.',
-    url: 'https://tayyabmanan.vercel.app',
+    url: 'https://tayyabmanan.com',
     email: 'haris.a.mannan@gmail.com',
     address: {
       '@type': 'PostalAddress',
@@ -334,8 +366,8 @@ const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    '@id': 'https://tayyabmanan.vercel.app/#website',
-    url: 'https://tayyabmanan.vercel.app',
+    '@id': 'https://tayyabmanan.com/#website',
+    url: 'https://tayyabmanan.com',
     name: 'Tayyab Manan - AI Engineering Student Portfolio',
     description: 'AI Engineering graduate student portfolio showcasing machine learning projects, computer vision applications, NLP systems, deep learning implementations, and geospatial AI solutions built with PyTorch, TensorFlow, and LangChain.',
     publisher: {
@@ -345,57 +377,57 @@ const jsonLd = [
     inLanguage: 'en-US',
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://tayyabmanan.vercel.app/projects?q={search_term_string}',
+      target: 'https://tayyabmanan.com/projects?q={search_term_string}',
       'query-input': 'required name=search_term_string'
     }
   },
   {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    '@id': 'https://tayyabmanan.vercel.app/#breadcrumb',
+    '@id': 'https://tayyabmanan.com/#breadcrumb',
     itemListElement: [
       {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://tayyabmanan.vercel.app'
+        item: 'https://tayyabmanan.com'
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'About',
-        item: 'https://tayyabmanan.vercel.app/about'
+        item: 'https://tayyabmanan.com/about'
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: 'Services',
-        item: 'https://tayyabmanan.vercel.app/services'
+        item: 'https://tayyabmanan.com/services'
       },
       {
         '@type': 'ListItem',
         position: 4,
         name: 'Projects',
-        item: 'https://tayyabmanan.vercel.app/projects'
+        item: 'https://tayyabmanan.com/projects'
       },
       {
         '@type': 'ListItem',
         position: 5,
         name: 'Resume',
-        item: 'https://tayyabmanan.vercel.app/resume'
+        item: 'https://tayyabmanan.com/resume'
       },
       {
         '@type': 'ListItem',
         position: 6,
         name: 'Contact',
-        item: 'https://tayyabmanan.vercel.app/contact'
+        item: 'https://tayyabmanan.com/contact'
       }
     ]
   },
   {
     '@context': 'https://schema.org',
     '@type': 'EducationalOccupationalCredential',
-    '@id': 'https://tayyabmanan.vercel.app/#education',
+    '@id': 'https://tayyabmanan.com/#education',
     name: 'AI Engineering Graduate Student',
     credentialCategory: 'degree',
     educationalLevel: 'Master\'s Degree',

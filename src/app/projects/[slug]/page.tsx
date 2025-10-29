@@ -20,8 +20,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
-  const imageUrl = project.image || '/images/profile-picture.jpg'
-  const projectUrl = `https://tayyabmanan.vercel.app/projects/${project.slug}`
+  const imageUrl = project.image || '/images/profile-picture.webp'
+  const projectUrl = `https://tayyabmanan.com/projects/${project.slug}`
 
   // Create rich description with tech stack
   const techStackText = project.techStack?.slice(0, 5).join(', ') || 'ML/AI technologies'
@@ -92,9 +92,9 @@ export default async function ProjectPage({ params }: PageProps) {
     description: project.description,
     applicationCategory: 'MachineLearningApplication',
     operatingSystem: 'Web',
-    image: project.image || 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
-    screenshot: project.image || 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
-    url: project.demoUrl || `https://tayyabmanan.vercel.app/projects/${project.slug}`,
+    image: project.image || 'https://tayyabmanan.com/images/profile-picture.webp',
+    screenshot: project.image || 'https://tayyabmanan.com/images/profile-picture.webp',
+    url: project.demoUrl || `https://tayyabmanan.com/projects/${project.slug}`,
     codeRepository: project.githubUrl,
     applicationSubCategory: project.category,
     offers: {
@@ -106,7 +106,7 @@ export default async function ProjectPage({ params }: PageProps) {
     author: {
       '@type': 'Person',
       name: 'Tayyab Manan',
-      url: 'https://tayyabmanan.vercel.app',
+      url: 'https://tayyabmanan.com',
       jobTitle: 'AI Engineering Student',
       sameAs: [
         'https://www.linkedin.com/in/muhammad-tayyab-3962a2373',
@@ -137,13 +137,13 @@ export default async function ProjectPage({ params }: PageProps) {
     '@type': 'CreativeWork',
     name: project.title,
     description: project.description,
-    image: project.image || 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
-    url: `https://tayyabmanan.vercel.app/projects/${project.slug}`,
+    image: project.image || 'https://tayyabmanan.com/images/profile-picture.webp',
+    url: `https://tayyabmanan.com/projects/${project.slug}`,
     datePublished: project.date || new Date().toISOString(),
     author: {
       '@type': 'Person',
       name: 'Tayyab Manan',
-      url: 'https://tayyabmanan.vercel.app'
+      url: 'https://tayyabmanan.com'
     },
     creator: {
       '@type': 'Person',
@@ -167,19 +167,19 @@ export default async function ProjectPage({ params }: PageProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://tayyabmanan.vercel.app'
+        item: 'https://tayyabmanan.com'
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Projects',
-        item: 'https://tayyabmanan.vercel.app/projects'
+        item: 'https://tayyabmanan.com/projects'
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: project.title,
-        item: `https://tayyabmanan.vercel.app/projects/${project.slug}`
+        item: `https://tayyabmanan.com/projects/${project.slug}`
       }
     ]
   }

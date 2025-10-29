@@ -20,8 +20,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
-  const imageUrl = post.image || '/images/profile-picture.jpg'
-  const postUrl = `https://tayyabmanan.vercel.app/blog/${post.slug}`
+  const imageUrl = post.image || '/images/profile-picture.webp'
+  const postUrl = `https://tayyabmanan.com/blog/${post.slug}`
 
   return {
     title: `${post.title} | AI Engineering Blog`,
@@ -85,13 +85,13 @@ export default async function BlogPostPage({ params }: PageProps) {
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.description,
-    image: post.image || 'https://tayyabmanan.vercel.app/images/profile-picture.jpg',
+    image: post.image || 'https://tayyabmanan.com/images/profile-picture.webp',
     datePublished: post.date,
     dateModified: post.date,
     author: {
       '@type': 'Person',
       name: post.author || 'Tayyab Manan',
-      url: 'https://tayyabmanan.vercel.app',
+      url: 'https://tayyabmanan.com',
       jobTitle: 'AI Engineering Student',
       sameAs: [
         'https://www.linkedin.com/in/muhammad-tayyab-3962a2373',
@@ -104,12 +104,12 @@ export default async function BlogPostPage({ params }: PageProps) {
       name: 'Tayyab Manan',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://tayyabmanan.vercel.app/logo.svg'
+        url: 'https://tayyabmanan.com/logo.svg'
       }
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://tayyabmanan.vercel.app/blog/${post.slug}`
+      '@id': `https://tayyabmanan.com/blog/${post.slug}`
     },
     articleSection: post.category,
     keywords: post.tags?.join(', ') || 'AI, Machine Learning, Computer Vision',
@@ -121,7 +121,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     isAccessibleForFree: 'True',
     isPartOf: {
       '@type': 'Blog',
-      '@id': 'https://tayyabmanan.vercel.app/blog',
+      '@id': 'https://tayyabmanan.com/blog',
       name: 'AI Engineering Student Blog - Tayyab Manan'
     }
   }
@@ -135,19 +135,19 @@ export default async function BlogPostPage({ params }: PageProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://tayyabmanan.vercel.app'
+        item: 'https://tayyabmanan.com'
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Blog',
-        item: 'https://tayyabmanan.vercel.app/blog'
+        item: 'https://tayyabmanan.com/blog'
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: post.title,
-        item: `https://tayyabmanan.vercel.app/blog/${post.slug}`
+        item: `https://tayyabmanan.com/blog/${post.slug}`
       }
     ]
   }

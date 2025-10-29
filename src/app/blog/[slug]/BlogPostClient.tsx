@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import ReactMarkdown from 'react-markdown'
+import { DynamicReactMarkdown } from '@/lib/dynamic-imports'
 import { CalendarIcon, ClockIcon, UserIcon, ArrowLeftIcon, TagIcon } from '@heroicons/react/24/outline'
 import { BlogPostWithContent } from '@/lib/markdown'
 
@@ -122,7 +122,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="prose prose-lg max-w-none"
         >
-          <ReactMarkdown
+          <DynamicReactMarkdown
             components={{
               h1: ({ children }) => (
                 <h1 className="text-3xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
@@ -202,7 +202,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
             }}
           >
             {post.content}
-          </ReactMarkdown>
+          </DynamicReactMarkdown>
         </motion.div>
 
         {/* Back to Blog Link */}

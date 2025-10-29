@@ -22,11 +22,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Blog - AI Engineering Student | Tayyab Manan',
     description: 'Follow my AI Engineering journey through blog posts about ML projects, learning experiences, and technical insights in Computer Vision, NLP & Deep Learning.',
-    url: 'https://tayyabmanan.vercel.app/blog',
+    url: 'https://tayyabmanan.com/blog',
     type: 'website',
     images: [
       {
-        url: '/images/profile-picture.jpg',
+        url: '/images/profile-picture.webp',
         width: 1200,
         height: 630,
         alt: 'AI Engineering Blog - Tayyab Manan',
@@ -37,10 +37,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Blog - AI Engineering Student',
     description: 'Read about my AI Engineering learning journey, ML projects, and technical insights.',
-    images: ['/images/profile-picture.jpg'],
+    images: ['/images/profile-picture.webp'],
   },
   alternates: {
-    canonical: 'https://tayyabmanan.vercel.app/blog',
+    canonical: 'https://tayyabmanan.com/blog',
   },
 }
 

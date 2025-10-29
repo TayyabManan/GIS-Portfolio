@@ -37,8 +37,17 @@ export const DynamicCommandPalette = dynamic(
 // Lazy load framer-motion components for non-critical animations
 export const DynamicMotionDiv = dynamic(
   () => import('framer-motion').then(mod => ({ default: mod.motion.div })),
-  { 
+  {
     loading: LoadingSpinner,
-    ssr: false 
+    ssr: false
+  }
+)
+
+// Lazy load react-markdown for blog posts
+export const DynamicReactMarkdown = dynamic(
+  () => import('react-markdown'),
+  {
+    loading: LoadingSpinner,
+    ssr: true
   }
 )

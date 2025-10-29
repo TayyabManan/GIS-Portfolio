@@ -5,7 +5,7 @@ subtitle: "Geospatial AI for EV Infrastructure Optimization"
 description: "ML-powered multi-criteria spatial optimization for EV charging station site selection using weighted scoring algorithms, demographic analysis, and geospatial intelligence to maximize infrastructure accessibility and adoption."
 category: "Geospatial AI & Optimization"
 techStack: ["Python", "QGIS", "ArcGIS", "Open Street Map", "Demographic Data"]
-image: "/projects/ev-analysis.png"
+image: "/projects/ev-analysis.webp"
 demoUrl: "https://ev-analysis.netlify.app/"
 githubUrl: "https://github.com/TayyabManan/ev-suitability-analysis"
 featured: true

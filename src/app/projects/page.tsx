@@ -23,11 +23,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'ML & AI Projects Portfolio - Tayyab Manan',
     description: 'Browse cutting-edge ML projects including groundwater prediction systems using machine learning, geospatial AI for infrastructure planning, and data-driven applications built with Python, Scikit-learn, and modern AI technologies.',
-    url: 'https://tayyabmanan.vercel.app/projects',
+    url: 'https://tayyabmanan.com/projects',
     type: 'website',
     images: [
       {
-        url: '/projects/watertrace.png',
+        url: '/projects/watertrace.webp',
         width: 1200,
         height: 630,
         alt: 'ML Projects Portfolio - WaterTrace Pakistan ML System',
@@ -38,10 +38,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'ML & AI Projects Portfolio - Tayyab Manan',
     description: 'Innovative ML projects featuring predictive analytics, geospatial AI, and intelligent data-driven solutions.',
-    images: ['/projects/watertrace.png'],
+    images: ['/projects/watertrace.webp'],
   },
   alternates: {
-    canonical: 'https://tayyabmanan.vercel.app/projects',
+    canonical: 'https://tayyabmanan.com/projects',
   },
 }
 

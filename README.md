@@ -3,7 +3,7 @@
 A modern, responsive portfolio website showcasing my expertise in Machine Learning, Artificial Intelligence, Computer Vision, NLP, and Geospatial AI. Built with cutting-edge technologies and optimized for performance.
 
 ## 🚀 Live Demo
-[Visit Portfolio](https://tayyabmanan.vercel.app/)
+[Visit Portfolio](https://tayyabmanan.com/)
 
 ## 📋 Overview
 

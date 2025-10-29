@@ -75,7 +75,7 @@ export const resumeData: ResumeData = {
     title: "AI Engineering Student | ML Developer",
     email: "haris.a.mannan@gmail.com",
     location: "Islamabad, Pakistan",
-    website: "https://tayyabmanan.vercel.app/",
+    website: "https://tayyabmanan.com/",
     github: "https://github.com/TayyabManan",
     linkedin: "https://www.linkedin.com/in/muhammad-tayyab-3962a2373",
     summary: "AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Building ML systems with PyTorch, TensorFlow, and LangChain through coursework and hands-on projects. Strong foundation in deep learning, computer vision, and full-stack ML development. Passionate about applying machine learning to solve real-world problems in environmental monitoring and sustainability. Currently pursuing Master's in AI Engineering at COMSATS Islamabad. Seeking Summer 2026 internship opportunities."

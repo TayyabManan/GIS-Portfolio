@@ -20,11 +20,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Contact Tayyab Manan - AI Engineering Student',
     description: 'Reach out for collaboration opportunities, internship discussions, or AI/ML project inquiries. AI Engineering graduate student at COMSATS specializing in Computer Vision, NLP & Geospatial AI.',
-    url: 'https://tayyabmanan.vercel.app/contact',
+    url: 'https://tayyabmanan.com/contact',
     type: 'website',
     images: [
       {
-        url: '/images/profile-picture.jpg',
+        url: '/images/profile-picture.webp',
         width: 1200,
         height: 630,
         alt: 'Contact Tayyab Manan - AI Engineering Student',
@@ -35,10 +35,10 @@ export const metadata: Metadata = {
     card: 'summary',
     title: 'Contact - AI Engineering Student',
     description: 'Get in touch for collaboration opportunities, internship inquiries, or AI/ML project discussions.',
-    images: ['/images/profile-picture.jpg'],
+    images: ['/images/profile-picture.webp'],
   },
   alternates: {
-    canonical: 'https://tayyabmanan.vercel.app/contact',
+    canonical: 'https://tayyabmanan.com/contact',
   },
 }
 

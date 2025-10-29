@@ -5,7 +5,7 @@ subtitle: "ML-Powered Groundwater Prediction System"
 description: "Advanced machine learning system for groundwater monitoring and prediction in Pakistan, utilizing 22 years of satellite data (2002-2024) from GRACE and GLDAS. Features time-series forecasting, regression models (R²=0.89), and geospatial AI for predictive water resource management."
 category: "Geospatial AI & Predictive Analytics"
 techStack: ["React", "Flask", "Pandas", "Scikit-learn", "Google Earth Engine", "Leaflet", "Recharts", "Tailwind CSS"]
-image: "/projects/watertrace.png"
+image: "/projects/watertrace.webp"
 demoUrl: "https://watertrace.vercel.app"
 githubUrl: "https://github.com/TayyabManan/WaterTrace"
 featured: true

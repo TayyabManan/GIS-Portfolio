@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline'
 import { resumeData, formatDate } from '@/lib/resume-data'
 import { generateResumePDF } from '@/lib/pdf-utils'
-import ResumeChatbot from '@/components/ui/ResumeChatbot'
+import { DynamicResumeChatbot } from '@/lib/dynamic-imports'
 
 export default function ResumePageContent() {
   const [downloading, setDownloading] = useState(false)
@@ -337,7 +337,7 @@ export default function ResumePageContent() {
       </div>
 
       {/* Resume Chatbot */}
-      <ResumeChatbot />
+      <DynamicResumeChatbot />
     </div>
   )
 }

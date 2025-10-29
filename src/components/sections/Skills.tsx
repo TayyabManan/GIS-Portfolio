@@ -1,7 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import React from 'react'
 import { CheckCircleIcon, CodeBracketIcon, GlobeAltIcon, CircleStackIcon, CloudIcon, BeakerIcon } from '@heroicons/react/24/solid'
 import { resumeData } from '@/lib/resume-data'
 
@@ -23,38 +22,24 @@ const toolCategories = resumeData.skills.map(category => ({
 }))
 
 // Simple skill badge component
-const SkillBadge = ({ name, index }: { name: string, index: number }) => {
+const SkillBadge = ({ name }: { name: string }) => {
   return (
-    <motion.span
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3, delay: index * 0.03 }}
-      viewport={{ once: true }}
-      className="inline-flex items-center gap-1.5 px-4 py-2 bg-[var(--background-secondary)] rounded-lg text-sm text-[var(--text)] border border-[var(--border)] hover:border-[var(--primary)] transition-all hover:scale-105"
-    >
+    <span className="inline-flex items-center gap-1.5 px-4 py-2 bg-[var(--background-secondary)] rounded-lg text-sm text-[var(--text)] border border-[var(--border)] hover:border-[var(--primary)] transition-all hover:scale-105">
       <CheckCircleIcon className="h-3.5 w-3.5 text-[var(--primary)]" />
       <span className="font-medium">{name}</span>
-    </motion.span>
+    </span>
   )
 }
 
 export default function Skills() {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Animated skills-themed background */}
+      {/* Simple background pattern */}
       <div className="absolute inset-0">
-        {/* Transparent overlay - let hero gradient show through */}
         <div className="absolute inset-0 bg-transparent" />
-        
-        {/* Animated skill elements */}
+
+        {/* Static pattern */}
         <div className="absolute inset-0">
-          {/* Circuit board pattern - representing technical skills */}
           <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="circuit-pattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
@@ -68,154 +53,37 @@ export default function Skills() {
             </defs>
             <rect width="100%" height="100%" fill="url(#circuit-pattern)" />
           </svg>
-          
-          {/* Animated gradient orbs - reduced opacity */}
-          <motion.div
-            className="absolute top-20 left-10 w-64 h-64 bg-[var(--skills-orb-primary)] rounded-full blur-3xl opacity-5"
-            animate={{
-              x: [0, 30, 0],
-              y: [0, -20, 0],
-            }}
-            transition={{
-              duration: 40,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          <motion.div
-            className="absolute bottom-20 right-10 w-64 h-64 bg-[var(--skills-orb-secondary)] rounded-full blur-3xl opacity-5"
-            animate={{
-              x: [0, -30, 0],
-              y: [0, 20, 0],
-            }}
-            transition={{
-              duration: 45,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          
-          {/* Floating skill icons */}
-          {mounted && (
-            <div className="absolute inset-0">
-              {/* Code symbols */}
-              {['{', '}', '<', '>', '/', '*', '+', '='].map((symbol, i) => (
-                <motion.div
-                  key={`symbol-${i}`}
-                  className="absolute text-xl font-bold opacity-5"
-                  style={{
-                    left: `${10 + (i * 11)}%`,
-                    top: `${15 + (i * 8)}%`,
-                    color: 'var(--skills-float-color)'
-                  }}
-                  animate={{
-                    y: [0, -10, 0],
-                    opacity: [0.05, 0.1, 0.05],
-                  }}
-                  transition={{
-                    duration: 8 + i * 0.5,
-                    repeat: Infinity,
-                    delay: i * 0.8,
-                    ease: "easeInOut"
-                  }}
-                >
-                  {symbol}
-                </motion.div>
-              ))}
-              
-              {/* Gear symbols for technical skills */}
-              {[...Array(5)].map((_, i) => (
-                <motion.div
-                  key={`gear-${i}`}
-                  className="absolute w-6 h-6 opacity-5"
-                  style={{
-                    right: `${10 + (i * 15)}%`,
-                    top: `${20 + (i * 15)}%`,
-                    color: 'var(--skills-gear-color)'
-                  }}
-                  animate={{
-                    rotate: [0, 360],
-                  }}
-                  transition={{
-                    rotate: {
-                      duration: 60 + i * 10,
-                      repeat: Infinity,
-                      ease: "linear"
-                    }
-                  }}
-                >
-                  <svg fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                  </svg>
-                </motion.div>
-              ))}
-              
-              {/* Floating data points */}
-              {[...Array(6)].map((_, i) => (
-                <motion.div
-                  key={`dot-${i}`}
-                  className="absolute w-3 h-3 rounded-full"
-                  style={{
-                    left: `${20 + (i * 12)}%`,
-                    bottom: `${10 + (i * 8)}%`,
-                    background: i % 3 === 0 ? 'var(--skills-float-color)' : i % 3 === 1 ? 'var(--skills-float-color-alt)' : 'var(--info)',
-                    boxShadow: `0 0 20px ${i % 3 === 0 ? 'var(--skills-float-color)' : i % 3 === 1 ? 'var(--skills-float-color-alt)' : 'var(--info)'}`
-                  }}
-                  animate={{
-                    y: [0, -10, 0],
-                    opacity: [0.2, 0.3, 0.2],
-                  }}
-                  transition={{
-                    duration: 6 + i * 0.5,
-                    repeat: Infinity,
-                    delay: i * 1,
-                    ease: "easeInOut"
-                  }}
-                />
-              ))}
-            </div>
-          )}
         </div>
-        
+
         {/* Subtle noise texture */}
-        <div className="absolute inset-0 opacity-[0.015]" 
+        <div className="absolute inset-0 opacity-[0.015]"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
           }}
         />
       </div>
-      
-      {/* Content with higher z-index */}
+
+      {/* Content */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-12 max-w-4xl"
-        >
+        <div className="mb-12 max-w-4xl">
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>Skills & Expertise</h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)]" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
             Specialized in machine learning engineering with expertise across {resumeData.skills.length} technology domains,
             from deep learning frameworks to production MLOps and deployment.
           </p>
-        </motion.div>
+        </div>
 
         {/* Skills in Compact Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-w-6xl mx-auto">
-          {toolCategories.map((category, categoryIndex) => {
+          {toolCategories.map((category) => {
             const Icon = category.icon
 
             return (
-              <motion.div
+              <div
                 key={category.name}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: categoryIndex * 0.08 }}
-                viewport={{ once: true }}
                 className="group relative bg-[var(--background-secondary)] rounded-xl p-4 border border-[var(--border)] hover:border-[var(--primary)] transition-all hover:shadow-lg"
               >
-                {/* Animated gradient background on hover */}
+                {/* Gradient background on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
 
                 {/* Content */}
@@ -233,16 +101,15 @@ export default function Skills() {
 
                   {/* Skills as compact badges */}
                   <div className="flex flex-wrap gap-1.5">
-                    {category.items.map((item, index) => (
+                    {category.items.map((item) => (
                       <SkillBadge
                         key={item}
                         name={item}
-                        index={index}
                       />
                     ))}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             )
           })}
         </div>

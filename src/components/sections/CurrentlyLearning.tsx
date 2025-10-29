@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import {
   BookOpenIcon,
   BeakerIcon,
@@ -78,13 +77,7 @@ export default function CurrentlyLearning() {
   return (
     <section className="py-16 sm:py-24 bg-transparent">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--background)]/90 backdrop-blur-sm border border-[var(--border)] mb-4 shadow-md">
             <SparklesIcon className="h-5 w-5 text-[var(--accent)]" />
             <span className="text-sm font-semibold text-[var(--text-secondary)]" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>Continuous Learning</span>
@@ -95,18 +88,14 @@ export default function CurrentlyLearning() {
           <p className="mt-4 text-lg font-semibold text-[var(--text-secondary)] max-w-2xl mx-auto" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
             Actively expanding my skills and knowledge in AI/ML through courses, experiments, and research
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {learningItems.map((section, index) => {
             const colors = colorClasses[section.color as keyof typeof colorClasses]
             return (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-[var(--background)]/95 backdrop-blur-md border border-[var(--border)] rounded-2xl p-6 sm:p-8 hover:border-[var(--primary)] transition-all duration-300 hover:shadow-xl shadow-lg"
               >
                 <div className="flex items-center gap-3 mb-6">
@@ -120,35 +109,25 @@ export default function CurrentlyLearning() {
 
                 <ul className="space-y-3">
                   {section.items.map((item, idx) => (
-                    <motion.li
+                    <li
                       key={idx}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: index * 0.1 + idx * 0.05 }}
                       className="flex items-start gap-3 text-sm text-[var(--text-secondary)] group"
                     >
                       <span className={`mt-1.5 w-2 h-2 rounded-full ${colors.text} flex-shrink-0 group-hover:scale-150 transition-transform opacity-80`} style={{ backgroundColor: 'currentColor' }} />
                       <span className="font-medium group-hover:text-[var(--text)] transition-colors" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
                         {item}
                       </span>
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
             )
           })}
         </div>
 
         {/* Progress indicator */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 text-center"
-        >
-        </motion.div>
+        <div className="mt-12 text-center">
+        </div>
       </div>
     </section>
   )

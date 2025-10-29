@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   EnvelopeIcon,
@@ -37,20 +36,6 @@ export default function ContactPageContent() {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
-  const [mounted, setMounted] = useState(false);
-  const [contactDots, setContactDots] = useState<Array<{left: number, top: number, delay: number, duration: number}>>([]);
-
-  useEffect(() => {
-    setMounted(true);
-    // Generate random positions for animated contact elements
-    const dotsArray = Array.from({ length: 25 }, () => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      delay: Math.random() * 4,
-      duration: 3 + Math.random() * 3
-    }));
-    setContactDots(dotsArray);
-  }, []);
 
   const {
     register,
@@ -89,11 +74,11 @@ export default function ContactPageContent() {
 
   return (
     <div className="bg-[var(--background)] py-16 min-h-screen relative overflow-hidden">
-      {/* Animated Contact Background */}
+      {/* Contact Background */}
       <div className="absolute inset-0">
         {/* Base gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--background)] via-[var(--background-secondary)] to-[var(--background-tertiary)]" />
-        
+
         {/* Communication pattern - representing connectivity */}
         <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -109,83 +94,9 @@ export default function ContactPageContent() {
           <rect width="100%" height="100%" fill="url(#contact-pattern)" />
         </svg>
 
-        {/* Animated gradient orbs */}
-        <motion.div
-          className="absolute top-16 left-8 w-80 h-80 bg-[var(--primary)]/8 rounded-full blur-3xl"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute bottom-16 right-8 w-80 h-80 bg-[var(--accent)]/8 rounded-full blur-3xl"
-          animate={{
-            x: [0, -100, 0],
-            y: [0, 50, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-
-        {/* Floating communication elements */}
-        {mounted && (
-          <div className="absolute inset-0">
-            {['@', '✉', '📧', '💬', '📞', '🌐'].map((symbol, i) => (
-              <motion.div
-                key={`comm-symbol-${i}`}
-                className="absolute text-2xl opacity-20"
-                style={{
-                  left: `${15 + (i * 15)}%`,
-                  top: `${20 + (i * 12)}%`,
-                  color: 'var(--primary)'
-                }}
-                animate={{
-                  y: [0, -20, 0],
-                  opacity: [0.1, 0.3, 0.1],
-                  rotate: [0, 5, 0],
-                }}
-                transition={{
-                  duration: 4 + i * 0.5,
-                  repeat: Infinity,
-                  delay: i * 0.6,
-                  ease: "easeInOut"
-                }}
-              >
-                {symbol}
-              </motion.div>
-            ))}
-            
-            {/* Floating dots */}
-            {contactDots.map((dot, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1.5 h-1.5 rounded-full bg-[var(--primary)]/20"
-                style={{
-                  left: `${dot.left}%`,
-                  top: `${dot.top}%`,
-                }}
-                animate={{
-                  opacity: [0.1, 0.6, 0.1],
-                  scale: [1, 1.8, 1],
-                }}
-                transition={{
-                  duration: dot.duration,
-                  repeat: Infinity,
-                  delay: dot.delay,
-                  ease: "easeInOut"
-                }}
-              />
-            ))}
-          </div>
-        )}
+        {/* Gradient orbs */}
+        <div className="absolute top-16 left-8 w-80 h-80 bg-[var(--primary)]/8 rounded-full blur-3xl" />
+        <div className="absolute bottom-16 right-8 w-80 h-80 bg-[var(--accent)]/8 rounded-full blur-3xl" />
       </div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header - Left aligned */}

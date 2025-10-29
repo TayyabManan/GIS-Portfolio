@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import ProjectCard from '@/components/ui/ProjectCard'
 import ProjectModal from '@/components/ui/ProjectModal'
@@ -57,31 +56,9 @@ export default function FeaturedProjects() {
             <rect width="100%" height="100%" fill="url(#hexagon-pattern)" />
           </svg>
           
-          {/* Animated gradient orbs - reduced opacity */}
-          <motion.div
-            className="absolute top-20 left-10 w-72 h-72 bg-[var(--projects-orb-primary)] rounded-full blur-3xl opacity-5"
-            animate={{
-              x: [0, 50, 0],
-              y: [0, -25, 0],
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          <motion.div
-            className="absolute bottom-20 right-10 w-72 h-72 bg-[var(--projects-orb-secondary)] rounded-full blur-3xl opacity-5"
-            animate={{
-              x: [0, -50, 0],
-              y: [0, 25, 0],
-            }}
-            transition={{
-              duration: 35,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
+          {/* Gradient orbs */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-[var(--projects-orb-primary)] rounded-full blur-3xl opacity-5" />
+          <div className="absolute bottom-20 right-10 w-72 h-72 bg-[var(--projects-orb-secondary)] rounded-full blur-3xl opacity-5" />
           
           {/* Grid overlay */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--hero-grid-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--hero-grid-color)_1px,transparent_1px)] bg-[size:24px_24px]" />
@@ -90,7 +67,7 @@ export default function FeaturedProjects() {
           {mounted && (
             <div className="absolute inset-0">
               {[...Array(8)].map((_, i) => (
-                <motion.div
+                <div
                   key={i}
                   className="absolute w-2 h-2 rounded-full"
                   style={{
@@ -98,16 +75,6 @@ export default function FeaturedProjects() {
                     top: `${10 + (i * 12)}%`,
                     background: i % 2 === 0 ? 'var(--projects-float-color)' : 'var(--projects-float-color-alt)',
                     boxShadow: `0 0 20px ${i % 2 === 0 ? 'var(--projects-float-color)' : 'var(--projects-float-color-alt)'}`
-                  }}
-                  animate={{
-                    y: [0, -15, 0],
-                    opacity: [0.2, 0.4, 0.2],
-                  }}
-                  transition={{
-                    duration: 5 + i * 0.5,
-                    repeat: Infinity,
-                    delay: i * 0.5,
-                    ease: "easeInOut"
                   }}
                 />
               ))}
@@ -125,19 +92,13 @@ export default function FeaturedProjects() {
       
       {/* Content with higher z-index */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-12 max-w-4xl"
-        >
+        <div className="mb-12 max-w-4xl">
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>Featured Projects</h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)]" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
             Showcasing machine learning and AI projects that demonstrate expertise in
             computer vision, NLP, geospatial AI, and production ML systems.
           </p>
-        </motion.div>
+        </div>
 
         {loading ? (
           <div className="flex justify-center py-12">
@@ -145,34 +106,22 @@ export default function FeaturedProjects() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {featuredProjects.map((project, index) => (
-              <motion.div
-                key={project.slug}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-              >
+            {featuredProjects.map((project) => (
+              <div key={project.slug}>
                 <ProjectCard project={project} onClick={() => openModal(project)} />
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
+        <div className="text-center">
           <Link
             href="/projects"
             className="inline-flex items-center bg-[var(--primary)] text-white px-6 py-3 rounded-md font-medium hover:bg-[var(--primary-hover)] transition-colors shadow-lg"
           >
             View All Projects
           </Link>
-        </motion.div>
+        </div>
       </div>
       
       {/* Project Modal */}

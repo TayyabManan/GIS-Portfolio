@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { DynamicReactMarkdown } from '@/lib/dynamic-imports'
@@ -22,15 +21,37 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)] py-24">
-      <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen relative py-24 overflow-hidden">
+      {/* Background with gradient */}
+      <div className="absolute inset-0">
+        {/* Beautiful gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-gradient-start)] via-[var(--hero-gradient-mid)] to-[var(--hero-gradient-end)]" />
+
+        {/* Subtle pattern overlay */}
+        <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="blog-post-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+              <circle cx="50" cy="50" r="1" fill="var(--border)" opacity="0.1" />
+              <circle cx="25" cy="25" r="0.5" fill="var(--primary)" opacity="0.08" />
+              <circle cx="75" cy="25" r="0.5" fill="var(--accent)" opacity="0.08" />
+              <circle cx="25" cy="75" r="0.5" fill="var(--info)" opacity="0.08" />
+              <circle cx="75" cy="75" r="0.5" fill="var(--success)" opacity="0.08" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#blog-post-pattern)" />
+        </svg>
+
+        {/* Subtle noise texture */}
+        <div className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+          }}
+        />
+      </div>
+
+      <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Back Button */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
+        <div className="mb-8">
           <Link
             href="/blog"
             className="inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors"
@@ -38,15 +59,10 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
             <ArrowLeftIcon className="h-4 w-4" />
             <span>Back to Blog</span>
           </Link>
-        </motion.div>
+        </div>
 
         {/* Header */}
-        <motion.header
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-8"
-        >
+        <header className="mb-8">
           {/* Category Badge */}
           <div className="mb-4">
             <span className="inline-block px-3 py-1 text-xs font-medium bg-[var(--primary)]/10 text-[var(--primary)] rounded-full">
@@ -96,32 +112,22 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
               ))}
             </div>
           )}
-        </motion.header>
+        </header>
 
         {/* Featured Image */}
         {post.image && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mb-12 rounded-2xl overflow-hidden relative w-full aspect-video"
-          >
+          <div className="mb-12 rounded-2xl overflow-hidden relative w-full aspect-video">
             <Image
               src={post.image}
               alt={post.title}
               fill
               className="object-cover"
             />
-          </motion.div>
+          </div>
         )}
 
         {/* Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="prose prose-lg max-w-none"
-        >
+        <div className="prose prose-lg max-w-none">
           <DynamicReactMarkdown
             components={{
               h1: ({ children }) => (
@@ -203,15 +209,10 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
           >
             {post.content}
           </DynamicReactMarkdown>
-        </motion.div>
+        </div>
 
         {/* Back to Blog Link */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 pt-8 border-t border-[var(--border)]"
-        >
+        <div className="mt-12 pt-8 border-t border-[var(--border)]">
           <Link
             href="/blog"
             className="inline-flex items-center gap-2 text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors font-medium"
@@ -219,7 +220,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
             <ArrowLeftIcon className="h-4 w-4" />
             <span>Back to all posts</span>
           </Link>
-        </motion.div>
+        </div>
       </article>
     </div>
   )

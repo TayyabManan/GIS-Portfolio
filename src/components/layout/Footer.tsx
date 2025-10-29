@@ -3,8 +3,6 @@
 import Link from 'next/link'
 import { MapPinIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
 import { Github, Linkedin } from 'lucide-react'
-import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
 
 const UpworkIcon = ({ className }: { className?: string }) => (
   <svg 
@@ -18,31 +16,20 @@ const UpworkIcon = ({ className }: { className?: string }) => (
 )
 
 export default function Footer() {
-  const [mounted, setMounted] = useState(false)
-  const [footerDots, setFooterDots] = useState<Array<{left: number, top: number, delay: number}>>([])
-
-  useEffect(() => {
-    setMounted(true)
-    // Generate random positions for subtle footer animation
-    const dotsArray = Array.from({ length: 12 }, () => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      delay: Math.random() * 5
-    }))
-    setFooterDots(dotsArray)
-  }, [])
-
   return (
     <div
       className="relative h-[400px] sm:h-[500px]"
       style={{clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)"}}
     >
-      <footer className="fixed bottom-0 h-[400px] sm:h-[500px] w-full bg-[var(--background)]/90 backdrop-blur-md text-[var(--text)] flex items-center overflow-hidden border-t border-[var(--border)] shadow-2xl">
-      {/* Subtle Footer Animation */}
+      <footer className="fixed bottom-0 h-[400px] sm:h-[500px] w-full text-[var(--text)] flex items-center overflow-hidden border-t border-[var(--border)] shadow-2xl">
+      {/* Footer Background */}
       <div className="absolute inset-0">
-        {/* Semi-transparent overlay with gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)]/95 via-[var(--background)]/90 to-[var(--background)]/80" />
-        
+        {/* Beautiful gradient background matching the site theme */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-gradient-start)] via-[var(--hero-gradient-mid)] to-[var(--hero-gradient-end)]" />
+
+        {/* Semi-transparent overlay for readability */}
+        <div className="absolute inset-0 bg-[var(--background)]/50 backdrop-blur-sm" />
+
         {/* Subtle network pattern */}
         <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -56,32 +43,6 @@ export default function Footer() {
           </defs>
           <rect width="100%" height="100%" fill="url(#footer-pattern)" />
         </svg>
-
-        {/* Floating subtle elements */}
-        {mounted && (
-          <div className="absolute inset-0">
-            {footerDots.map((dot, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-1 rounded-full bg-[var(--border)]"
-                style={{
-                  left: `${dot.left}%`,
-                  top: `${dot.top}%`,
-                }}
-                animate={{
-                  opacity: [0.1, 0.3, 0.1],
-                  scale: [1, 1.5, 1],
-                }}
-                transition={{
-                  duration: 6,
-                  repeat: Infinity,
-                  delay: dot.delay,
-                  ease: "easeInOut"
-                }}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full relative z-10 pt-6 sm:pt-8 pb-16 sm:pb-32">

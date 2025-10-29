@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import {
   BriefcaseIcon,
   AcademicCapIcon,
@@ -57,13 +56,7 @@ export default function CurrentlySeeking() {
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/5 to-[var(--accent)]/5" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 mb-4">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
             <span className="text-sm font-medium text-green-500">Open to Opportunities</span>
@@ -74,17 +67,13 @@ export default function CurrentlySeeking() {
           <p className="mt-4 text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
             Looking for opportunities to apply my ML skills, learn from industry experts, and contribute to impactful projects
           </p>
-        </motion.div>
+        </div>
 
         {/* Opportunities Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {opportunities.map((opportunity, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-2xl p-6 hover:border-[var(--primary)] transition-all duration-300 hover:shadow-lg"
             >
               <div className="flex flex-col items-center text-center">
@@ -98,18 +87,12 @@ export default function CurrentlySeeking() {
                   {opportunity.description}
                 </p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Preferences */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-2xl p-8 mb-12"
-        >
+        <div className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-2xl p-8 mb-12">
           <h3 className="text-xl font-bold text-[var(--text)] mb-6 text-center">
             My Preferences
           </h3>
@@ -130,16 +113,10 @@ export default function CurrentlySeeking() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* CTA Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-center"
-        >
+        <div className="text-center">
           <h3 className="text-2xl font-bold text-[var(--text)] mb-4">
             Interested in Working Together?
           </h3>
@@ -162,7 +139,7 @@ export default function CurrentlySeeking() {
               View Resume
             </Link>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

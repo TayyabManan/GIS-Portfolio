@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useState } from 'react'
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline'
 import { resumeData, formatDate } from '@/lib/resume-data'
 import { generateResumePDF } from '@/lib/pdf-utils'
@@ -9,20 +8,6 @@ import { DynamicResumeChatbot } from '@/lib/dynamic-imports'
 
 export default function ResumePageContent() {
   const [downloading, setDownloading] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const [dots, setDots] = useState<Array<{left: number, top: number, delay: number, duration: number}>>([])
-
-  useEffect(() => {
-    setMounted(true)
-    // Generate random positions for animated background dots
-    const dotsArray = Array.from({ length: 20 }, () => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      delay: Math.random() * 3,
-      duration: 4 + Math.random() * 2
-    }))
-    setDots(dotsArray)
-  }, [])
 
   const downloadPDF = async () => {
     setDownloading(true)
@@ -37,7 +22,7 @@ export default function ResumePageContent() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] relative overflow-hidden">
-      {/* Animated Background */}
+      {/* Background */}
       <div className="absolute inset-0">
         {/* Base gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--background)] via-[var(--background-secondary)] to-[var(--background-tertiary)]" />
@@ -56,56 +41,9 @@ export default function ResumePageContent() {
           <rect width="100%" height="100%" fill="url(#document-pattern)" />
         </svg>
 
-        {/* Animated gradient orbs */}
-        <motion.div
-          className="absolute top-20 left-10 w-64 h-64 bg-[var(--primary)]/10 rounded-full blur-3xl"
-          animate={{
-            x: [0, 60, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-10 w-64 h-64 bg-[var(--accent)]/10 rounded-full blur-3xl"
-          animate={{
-            x: [0, -60, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{
-            duration: 18,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-
-        {/* Floating document elements */}
-        {mounted && (
-          <div className="absolute inset-0">
-            {dots.map((dot, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-1 rounded-full bg-[var(--primary)]/20"
-                style={{
-                  left: `${dot.left}%`,
-                  top: `${dot.top}%`,
-                }}
-                animate={{
-                  opacity: [0.2, 0.8, 0.2],
-                  scale: [1, 1.5, 1],
-                }}
-                transition={{
-                  duration: dot.duration,
-                  repeat: Infinity,
-                  delay: dot.delay,
-                }}
-              />
-            ))}
-          </div>
-        )}
+        {/* Gradient orbs */}
+        <div className="absolute top-20 left-10 w-64 h-64 bg-[var(--primary)]/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-64 h-64 bg-[var(--accent)]/10 rounded-full blur-3xl" />
       </div>
       {/* Header with Download Button */}
       <div className="bg-[var(--background)]/80 backdrop-blur-sm border-b border-[var(--border)] print:hidden relative z-10">

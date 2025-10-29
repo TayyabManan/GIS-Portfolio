@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline'
@@ -19,62 +18,24 @@ export default function CallToAction() {
         {/* Transparent overlay - let hero gradient show through */}
         <div className="absolute inset-0 bg-transparent opacity-5" />
         
-        {/* Animated shapes */}
-        <motion.div
-          className="absolute -top-24 -left-24 w-96 h-96 bg-[var(--primary)] rounded-full blur-3xl opacity-5"
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute -bottom-24 -right-24 w-96 h-96 bg-[var(--accent)] rounded-full blur-3xl opacity-5"
-          animate={{
-            scale: [1, 1.3, 1],
-            rotate: [0, -90, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
+        {/* Shapes */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[var(--primary)] rounded-full blur-3xl opacity-5" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-[var(--accent)] rounded-full blur-3xl opacity-5" />
         
         {/* Floating icons */}
         {mounted && (
           <div className="absolute inset-0">
             {[...Array(6)].map((_, i) => (
-              <motion.div
+              <div
                 key={i}
                 className="absolute"
                 style={{
                   left: `${15 + (i * 15)}%`,
                   top: `${20 + (i % 2 * 60)}%`,
                 }}
-                animate={{
-                  y: [0, -20, 0],
-                  rotate: [0, 360],
-                }}
-                transition={{
-                  y: {
-                    duration: 4 + i,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  },
-                  rotate: {
-                    duration: 20 + i * 2,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }
-                }}
               >
                 <div className="w-8 h-8 border-2 border-[var(--border)] rounded-lg opacity-10" />
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
@@ -86,23 +47,12 @@ export default function CallToAction() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-left"
-          >
+          <div className="text-left">
             <div className="mb-8 text-left">
-              <motion.div
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-hover)] rounded-full mb-4 shadow-lg"
-              >
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-hover)] rounded-full mb-4 shadow-lg">
                 <SparklesIcon className="w-5 h-5 text-white" />
                 <span className="text-sm font-semibold text-white uppercase tracking-wider">Let&apos;s Connect</span>
-              </motion.div>
+              </div>
               <h2 className="text-4xl font-bold text-[var(--text)] mb-4 text-left" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
                 Interested in Collaborating?
               </h2>
@@ -125,24 +75,13 @@ export default function CallToAction() {
                 className="group border-2 border-[var(--primary)] text-[var(--primary)] px-4 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold hover:bg-[var(--primary)] hover:text-white transition-all duration-300 backdrop-blur-sm bg-[var(--background)]/50 hover:shadow-lg inline-flex items-center gap-2 whitespace-nowrap"
               >
                 View My Work
-                <motion.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  →
-                </motion.span>
+                <span>→</span>
               </Link>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Right Column - SVG Animation */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="flex items-center justify-center mt-8 lg:mt-0"
-          >
+          {/* Right Column - SVG Animation (Hidden on mobile) */}
+          <div className="hidden lg:flex items-center justify-center mt-8 lg:mt-0">
             <svg className="w-full h-full max-w-md" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 {/* Gradients for nodes */}
@@ -318,7 +257,7 @@ export default function CallToAction() {
                 <text x="320" y="360" textAnchor="middle">OUTPUT</text>
               </g>
             </svg>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

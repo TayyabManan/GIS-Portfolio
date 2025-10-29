@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeftIcon, ArrowTopRightOnSquareIcon, CodeBracketIcon, CalendarIcon, TagIcon } from '@heroicons/react/24/outline'
@@ -42,11 +41,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
         </div>
         
         <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
+          <div>
             <Link
               href="/"
               className="inline-flex items-center text-white/80 hover:text-white transition-colors mb-6"
@@ -130,7 +125,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                 </div>
               )}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 
@@ -158,39 +153,26 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
             <div className="lg:col-span-1">
               <div className="sticky top-8 space-y-6">
                 {/* Tech Stack */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
-                  className="bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl p-6 shadow-lg border border-[var(--border)]"
-                >
+                <div className="bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl p-6 shadow-lg border border-[var(--border)]">
                   <h3 className="text-lg font-semibold text-[var(--text)] mb-4 flex items-center">
                     <div className="w-2 h-2 bg-[var(--primary)] rounded-full mr-3"></div>
                     Tech Stack
                   </h3>
                   <div className="space-y-3">
-                    {project.techStack.map((tech, index) => (
-                      <motion.span
+                    {project.techStack.map((tech) => (
+                      <span
                         key={tech}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
                         className="flex items-center w-full bg-[var(--background-tertiary)] text-[var(--text)] px-4 py-3 rounded-lg text-sm font-medium border border-[var(--border)] hover:shadow-md transition-all duration-200"
                       >
                         <div className="w-2 h-2 bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] rounded-full mr-3"></div>
                         {tech}
-                      </motion.span>
+                      </span>
                     ))}
                   </div>
-                </motion.div>
-                
+                </div>
+
                 {/* Project Links - Desktop only */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="hidden lg:block bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl p-6 shadow-lg border border-[var(--border)]"
-                >
+                <div className="hidden lg:block bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl p-6 shadow-lg border border-[var(--border)]">
                   <h3 className="text-lg font-semibold text-[var(--text)] mb-4 flex items-center">
                     <div className="w-2 h-2 bg-[var(--accent)] rounded-full mr-3"></div>
                     Project Links
@@ -219,18 +201,13 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                       </a>
                     )}
                   </div>
-                </motion.div>
+                </div>
               </div>
             </div>
-            
+
             {/* Main Content */}
             <div className="col-span-1 lg:col-span-3">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl shadow-lg border border-[var(--border)] overflow-hidden"
-              >
+              <div className="bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl shadow-lg border border-[var(--border)] overflow-hidden">
                 <div className="p-6 sm:p-8 lg:p-12">
                   <div className="prose prose-lg max-w-none"
                   >
@@ -280,18 +257,13 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                     </DynamicReactMarkdown>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
-          
+
           {/* Mobile Project Links - At the bottom */}
           <div className="lg:hidden mt-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl p-6 shadow-lg border border-[var(--border)]"
-            >
+            <div className="bg-[var(--background-secondary)] backdrop-blur-sm rounded-xl p-6 shadow-lg border border-[var(--border)]">
               <h3 className="text-lg font-semibold text-[var(--text)] mb-4 flex items-center">
                 <div className="w-2 h-2 bg-[var(--accent)] rounded-full mr-3"></div>
                 Project Links
@@ -320,7 +292,7 @@ export default function ProjectPageClient({ project }: ProjectPageClientProps) {
                   </a>
                 )}
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

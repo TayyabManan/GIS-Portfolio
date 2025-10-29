@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { CalendarIcon, ClockIcon, TagIcon, FolderIcon } from '@heroicons/react/24/outline'
 import { BlogPost } from '@/lib/markdown'
 
@@ -29,30 +28,47 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)] py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen relative py-24 overflow-hidden">
+      {/* Background with gradient */}
+      <div className="absolute inset-0">
+        {/* Beautiful gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-gradient-start)] via-[var(--hero-gradient-mid)] to-[var(--hero-gradient-end)]" />
+
+        {/* Subtle pattern overlay */}
+        <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="blog-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+              <circle cx="50" cy="50" r="1" fill="var(--border)" opacity="0.1" />
+              <circle cx="25" cy="25" r="0.5" fill="var(--primary)" opacity="0.08" />
+              <circle cx="75" cy="25" r="0.5" fill="var(--accent)" opacity="0.08" />
+              <circle cx="25" cy="75" r="0.5" fill="var(--info)" opacity="0.08" />
+              <circle cx="75" cy="75" r="0.5" fill="var(--success)" opacity="0.08" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#blog-pattern)" />
+        </svg>
+
+        {/* Subtle noise texture */}
+        <div className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
+          }}
+        />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12">
           <h1 className="text-4xl font-bold tracking-tight text-[var(--text)] sm:text-5xl md:text-6xl">
             Blog
           </h1>
           <p className="mt-4 text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
             Sharing my learning journey in AI Engineering, insights from ML projects, and experiences with Computer Vision, NLP, and Deep Learning.
           </p>
-        </motion.div>
+        </div>
 
         {/* Category Filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex flex-wrap gap-2 justify-center mb-12"
-        >
+        <div className="flex flex-wrap gap-2 justify-center mb-12">
           {categories.map((category) => (
             <button
               key={category}
@@ -66,28 +82,19 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </button>
           ))}
-        </motion.div>
+        </div>
 
         {/* Blog Posts Grid */}
         {filteredPosts.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-12"
-          >
+          <div className="text-center py-12">
             <p className="text-lg text-[var(--text-secondary)]">
               No blog posts yet. Check back soon!
             </p>
-          </motion.div>
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.map((post, index) => (
-              <motion.article
-                key={post.slug}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
+            {filteredPosts.map((post) => (
+              <article key={post.slug}>
                 <Link
                   href={`/blog/${post.slug}`}
                   className="group block bg-[var(--background-secondary)] border border-[var(--border)] rounded-2xl overflow-hidden hover:border-[var(--primary)] transition-all duration-300 hover:shadow-xl h-full"
@@ -147,7 +154,7 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
                     </div>
                   </div>
                 </Link>
-              </motion.article>
+              </article>
             ))}
           </div>
         )}

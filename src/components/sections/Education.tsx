@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { AcademicCapIcon, BookOpenIcon, TrophyIcon } from '@heroicons/react/24/outline'
 
 export default function Education() {
@@ -32,29 +31,19 @@ export default function Education() {
   return (
     <section className="py-16 sm:py-24 bg-[var(--background)]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl">
             Education
           </h2>
           <p className="mt-4 text-lg text-[var(--text-secondary)]">
             My academic journey in AI and Machine Learning
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {education.map((edu, index) => (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
               className="relative bg-[var(--background-secondary)] border border-[var(--border)] rounded-2xl p-6 sm:p-8 hover:border-[var(--primary)] transition-all duration-300 hover:shadow-lg"
             >
               {/* Status Badge */}
@@ -100,18 +89,12 @@ export default function Education() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           ))}
         </div>
 
         {/* Additional Academic Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4"
-        >
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 text-center">
             <TrophyIcon className="h-8 w-8 text-[var(--accent)] mx-auto mb-3" />
             <h4 className="text-lg font-semibold text-[var(--text)] mb-2">Relevant Coursework</h4>
@@ -135,7 +118,7 @@ export default function Education() {
               Geospatial AI, Environmental Monitoring, Computer Vision, Time-Series Forecasting
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

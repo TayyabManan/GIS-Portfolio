@@ -1,11 +1,10 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
 import { MapPinIcon, AcademicCapIcon, BriefcaseIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
 
 const skills = [
   'Machine Learning & Deep Learning (PyTorch, TensorFlow)',
@@ -49,75 +48,19 @@ const experience = [
 ]
 
 export default function AboutPage() {
-  const [mounted, setMounted] = useState(false)
-  
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-  
   return (
     <div className="relative bg-[var(--background)] py-16 min-h-screen overflow-hidden">
-      {/* Animated Background */}
+      {/* Background */}
       <div className="absolute inset-0">
         {/* Gradient base */}
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary-light)] via-[var(--background)] to-[var(--accent)] opacity-30" />
-        
+
         {/* Floating orbs */}
-        <motion.div
-          className="absolute top-[20%] left-[10%] w-96 h-96 bg-[var(--primary)] rounded-full blur-3xl opacity-20"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, -50, 0],
-          }}
-          transition={{
-            duration: 30,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute bottom-[20%] right-[10%] w-80 h-80 bg-[var(--accent)] rounded-full blur-3xl opacity-20"
-          animate={{
-            x: [0, -80, 0],
-            y: [0, 50, 0],
-          }}
-          transition={{
-            duration: 35,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        
+        <div className="absolute top-[20%] left-[10%] w-96 h-96 bg-[var(--primary)] rounded-full blur-3xl opacity-20" />
+        <div className="absolute bottom-[20%] right-[10%] w-80 h-80 bg-[var(--accent)] rounded-full blur-3xl opacity-20" />
+
         {/* Grid pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:48px_48px] opacity-[0.05]" />
-        
-        {/* Floating icons */}
-        {mounted && (
-          <div className="absolute inset-0">
-            {[...Array(8)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute"
-                style={{
-                  left: `${10 + (i * 12)}%`,
-                  top: `${15 + (i * 10)}%`,
-                }}
-                animate={{
-                  y: [0, -20, 0],
-                  rotate: [0, 10, 0],
-                }}
-                transition={{
-                  duration: 6 + i,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.5,
-                }}
-              >
-                <div className="w-12 h-12 border-2 border-[var(--border)] rounded-lg opacity-20" />
-              </motion.div>
-            ))}
-          </div>
-        )}
       </div>
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header - Left aligned */}
@@ -288,20 +231,20 @@ export default function AboutPage() {
                       opacity="0.3"
                     />
 
-                    {/* Code on screen - animated typing */}
+                    {/* Animated Code on screen */}
                     <g>
                       {[0, 1, 2, 3].map((i) => (
                         <motion.line
                           key={`code-${i}`}
                           x1="105"
                           y1={95 + i * 8}
-                          x2="105"
+                          x2="155"
                           y2={95 + i * 8}
                           stroke="var(--success)"
                           strokeWidth="2"
                           strokeLinecap="round"
-                          initial={{ x2: 105 }}
-                          animate={{ x2: 155 }}
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
                           transition={{
                             duration: 1.5,
                             delay: i * 0.3,
@@ -357,11 +300,11 @@ export default function AboutPage() {
                       />
                     ))}
 
-                    {/* Pen */}
+                    {/* Animated Pen */}
                     <motion.g
                       animate={{
-                        rotate: [0, -5, 0],
-                        x: [0, 2, 0]
+                        y: [0, -3, 0],
+                        rotate: [0, -2, 0]
                       }}
                       transition={{
                         duration: 2,
@@ -386,7 +329,7 @@ export default function AboutPage() {
                     </motion.g>
                   </g>
 
-                  {/* Floating idea icons */}
+                  {/* Animated Floating idea icons */}
                   {[
                     { x: 140, y: 50, icon: 'lightbulb', delay: 0 },
                     { x: 170, y: 70, icon: 'star', delay: 0.5 },
@@ -395,13 +338,13 @@ export default function AboutPage() {
                     <motion.g
                       key={`icon-${i}`}
                       animate={{
-                        y: [0, -8, 0],
-                        opacity: [0.4, 0.9, 0.4]
+                        y: [0, -5, 0],
+                        opacity: [0.7, 1, 0.7]
                       }}
                       transition={{
-                        duration: 3,
-                        repeat: Infinity,
+                        duration: 2.5,
                         delay: item.delay,
+                        repeat: Infinity,
                         ease: "easeInOut"
                       }}
                     >
@@ -412,33 +355,46 @@ export default function AboutPage() {
                         </>
                       )}
                       {item.icon === 'star' && (
-                        <path
+                        <motion.path
                           d={`M ${item.x} ${item.y - 6} L ${item.x + 2} ${item.y} L ${item.x + 6} ${item.y + 2} L ${item.x + 2} ${item.y + 4} L ${item.x} ${item.y + 8} L ${item.x - 2} ${item.y + 4} L ${item.x - 6} ${item.y + 2} L ${item.x - 2} ${item.y} Z`}
                           fill="var(--success)"
                           opacity="0.7"
+                          animate={{ rotate: [0, 360] }}
+                          transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: "linear"
+                          }}
                         />
                       )}
                       {item.icon === 'checkmark' && (
-                        <path
+                        <motion.path
                           d={`M ${item.x - 4} ${item.y} L ${item.x - 1} ${item.y + 4} L ${item.x + 4} ${item.y - 4}`}
                           stroke="var(--success)"
                           strokeWidth="3"
                           strokeLinecap="round"
                           fill="none"
                           opacity="0.7"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{
+                            duration: 1,
+                            repeat: Infinity,
+                            repeatDelay: 2
+                          }}
                         />
                       )}
                     </motion.g>
                   ))}
 
-                  {/* Chat bubbles */}
+                  {/* Animated Chat bubbles */}
                   <motion.g
                     animate={{
-                      scale: [1, 1.05, 1],
-                      opacity: [0.6, 0.9, 0.6]
+                      y: [0, -3, 0],
+                      opacity: [0.6, 0.8, 0.6]
                     }}
                     transition={{
-                      duration: 2.5,
+                      duration: 2,
                       repeat: Infinity,
                       ease: "easeInOut"
                     }}
@@ -450,13 +406,13 @@ export default function AboutPage() {
 
                   <motion.g
                     animate={{
-                      scale: [1, 1.05, 1],
-                      opacity: [0.6, 0.9, 0.6]
+                      y: [0, -3, 0],
+                      opacity: [0.6, 0.8, 0.6]
                     }}
                     transition={{
-                      duration: 2.5,
+                      duration: 2,
+                      delay: 0.5,
                       repeat: Infinity,
-                      delay: 0.3,
                       ease: "easeInOut"
                     }}
                   >
@@ -465,7 +421,7 @@ export default function AboutPage() {
                     <path d="M 60 183 L 64 187 L 68 183" fill="var(--accent)" opacity="0.6" />
                   </motion.g>
 
-                  {/* Connecting dots showing collaboration */}
+                  {/* Animated Connecting dots showing collaboration */}
                   {[0, 1, 2, 3, 4].map((i) => (
                     <motion.circle
                       key={`dot-${i}`}
@@ -473,15 +429,15 @@ export default function AboutPage() {
                       cy={155}
                       r="2"
                       fill="var(--info)"
-                      opacity="0"
+                      opacity="0.4"
                       animate={{
-                        opacity: [0, 0.8, 0],
-                        scale: [0.5, 1.5, 0.5]
+                        scale: [1, 1.5, 1],
+                        opacity: [0.4, 0.8, 0.4]
                       }}
                       transition={{
-                        duration: 2,
-                        repeat: Infinity,
+                        duration: 1.5,
                         delay: i * 0.2,
+                        repeat: Infinity,
                         ease: "easeInOut"
                       }}
                     />

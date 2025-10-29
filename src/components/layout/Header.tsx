@@ -45,7 +45,8 @@ export default function Header() {
     let lastProgress = -1
 
     const updateScrollProgress = () => {
-      const scrollY = window.scrollY
+      // Use pageYOffset as fallback for better mobile compatibility
+      const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop
       const threshold = 150
       const completeAt = 300
 
@@ -76,12 +77,29 @@ export default function Header() {
       }
     }
 
+    // Handle touchend with delayed update for mobile scroll completion
+    const handleTouchEnd = () => {
+      setTimeout(updateScrollProgress, 100)
+    }
+
     // Use passive listener for better scroll performance
     window.addEventListener('scroll', handleScroll, { passive: true })
-    updateScrollProgress() // Check initial scroll position
+
+    // Add touchmove listener for better mobile scroll detection
+    // This ensures updates happen during touch-based scrolling on mobile devices
+    window.addEventListener('touchmove', handleScroll, { passive: true })
+
+    // Force update on touchend to catch final scroll position on mobile
+    window.addEventListener('touchend', handleTouchEnd, { passive: true })
+
+    // Initial check with delay for mobile browsers (after address bar settles)
+    updateScrollProgress()
+    setTimeout(updateScrollProgress, 100)
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('touchmove', handleScroll)
+      window.removeEventListener('touchend', handleTouchEnd)
       document.documentElement.style.removeProperty('--scroll-progress')
     }
   }, [isScrolled])

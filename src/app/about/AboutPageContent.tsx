@@ -176,7 +176,7 @@ export default function AboutPage() {
           <div className="lg:col-span-1 order-1 lg:order-2">
             <div className="relative aspect-square w-64 mx-auto mb-8 rounded-xl overflow-hidden shadow-lg border-2 border-[var(--border)]">
               <Image
-                src="/images/profile.jpg"
+                src="/images/profile-picture.webp"
                 alt="Tayyab Manan - ML Engineer and AI Developer specializing in Computer Vision, NLP, and Geospatial AI"
                 fill
                 className="object-cover"

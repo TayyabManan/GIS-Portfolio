@@ -123,7 +123,7 @@ export default function Footer() {
                     <span className="text-sm text-[var(--text-secondary)]">Islamabad, Pakistan</span>
                   </div>
                   <a
-                    href="mailto:haris.a.mannan@gmail.com"
+                    href="mailto:m.tayyab.manan@gmail.com"
                     className="text-sm text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors inline-flex items-center gap-2"
                   >
                     <EnvelopeIcon className="h-3.5 w-3.5 text-[var(--text-tertiary)]" />
@@ -177,11 +177,11 @@ export default function Footer() {
               </div>
               <div className="flex items-start gap-3">
                 <EnvelopeIcon className="h-5 w-5 text-[var(--text-tertiary)] mt-0.5 flex-shrink-0" />
-                <a 
-                  href="mailto:haris.a.mannan@gmail.com"
+                <a
+                  href="mailto:m.tayyab.manan@gmail.com"
                   className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors break-all"
                 >
-                  haris.a.mannan@gmail.com
+                  m.tayyab.manan@gmail.com
                 </a>
               </div>
             </div>

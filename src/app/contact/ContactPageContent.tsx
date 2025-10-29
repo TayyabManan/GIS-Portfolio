@@ -21,8 +21,8 @@ const contactInfo = [
   {
     icon: EnvelopeIcon,
     label: "Email",
-    value: "haris.a.mannan@gmail.com",
-    href: "mailto:haris.a.mannan@gmail.com",
+    value: "m.tayyab.manan@gmail.com",
+    href: "mailto:m.tayyab.manan@gmail.com",
   },
   {
     icon: MapPinIcon,
@@ -304,7 +304,7 @@ export default function ContactPageContent() {
                 <div className="mb-6 p-4 bg-[var(--error)]/10 dark:bg-[var(--error)]/20 border border-[var(--error)]/30 dark:border-[var(--error)]/40 rounded-lg">
                   <p className="text-[var(--error)] dark:text-[var(--error)]">
                     Sorry, there was an error sending your message. Please try
-                    again or contact me directly at haris.a.mannan@gmail.com.
+                    again or contact me directly at m.tayyab.manan@gmail.com.
                   </p>
                 </div>
               )}

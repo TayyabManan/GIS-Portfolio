@@ -289,7 +289,7 @@ const jsonLd = [
       'Transfer Learning',
       'Model Fine-tuning'
     ],
-    email: 'haris.a.mannan@gmail.com',
+    email: 'm.tayyab.manan@gmail.com',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Islamabad',

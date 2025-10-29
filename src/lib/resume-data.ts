@@ -73,7 +73,7 @@ export const resumeData: ResumeData = {
   personalInfo: {
     name: "Tayyab Manan",
     title: "AI Engineering Student | ML Developer",
-    email: "haris.a.mannan@gmail.com",
+    email: "m.tayyab.manan@gmail.com",
     location: "Islamabad, Pakistan",
     website: "https://tayyabmanan.com/",
     github: "https://github.com/TayyabManan",

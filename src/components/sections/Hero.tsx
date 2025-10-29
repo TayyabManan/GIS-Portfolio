@@ -368,39 +368,7 @@ export default function Hero() {
                     <div className="text-[10px] text-[var(--success)] mt-1 font-bold">100%</div>
                   </motion.div>
                 </div>
-
-                {/* Floating tech icons/badges */}
-                {!isMobile && !prefersReducedMotion && (
-                  <>
-                    <motion.div
-                      animate={{
-                        y: [0, -10, 0],
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                      className="absolute -top-4 -right-4 bg-[var(--background)] border-2 border-[var(--primary)] rounded-lg px-3 py-2 shadow-lg"
-                    >
-                      <span className="text-sm font-semibold text-[var(--primary)]">PyTorch</span>
-                    </motion.div>
-                    <motion.div
-                      animate={{
-                        y: [0, 10, 0],
-                      }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 0.5
-                      }}
-                      className="absolute -bottom-4 -left-4 bg-[var(--background)] border-2 border-[var(--accent)] rounded-lg px-3 py-2 shadow-lg"
-                    >
-                      <span className="text-sm font-semibold text-[var(--accent)]">LangChain</span>
-                    </motion.div>
-                  </>
-                )}
+                
               </div>
             </motion.div>
           </div>

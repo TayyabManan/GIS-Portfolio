@@ -165,11 +165,9 @@ export default function Header() {
             <Link
               href="/resume"
               className={`relative bg-[var(--primary)] text-white font-medium hover:bg-[var(--primary-hover)] transition-all duration-300 flex items-center group ${
-                isScrolled 
-                  ? 'px-4 py-1.5 rounded-full text-sm h-8' 
+                isScrolled
+                  ? 'px-4 py-1.5 rounded-full text-sm h-8'
                   : 'px-5 py-2.5 rounded-lg text-base'
-              } ${
-                showResumeAnimation ? 'animate-pulse-attention' : ''
               }`}
             >
               <span className="flex items-center gap-2">
@@ -181,13 +179,7 @@ export default function Header() {
                 <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 border-4 border-transparent" style={{ borderBottomColor: 'var(--background-tertiary)' }}></div>
               </div>
               {showResumeAnimation && (
-                <>
-                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--success)] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--success)]"></span>
-                  </span>
-                  <span className="absolute inset-0 rounded-md bg-[var(--primary-hover)] opacity-0 animate-shine"></span>
-                </>
+                <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-[var(--success)]"></span>
               )}
             </Link>
           </div>
@@ -232,9 +224,7 @@ export default function Header() {
               ))}
               <Link
                 href="/resume"
-                className={`relative bg-[var(--primary)] text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[var(--primary-hover)] mt-4 ${
-                  showResumeAnimation ? 'animate-pulse-attention' : ''
-                }`}
+                className="relative bg-[var(--primary)] text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-[var(--primary-hover)] mt-4"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="flex items-center gap-2 justify-center">
@@ -242,10 +232,7 @@ export default function Header() {
                   <ChatBubbleLeftRightIcon className="h-4 w-4" />
                 </span>
                 {showResumeAnimation && (
-                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--success)] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--success)]"></span>
-                  </span>
+                  <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-[var(--success)]"></span>
                 )}
               </Link>
             </div>

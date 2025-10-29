@@ -1,6 +1,17 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
 
+/* Safari-specific scroll optimizations */
+@supports (-webkit-backdrop-filter: blur(1px)) {
+  html {
+    /* Use native smooth scroll on Safari for better performance */
+    scroll-behavior: smooth;
+    /* Hardware acceleration for scroll */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+}
+
 /* Gradient flow animation for hero section */
 @keyframes gradientFlow {
   0% {
@@ -91,26 +102,8 @@ button, a, input, select, textarea,
   }
 }
 
-@keyframes shine {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-}
-
 .animate-pulse-attention {
   animation: pulse-attention 2s ease-in-out infinite;
-}
-
-.animate-shine {
-  animation: shine 3s ease-in-out infinite;
 }
 
 /* Hero background animation classes */

@@ -298,73 +298,6 @@ const jsonLd = [
   },
   {
     '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    '@id': 'https://tayyabmanan.com/#service',
-    name: 'Tayyab Manan - AI Engineering Student Portfolio',
-    description: 'AI Engineering graduate student portfolio showcasing machine learning projects, computer vision applications, NLP systems, and geospatial AI solutions. Expertise in PyTorch, TensorFlow, LangChain, and production ML deployment. Available for Summer 2026 ML/AI internships.',
-    url: 'https://tayyabmanan.com',
-    email: 'haris.a.mannan@gmail.com',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Islamabad',
-      addressCountry: 'Pakistan'
-    },
-    priceRange: 'Internship',
-    areaServed: {
-      '@type': 'Place',
-      name: 'Worldwide (Remote Work Available)'
-    },
-    serviceType: [
-      'Machine Learning Development',
-      'Computer Vision Applications',
-      'Natural Language Processing',
-      'Deep Learning Projects',
-      'MLOps & Model Deployment',
-      'Geospatial AI Solutions',
-      'Time Series Forecasting',
-      'Predictive Analytics'
-    ],
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'ML & AI Project Portfolio',
-      itemListElement: [
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Computer Vision Projects',
-            description: 'Object detection, image classification, and semantic segmentation using PyTorch, TensorFlow, and OpenCV. Experience with CNNs, Vision Transformers, and transfer learning.'
-          }
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'NLP & LangChain Applications',
-            description: 'Natural language processing projects including text classification, sentiment analysis, and LLM-powered applications using LangChain and Hugging Face Transformers.'
-          }
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Geospatial AI & Predictive Analytics',
-            description: 'Machine learning for geospatial analysis, satellite imagery processing, time-series forecasting, and predictive modeling using Google Earth Engine and Scikit-learn.'
-          }
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'MLOps & Model Deployment',
-            description: 'Experience deploying ML models as REST APIs using FastAPI/Flask, containerization with Docker, and building end-to-end ML pipelines.'
-          }
-        }
-      ]
-    }
-  },
-  {
-    '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': 'https://tayyabmanan.com/#website',
     url: 'https://tayyabmanan.com',
@@ -401,24 +334,18 @@ const jsonLd = [
       {
         '@type': 'ListItem',
         position: 3,
-        name: 'Services',
-        item: 'https://tayyabmanan.com/services'
-      },
-      {
-        '@type': 'ListItem',
-        position: 4,
         name: 'Projects',
         item: 'https://tayyabmanan.com/projects'
       },
       {
         '@type': 'ListItem',
-        position: 5,
+        position: 4,
         name: 'Resume',
         item: 'https://tayyabmanan.com/resume'
       },
       {
         '@type': 'ListItem',
-        position: 6,
+        position: 5,
         name: 'Contact',
         item: 'https://tayyabmanan.com/contact'
       }
@@ -497,8 +424,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
       </head>

@@ -139,6 +139,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                  aria-label="LinkedIn Profile"
                 >
                   <Linkedin className="h-5 w-5" />
                 </a>
@@ -147,6 +148,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                  aria-label="GitHub Profile"
                 >
                   <Github className="h-5 w-5" />
                 </a>
@@ -155,6 +157,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                  aria-label="Upwork Profile"
                 >
                   <UpworkIcon className="h-5 w-5" />
                 </a>
@@ -210,27 +213,30 @@ export default function Footer() {
             <div>
             <h3 className="text-lg font-semibold mb-4 text-[var(--text)]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>Connect</h3>
             <div className="flex items-center gap-4">
-              <a 
-                href="https://www.linkedin.com/in/muhammad-tayyab-3962a2373/" 
-                target="_blank" 
+              <a
+                href="https://www.linkedin.com/in/muhammad-tayyab-3962a2373/"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                aria-label="LinkedIn Profile"
               >
                 <Linkedin className="h-6 w-6" />
               </a>
-              <a 
-                href="https://github.com/TayyabManan" 
-                target="_blank" 
+              <a
+                href="https://github.com/TayyabManan"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                aria-label="GitHub Profile"
               >
                 <Github className="h-6 w-6" />
               </a>
-              <a 
-                href="https://www.upwork.com/users/~0155edcc7d42fc5b51" 
-                target="_blank" 
+              <a
+                href="https://www.upwork.com/users/~0155edcc7d42fc5b51"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                aria-label="Upwork Profile"
               >
                 <UpworkIcon className="h-6 w-6" />
               </a>

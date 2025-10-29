@@ -112,10 +112,8 @@ export const useOptimizedSettings = () => {
 // Resource hints for critical resources
 export const resourceHints = [
   // Preconnect to external domains
-  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
   { rel: 'preconnect', href: 'https://www.google-analytics.com' },
-  
+
   // DNS prefetch for potential external resources
   { rel: 'dns-prefetch', href: 'https://vercel.live' },
   { rel: 'dns-prefetch', href: 'https://vitals.vercel-insights.com' },

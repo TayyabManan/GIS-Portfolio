@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import AboutPageContent from './AboutPageContent'
 
 export const metadata: Metadata = {
-  title: 'About - AI Engineering Student & ML Developer',
+  title: 'About - Tayyab Manan | AI Engineering Student & ML Developer',
   description: 'AI Engineering graduate student specializing in Computer Vision, NLP, and Geospatial AI. Building ML systems with PyTorch, TensorFlow & LangChain through coursework and projects.',
   keywords: [
     'about Tayyab Manan',

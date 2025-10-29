@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import ContactPageContent from './ContactPageContent'
 
 export const metadata: Metadata = {
-  title: 'Contact - AI Engineering Student',
+  title: 'Contact - Tayyab Manan | AI Engineering Student',
   description: 'Get in touch with AI Engineering student for collaboration opportunities, internship inquiries, or project discussions. Specializing in Computer Vision, NLP & Geospatial AI with PyTorch and TensorFlow.',
   keywords: [
     'contact AI engineering student',

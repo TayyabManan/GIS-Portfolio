@@ -19,7 +19,6 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showResumeAnimation, setShowResumeAnimation] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [scrollProgress, setScrollProgress] = useState(0)
   const pathname = usePathname()
 
   const isActive = (href: string) => {
@@ -40,23 +39,36 @@ export default function Header() {
     }
   }, [pathname])
 
-  // Handle scroll behavior with debouncing and RAF
+  // Handle scroll behavior with CSS custom properties to avoid forced reflow
   useEffect(() => {
     let ticking = false
-    
+    let lastProgress = -1
+
     const updateScrollProgress = () => {
       const scrollY = window.scrollY
-      const threshold = 150 // Start transformation at this point
-      const completeAt = 300 // Complete transformation at this point
-      
+      const threshold = 150
+      const completeAt = 300
+
       // Calculate progress from 0 to 1
       const progress = Math.min(Math.max((scrollY - threshold) / (completeAt - threshold), 0), 1)
-      
-      setScrollProgress(progress)
-      setIsScrolled(progress > 0)
+
+      // Only update if progress changed significantly (avoid unnecessary updates)
+      if (Math.abs(progress - lastProgress) > 0.01) {
+        // Update CSS custom property directly (no React re-render, no layout thrashing)
+        document.documentElement.style.setProperty('--scroll-progress', progress.toString())
+
+        // Only update React state for boolean flag (minimal re-render)
+        const scrolled = progress > 0
+        if (scrolled !== isScrolled) {
+          setIsScrolled(scrolled)
+        }
+
+        lastProgress = progress
+      }
+
       ticking = false
     }
-    
+
     const handleScroll = () => {
       if (!ticking) {
         requestAnimationFrame(updateScrollProgress)
@@ -68,44 +80,43 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     updateScrollProgress() // Check initial scroll position
 
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Calculate dynamic styles based on scroll progress
-  const navMarginTop = `${1 * scrollProgress}rem`
-  const navBorderRadius = `${9999 * scrollProgress}px`
-  const navBackgroundOpacity = 0.7 * scrollProgress
-  const borderOpacity = scrollProgress > 0 ? (1 - scrollProgress) : 1
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      document.documentElement.style.removeProperty('--scroll-progress')
+    }
+  }, [isScrolled])
 
   return (
-    <header 
+    <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-75"
       style={{
-        backgroundColor: scrollProgress > 0 ? 'transparent' : 'var(--background)',
-        borderBottomWidth: scrollProgress > 0 ? '0px' : '1px',
-        borderBottomColor: `rgba(var(--border-rgb), ${borderOpacity})`,
-        boxShadow: scrollProgress === 0 ? '0 1px 3px 0 rgba(0, 0, 0, 0.1)' : 'none'
+        backgroundColor: isScrolled ? 'transparent' : 'var(--background)',
+        borderBottomWidth: isScrolled ? '0px' : '1px',
+        borderBottomColor: `rgba(var(--border-rgb), calc(1 - var(--scroll-progress, 0)))`,
+        boxShadow: isScrolled ? 'none' : '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
       }}
     >
-      <nav 
+      <nav
         className="mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-75 ease-out"
         style={{
-          maxWidth: scrollProgress === 1 ? '64rem' : '80rem',
-          marginTop: navMarginTop,
+          maxWidth: `calc(80rem - (16rem * var(--scroll-progress, 0)))`,
+          marginTop: `calc(1rem * var(--scroll-progress, 0))`,
+          willChange: 'margin-top, max-width'
         }}
         role="navigation"
         aria-label="Main navigation"
       >
-        <div 
+        <div
           className="flex items-center justify-between px-6 transition-all duration-75"
           style={{
-            height: `${4 - (0.5 * scrollProgress)}rem`,
-            borderRadius: navBorderRadius,
-            backgroundColor: scrollProgress > 0 ? `rgba(var(--background-rgb), ${navBackgroundOpacity})` : 'transparent',
-            backdropFilter: scrollProgress > 0 ? `blur(${12 * scrollProgress}px)` : 'none',
-            boxShadow: scrollProgress > 0 ? `0 10px 30px -10px rgba(0, 0, 0, ${0.1 * scrollProgress})` : 'none',
-            borderWidth: scrollProgress > 0 ? '1px' : '0px',
-            borderColor: `rgba(var(--border-rgb), ${0.5 * scrollProgress})`
+            height: `calc(4rem - (0.5rem * var(--scroll-progress, 0)))`,
+            borderRadius: `calc(9999px * var(--scroll-progress, 0))`,
+            backgroundColor: `rgba(var(--background-rgb), calc(0.7 * var(--scroll-progress, 0)))`,
+            backdropFilter: `blur(calc(12px * var(--scroll-progress, 0)))`,
+            boxShadow: isScrolled ? `rgba(0, 0, 0, calc(0.1 * var(--scroll-progress, 0))) 0px 10px 30px -10px` : 'none',
+            borderWidth: isScrolled ? '1px' : '0px',
+            borderColor: `rgba(var(--border-rgb), calc(0.5 * var(--scroll-progress, 0)))`,
+            willChange: 'height, border-radius, background-color, backdrop-filter'
           }}
         >
           <div className="flex items-center">

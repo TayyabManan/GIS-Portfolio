@@ -3,7 +3,7 @@ import { getAllBlogPosts } from '@/lib/markdown'
 import BlogPageContent from './BlogPageContent'
 
 export const metadata: Metadata = {
-  title: 'Blog - AI Engineering Student Insights & Learning Journey',
+  title: 'Blog - Tayyab Manan | AI Engineering Student Insights & Learning Journey',
   description: 'Read about my learning journey in AI Engineering, ML projects, technical insights, and experiences with Computer Vision, NLP, and Deep Learning. Student perspectives on AI/ML development.',
   keywords: [
     'AI engineering blog',

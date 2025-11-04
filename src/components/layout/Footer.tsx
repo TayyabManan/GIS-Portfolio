@@ -94,13 +94,14 @@ export default function Footer() {
               </div>
 
               {/* Social Icons */}
-              <div className="flex items-center justify-center gap-6">
+              <div className="flex items-center justify-center gap-4">
                 <a
                   href="https://www.linkedin.com/in/muhammad-tayyab-3962a2373/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                  className="p-2 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--primary)] hover:text-[var(--primary-hover)]"
                   aria-label="LinkedIn Profile"
+                  title="LinkedIn"
                 >
                   <Linkedin className="h-5 w-5" />
                 </a>
@@ -108,8 +109,9 @@ export default function Footer() {
                   href="https://github.com/TayyabManan"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                  className="p-2 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--text)] hover:text-[var(--text-secondary)]"
                   aria-label="GitHub Profile"
+                  title="GitHub"
                 >
                   <Github className="h-5 w-5" />
                 </a>
@@ -117,8 +119,9 @@ export default function Footer() {
                   href="https://www.upwork.com/users/~0155edcc7d42fc5b51"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                  className="p-2 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--success)] hover:text-[var(--success)]/80"
                   aria-label="Upwork Profile"
+                  title="Upwork"
                 >
                   <UpworkIcon className="h-5 w-5" />
                 </a>
@@ -178,8 +181,9 @@ export default function Footer() {
                 href="https://www.linkedin.com/in/muhammad-tayyab-3962a2373/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                className="p-3 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--primary)] hover:text-[var(--primary-hover)]"
                 aria-label="LinkedIn Profile"
+                title="LinkedIn"
               >
                 <Linkedin className="h-6 w-6" />
               </a>
@@ -187,8 +191,9 @@ export default function Footer() {
                 href="https://github.com/TayyabManan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                className="p-3 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--text)] hover:text-[var(--text-secondary)]"
                 aria-label="GitHub Profile"
+                title="GitHub"
               >
                 <Github className="h-6 w-6" />
               </a>
@@ -196,8 +201,9 @@ export default function Footer() {
                 href="https://www.upwork.com/users/~0155edcc7d42fc5b51"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors"
+                className="p-3 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--success)] hover:text-[var(--success)]/80"
                 aria-label="Upwork Profile"
+                title="Upwork"
               >
                 <UpworkIcon className="h-6 w-6" />
               </a>

@@ -1,0 +1,72 @@
+# Tayyab Manan - AI Engineer & Geospatial Developer
+
+> Portfolio of Tayyab Manan, an AI Engineering student specializing in machine learning, geospatial AI, and full-stack web development. Featured projects include ML-powered groundwater prediction using satellite data, time-series forecasting systems, geospatial optimization algorithms, and production web applications. Technical expertise spans Python, React, TypeScript, Flask, Google Earth Engine, Scikit-learn, and modern web technologies.
+
+## About
+
+I'm an AI Engineering student focused on applying machine learning to real-world problems, particularly in geospatial analysis and environmental monitoring. My work combines data science, ML engineering, and full-stack development to build systems that provide actionable insights for critical challenges like water resource management, infrastructure optimization, and educational decision-making.
+
+## Featured Projects
+
+- [WaterTrace Pakistan](https://tayyabmanan.com/projects/watertrace): ML-powered groundwater prediction system using 22 years of NASA satellite data (GRACE & GLDAS). Features time-series forecasting models achieving R²=0.89 accuracy, processing 235 monthly observations across 145 districts. Built with React, Flask, Scikit-learn, and Google Earth Engine. Addresses Pakistan's critical water crisis through predictive analytics.
+
+- [TeacherRank](https://tayyabmanan.com/projects/teacher-rank): Full-stack student-driven teacher review platform with multi-dimensional rating system. Built with React 18, TypeScript, Supabase (PostgreSQL + real-time subscriptions), TanStack Query, and Tailwind CSS. Features include JWT authentication, row-level security, real-time synchronization, advanced search with caching, and PWA capabilities. Lighthouse score 95+.
+
+- [EV Suitability Analysis](https://tayyabmanan.com/projects/ev-analysis): Geospatial AI system for optimal EV charging station placement using multi-criteria decision analysis (MCDA) and weighted scoring algorithms. Integrates 2023 Pakistan Census data, OpenStreetMap infrastructure, and demographic indicators. Built with Python, GeoPandas, and QGIS. Identified 5 priority sites through ML-optimized ranking for 90%+ coverage.
+
+## Technical Blog Posts
+
+- [Building WaterTrace: ML-Powered Groundwater Prediction](https://tayyabmanan.com/blog/building-watertrace): Comprehensive technical deep-dive into building a geospatial AI system. Covers Google Earth Engine data processing, time-series feature engineering, Scikit-learn model development (Linear Regression, Random Forest, Gradient Boosting), SHAP model interpretation, handling data gaps between GRACE and GLDAS sources, deployment challenges (Render cold starts vs Cloudflare Workers), and frontend optimization with React and Recharts. 12-minute read covering the complete ML pipeline from satellite data to production deployment.
+
+- [Building TeacherRank: Student-Driven Review Platform](https://tayyabmanan.com/blog/building-teacherrank): Full-stack web development case study covering React + TypeScript architecture, Supabase backend implementation, TanStack Query caching strategies, real-time data synchronization, database schema design with foreign keys and RLS policies, performance optimization (code splitting, virtual scrolling, image optimization achieving 60% bundle reduction), security implementation (JWT auth, input sanitization, rate limiting), and planned AI enhancements (sentiment analysis, recommendation engine, anomaly detection). 10-minute read with code examples and performance metrics.
+
+## Technical Skills & Expertise
+
+**Machine Learning & AI:**
+- Time-series forecasting and regression modeling (Scikit-learn)
+- Feature engineering for geospatial and temporal data
+- Model evaluation, cross-validation, and hyperparameter tuning
+- Model interpretation (SHAP values)
+- Google Earth Engine for satellite data processing
+
+**Geospatial Analysis:**
+- Spatial data processing (GeoPandas, Shapely)
+- Multi-criteria decision analysis (MCDA)
+- Satellite data integration (GRACE, GLDAS, OpenStreetMap)
+- GIS platforms (QGIS, ArcGIS)
+
+**Full-Stack Development:**
+- Frontend: React 18, TypeScript, Next.js 14, Tailwind CSS, TanStack Query
+- Backend: Flask, Node.js, RESTful APIs
+- Database: PostgreSQL, Supabase, row-level security
+- Deployment: Vercel, Cloudflare Workers, Render
+- Performance optimization: code splitting, caching, bundle optimization
+
+## Optional
+
+- [About Page](https://tayyabmanan.com/about): Detailed background, education, and technical journey
+- [Resume](https://tayyabmanan.com/resume): Complete professional experience and skills
+- [Contact](https://tayyabmanan.com/contact): Get in touch for collaborations, opportunities, or technical discussions
+- [All Projects](https://tayyabmanan.com/projects): Complete portfolio of projects
+- [All Blog Posts](https://tayyabmanan.com/blog): Technical writing and project retrospectives
+
+## Key Achievements & Metrics
+
+- **WaterTrace**: Achieved R²=0.89 prediction accuracy, processed 22 years of satellite data, 145 districts monitored
+- **TeacherRank**: Lighthouse score 95+, 60% bundle size reduction, sub-200ms API response times
+- **EV Analysis**: 90%+ coverage target, 5 priority sites identified through ML optimization
+
+## Technologies & Tools
+
+Python, React, TypeScript, Next.js, Flask, Scikit-learn, Pandas, NumPy, Google Earth Engine, Supabase, PostgreSQL, TanStack Query, Tailwind CSS, Recharts, Leaflet, GeoPandas, QGIS, Git, Vercel, Cloudflare Workers
+
+## Contact & Links
+
+- Website: https://tayyabmanan.com
+- GitHub: https://github.com/TayyabManan
+- LinkedIn: Professional profile available on website
+- Email: Available through contact form
+
+---
+
+This file follows the llms.txt standard (https://llmstxt.org/) to help AI language models better understand and reference this portfolio's content. Last updated: January 2025.

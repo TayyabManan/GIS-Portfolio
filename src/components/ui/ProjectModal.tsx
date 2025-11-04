@@ -18,7 +18,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+      <Dialog as="div" className="relative z-[9999]" onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -28,11 +28,11 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity" />
+          <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity z-[9998]" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 flex items-center justify-center overflow-hidden">
-          <div className="flex items-center justify-center p-4 text-center sm:p-6 w-full">
+        <div className="fixed inset-0 z-[9999] overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -42,11 +42,11 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden max-h-[90vh] rounded-xl bg-[var(--background)] dark:bg-[var(--background-secondary)] text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-5xl flex flex-col md:flex-row">
+              <Dialog.Panel className="relative transform rounded-xl bg-[var(--background)] dark:bg-[var(--background-secondary)] text-left shadow-xl transition-all my-8 w-full max-w-[95vw] sm:max-w-5xl max-h-[85vh] overflow-y-auto flex flex-col md:flex-row">
                 {/* Close button - positioned at top right of entire modal */}
                 <button
                   type="button"
-                  className="absolute right-3 top-3 bg-black/50 backdrop-blur-sm rounded-full p-2 text-white/90 hover:text-white hover:bg-black/70 transition-all z-30 border border-white/20 flex items-center justify-center md:bg-[var(--background-tertiary)] md:text-[var(--text)] md:border-[var(--border)]"
+                  className="absolute right-3 top-3 bg-white/90 dark:bg-black/50 backdrop-blur-sm rounded-full p-2 text-gray-900 dark:text-white/90 hover:bg-white dark:hover:bg-black/70 transition-all z-50 border border-gray-300 dark:border-white/20 shadow-lg flex items-center justify-center"
                   onClick={onClose}
                 >
                   <span className="sr-only">Close</span>

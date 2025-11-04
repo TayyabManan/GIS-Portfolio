@@ -26,8 +26,11 @@ export default function ResumeChatbot() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+    // Only scroll to bottom if chatbot is open, prevents auto-scroll on page load
+    if (isOpen) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages, isOpen])
 
   const handleOpen = () => {
     setIsOpen(true)

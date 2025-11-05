@@ -5,12 +5,16 @@ import Image from 'next/image'
 import { DynamicReactMarkdown } from '@/lib/dynamic-imports'
 import { CalendarIcon, ClockIcon, UserIcon, ArrowLeftIcon, TagIcon } from '@heroicons/react/24/outline'
 import { BlogPostWithContent } from '@/lib/markdown'
+import ReadingProgress from '@/components/ui/ReadingProgress'
+import ShareButtons from '@/components/ui/ShareButtons'
+import CodeBlock from '@/components/ui/CodeBlock'
 
 interface BlogPostClientProps {
   post: BlogPostWithContent
 }
 
 export default function BlogPostClient({ post }: BlogPostClientProps) {
+  const postUrl = `https://tayyabmanan.com/blog/${post.slug}`
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', {
@@ -21,8 +25,10 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
   }
 
   return (
-    <div className="min-h-screen relative py-24 overflow-hidden">
-      {/* Background with gradient */}
+    <>
+      <ReadingProgress />
+      <div className="min-h-screen relative py-24 overflow-hidden">
+        {/* Background with gradient */}
       <div className="absolute inset-0">
         {/* Beautiful gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-gradient-start)] via-[var(--hero-gradient-mid)] to-[var(--hero-gradient-end)]" />
@@ -49,7 +55,8 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
         />
       </div>
 
-      <article className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <article>
         {/* Back Button */}
         <div className="mb-8">
           <Link
@@ -176,9 +183,9 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
                 )
               },
               pre: ({ children }) => (
-                <pre className="bg-[var(--background-secondary)] p-4 rounded-lg overflow-x-auto mb-4">
+                <CodeBlock className="bg-[var(--background-secondary)] p-4 rounded-lg overflow-x-auto mb-4">
                   {children}
-                </pre>
+                </CodeBlock>
               ),
               blockquote: ({ children }) => (
                 <blockquote className="border-l-4 border-[var(--primary)] pl-4 italic text-[var(--text-secondary)] my-4">
@@ -211,17 +218,25 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
           </DynamicReactMarkdown>
         </div>
 
-        {/* Back to Blog Link */}
+        {/* Share Section */}
         <div className="mt-12 pt-8 border-t border-[var(--border)]">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors font-medium"
-          >
-            <ArrowLeftIcon className="h-4 w-4" />
-            <span>Back to all posts</span>
-          </Link>
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors font-medium"
+            >
+              <ArrowLeftIcon className="h-4 w-4" />
+              <span>Back to all posts</span>
+            </Link>
+            <ShareButtons
+              title={post.title}
+              url={postUrl}
+            />
+          </div>
         </div>
       </article>
     </div>
+    </div>
+    </>
   )
 }

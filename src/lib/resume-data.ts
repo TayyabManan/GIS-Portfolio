@@ -194,7 +194,7 @@ export const resumeData: ResumeData = {
       current: true,
       description: [
         "Built 5+ production ML models reducing processing time by 40%",
-        "Developed multi-agent systems using LangChain and AutoGen serving 100+ daily users",
+        "Developed multi-agent systems using LangChain and AutoGen with 92% task completion accuracy",
         "Implemented automated workflows with Model Context Protocol, saving 15 hours/week",
         "Collaborated in Agile methodology with cross-functional teams for iterative development"
       ],

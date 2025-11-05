@@ -147,7 +147,7 @@ export default function ResumeChatbot() {
   return (
     <>
       {/* Chat Button with Pulse Animation */}
-      <div className={`fixed bottom-4 right-4 z-40 ${isOpen ? 'hidden' : 'block'}`}>
+      <div className={`fixed bottom-4 right-4 z-[100] ${isOpen ? 'hidden' : 'block'}`}>
         <button
           onClick={handleOpen}
           className="relative bg-[var(--primary)] text-white p-4 rounded-full shadow-lg hover:bg-[var(--primary-hover)] transition-all duration-300 group"
@@ -173,7 +173,7 @@ export default function ResumeChatbot() {
 
       {/* Chat Window */}
       <div
-        className={`fixed z-50 transition-all duration-300 ${
+        className={`fixed z-[100] transition-all duration-300 ${
           isOpen ? 'pointer-events-auto' : 'pointer-events-none'
         } ${
           isMinimized 

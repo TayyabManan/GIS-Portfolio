@@ -18,7 +18,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-[9999]" onClose={onClose}>
+      <Dialog as="div" className="relative z-[200]" onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -28,10 +28,10 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity z-[9998]" />
+          <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity z-[199]" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-[9999] overflow-y-auto">
+        <div className="fixed inset-0 z-[200] overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
             <Transition.Child
               as={Fragment}

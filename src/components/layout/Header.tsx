@@ -19,20 +19,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showResumeAnimation, setShowResumeAnimation] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
   const pathname = usePathname()
-
-  // Detect mobile viewport
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
@@ -141,20 +128,12 @@ export default function Header() {
           className="flex items-center justify-between px-6 transition-all duration-75"
           style={{
             height: `calc(4rem - (0.5rem * var(--scroll-progress, 0)))`,
-            borderRadius: isMobile ? '9999px' : `calc(9999px * var(--scroll-progress, 0))`,
-            backgroundColor: isMobile
-              ? 'rgba(var(--background-rgb), 0.7)'
-              : `rgba(var(--background-rgb), calc(0.7 * var(--scroll-progress, 0)))`,
-            backdropFilter: isMobile
-              ? 'blur(12px)'
-              : `blur(calc(12px * var(--scroll-progress, 0)))`,
-            boxShadow: isScrolled || isMobile
-              ? `rgba(0, 0, 0, ${isMobile ? '0.1' : 'calc(0.1 * var(--scroll-progress, 0))'}) 0px 10px 30px -10px`
-              : 'none',
-            borderWidth: isScrolled || isMobile ? '1px' : '0px',
-            borderColor: isMobile
-              ? 'rgba(var(--border-rgb), 0.5)'
-              : `rgba(var(--border-rgb), calc(0.5 * var(--scroll-progress, 0)))`,
+            borderRadius: `calc(9999px * var(--scroll-progress, 0))`,
+            backgroundColor: `rgba(var(--background-rgb), calc(0.7 * var(--scroll-progress, 0)))`,
+            backdropFilter: `blur(calc(12px * var(--scroll-progress, 0)))`,
+            boxShadow: isScrolled ? `rgba(0, 0, 0, calc(0.1 * var(--scroll-progress, 0))) 0px 10px 30px -10px` : 'none',
+            borderWidth: isScrolled ? '1px' : '0px',
+            borderColor: `rgba(var(--border-rgb), calc(0.5 * var(--scroll-progress, 0)))`,
             willChange: 'height, border-radius, background-color, backdrop-filter'
           }}
         >

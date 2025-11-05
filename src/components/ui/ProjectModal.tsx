@@ -1,10 +1,10 @@
 'use client'
 
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import Image from 'next/image'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { CodeBracketIcon, GlobeAltIcon } from '@heroicons/react/24/solid'
+import { CodeBracketIcon, GlobeAltIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid'
 import type { Project } from '@/lib/projects'
 
 interface ProjectModalProps {
@@ -14,6 +14,8 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
+  const [imageError, setImageError] = useState(false)
+
   if (!project) return null
 
   return (
@@ -126,7 +128,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
 
                 {/* Image section - Right side on desktop, square container */}
                 <div className="relative w-full md:w-[50%] aspect-video md:aspect-square bg-[var(--background)] dark:bg-[var(--background-secondary)] overflow-visible flex-shrink-0 flex items-center justify-center order-1 md:order-2 p-6 md:p-8">
-                  {project.image ? (
+                  {project.image && !imageError ? (
                     <div className="relative w-full aspect-video rounded-xl border-2 border-[var(--border)] dark:border-[var(--border)] shadow-lg overflow-hidden">
                       <Image
                         src={project.image}
@@ -135,13 +137,19 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                         priority
+                        onError={() => setImageError(true)}
                       />
                     </div>
                   ) : (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-[var(--text-tertiary)]">
+                    <div className="flex flex-col items-center justify-center gap-3 text-[var(--text-tertiary)]">
+                      {imageError ? (
+                        <>
+                          <ExclamationTriangleIcon className="h-16 w-16 text-amber-500" />
+                          <p className="text-sm text-center">Image failed to load</p>
+                        </>
+                      ) : (
                         <CodeBracketIcon className="h-32 w-32" />
-                      </div>
+                      )}
                     </div>
                   )}
                 </div>

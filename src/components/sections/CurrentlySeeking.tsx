@@ -71,14 +71,27 @@ export default function CurrentlySeeking() {
 
         {/* Opportunities Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {opportunities.map((opportunity, index) => (
+          {opportunities.map((opportunity, index) => {
+            // Whitelist approach for colors to prevent CSS injection
+            const colorMap: Record<string, string> = {
+              primary: 'var(--primary)',
+              accent: 'var(--accent)',
+              info: 'var(--info)',
+              success: 'var(--success)',
+            }
+            const bgColor = colorMap[opportunity.color] || colorMap.primary
+
+            return (
             <div
               key={index}
               className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-2xl p-6 hover:border-[var(--primary)] transition-all duration-300 hover:shadow-lg"
             >
               <div className="flex flex-col items-center text-center">
-                <div className={`p-4 bg-[var(--${opportunity.color})]/10 rounded-xl mb-4`}>
-                  <opportunity.icon className={`h-8 w-8 text-[var(--${opportunity.color})]`} />
+                <div
+                  className="p-4 rounded-xl mb-4"
+                  style={{ backgroundColor: `${bgColor}1A` }}
+                >
+                  <opportunity.icon className="h-8 w-8" style={{ color: bgColor }} />
                 </div>
                 <h3 className="text-lg font-bold text-[var(--text)] mb-2">
                   {opportunity.title}
@@ -88,7 +101,8 @@ export default function CurrentlySeeking() {
                 </p>
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Preferences */}

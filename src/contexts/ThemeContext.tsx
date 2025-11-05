@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { themes, ThemeKey } from '@/lib/themes';
 
 type ThemeMode = 'light' | 'dark' | 'system';
@@ -19,6 +19,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [actualTheme, setActualTheme] = useState<ThemeKey>('light');
   const [mounted, setMounted] = useState(false);
 
+  // Use ref to track current theme mode and avoid stale closures
+  const themeRef = useRef<ThemeMode>(theme);
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
+
   // Get the actual theme to apply based on the theme mode
   const getActualTheme = (themeMode: ThemeMode): ThemeKey => {
     if (themeMode === 'system') {
@@ -32,7 +40,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setMounted(true);
     const savedTheme = (localStorage.getItem('theme') as ThemeMode) || 'system';
     const actualThemeToApply = getActualTheme(savedTheme);
-    
+
     setTheme(savedTheme);
     setActualTheme(actualThemeToApply);
     applyTheme(actualThemeToApply);
@@ -40,7 +48,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Listen for system theme changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-      if (theme === 'system') {
+      // Use ref to get current theme value, avoiding stale closure
+      if (themeRef.current === 'system') {
         const newActualTheme = e.matches ? 'dark' : 'light';
         setActualTheme(newActualTheme);
         applyTheme(newActualTheme);
@@ -49,7 +58,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     mediaQuery.addEventListener('change', handleSystemThemeChange);
     return () => mediaQuery.removeEventListener('change', handleSystemThemeChange);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   // Update actual theme when theme mode changes
   useEffect(() => {

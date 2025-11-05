@@ -121,11 +121,10 @@ export async function POST(req: NextRequest) {
       validatedData = chatMessageSchema.parse(body)
     } catch (validationError) {
       if (validationError instanceof z.ZodError) {
+        // Log detailed validation errors server-side only
+        console.error('Chatbot validation error:', validationError.errors);
         return NextResponse.json(
-          { 
-            error: 'Invalid request format',
-            details: validationError.errors.map(e => e.message).join(', ')
-          },
+          { error: 'Invalid request format. Please check your message and try again.' },
           { status: 400 }
         )
       }
@@ -196,6 +195,12 @@ export async function POST(req: NextRequest) {
       },
     })
   } catch (error) {
+    // Log detailed error information server-side
+    console.error('Chatbot error:', error);
+    if (error instanceof Error) {
+      console.error('Stack trace:', error.stack);
+    }
+
     // Handle specific error types
     if (error instanceof z.ZodError) {
       return NextResponse.json(
@@ -203,10 +208,12 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       )
     }
-    
+
     // Check if it's an OpenAI API error
     if (error && typeof error === 'object' && 'status' in error) {
       const apiError = error as { status?: number; message?: string }
+      console.error('OpenAI API error:', apiError);
+
       if (apiError.status === 401) {
         return NextResponse.json(
           { error: 'Chat service authentication failed.' },
@@ -220,7 +227,7 @@ export async function POST(req: NextRequest) {
         )
       }
     }
-    
+
     return NextResponse.json(
       { error: 'An unexpected error occurred. Please try again later.' },
       { status: 500 }

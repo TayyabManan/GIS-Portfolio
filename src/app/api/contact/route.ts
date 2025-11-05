@@ -46,8 +46,10 @@ export async function POST(request: NextRequest) {
       validatedData = contactFormSchema.parse(formData);
     } catch (validationError) {
       if (validationError instanceof z.ZodError) {
+        // Log detailed validation errors server-side only
+        console.error('Validation error:', validationError.errors);
         return NextResponse.json(
-          { error: 'Invalid input', details: validationError.errors },
+          { error: 'Invalid input. Please check your form data and try again.' },
           { status: 400 }
         );
       }
@@ -106,12 +108,15 @@ ${validatedData.message}`;
       { status: 200 }
     );
   } catch (error) {
-    console.error('Contact form error:', error instanceof Error ? error.message : String(error));
+    // Log detailed error information server-side only
+    console.error('Contact form error:', error);
+    if (error instanceof Error) {
+      console.error('Stack trace:', error.stack);
+    }
+
+    // Return generic error message to client (no details leaked)
     return NextResponse.json(
-      { 
-        error: 'Internal server error', 
-        details: error instanceof Error ? error.message : String(error)
-      },
+      { error: 'An unexpected error occurred. Please try again later.' },
       { status: 500 }
     );
   }

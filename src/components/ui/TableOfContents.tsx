@@ -29,11 +29,25 @@ export default function TableOfContents({ content, variant = 'both' }: TableOfCo
     while ((match = headingRegex.exec(content)) !== null) {
       const level = match[1].length
       const text = match[2].trim()
-      // Create ID from heading text (kebab-case)
-      const id = text
+      // Simple ID generation to match BlogPostClient heading IDs
+      // Must match the sanitization in generateHeadingId but without registry
+      let id = text
         .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '')
+        .trim()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-+|-+$/g, '')
+
+      // Ensure ID starts with a letter (HTML requirement)
+      if (!/^[a-z]/.test(id)) {
+        id = `heading-${id}`
+      }
+
+      // Ensure ID is not empty
+      if (!id) {
+        id = `heading-${Math.random().toString(36).substr(2, 9)}`
+      }
 
       items.push({ id, text, level })
     }
@@ -47,15 +61,20 @@ export default function TableOfContents({ content, variant = 'both' }: TableOfCo
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id)
-          }
-        })
+        // Find the entry that's intersecting and closest to the top
+        const intersectingEntries = entries.filter(entry => entry.isIntersecting)
+
+        if (intersectingEntries.length > 0) {
+          // Sort by position on page and take the first one
+          intersectingEntries.sort((a, b) => {
+            return a.boundingClientRect.top - b.boundingClientRect.top
+          })
+          setActiveId(intersectingEntries[0].target.id)
+        }
       },
       {
-        rootMargin: '-80px 0px -80% 0px',
-        threshold: 0.1
+        rootMargin: '-100px 0px -66% 0px',
+        threshold: [0, 0.25, 0.5, 0.75, 1]
       }
     )
 

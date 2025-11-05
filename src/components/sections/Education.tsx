@@ -94,27 +94,27 @@ export default function Education() {
         </div>
 
         {/* Additional Academic Info */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 text-center">
-            <TrophyIcon className="h-8 w-8 text-[var(--accent)] mx-auto mb-3" />
-            <h4 className="text-lg font-semibold text-[var(--text)] mb-2">Relevant Coursework</h4>
-            <p className="text-sm text-[var(--text-secondary)]">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 text-center hover:border-[var(--accent)] transition-colors duration-300">
+            <TrophyIcon className="h-10 w-10 text-[var(--accent)] mx-auto mb-4" />
+            <h4 className="text-lg font-bold text-[var(--text)] mb-3">Relevant Coursework</h4>
+            <p className="text-base text-[var(--text)] leading-relaxed">
               Deep Learning, Machine Learning, Neural Networks, Computer Vision, NLP, Remote Sensing
             </p>
           </div>
 
-          <div className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 text-center">
-            <BookOpenIcon className="h-8 w-8 text-[var(--info)] mx-auto mb-3" />
-            <h4 className="text-lg font-semibold text-[var(--text)] mb-2">Technical Skills</h4>
-            <p className="text-sm text-[var(--text-secondary)]">
+          <div className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 text-center hover:border-[var(--info)] transition-colors duration-300">
+            <BookOpenIcon className="h-10 w-10 text-[var(--info)] mx-auto mb-4" />
+            <h4 className="text-lg font-bold text-[var(--text)] mb-3">Technical Skills</h4>
+            <p className="text-base text-[var(--text)] leading-relaxed">
               PyTorch, TensorFlow, Python, QGIS, Google Earth Engine, React, Next.js
             </p>
           </div>
 
-          <div className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 text-center">
-            <AcademicCapIcon className="h-8 w-8 text-[var(--primary)] mx-auto mb-3" />
-            <h4 className="text-lg font-semibold text-[var(--text)] mb-2">Research Interests</h4>
-            <p className="text-sm text-[var(--text-secondary)]">
+          <div className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 text-center hover:border-[var(--primary)] transition-colors duration-300">
+            <AcademicCapIcon className="h-10 w-10 text-[var(--primary)] mx-auto mb-4" />
+            <h4 className="text-lg font-bold text-[var(--text)] mb-3">Research Interests</h4>
+            <p className="text-base text-[var(--text)] leading-relaxed">
               Geospatial AI, Environmental Monitoring, Computer Vision, Time-Series Forecasting
             </p>
           </div>

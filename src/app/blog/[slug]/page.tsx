@@ -3,6 +3,10 @@ import { notFound } from 'next/navigation'
 import { getBlogPostBySlug, getAllBlogSlugs } from '@/lib/markdown'
 import BlogPostClient from './BlogPostClient'
 
+// Force static generation for all blog pages
+export const dynamic = 'force-static'
+export const dynamicParams = false
+
 interface PageProps {
   params: Promise<{
     slug: string

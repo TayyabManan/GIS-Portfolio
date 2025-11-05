@@ -71,17 +71,24 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
+            // Note: 'unsafe-inline' is needed for inline styles and Next.js hydration
+            // Consider implementing nonces or hashes for better security in future
+            // 'unsafe-eval' has been removed as it's not required for production
             value: `
               default-src 'self';
-              script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://vercel.live;
+              script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://vercel.live https://va.vercel-scripts.com;
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-              font-src 'self' https://fonts.gstatic.com;
+              font-src 'self' https://fonts.gstatic.com data:;
               img-src 'self' data: https: blob:;
-              connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://vitals.vercel-insights.com https://ntfy.sh;
+              connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://vitals.vercel-insights.com https://ntfy.sh https://api.openai.com;
+              media-src 'self';
               object-src 'none';
               base-uri 'self';
               form-action 'self';
               frame-ancestors 'none';
+              frame-src 'none';
+              worker-src 'self' blob:;
+              manifest-src 'self';
               upgrade-insecure-requests;
             `.replace(/\s+/g, ' ').trim()
           }

@@ -278,17 +278,6 @@ export const resumeData: ResumeData = {
 
   education: [
     {
-      degree: "Bachelor of Science in Geography/GIS",
-      institution: "University of the Punjab",
-      location: "Lahore, Pakistan",
-      startDate: "2021",
-      endDate: "2025",
-      gpa: "3.0/4.0",
-      achievements: [
-        "Outstanding performance in GIS and Remote Sensing"
-      ]
-    },
-    {
       degree: "Masters in Artificial Intelligence Engineering",
       institution: "COMSATS",
       location: "Islamabad, Pakistan",
@@ -299,7 +288,19 @@ export const resumeData: ResumeData = {
         "Distinguished academic record in AI Engineering and Deep Learning",
         "Excellence in AI Engineering with focus on Computer Vision"
       ]
-    }
+    },
+    {
+      degree: "Bachelor of Science in Geography/GIS",
+      institution: "University of the Punjab",
+      location: "Lahore, Pakistan",
+      startDate: "2021",
+      endDate: "2025",
+      gpa: "3.0/4.0",
+      achievements: [
+        "Outstanding performance in GIS and Remote Sensing"
+      ]
+    },
+
   ],
 
   certifications: [

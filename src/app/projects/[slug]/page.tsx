@@ -3,6 +3,10 @@ import { notFound } from 'next/navigation'
 import { getProjectBySlug, getAllProjectSlugs } from '@/lib/markdown'
 import ProjectPageClient from './ProjectPageClient'
 
+// Force static generation for all project pages
+export const dynamic = 'force-static'
+export const dynamicParams = false
+
 interface PageProps {
   params: Promise<{
     slug: string

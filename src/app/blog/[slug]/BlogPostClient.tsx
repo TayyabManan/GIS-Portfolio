@@ -10,6 +10,7 @@ import ShareButtons from '@/components/ui/ShareButtons'
 import CodeBlock from '@/components/ui/CodeBlock'
 import TableOfContents from '@/components/ui/TableOfContents'
 import BackToTop from '@/components/ui/BackToTop'
+import { extractTextContent } from '@/lib/utils'
 
 interface BlogPostClientProps {
   post: BlogPostWithContent
@@ -24,6 +25,31 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
       month: 'long',
       day: 'numeric'
     })
+  }
+
+  // Helper function to generate heading IDs consistently with TableOfContents
+  const generateHeadingId = (children: React.ReactNode): string => {
+    const textContent = typeof children === 'string' ? children : extractTextContent(children)
+
+    let id = textContent
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '')
+
+    // Ensure ID starts with a letter (HTML requirement)
+    if (!/^[a-z]/.test(id)) {
+      id = `heading-${id}`
+    }
+
+    // Ensure ID is not empty
+    if (!id) {
+      id = `heading-${Math.random().toString(36).substr(2, 9)}`
+    }
+
+    return id
   }
 
   return (
@@ -146,8 +172,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
           <DynamicReactMarkdown
             components={{
               h1: ({ children }) => {
-                const text = String(children)
-                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+                const id = generateHeadingId(children)
                 return (
                   <h1 id={id} className="text-3xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
                     {children}
@@ -155,8 +180,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
                 )
               },
               h2: ({ children }) => {
-                const text = String(children)
-                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+                const id = generateHeadingId(children)
                 return (
                   <h2 id={id} className="text-2xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
                     {children}
@@ -164,8 +188,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
                 )
               },
               h3: ({ children }) => {
-                const text = String(children)
-                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+                const id = generateHeadingId(children)
                 return (
                   <h3 id={id} className="text-xl font-bold tracking-tight text-[var(--text)] mt-6 mb-3">
                     {children}

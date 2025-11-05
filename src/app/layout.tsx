@@ -18,6 +18,12 @@ const bricolageGrotesque = Bricolage_Grotesque({
   display: 'swap',
 })
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://tayyabmanan.com'),
   applicationName: 'Tayyab Manan',

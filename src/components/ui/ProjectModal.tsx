@@ -32,7 +32,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
         </Transition.Child>
 
         <div className="fixed inset-0 z-[9999] overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
+          <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -42,7 +42,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform rounded-xl bg-[var(--background)] dark:bg-[var(--background-secondary)] text-left shadow-xl transition-all my-8 w-full max-w-[95vw] sm:max-w-5xl max-h-[85vh] overflow-y-auto flex flex-col md:flex-row">
+              <Dialog.Panel className="relative transform rounded-xl bg-[var(--background)] dark:bg-[var(--background-secondary)] text-left shadow-xl transition-all my-4 sm:my-8 w-full max-w-[95vw] sm:max-w-5xl max-h-[calc(100vh-2rem)] sm:max-h-[85vh] overflow-y-auto flex flex-col md:flex-row">
                 {/* Close button - positioned at top right of entire modal */}
                 <button
                   type="button"

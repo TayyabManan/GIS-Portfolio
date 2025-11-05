@@ -21,7 +21,7 @@ export default function Footer() {
       className="relative h-[400px] sm:h-[500px]"
       style={{clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)"}}
     >
-      <footer className="fixed bottom-0 h-[400px] sm:h-[500px] w-full text-[var(--text)] flex items-center overflow-hidden border-t border-[var(--border)] shadow-2xl">
+      <footer className="fixed bottom-0 h-[400px] sm:h-[500px] w-full text-[var(--text)] flex items-center border-t border-[var(--border)] shadow-2xl">
       {/* Footer Background */}
       <div className="absolute inset-0">
         {/* Beautiful gradient background matching the site theme */}

@@ -127,14 +127,14 @@ export default function CurrentlySeeking() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-[var(--primary)] rounded-lg shadow-lg hover:bg-[var(--primary-hover)] hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+              className="w-full sm:min-w-[180px] inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-[var(--primary)] rounded-lg shadow-lg hover:bg-[var(--primary-hover)] hover:shadow-xl transition-all duration-200 transform hover:scale-105"
             >
               Get in Touch
               <span aria-hidden="true" className="ml-2">→</span>
             </Link>
             <Link
               href="/resume"
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-[var(--text)] bg-[var(--background-secondary)] border-2 border-[var(--border)] rounded-lg hover:border-[var(--primary)] hover:bg-[var(--background-tertiary)] transition-all duration-200"
+              className="w-full sm:min-w-[180px] inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-[var(--text)] bg-[var(--background-secondary)] border-2 border-[var(--border)] rounded-lg hover:border-[var(--primary)] hover:bg-[var(--background-tertiary)] transition-all duration-200"
             >
               View Resume
             </Link>

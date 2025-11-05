@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo, useRef } from 'react'
+import { ChevronDownIcon, ChevronUpIcon, ListBulletIcon } from '@heroicons/react/24/outline'
 
 interface TocItem {
   id: string
@@ -10,15 +11,17 @@ interface TocItem {
 
 interface TableOfContentsProps {
   content: string
+  variant?: 'mobile' | 'desktop' | 'both'
 }
 
-export default function TableOfContents({ content }: TableOfContentsProps) {
-  const [tocItems, setTocItems] = useState<TocItem[]>([])
+export default function TableOfContents({ content, variant = 'both' }: TableOfContentsProps) {
   const [activeId, setActiveId] = useState<string>('')
-  const [hoveredId, setHoveredId] = useState<string>('')
+  const [isOpen, setIsOpen] = useState(false)
+  const [hasOverflow, setHasOverflow] = useState(false)
+  const navRef = useRef<HTMLElement>(null)
 
-  useEffect(() => {
-    // Extract headings from markdown content
+  // Extract headings from markdown content
+  const tocItems = useMemo(() => {
     const headingRegex = /^(#{2,3})\s+(.+)$/gm
     const items: TocItem[] = []
     let match
@@ -26,33 +29,22 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
     while ((match = headingRegex.exec(content)) !== null) {
       const level = match[1].length
       const text = match[2].trim()
+      // Create ID from heading text (kebab-case)
       const id = text
         .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '')
 
       items.push({ id, text, level })
     }
 
-    setTocItems(items)
-
-    // Add IDs to headings in the DOM
-    const addIdsToHeadings = () => {
-      items.forEach((item) => {
-        const heading = Array.from(document.querySelectorAll('h2, h3')).find(
-          (h) => h.textContent?.trim() === item.text
-        )
-        if (heading) {
-          heading.id = item.id
-        }
-      })
-    }
-
-    // Wait for content to render
-    setTimeout(addIdsToHeadings, 100)
+    return items
   }, [content])
 
   useEffect(() => {
+    // Don't set up observer if no items
+    if (tocItems.length === 0) return
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -61,89 +53,217 @@ export default function TableOfContents({ content }: TableOfContentsProps) {
           }
         })
       },
-      { rootMargin: '-100px 0px -66%' }
+      {
+        rootMargin: '-80px 0px -80% 0px',
+        threshold: 0.1
+      }
     )
 
-    const headings = document.querySelectorAll('h2[id], h3[id]')
-    headings.forEach((heading) => observer.observe(heading))
+    // Small delay to ensure DOM is ready
+    const timeoutId = setTimeout(() => {
+      // Observe all headings
+      const headings = document.querySelectorAll('h2[id], h3[id]')
+      headings.forEach((heading) => observer.observe(heading))
+    }, 100)
 
-    return () => observer.disconnect()
-  }, [tocItems])
+    return () => {
+      clearTimeout(timeoutId)
+      observer.disconnect()
+    }
+  }, [tocItems.length])
 
-  if (tocItems.length === 0) return null
+  // Check if nav has overflow and handle scroll behavior
+  useEffect(() => {
+    if (tocItems.length === 0) return
+
+    const checkOverflow = () => {
+      if (navRef.current) {
+        const hasScroll = navRef.current.scrollHeight > navRef.current.clientHeight
+        setHasOverflow(hasScroll)
+      }
+    }
+
+    checkOverflow()
+    window.addEventListener('resize', checkOverflow)
+
+    return () => window.removeEventListener('resize', checkOverflow)
+  }, [tocItems.length])
+
+  // Handle wheel event to allow page scroll when TOC doesn't need scrolling
+  useEffect(() => {
+    if (tocItems.length === 0) return
+
+    const nav = navRef.current
+    if (!nav) return
+
+    const handleWheel = (e: WheelEvent) => {
+      // If no overflow, let the event bubble to scroll the page
+      if (!hasOverflow) {
+        return
+      }
+
+      // Check if we're at scroll boundaries
+      const atTop = nav.scrollTop === 0
+      const atBottom = nav.scrollTop + nav.clientHeight >= nav.scrollHeight - 1
+
+      // If scrolling up and at top, or scrolling down and at bottom, let it bubble
+      if ((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atBottom)) {
+        return
+      }
+
+      // Otherwise, stop propagation to scroll the TOC
+      e.stopPropagation()
+    }
+
+    nav.addEventListener('wheel', handleWheel, { passive: true })
+
+    return () => nav.removeEventListener('wheel', handleWheel)
+  }, [hasOverflow, tocItems.length])
+
+  // Auto-scroll TOC to show active heading
+  useEffect(() => {
+    if (tocItems.length === 0) return
+    if (!activeId || !navRef.current) return
+
+    // Find the button for the active heading
+    const activeButton = navRef.current.querySelector(`button[data-heading-id="${activeId}"]`)
+    if (!activeButton) return
+
+    // Scroll the active button into view if it's not visible
+    activeButton.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'nearest'
+    })
+  }, [activeId, tocItems.length])
 
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      const yOffset = -100
-      const y = element.getBoundingClientRect().top + window.scrollY + yOffset
-      window.scrollTo({ top: y, behavior: 'smooth' })
+      // Close mobile TOC first
+      setIsOpen(false)
+
+      // Small delay to let the mobile TOC collapse
+      setTimeout(() => {
+        // Use scrollIntoView with custom offset
+        const y = element.getBoundingClientRect().top + window.scrollY - 100
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        })
+      }, 100)
     }
   }
 
+  // Don't show TOC if there are fewer than 3 headings
+  if (tocItems.length < 3) {
+    return null
+  }
+
   return (
-    <nav className="hidden md:block fixed right-8 top-1/2 -translate-y-1/2 z-40">
-      <div className="flex flex-col gap-3 items-end">
-        {tocItems.map((item) => {
-          const isActive = activeId === item.id
-          const isHovered = hoveredId === item.id
-          const isH3 = item.level === 3
+    <>
+      {/* Mobile TOC - Collapsible */}
+      {(variant === 'mobile' || variant === 'both') && (
+      <div className="lg:hidden mb-8">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-full flex items-center justify-between p-4 bg-[var(--background-secondary)] rounded-lg border border-[var(--border)] text-[var(--text)] hover:border-[var(--primary)] transition-colors"
+        >
+          <div className="flex items-center gap-2">
+            <ListBulletIcon className="h-5 w-5 text-[var(--text-tertiary)]" />
+            <span className="font-semibold text-sm">Table of Contents</span>
+            <span className="text-xs text-[var(--text-tertiary)]">({tocItems.length} sections)</span>
+          </div>
+          {isOpen ? (
+            <ChevronUpIcon className="h-5 w-5 text-[var(--text-tertiary)]" />
+          ) : (
+            <ChevronDownIcon className="h-5 w-5 text-[var(--text-tertiary)]" />
+          )}
+        </button>
 
-          return (
-            <div
-              key={item.id}
-              className="relative group"
-              onMouseEnter={() => setHoveredId(item.id)}
-              onMouseLeave={() => setHoveredId('')}
-            >
-              {/* Tooltip */}
-              {isHovered && (
-                <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-[var(--background)] border border-[var(--border)] rounded-lg px-3 py-2 shadow-xl whitespace-nowrap z-50">
-                  <span className="text-xs font-medium text-[var(--text)]">
-                    {item.text}
-                  </span>
-                  {/* Arrow */}
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full">
-                    <div className="w-0 h-0 border-t-4 border-t-transparent border-b-4 border-b-transparent border-l-4 border-l-[var(--border)]" />
-                  </div>
-                </div>
-              )}
+        {isOpen && (
+          <div className="mt-2 p-4 bg-[var(--background-secondary)] rounded-lg border border-[var(--border)] animate-fadeIn">
+            <nav>
+              <ul className="space-y-2">
+                {tocItems.map((item) => (
+                  <li key={item.id} style={{ paddingLeft: `${(item.level - 2) * 1}rem` }}>
+                    <button
+                      onClick={() => scrollToHeading(item.id)}
+                      className={`text-left text-sm transition-colors hover:text-[var(--primary)] w-full text-left ${
+                        activeId === item.id
+                          ? 'text-[var(--primary)] font-semibold'
+                          : 'text-[var(--text-secondary)]'
+                      }`}
+                    >
+                      {item.text}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        )}
+      </div>
+      )}
 
-              {/* Dot/Line */}
-              <button
-                onClick={() => scrollToHeading(item.id)}
-                className="cursor-pointer transition-all duration-200 flex items-center gap-2"
-                aria-label={`Go to ${item.text}`}
-              >
-                {/* Line indicator */}
-                <div
-                  className={`
-                    transition-all duration-200
-                    ${isH3 ? 'h-2' : 'h-3'}
-                    ${
-                      isActive
-                        ? isH3
-                          ? 'w-6 bg-[var(--primary)]'
-                          : 'w-8 bg-[var(--primary)]'
-                        : isH3
-                        ? 'w-3 bg-[var(--text-tertiary)]'
-                        : 'w-4 bg-[var(--text-tertiary)]'
-                    }
-                    ${isHovered && !isActive ? 'bg-[var(--text-secondary)]' : ''}
-                    rounded-full
-                  `}
-                />
-              </button>
+      {/* Desktop TOC - Sticky Sidebar */}
+      {(variant === 'desktop' || variant === 'both') && (
+      <aside className="hidden lg:block sticky top-24" aria-label="Table of contents">
+        <div className="p-5 bg-[var(--background-secondary)] rounded-xl border border-[var(--border)] shadow-sm max-h-[calc(100vh-7rem)] flex flex-col">
+            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[var(--border)] flex-shrink-0">
+              <ListBulletIcon className="h-4 w-4 text-[var(--primary)]" />
+              <h3 className="text-sm font-semibold text-[var(--text)] uppercase tracking-wide">
+                On This Page
+              </h3>
             </div>
-          )
-        })}
-      </div>
 
-      {/* Progress indicator */}
-      <div className="mt-6 flex items-center gap-2 text-xs text-[var(--text-tertiary)]">
-        <div className="h-px w-8 bg-[var(--border)]" />
-        <span>{Math.round(((tocItems.findIndex((item) => item.id === activeId) + 1) / tocItems.length) * 100)}%</span>
-      </div>
-    </nav>
+            <nav
+              ref={navRef}
+              className={`flex-1 overscroll-contain ${hasOverflow ? 'overflow-y-auto' : 'overflow-y-hidden'}`}
+              style={{ scrollbarWidth: 'thin' }}
+            >
+              <ul className="space-y-1 pr-2">
+                {tocItems.map((item) => {
+                  const isH2 = item.level === 2
+                  const isH3 = item.level === 3
+
+                  return (
+                    <li key={item.id} className="relative">
+                      <button
+                        onClick={() => scrollToHeading(item.id)}
+                        data-heading-id={item.id}
+                        className={`
+                          text-left transition-all duration-200 block w-full
+                          py-2 rounded-md relative cursor-pointer
+                          ${isH2 ? 'pl-3 text-sm font-medium' : 'pl-6 text-xs'}
+                          ${
+                            activeId === item.id
+                              ? 'text-[var(--primary)] font-semibold bg-[var(--primary)]/10'
+                              : 'text-[var(--text-secondary)] hover:text-[var(--text)] hover:bg-[var(--background-tertiary)]'
+                          }
+                        `}
+                      >
+                        {/* Visual hierarchy indicators */}
+                        {isH2 && (
+                          <span className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 rounded-r ${
+                            activeId === item.id ? 'bg-[var(--primary)]' : 'bg-[var(--border)]'
+                          }`} />
+                        )}
+                        {isH3 && (
+                          <span className={`absolute left-3 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${
+                            activeId === item.id ? 'bg-[var(--primary)]' : 'bg-[var(--border)]'
+                          }`} />
+                        )}
+                        {item.text}
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
+          </div>
+      </aside>
+      )}
+    </>
   )
 }

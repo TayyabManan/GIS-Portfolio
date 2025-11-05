@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowDownIcon } from '@heroicons/react/24/outline'
 import { MapPinIcon, EnvelopeIcon } from '@heroicons/react/24/solid'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { SimpleCommandHint } from '@/components/ui/SimpleCommandHint'
@@ -374,23 +373,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      
-      {/* Down arrow positioned at the bottom */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-      >
-        <a
-          href="#projects"
-          onClick={scrollToProjects}
-          className="inline-block p-2 text-[var(--text-tertiary)] hover:text-[var(--text)] transition-colors cursor-pointer"
-          aria-label="Scroll to projects section"
-        >
-          <ArrowDownIcon className="h-6 w-6 animate-bounce" />
-        </a>
-      </motion.div>
+
       {/* Command Palette Hint */}
       <SimpleCommandHint />
     </section>

@@ -732,3 +732,26 @@ html.theme-transition *::after {
     background: rgba(156, 163, 175, 0.2);
   }
 }
+
+/* Table of Contents - Custom scrollbar styling */
+nav[class*="overflow-y-auto"] {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+nav[class*="overflow-y-auto"]::-webkit-scrollbar {
+  width: 6px;
+}
+
+nav[class*="overflow-y-auto"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+nav[class*="overflow-y-auto"]::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 3px;
+}
+
+nav[class*="overflow-y-auto"]::-webkit-scrollbar-thumb:hover {
+  background-color: var(--border-hover);
+}

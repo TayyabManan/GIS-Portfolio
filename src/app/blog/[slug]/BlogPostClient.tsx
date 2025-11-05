@@ -8,6 +8,8 @@ import { BlogPostWithContent } from '@/lib/markdown'
 import ReadingProgress from '@/components/ui/ReadingProgress'
 import ShareButtons from '@/components/ui/ShareButtons'
 import CodeBlock from '@/components/ui/CodeBlock'
+import TableOfContents from '@/components/ui/TableOfContents'
+import BackToTop from '@/components/ui/BackToTop'
 
 interface BlogPostClientProps {
   post: BlogPostWithContent
@@ -27,9 +29,9 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
   return (
     <>
       <ReadingProgress />
-      <div className="min-h-screen relative py-24 overflow-hidden">
+      <div className="min-h-screen relative py-24">
         {/* Background with gradient */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 overflow-hidden">
         {/* Beautiful gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--hero-gradient-start)] via-[var(--hero-gradient-mid)] to-[var(--hero-gradient-end)]" />
 
@@ -55,8 +57,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
         />
       </div>
 
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 relative z-10">
-        <article>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Back Button */}
         <div className="mb-8">
           <Link
@@ -68,8 +69,12 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
           </Link>
         </div>
 
-        {/* Header */}
-        <header className="mb-8">
+        {/* Two-column layout: Content + TOC */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8 lg:gap-12 items-start">
+          {/* Main Content */}
+          <article className="min-w-0">
+            {/* Header */}
+            <header className="mb-8">
           {/* Category Badge */}
           <div className="mb-4">
             <span className="inline-block px-3 py-1 text-xs font-medium bg-[var(--primary)]/10 text-[var(--primary)] rounded-full">
@@ -119,39 +124,54 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
               ))}
             </div>
           )}
-        </header>
+            </header>
 
-        {/* Featured Image */}
-        {post.image && (
-          <div className="mb-12 rounded-2xl overflow-hidden relative w-full aspect-video">
-            <Image
-              src={post.image}
-              alt={post.title}
-              fill
-              className="object-cover"
-            />
-          </div>
-        )}
+            {/* Featured Image */}
+            {post.image && (
+              <div className="mb-12 rounded-2xl overflow-hidden relative w-full aspect-video">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
 
-        {/* Content */}
-        <div className="prose prose-lg max-w-none">
+            {/* Mobile TOC - Shows before content */}
+            <TableOfContents content={post.content} variant="mobile" />
+
+            {/* Content */}
+            <div className="prose prose-lg max-w-none">
           <DynamicReactMarkdown
             components={{
-              h1: ({ children }) => (
-                <h1 className="text-3xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
-                  {children}
-                </h1>
-              ),
-              h2: ({ children }) => (
-                <h2 className="text-2xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
-                  {children}
-                </h2>
-              ),
-              h3: ({ children }) => (
-                <h3 className="text-xl font-bold tracking-tight text-[var(--text)] mt-6 mb-3">
-                  {children}
-                </h3>
-              ),
+              h1: ({ children }) => {
+                const text = String(children)
+                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+                return (
+                  <h1 id={id} className="text-3xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
+                    {children}
+                  </h1>
+                )
+              },
+              h2: ({ children }) => {
+                const text = String(children)
+                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+                return (
+                  <h2 id={id} className="text-2xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
+                    {children}
+                  </h2>
+                )
+              },
+              h3: ({ children }) => {
+                const text = String(children)
+                const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+                return (
+                  <h3 id={id} className="text-xl font-bold tracking-tight text-[var(--text)] mt-6 mb-3">
+                    {children}
+                  </h3>
+                )
+              },
               p: ({ children }) => (
                 <p className="text-base text-[var(--text-secondary)] leading-relaxed mb-4">
                   {children}
@@ -214,29 +234,36 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
               ),
             }}
           >
-            {post.content}
-          </DynamicReactMarkdown>
-        </div>
+                {post.content}
+              </DynamicReactMarkdown>
+            </div>
 
-        {/* Share Section */}
-        <div className="mt-12 pt-8 border-t border-[var(--border)]">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors font-medium"
-            >
-              <ArrowLeftIcon className="h-4 w-4" />
-              <span>Back to all posts</span>
-            </Link>
-            <ShareButtons
-              title={post.title}
-              url={postUrl}
-            />
-          </div>
+            {/* Share Section */}
+            <div className="mt-12 pt-8 border-t border-[var(--border)]">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <Link
+                  href="/blog"
+                  className="inline-flex items-center gap-2 text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors font-medium"
+                >
+                  <ArrowLeftIcon className="h-4 w-4" />
+                  <span>Back to all posts</span>
+                </Link>
+                <ShareButtons
+                  title={post.title}
+                  url={postUrl}
+                />
+              </div>
+            </div>
+          </article>
+
+          {/* Desktop TOC - Sticky Sidebar (right column) */}
+          <TableOfContents content={post.content} variant="desktop" />
         </div>
-      </article>
+      </div>
     </div>
-    </div>
+
+    {/* Back to Top Button */}
+    <BackToTop />
     </>
   )
 }

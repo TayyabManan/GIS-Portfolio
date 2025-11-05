@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import Image from 'next/image'
 import { XMarkIcon } from '@heroicons/react/24/outline'
@@ -13,12 +13,74 @@ interface ProjectModalProps {
   onClose: () => void
 }
 
+// Extend CSSStyleDeclaration to include webkit-specific properties
+interface WebkitCSSStyleDeclaration extends CSSStyleDeclaration {
+  webkitOverflowScrolling: string
+}
+
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
+  // Detect iOS Safari
+  const isIOS = typeof window !== 'undefined' && /iPhone|iPad|iPod/i.test(navigator.userAgent)
+
+  // Lock body scroll when modal is open - critical for iOS Safari
+  useEffect(() => {
+    if (isOpen) {
+      const scrollY = window.scrollY
+      const bodyStyle = document.body.style as unknown as WebkitCSSStyleDeclaration
+
+      bodyStyle.position = 'fixed'
+      bodyStyle.top = `-${scrollY}px`
+      bodyStyle.left = '0'
+      bodyStyle.right = '0'
+      bodyStyle.overflow = 'hidden'
+      // iOS Safari specific fix
+      bodyStyle.webkitOverflowScrolling = 'touch'
+      // Add modal-open class for iOS-specific CSS
+      document.body.classList.add('modal-open')
+    } else {
+      const bodyStyle = document.body.style as unknown as WebkitCSSStyleDeclaration
+      const scrollY = bodyStyle.top
+
+      bodyStyle.position = ''
+      bodyStyle.top = ''
+      bodyStyle.left = ''
+      bodyStyle.right = ''
+      bodyStyle.overflow = ''
+      bodyStyle.webkitOverflowScrolling = ''
+      document.body.classList.remove('modal-open')
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1)
+      }
+    }
+
+    return () => {
+      const bodyStyle = document.body.style as unknown as WebkitCSSStyleDeclaration
+      bodyStyle.position = ''
+      bodyStyle.top = ''
+      bodyStyle.left = ''
+      bodyStyle.right = ''
+      bodyStyle.overflow = ''
+      bodyStyle.webkitOverflowScrolling = ''
+      document.body.classList.remove('modal-open')
+    }
+  }, [isOpen])
+
   if (!project) return null
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-[200]" onClose={onClose}>
+      <Dialog
+        as="div"
+        className="relative"
+        style={{
+          zIndex: 99999,
+          // iOS Safari fix: Force hardware acceleration
+          WebkitTransform: 'translateZ(0)',
+          transform: 'translateZ(0)'
+        }}
+        onClose={onClose}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -28,10 +90,43 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity z-[199]" />
+          <div
+            className="fixed inset-0 transition-opacity"
+            style={{
+              zIndex: 99998,
+              // iOS Safari: Reduce backdrop-blur on iOS to prevent rendering issues
+              backgroundColor: isIOS ? 'rgba(17, 24, 39, 0.85)' : 'rgba(17, 24, 39, 0.8)',
+              backdropFilter: isIOS ? 'blur(4px)' : 'blur(8px)',
+              WebkitBackdropFilter: isIOS ? 'blur(4px)' : 'blur(8px)',
+              // iOS Safari fix: Force GPU layer
+              WebkitTransform: 'translateZ(0)',
+              transform: 'translateZ(0)',
+              // Ensure it covers everything including iOS Safari UI
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0
+            }}
+          />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-[200] overflow-y-auto">
+        <div
+          className="fixed inset-0 overflow-y-auto"
+          style={{
+            zIndex: 99999,
+            // iOS Safari fix: Force GPU acceleration and proper layering
+            WebkitTransform: 'translateZ(0)',
+            transform: 'translateZ(0)',
+            WebkitOverflowScrolling: 'touch',
+            // Ensure full coverage on iOS Safari
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+          }}
+        >
           <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
             <Transition.Child
               as={Fragment}
@@ -42,11 +137,33 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform rounded-xl bg-[var(--background)] dark:bg-[var(--background-secondary)] text-left shadow-xl transition-all my-4 sm:my-8 w-full max-w-[95vw] sm:max-w-5xl max-h-[calc(100vh-2rem)] sm:max-h-[85vh] overflow-y-auto flex flex-col md:flex-row">
+              <Dialog.Panel
+                className="relative transform rounded-xl bg-[var(--background)] dark:bg-[var(--background-secondary)] text-left shadow-xl transition-all my-4 sm:my-8 w-full max-w-[95vw] sm:max-w-5xl overflow-y-auto flex flex-col md:flex-row"
+                style={{
+                  // iOS Safari: Use fixed max-height in vh units
+                  maxHeight: 'calc(100vh - 2rem)',
+                  // iOS Safari fix: Ensure proper rendering
+                  WebkitTransform: 'translateZ(0)',
+                  transform: 'translateZ(0)',
+                  WebkitOverflowScrolling: 'touch',
+                  // Prevent iOS Safari touch issues
+                  touchAction: 'pan-y'
+                }}
+              >
                 {/* Close button - positioned at top right of entire modal */}
                 <button
                   type="button"
-                  className="absolute right-3 top-3 bg-white/90 dark:bg-black/50 backdrop-blur-sm rounded-full p-2 text-gray-900 dark:text-white/90 hover:bg-white dark:hover:bg-black/70 transition-all z-50 border border-gray-300 dark:border-white/20 shadow-lg flex items-center justify-center"
+                  className="absolute right-3 top-3 bg-white/90 dark:bg-black/50 backdrop-blur-sm rounded-full p-2 text-gray-900 dark:text-white/90 hover:bg-white dark:hover:bg-black/70 transition-all border border-gray-300 dark:border-white/20 shadow-lg flex items-center justify-center"
+                  style={{
+                    zIndex: 100,
+                    // iOS Safari: Ensure button is tappable
+                    minWidth: '44px',
+                    minHeight: '44px',
+                    WebkitTapHighlightColor: 'transparent',
+                    // iOS Safari fix: Force GPU layer
+                    WebkitTransform: 'translateZ(0)',
+                    transform: 'translateZ(0)'
+                  }}
                   onClick={onClose}
                 >
                   <span className="sr-only">Close</span>

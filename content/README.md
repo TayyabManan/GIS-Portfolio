@@ -129,7 +129,7 @@ date: "2024-01-15"
 Currently, your website uses a static `projects.ts` file. To migrate to the markdown system:
 
 1. The markdown files are already created for your existing projects
-2. Utility functions are available in `src/lib/markdown.ts` or `src/lib/markdown-simple.ts`
+2. Utility functions are available in `src/lib/markdown.ts`
 3. You can gradually migrate by updating your components to use the markdown functions
 4. The current system will continue to work until you're ready to switch
 

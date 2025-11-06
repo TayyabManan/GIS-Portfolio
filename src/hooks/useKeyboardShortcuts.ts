@@ -172,6 +172,12 @@ export function useGlobalKeyboardShortcuts() {
 }
 
 function showShortcutsHelp() {
+  // Check if modal already exists
+  const existingModal = document.getElementById('keyboard-shortcuts-modal')
+  if (existingModal) {
+    return // Don't create another modal if one already exists
+  }
+
   const shortcuts = [
     { keys: '⌘K / Ctrl+K', description: 'Open Command Palette' },
     { keys: 'Alt+H', description: 'Go to Home' },
@@ -186,6 +192,7 @@ function showShortcutsHelp() {
 
   // Create a custom modal to show shortcuts
   const modal = document.createElement('div')
+  modal.id = 'keyboard-shortcuts-modal'
   modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm'
   modal.innerHTML = `
     <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl p-6 max-w-md w-full">

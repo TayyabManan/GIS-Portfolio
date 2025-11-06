@@ -78,15 +78,30 @@ export default function TableOfContents({ content, variant = 'both' }: TableOfCo
       }
     )
 
-    // Small delay to ensure DOM is ready
-    const timeoutId = setTimeout(() => {
-      // Observe all headings
+    // Retry logic to ensure headings are found
+    let hasSetInitialActive = false
+    const setupObserver = (retries = 0) => {
       const headings = document.querySelectorAll('h2[id], h3[id]')
-      headings.forEach((heading) => observer.observe(heading))
-    }, 100)
+
+      if (headings.length > 0) {
+        // Headings found, set up observer
+        headings.forEach((heading) => observer.observe(heading))
+
+        // Set initial active ID to first heading (only once)
+        if (!hasSetInitialActive) {
+          hasSetInitialActive = true
+          setActiveId(headings[0].id)
+        }
+      } else if (retries < 10) {
+        // Retry after a delay if headings not found yet
+        setTimeout(() => setupObserver(retries + 1), 100)
+      }
+    }
+
+    // Start setup with retry logic
+    setupObserver()
 
     return () => {
-      clearTimeout(timeoutId)
       observer.disconnect()
     }
   }, [tocItems.length])

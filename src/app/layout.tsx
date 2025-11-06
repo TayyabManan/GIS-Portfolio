@@ -307,7 +307,8 @@ const jsonLd = [
     '@type': 'WebSite',
     '@id': 'https://tayyabmanan.com/#website',
     url: 'https://tayyabmanan.com',
-    name: 'Tayyab Manan - AI Engineering Student Portfolio',
+    name: 'Tayyab Manan',
+    alternateName: 'Tayyab Manan - AI Engineering Student Portfolio',
     description: 'AI Engineering graduate student portfolio showcasing machine learning projects, computer vision applications, NLP systems, deep learning implementations, and geospatial AI solutions built with PyTorch, TensorFlow, and LangChain.',
     publisher: {
       '@type': 'Person',

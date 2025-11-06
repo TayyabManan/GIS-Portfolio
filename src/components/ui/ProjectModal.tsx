@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import Image from 'next/image'
 import { XMarkIcon } from '@heroicons/react/24/outline'
@@ -15,6 +15,14 @@ interface ProjectModalProps {
 
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   const [imageError, setImageError] = useState(false)
+  const modalContainerRef = useRef<HTMLDivElement>(null)
+
+  // Scroll to top of modal container when it opens
+  useEffect(() => {
+    if (isOpen && modalContainerRef.current) {
+      modalContainerRef.current.scrollTop = 0
+    }
+  }, [isOpen])
 
   if (!project) return null
 
@@ -33,7 +41,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
           <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity z-[199]" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-[200] overflow-y-auto">
+        <div ref={modalContainerRef} className="fixed inset-0 z-[200] overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
             <Transition.Child
               as={Fragment}

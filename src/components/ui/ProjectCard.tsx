@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowTopRightOnSquareIcon, CodeBracketIcon } from '@heroicons/react/24/outline'
+import { ArrowTopRightOnSquareIcon, CodeBracketIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 
 interface Project {
   slug: string
@@ -18,14 +18,14 @@ interface Project {
 
 interface ProjectCardProps {
   project: Project
-  onClick?: () => void
 }
 
-const ProjectCard = React.memo(function ProjectCard({ project, onClick }: ProjectCardProps) {
+const ProjectCard = React.memo(function ProjectCard({ project }: ProjectCardProps) {
+  const [isExpanded, setIsExpanded] = useState(false)
+
   return (
     <div
-      className="group relative bg-[var(--background)] dark:bg-[var(--background-secondary)] rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-[var(--border)] cursor-pointer"
-      onClick={onClick}
+      className="group relative bg-[var(--background)] dark:bg-[var(--background-secondary)] rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-[var(--border)]"
     >
       <div className="aspect-video relative overflow-hidden bg-[var(--border)] dark:bg-[var(--background-tertiary)]">
         {project.image ? (
@@ -54,7 +54,7 @@ const ProjectCard = React.memo(function ProjectCard({ project, onClick }: Projec
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
 
-      <div className="p-6">
+      <div className="p-6 transition-all duration-300">
         <div className="flex items-center gap-2 mb-2">
           <span className="inline-flex items-center rounded-md bg-[var(--accent)]/10 dark:bg-[var(--accent)]/20 px-2 py-1 text-xs font-medium text-[var(--accent)] dark:text-[var(--accent)]">
             {project.category}
@@ -65,20 +65,44 @@ const ProjectCard = React.memo(function ProjectCard({ project, onClick }: Projec
           {project.title}
         </h3>
 
-        <p className="text-[var(--text-secondary)] mb-4 line-clamp-2">
-          {project.description}
-        </p>
+        <div className="mb-4">
+          <p className={`text-[var(--text-secondary)] transition-all duration-300 ${isExpanded ? '' : 'line-clamp-2'}`}>
+            {project.description}
+          </p>
+          {project.description.length > 100 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsExpanded(!isExpanded)
+              }}
+              className="text-[var(--primary)] hover:text-[var(--primary-hover)] text-sm font-medium mt-1 inline-flex items-center gap-1 cursor-pointer"
+            >
+              {isExpanded ? (
+                <>
+                  Show less
+                  <ChevronUpIcon className="h-4 w-4" />
+                </>
+              ) : (
+                <>
+                  Read more
+                  <ChevronDownIcon className="h-4 w-4" />
+                </>
+              )}
+            </button>
+          )}
+        </div>
 
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.techStack.slice(0, 3).map((tech) => (
+        <div className="flex flex-wrap gap-2 mb-4 transition-all duration-300">
+          {(isExpanded ? project.techStack : project.techStack.slice(0, 3)).map((tech, index) => (
             <span
               key={tech}
-              className="inline-flex items-center rounded-md bg-[var(--background-secondary)] dark:bg-[var(--background-tertiary)] px-2 py-1 text-xs font-medium text-[var(--text-secondary)]"
+              className="inline-flex items-center rounded-md bg-[var(--background-secondary)] dark:bg-[var(--background-tertiary)] px-2 py-1 text-xs font-medium text-[var(--text-secondary)] animate-in fade-in duration-200"
+              style={{ animationDelay: `${index * 30}ms` }}
             >
               {tech}
             </span>
           ))}
-          {project.techStack.length > 3 && (
+          {!isExpanded && project.techStack.length > 3 && (
             <span className="inline-flex items-center rounded-md bg-[var(--background-secondary)] dark:bg-[var(--background-tertiary)] px-2 py-1 text-xs font-medium text-[var(--text-secondary)]">
               +{project.techStack.length - 3} more
             </span>

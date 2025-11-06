@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import ProjectCard from '@/components/ui/ProjectCard'
-import ProjectModal from '@/components/ui/ProjectModal'
 import { type Project } from '@/lib/projects'
 import { LoadingError } from '@/components/ui/ErrorState'
 import { toast } from '@/components/ui/Toast'
@@ -14,8 +13,6 @@ const PROJECTS_PER_PAGE = 6
 
 export default function ProjectsPageContent() {
   const [selectedCategory, setSelectedCategory] = useState('All')
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const [modalOpen, setModalOpen] = useState(false)
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
@@ -69,16 +66,6 @@ export default function ProjectsPageContent() {
   useEffect(() => {
     setCurrentPage(1)
   }, [selectedCategory])
-
-  const openModal = (project: Project) => {
-    setSelectedProject(project)
-    setModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setModalOpen(false)
-    setTimeout(() => setSelectedProject(null), 300)
-  }
 
   return (
     <div className="relative py-16 min-h-screen overflow-hidden">
@@ -160,7 +147,7 @@ export default function ProjectsPageContent() {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {paginatedProjects.map((project) => (
-                <ProjectCard key={project.slug} project={project} onClick={() => openModal(project)} />
+                <ProjectCard key={project.slug} project={project} />
               ))}
             </div>
 
@@ -328,13 +315,6 @@ export default function ProjectsPageContent() {
           </div>
         </div>
       </div>
-      
-      {/* Project Modal */}
-      <ProjectModal 
-        project={selectedProject} 
-        isOpen={modalOpen} 
-        onClose={closeModal} 
-      />
     </div>
   )
 }

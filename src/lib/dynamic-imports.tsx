@@ -11,17 +11,9 @@ const LoadingSpinner = () => (
 // Pre-configured dynamic imports for heavy components
 export const DynamicResumeChatbot = dynamic(
   () => import('@/components/ui/ResumeChatbot'),
-  { 
-    loading: LoadingSpinner,
-    ssr: false 
-  }
-)
-
-export const DynamicProjectModal = dynamic(
-  () => import('@/components/ui/ProjectModal'),
   {
     loading: LoadingSpinner,
-    ssr: true
+    ssr: false
   }
 )
 

@@ -3,13 +3,10 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import ProjectCard from '@/components/ui/ProjectCard'
-import ProjectModal from '@/components/ui/ProjectModal'
 import { type Project } from '@/lib/projects'
 
 export default function FeaturedProjects() {
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([])
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const [modalOpen, setModalOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -26,16 +23,6 @@ export default function FeaturedProjects() {
         setLoading(false)
       })
   }, [])
-
-  const openModal = (project: Project) => {
-    setSelectedProject(project)
-    setModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setModalOpen(false)
-    setTimeout(() => setSelectedProject(null), 300)
-  }
 
   return (
     <section id="projects" className="relative pt-20 pb-16 overflow-hidden">
@@ -108,7 +95,7 @@ export default function FeaturedProjects() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {featuredProjects.map((project) => (
               <div key={project.slug}>
-                <ProjectCard project={project} onClick={() => openModal(project)} />
+                <ProjectCard project={project} />
               </div>
             ))}
           </div>
@@ -123,13 +110,6 @@ export default function FeaturedProjects() {
           </Link>
         </div>
       </div>
-      
-      {/* Project Modal */}
-      <ProjectModal 
-        project={selectedProject} 
-        isOpen={modalOpen} 
-        onClose={closeModal} 
-      />
     </section>
   )
 }

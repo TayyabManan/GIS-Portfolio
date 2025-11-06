@@ -433,7 +433,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
       </head>
-      <body className={bricolageGrotesque.className}>
+      <body className={bricolageGrotesque.className} suppressHydrationWarning>
         {/* Skip to main content link for screen readers */}
         <a
           href="#main-content"

@@ -1,14 +1,10 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence, useReducedMotion, type Variants } from 'framer-motion'
 import { Github, Linkedin, FileText, ArrowUpRight } from 'lucide-react'
 import WiggleLine from '@/components/effects/WiggleLine'
-
-// useLayoutEffect on the client, useEffect during SSR (avoids the server warning). Lets the
-// desktop entrance flip to its pre-animation state before the browser paints - no flash.
-const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 const EASE: [number, number, number, number] = [0.25, 0.1, 0.25, 1]
 
@@ -92,12 +88,6 @@ const PILL_FONT = { fontFamily: 'var(--font-heading), system-ui, sans-serif' } a
 export default function Hero() {
   // < lg (1024px). Default true so SSR renders the mobile hero without animation delay.
   const [isMobile, setIsMobile] = useState(true)
-  // Desktop-only entrance gate. Starts false so SSR + hydration render the desktop tree at its
-  // final state (LCP-friendly, no flash-of-invisible-content); once we confirm an lg+ viewport we
-  // flip it and remount the subtree (via `key`) so framer-motion reads `initial` fresh and plays
-  // the staggered reveal. Deliberately NOT gated on prefers-reduced-motion - like the GSAP pill
-  // effect, the hero's signature motion is meant to play regardless of the OS reduce-motion setting.
-  const [playDesktopEntrance, setPlayDesktopEntrance] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0) // rotating specialization (mobile hero only)
   const prefersReducedMotion = useReducedMotion()
   const indexRef = useRef<HTMLUListElement>(null)
@@ -110,13 +100,6 @@ export default function Hero() {
     update()
     window.addEventListener('resize', update)
     return () => window.removeEventListener('resize', update)
-  }, [])
-
-  // Trigger the desktop entrance once, after mount, on lg+ viewports (see playDesktopEntrance).
-  useIsomorphicLayoutEffect(() => {
-    if (window.matchMedia('(min-width: 1024px)').matches) {
-      setPlayDesktopEntrance(true)
-    }
   }, [])
 
   // Rotate the specialization only while the mobile hero is on screen and motion is allowed.
@@ -214,8 +197,9 @@ export default function Hero() {
       cancelled = true
       revert?.()
     }
-    // Re-bind after the entrance remount (key change) swaps in fresh pill nodes.
-  }, [playDesktopEntrance])
+    // Bind once on mount - the pills are static server-rendered nodes (the desktop
+    // entrance is CSS now, so there's no remount that swaps in fresh nodes).
+  }, [])
 
   const scrollToProjects = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -232,10 +216,6 @@ export default function Hero() {
     },
     []
   )
-
-  // Desktop children animate only once the entrance gate resolves; otherwise they render at rest.
-  const desktopItem = playDesktopEntrance ? itemVariants : instantVariants
-  const desktopRule = playDesktopEntrance ? ruleVariants : instantVariants
 
   return (
     <section className="relative bg-[var(--background)]">
@@ -393,35 +373,37 @@ export default function Hero() {
       {/* ===================== DESKTOP HERO (lg and up) ===================== */}
       {/* Editorial oversize layout; the numbered index is the target for a future GSAP animation. */}
       <div className="hidden min-h-[calc(100dvh-64px)] items-center px-4 sm:px-6 lg:flex lg:px-8">
-        <motion.div
-          key={playDesktopEntrance ? 'entrance' : 'static'}
+        {/* CSS-driven staggered entrance (see .hero-reveal* in globals.css): plays on
+            first paint instead of after hydration, so the hero doesn't sit static for a
+            beat then replay. data-essential-motion opts the whole group out of the global
+            reduce-motion zeroing, keeping the signature reveal (as the previous version did). */}
+        <div
+          data-essential-motion
           className="mx-auto w-full max-w-7xl py-16 lg:py-20"
-          variants={playDesktopEntrance ? containerVariants : undefined}
-          initial={playDesktopEntrance ? 'initial' : 'animate'}
-          animate="animate"
         >
           {/* 1. Eyebrow row - greeting */}
-          <motion.div variants={desktopItem}>
+          <div className="hero-reveal" style={{ animationDelay: '100ms' }}>
             <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
               Hello, I&apos;m Tayyab Manan
             </p>
-          </motion.div>
+          </div>
 
           {/* 2. Headline - fluid oversize, spans the container width.
               A <p>, not an <h1>: the mobile hero variant already owns the page's
               single <h1>, and Google indexes mobile-first, so this desktop-only
-              twin stays a styled paragraph to avoid a duplicate H1. */}
-          <motion.p
-            variants={desktopItem}
-            className="mt-6 text-[clamp(2.75rem,11vw,10rem)] font-bold leading-[0.98]! tracking-[-0.03em]! text-[var(--text)]"
+              twin stays a styled paragraph to avoid a duplicate H1.
+              Transform-only reveal (no opacity fade) so this LCP element paints at once. */}
+          <p
+            className="mt-6 text-[clamp(2.75rem,11vw,10rem)] font-bold leading-[0.98]! tracking-[-0.03em]! text-[var(--text)] hero-reveal-headline"
+            style={{ animationDelay: '200ms' }}
           >
             AI/ML Engineer
-          </motion.p>
+          </p>
 
           {/* 3. Meta row - role/affiliation + location */}
-          <motion.div
-            variants={desktopItem}
-            className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between"
+          <div
+            className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between hero-reveal"
+            style={{ animationDelay: '350ms' }}
           >
             <p className="text-sm text-[var(--text-secondary)]">
               AI Developer at{' '}
@@ -438,18 +420,18 @@ export default function Hero() {
             <p className="text-xs uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
               Islamabad &middot; UTC+5
             </p>
-          </motion.div>
+          </div>
 
           {/* 4. Hairline rule - interactive bezier: bends with the cursor on hover,
               springs back elastically on leave (see WiggleLine) */}
-          <motion.div variants={desktopRule} className="mt-4 origin-left" aria-hidden="true">
+          <div className="mt-4 origin-left hero-reveal-rule" style={{ animationDelay: '600ms' }} aria-hidden="true">
             <WiggleLine />
-          </motion.div>
+          </div>
 
           {/* 5. Two-column grid - lede/actions (left) + focus-area index (right) */}
           <div className="mt-10 grid items-start gap-12 lg:grid-cols-[1fr_auto] lg:gap-16">
             {/* Left column */}
-            <motion.div variants={desktopItem}>
+            <div className="hero-reveal" style={{ animationDelay: '500ms' }}>
               <p className="max-w-xl text-lg text-[var(--text-secondary)] sm:text-xl">
                 I build machine-learning systems that make it to production, from
                 computer-vision pipelines to multi-agent workflows.
@@ -509,10 +491,10 @@ export default function Hero() {
                   Resume
                 </Link>
               </div>
-            </motion.div>
+            </div>
 
             {/* Right column - numbered index of focus areas */}
-            <motion.div variants={desktopItem} className="flex flex-col items-end">
+            <div className="flex flex-col items-end hero-reveal" style={{ animationDelay: '650ms' }}>
               <ul ref={indexRef} className="flex w-fit flex-col gap-3">
                 {focusAreas.map((area) => (
                   <li key={area.label}>
@@ -581,9 +563,9 @@ export default function Hero() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

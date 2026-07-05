@@ -415,6 +415,38 @@ select {
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
+/* Home hero desktop entrance. Runs as CSS on first paint instead of a
+   post-hydration framer-motion remount, so the staggered reveal plays
+   immediately rather than leaving the hero visibly static for a beat and then
+   replaying once the (heavier, in production) JS hydrates. The hero container
+   carries data-essential-motion, so this signature entrance keeps playing under
+   the OS reduce-motion setting - matching the previous behavior. */
+@keyframes heroRise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroRiseHeadline {
+  /* Transform only, no opacity fade, so the LCP headline is painted from frame 1. */
+  from { transform: translateY(10px); }
+  to { transform: translateY(0); }
+}
+@keyframes heroRuleDraw {
+  from { opacity: 0; transform: scaleX(0); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+.hero-reveal {
+  opacity: 0;
+  animation: heroRise 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+.hero-reveal-headline {
+  animation: heroRiseHeadline 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+.hero-reveal-rule {
+  opacity: 0;
+  transform-origin: left;
+  animation: heroRuleDraw 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
+
 /* Respect user's reduced motion preference. Subtrees marked data-essential-motion
    are exempt: WCAG treats status indication (e.g. the chat typing dots) as
    essential motion that may keep animating. Keep the attribute rare and small. */

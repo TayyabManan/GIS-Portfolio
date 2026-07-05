@@ -23,8 +23,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
         <div data-reveal="heading" className="mb-12 max-w-4xl">
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4">Featured Projects</h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)]">
-            Showcasing machine learning and AI projects that demonstrate expertise in
-            computer vision, NLP, geospatial AI, and production ML systems.
+            A few projects I&apos;ve taken from first model to live demo.
           </p>
         </div>
 

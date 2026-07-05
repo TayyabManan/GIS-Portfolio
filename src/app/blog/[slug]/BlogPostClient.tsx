@@ -11,7 +11,6 @@ import CodeBlock from '@/components/ui/CodeBlock'
 import TableOfContents from '@/components/ui/TableOfContents'
 import BackToTop from '@/components/ui/BackToTop'
 import FAQ from '@/components/ui/FAQ'
-import AuthorBio from '@/components/ui/AuthorBio'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { extractTextContent } from '@/lib/utils'
 
@@ -257,9 +256,6 @@ export default function BlogPostClient({ post, adjacentPosts }: BlogPostClientPr
             {post.faqs && post.faqs.length > 0 && (
               <FAQ items={post.faqs} className="mt-12 pt-8 border-t border-[var(--border)]" />
             )}
-
-            {/* Author bio (E-E-A-T) */}
-            <AuthorBio />
 
             {/* Previous / Next Post Navigation */}
             {adjacentPosts && (adjacentPosts.prev || adjacentPosts.next) && (

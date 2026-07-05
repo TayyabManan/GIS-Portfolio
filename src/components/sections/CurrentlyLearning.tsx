@@ -1,8 +1,7 @@
 import {
   BookOpenIcon,
   BeakerIcon,
-  RocketLaunchIcon,
-  SparklesIcon
+  RocketLaunchIcon
 } from '@heroicons/react/24/outline'
 
 export default function CurrentlyLearning() {
@@ -54,21 +53,6 @@ export default function CurrentlyLearning() {
       bg: "bg-[var(--primary)]/10",
       text: "text-[var(--primary)]",
       border: "border-[var(--primary)]/20"
-    },
-    accent: {
-      bg: "bg-[var(--accent)]/10",
-      text: "text-[var(--accent)]",
-      border: "border-[var(--accent)]/20"
-    },
-    info: {
-      bg: "bg-[var(--info)]/10",
-      text: "text-[var(--info)]",
-      border: "border-[var(--info)]/20"
-    },
-    warning: {
-      bg: "bg-[var(--warning)]/10",
-      text: "text-[var(--warning)]",
-      border: "border-[var(--warning)]/20"
     }
   }
 
@@ -76,10 +60,6 @@ export default function CurrentlyLearning() {
     <section data-reveal-group className="py-16 sm:py-24 bg-transparent">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div data-reveal="heading" className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--background)] border border-[var(--border)] mb-4">
-            <SparklesIcon className="h-5 w-5 text-[var(--accent)]" />
-            <span className="text-sm font-semibold text-[var(--text-secondary)]">Continuous Learning</span>
-          </div>
           <h2 className="text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl">
             Currently Learning & Exploring
           </h2>

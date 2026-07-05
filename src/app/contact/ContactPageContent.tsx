@@ -105,9 +105,7 @@ export default function ContactPageContent() {
             Get in Touch
           </h1>
           <p className="text-lg sm:text-xl text-[var(--text-secondary)]">
-            I&apos;m always interested in discussing new opportunities,
-            collaborating on projects, or sharing insights about machine learning,
-            AI development, and geospatial intelligence. Let&apos;s connect!
+            Have a role, a project, or a question? Send a note below and I&apos;ll get back to you.
           </p>
         </div>
 

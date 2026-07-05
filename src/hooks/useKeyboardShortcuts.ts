@@ -147,7 +147,7 @@ export function useGlobalKeyboardShortcuts() {
       key: 'g',
       alt: true,
       action: () => {
-        window.open('https://github.com/TayyabManan/GIS-Portfolio', '_blank')
+        window.open('https://github.com/TayyabManan/Portfolio', '_blank')
         toast.info('Opened GitHub Repository')
       },
       description: 'Open GitHub Repository',
@@ -204,29 +204,29 @@ function showShortcutsHelp() {
         `).join('')}
       </div>
       <button
-        onclick="this.closest('.fixed').remove()"
         class="mt-6 w-full px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:bg-[var(--primary-hover)] transition-colors"
       >
         Close
       </button>
     </div>
   `
-  
+
+  // Single close path: every dismissal (button, backdrop, Escape) must also remove
+  // the document keydown listener - the button/backdrop paths used to leak it.
+  function handleEscape(e: KeyboardEvent) {
+    if (e.key === 'Escape') close()
+  }
+  function close() {
+    modal.remove()
+    document.removeEventListener('keydown', handleEscape)
+  }
+
+  modal.querySelector('button')?.addEventListener('click', close)
   modal.onclick = (e) => {
-    if (e.target === modal) {
-      modal.remove()
-    }
+    if (e.target === modal) close()
   }
-  
+
   document.body.appendChild(modal)
-  
-  // Remove on escape
-  const handleEscape = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      modal.remove()
-      document.removeEventListener('keydown', handleEscape)
-    }
-  }
   document.addEventListener('keydown', handleEscape)
 }
 

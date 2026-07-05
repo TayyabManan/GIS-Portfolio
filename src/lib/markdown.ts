@@ -3,6 +3,7 @@ import path from 'path'
 import matter from 'gray-matter'
 import { Project } from './projects'
 import { projectSlugSchema } from './validation'
+import type { FaqItem, HowTo } from './faqs'
 
 const contentDirectory = path.join(process.cwd(), 'content/projects')
 const blogDirectory = path.join(process.cwd(), 'content/blog')
@@ -121,6 +122,8 @@ export function getFeaturedProjectsFromMarkdown(): Project[] {
 export interface BlogPost {
   slug: string
   title: string
+  /** Optional shorter title for the <title> tag when `title` is long. */
+  seoTitle?: string
   description: string
   date: string
   author: string
@@ -128,6 +131,10 @@ export interface BlogPost {
   tags: string[]
   image?: string
   readTime?: string
+  /** Optional Q&A block surfaced on the post + as FAQPage schema. */
+  faqs?: FaqItem[]
+  /** Optional procedural steps surfaced as HowTo schema. */
+  howTo?: HowTo | null
 }
 
 export interface BlogPostWithContent extends BlogPost {
@@ -179,6 +186,7 @@ export function getBlogPostBySlug(slug: string): BlogPostWithContent | null {
     return {
       slug: data.slug || slug,
       title: data.title || '',
+      seoTitle: data.seoTitle,
       description: data.description || '',
       date: data.date || '',
       author: data.author || 'Tayyab Manan',
@@ -186,6 +194,8 @@ export function getBlogPostBySlug(slug: string): BlogPostWithContent | null {
       tags: data.tags || [],
       image: data.image,
       readTime: data.readTime,
+      faqs: data.faqs || [],
+      howTo: data.howTo || null,
       content
     }
   } catch {

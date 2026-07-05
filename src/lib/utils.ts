@@ -12,6 +12,21 @@ export function decodeEmail(): string {
 }
 
 /**
+ * Truncate text to at most `max` characters on a word boundary, appending an
+ * ellipsis when it had to cut. Used to keep meta descriptions within the
+ * ~155-char SERP window while ending on a whole word.
+ */
+export function truncateAtWord(text: string, max = 155): string {
+  const clean = text.trim().replace(/\s+/g, ' ')
+  if (clean.length <= max) return clean
+  // Reserve one char for the ellipsis, then back up to the last space.
+  const slice = clean.slice(0, max - 1)
+  const lastSpace = slice.lastIndexOf(' ')
+  const trimmed = (lastSpace > 0 ? slice.slice(0, lastSpace) : slice).replace(/[\s,;:.!?-]+$/, '')
+  return `${trimmed}…`
+}
+
+/**
  * Safely extracts text content from React children
  */
 export function extractTextContent(children: React.ReactNode): string {

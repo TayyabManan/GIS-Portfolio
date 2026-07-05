@@ -1,6 +1,9 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getBlogPostBySlug, getAllBlogSlugs, getAdjacentBlogPosts } from '@/lib/markdown'
+import { truncateAtWord } from '@/lib/utils'
+import { faqPageSchema, howToSchema } from '@/lib/faqs'
+import { author, PERSON_ID } from '@/lib/author'
 import BlogPostClient from './BlogPostClient'
 
 // Force static generation for all blog pages
@@ -28,22 +31,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const postUrl = `https://tayyabmanan.com/blog/${post.slug}`
 
   return {
-    title: `${post.title} | AI Engineering Blog`,
-    description: post.description,
+    title: post.seoTitle || post.title,
+    description: truncateAtWord(post.description),
     keywords: [
       post.title,
       'AI engineering blog',
-      'ML student blog',
-      'machine learning insights',
-      'computer vision tutorials',
+      'machine learning engineering',
+      'LLM fine-tuning',
+      'computer vision',
       'deep learning',
-      'AI development',
+      'MLOps',
       post.category,
       ...(post.tags || []),
-      'AI student',
+      'production ML',
       'ML tutorials',
       'Tayyab Manan',
-      'AI learning journey'
     ],
     openGraph: {
       title: `${post.title} | Tayyab Manan`,
@@ -94,14 +96,13 @@ export default async function BlogPostPage({ params }: PageProps) {
     dateModified: post.date,
     author: {
       '@type': 'Person',
-      name: post.author || 'Tayyab Manan',
-      url: 'https://tayyabmanan.com',
-      jobTitle: 'AI/ML Engineer',
-      sameAs: [
-        'https://www.linkedin.com/in/tayyabmanan',
-        'https://github.com/TayyabManan',
-        'https://twitter.com/tayyabmanan'
-      ]
+      '@id': PERSON_ID,
+      name: post.author || author.name,
+      url: author.url,
+      jobTitle: author.role,
+      description: author.bio,
+      image: `https://tayyabmanan.com${author.image}`,
+      sameAs: author.sameAs,
     },
     publisher: {
       '@type': 'Person',
@@ -156,11 +157,21 @@ export default async function BlogPostPage({ params }: PageProps) {
     ]
   }
 
+  // FAQPage / HowTo only when the frontmatter supplies them (and their text is
+  // rendered on the page via <FAQ> / the post body, so schema matches content).
+  const postImage = post.image ? `https://tayyabmanan.com${post.image}` : undefined
+  const schemas = [
+    articleSchema,
+    breadcrumbSchema,
+    post.faqs && post.faqs.length > 0 ? faqPageSchema(post.faqs) : null,
+    post.howTo ? howToSchema(post.howTo, { image: postImage }) : null,
+  ].filter(Boolean)
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify([articleSchema, breadcrumbSchema]) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
       />
       <BlogPostClient post={post} adjacentPosts={getAdjacentBlogPosts(slug)} />
     </>

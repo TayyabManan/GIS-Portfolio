@@ -172,11 +172,15 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
 
     // Description
     job.description.forEach((desc) => {
-      checkPageBreak(8)
       pdf.setFontSize(9)
-      pdf.text('• ' + desc, margin + 5, currentY)
+      // Wrap to the content width and draw each line so long bullets don't run
+      // off the page edge. Bullet marker on the first line, indent continuations.
       const lines = pdf.splitTextToSize(desc, contentWidth - 10)
-      currentY += lines.length * 4.2
+      lines.forEach((line: string, idx: number) => {
+        checkPageBreak(6)
+        pdf.text((idx === 0 ? '• ' : '  ') + line, margin + 5, currentY)
+        currentY += 4.2
+      })
     })
     
     // Technologies
@@ -229,10 +233,13 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
     
     if (edu.achievements) {
       edu.achievements.forEach((achievement) => {
-        checkPageBreak(6)
         pdf.setFontSize(9)
-        pdf.text('• ' + achievement, margin + 5, currentY)
-        currentY += 4.2
+        const lines = pdf.splitTextToSize(achievement, contentWidth - 10)
+        lines.forEach((line: string, idx: number) => {
+          checkPageBreak(6)
+          pdf.text((idx === 0 ? '• ' : '  ') + line, margin + 5, currentY)
+          currentY += 4.2
+        })
       })
     }
     currentY += 6
@@ -322,11 +329,13 @@ export async function generateResumePDF(resumeData: ResumeData): Promise<void> {
     currentY += 2
     
     project.highlights.forEach((highlight) => {
-      checkPageBreak(6)
       pdf.setFontSize(9)
-      pdf.text('• ' + highlight, margin + 5, currentY)
       const lines = pdf.splitTextToSize(highlight, contentWidth - 10)
-      currentY += lines.length * 4.2
+      lines.forEach((line: string, idx: number) => {
+        checkPageBreak(6)
+        pdf.text((idx === 0 ? '• ' : '  ') + line, margin + 5, currentY)
+        currentY += 4.2
+      })
     })
     
     pdf.setFontSize(8)

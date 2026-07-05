@@ -10,6 +10,8 @@ import {
 import { Github, Linkedin } from "lucide-react";
 import { toast } from "@/components/ui/Toast";
 import ObfuscatedEmail from "@/components/ui/ObfuscatedEmail";
+import FAQ from "@/components/ui/FAQ";
+import { contactFaqs } from "@/lib/faqs";
 
 interface ContactForm {
   name: string;
@@ -192,8 +194,7 @@ export default function ContactPageContent() {
                 Availability
               </h3>
               <p className="text-[var(--text-secondary)]">
-                Currently available for full-time positions, consulting
-                projects, and collaborative opportunities. I typically respond
+                Currently open to full-time AI/ML roles. I typically respond
                 to messages within 24 hours.
               </p>
             </div>
@@ -209,7 +210,7 @@ export default function ContactPageContent() {
               {submitStatus === "success" && (
                 <div className="mb-6 p-4 bg-[var(--success)]/10 border border-[var(--success)]/20 rounded-lg">
                   <p className="text-[var(--success)]">
-                    Message sent — I&apos;ll reply within 24 hours.
+                    Message sent. I&apos;ll reply within 24 hours.
                   </p>
                 </div>
               )}
@@ -361,7 +362,7 @@ export default function ContactPageContent() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[var(--primary)] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-[var(--primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 active:scale-[0.98] transition-[colors,transform]"
+                  className="w-full bg-[var(--primary)] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-[var(--primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 active:scale-[0.98] transition-[background-color,transform] duration-200"
                 >
                   {isSubmitting && (
                     <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
@@ -375,6 +376,15 @@ export default function ContactPageContent() {
             </div>
           </div>
         </div>
+
+        {/* FAQ: heading in a left column, accordion in a wider right column, so
+            it uses the full width instead of leaving space on the right. */}
+        <FAQ
+          items={contactFaqs}
+          description="A few things people usually ask before getting in touch."
+          layout="aside"
+          className="mt-16 border-t border-[var(--border)] pt-16"
+        />
       </div>
     </div>
   );

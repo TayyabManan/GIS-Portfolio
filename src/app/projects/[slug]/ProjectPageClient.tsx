@@ -41,7 +41,9 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
   return (
     <>
       <div className="min-h-[100dvh] py-16 sm:py-24 bg-[var(--background)]">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        {/* px-6 on mobile (not the site's usual px-4): long-form justified prose runs
+            flush to both gutter edges, so reading pages get a wider 24px gutter. */}
+        <div className="mx-auto max-w-4xl px-6 lg:px-8">
           {/* Breadcrumbs */}
           <div className="mb-8">
             <Breadcrumbs
@@ -92,7 +94,7 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
                 </button>
               </div>
 
-              {/* Tech Stack — collapsible */}
+              {/* Tech Stack - collapsible */}
               <div className={`overflow-hidden transition-all duration-200 ${showTech ? 'max-h-40 mt-4 opacity-100' : 'max-h-0 opacity-0'}`}>
                 <div className="flex flex-wrap gap-2">
                   {project.techStack.map((tech) => (
@@ -121,7 +123,7 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
               </div>
             )}
 
-            {/* Action Buttons — after image, before content */}
+            {/* Action Buttons - after image, before content */}
             {(project.demoUrl || project.githubUrl) && (
               <div className="flex flex-wrap gap-3 mb-12">
                 {project.demoUrl && (
@@ -150,13 +152,15 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
             )}
 
             {/* Content */}
-            <div className="prose prose-lg max-w-none">
+            <div className="max-w-none">
               <DynamicReactMarkdown
                 components={{
+                  // The styled <header> above is the page's sole <h1>; any stray
+                  // `#` in the body renders as <h2> so hierarchy stays single-H1.
                   h1: ({ children }) => (
-                    <h1 className="text-3xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
+                    <h2 className="text-3xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
                       {children}
-                    </h1>
+                    </h2>
                   ),
                   h2: ({ children }) => (
                     <h2 className="text-2xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">

@@ -12,10 +12,8 @@ featured: true
 date: "2026-04-05"
 ---
 
-# US Visa Approval Prediction System
-
 ## Overview
-When a U.S. employer wants to hire a foreign worker permanently, they file a PERM labor certification with the Department of Labor. The process is opaque, takes 6-18 months, and costs $5,000-$15,000 in legal fees. A denial means starting over.
+When a U.S. employer wants to hire a foreign worker permanently, they file a [PERM labor certification](https://flag.dol.gov/programs/permanent) with the Department of Labor. The process is opaque, takes 6-18 months, and costs $5,000-$15,000 in legal fees. A denial means starting over.
 
 This system predicts whether a PERM application will be certified or denied, and explains *why*, so applicants and attorneys can evaluate case strength before they file. Built following the CRISP-DM methodology with a modular MLOps pipeline.
 

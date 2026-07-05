@@ -3,8 +3,8 @@ import { getAllBlogPosts } from '@/lib/markdown'
 import BlogPageContent from './BlogPageContent'
 
 export const metadata: Metadata = {
-  title: 'Blog - Tayyab Manan | AI/ML Engineering Insights',
-  description: 'Technical writing on AI/ML engineering, production ML systems, Computer Vision, and Geospatial AI. Project deep-dives, tutorials, and engineering insights.',
+  title: 'AI/ML Engineering Blog',
+  description: 'Deep-dives on building AI/ML systems: LLM fine-tuning, computer vision, NLP & production ML, with the metrics and trade-offs behind each project.',
   keywords: [
     'AI engineering blog',
     'machine learning insights',

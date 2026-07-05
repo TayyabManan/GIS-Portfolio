@@ -1,42 +1,44 @@
 import Link from 'next/link'
 import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline'
 
+/**
+ * Home-page CTA. Rendered as a self-contained card so it can sit in the right
+ * column beside the FAQ. Keeps its data-reveal-* hooks so HomeScrollEffects
+ * still staggers it in on scroll.
+ */
 export default function CallToAction() {
   return (
-    <section className="relative min-h-[50vh] py-16 sm:py-24 flex items-center bg-transparent border-y border-[var(--border)]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="mb-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)] rounded-full mb-4">
-              <SparklesIcon className="w-5 h-5 text-white" />
-              <span className="text-sm font-semibold text-white uppercase tracking-wider">Let&apos;s Connect</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4">
-              Interested in Collaborating?
-            </h2>
-            <p className="text-xl text-[var(--text-secondary)]">
-              I build production ML systems and I&apos;m looking for the right team to do it with.
-              Let&apos;s discuss opportunities, projects, or just chat about AI and machine learning.
-            </p>
-          </div>
-          <div className="flex flex-row items-center justify-center gap-3 sm:gap-4">
-            <Link
-              href="/contact"
-              className="group bg-[var(--primary)] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold hover:bg-[var(--primary-hover)] transition-all duration-200 inline-flex items-center gap-2 whitespace-nowrap"
-            >
-              <span className="hidden sm:inline">Get in Touch</span>
-              <span className="sm:hidden">Contact</span>
-              <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
-              href="/projects"
-              className="group border-2 border-[var(--border)] text-[var(--text)] px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all duration-200 bg-[var(--background)] inline-flex items-center gap-2 whitespace-nowrap"
-            >
-              View My Work
-              <span>→</span>
-            </Link>
-          </div>
-        </div>
+    <section
+      data-reveal-group
+      data-reveal-stagger="0.12"
+      className="rounded-2xl border border-[var(--border)] bg-[var(--background-secondary)] p-8 sm:p-10"
+    >
+      <div data-reveal="item" className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--primary)] rounded-full mb-5">
+        <SparklesIcon className="w-5 h-5 text-white" />
+        <span className="text-sm font-semibold text-white uppercase tracking-wider">Let&apos;s Connect</span>
+      </div>
+      <h2 data-reveal="item" className="text-2xl sm:text-3xl font-bold text-[var(--text)] mb-3">
+        Interested in collaborating?
+      </h2>
+      <p data-reveal="item" className="text-base sm:text-lg text-[var(--text-secondary)] mb-6">
+        I build production ML systems and I&apos;m looking for the right team to do it with. Happy to
+        talk about roles, projects, or just trade notes on AI.
+      </p>
+      <div data-reveal="item" className="flex flex-col gap-3">
+        <Link
+          href="/contact"
+          className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3.5 text-base font-semibold text-white transition-all duration-200 hover:bg-[var(--primary-hover)]"
+        >
+          Get in Touch
+          <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+        </Link>
+        <Link
+          href="/projects"
+          className="group inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[var(--border)] bg-[var(--background)] px-6 py-3.5 text-base font-semibold text-[var(--text)] transition-all duration-200 hover:border-[var(--primary)] hover:text-[var(--primary)]"
+        >
+          View My Work
+          <span aria-hidden="true">→</span>
+        </Link>
       </div>
     </section>
   )

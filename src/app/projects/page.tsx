@@ -1,9 +1,14 @@
 import { Metadata } from 'next'
 import ProjectsPageContent from './ProjectsPageContent'
+import { getAllProjectsFromMarkdown } from '@/lib/markdown'
+
+// Build-time read so the project grid is in the initial HTML for AI crawlers
+// (the page used to fetch /api/projects client-side and show a spinner).
+export const dynamic = 'force-static'
 
 export const metadata: Metadata = {
-  title: 'ML & AI Projects Portfolio',
-  description: 'ML & AI projects portfolio featuring Computer Vision, NLP, Geospatial AI & predictive analytics. Built with PyTorch, TensorFlow, LangChain & Scikit-learn.',
+  title: 'AI/ML Projects',
+  description: 'Six deployed ML/AI projects with live demos and open repos: groundwater prediction (R²=0.89), Urdu LLM fine-tuning, and face-expression detection.',
   keywords: [
     'ML projects',
     'AI portfolio',
@@ -46,6 +51,8 @@ export const metadata: Metadata = {
 }
 
 export default function ProjectsPage() {
+  const projects = getAllProjectsFromMarkdown()
+
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -61,7 +68,7 @@ export default function ProjectsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <ProjectsPageContent />
+      <ProjectsPageContent projects={projects} />
     </>
   )
 }

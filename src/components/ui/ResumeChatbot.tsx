@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { XMarkIcon, ChatBubbleLeftRightIcon, MinusIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import { toast } from '@/components/ui/Toast'
+import { DynamicReactMarkdown } from '@/lib/dynamic-imports'
 
 interface Message {
   id: string
@@ -24,7 +25,20 @@ export default function ResumeChatbot() {
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [serviceDown, setServiceDown] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const controllerRef = useRef<AbortController | null>(null)
+  const mountedRef = useRef(true)
+
+  // Abort any in-flight request on unmount so a stream doesn't keep pushing
+  // state (or fire an error toast) after the user navigates away.
+  useEffect(() => {
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+      controllerRef.current?.abort()
+    }
+  }, [])
 
   useEffect(() => {
     // Only scroll to bottom if chatbot is open, prevents auto-scroll on page load
@@ -55,14 +69,14 @@ export default function ResumeChatbot() {
     "What's your educational background?"
   ]
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim() || isLoading) return
+  const sendMessage = async (text: string) => {
+    const trimmed = text.trim()
+    if (!trimmed || isLoading) return
 
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
-      content: input
+      content: trimmed
     }
 
     setMessages(prev => [...prev, userMessage])
@@ -71,6 +85,9 @@ export default function ResumeChatbot() {
     setError(null)
 
     const controller = new AbortController()
+    controllerRef.current = controller
+    // Guards the CONNECTION phase only - cleared as soon as headers arrive, so a
+    // healthy response that streams for longer than 30s isn't aborted mid-answer.
     const timeout = setTimeout(() => controller.abort(), 30000)
 
     try {
@@ -87,12 +104,14 @@ export default function ResumeChatbot() {
         }),
         signal: controller.signal,
       })
+      clearTimeout(timeout)
 
       if (!response.ok) {
         const err = new Error(`Failed to get response (${response.status})`) as Error & { status?: number }
         err.status = response.status
         throw err
       }
+      setServiceDown(false)
 
       const reader = response.body?.getReader()
       const decoder = new TextDecoder()
@@ -127,15 +146,21 @@ export default function ResumeChatbot() {
         }
       }
     } catch (err) {
-      // Check for rate limiting
-      const error = err as { status?: number; message?: string }
-      if (error?.status === 429 || error?.message?.includes('429')) {
+      // Unmount abort: component is gone - no error UI, no global toast.
+      if (!mountedRef.current) return
+      const error = err as { status?: number; message?: string; name?: string }
+      if (error?.name === 'AbortError') {
+        const errorMsg = 'Request timed out. Please try again.'
+        setError(errorMsg)
+        toast.error('Request timed out', 'The chat service took too long to respond.')
+      } else if (error?.status === 429 || error?.message?.includes('429')) {
         const errorMsg = 'Too many messages. Please wait a moment before sending another.'
         setError(errorMsg)
         toast.warning('Slow down', errorMsg)
       } else if (error?.status === 503 || error?.message?.includes('503')) {
         const errorMsg = 'Chat service is temporarily unavailable. Please try again later.'
         setError(errorMsg)
+        setServiceDown(true)
         toast.error('Chat is down', errorMsg)
       } else {
         const errorMsg = 'Failed to get response. Please try again.'
@@ -144,18 +169,17 @@ export default function ResumeChatbot() {
       }
     } finally {
       clearTimeout(timeout)
-      setIsLoading(false)
+      if (mountedRef.current) setIsLoading(false)
     }
   }
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    sendMessage(input)
+  }
+
   const handleQuickQuestion = (question: string) => {
-    setInput(question)
-    setTimeout(() => {
-      const form = document.getElementById('chat-form') as HTMLFormElement
-      if (form) {
-        form.requestSubmit()
-      }
-    }, 10)
+    sendMessage(question)
   }
 
   return (
@@ -187,11 +211,13 @@ export default function ResumeChatbot() {
 
       {/* Chat Window */}
       <div
+        role="dialog"
+        aria-label="Resume assistant chat"
         className={`fixed z-[100] transition-all duration-300 ${
           isOpen ? 'pointer-events-auto' : 'pointer-events-none'
         } ${
-          isMinimized 
-            ? 'bottom-0 right-4 w-[300px] h-[50px]' 
+          isMinimized
+            ? 'bottom-4 right-4 w-[300px] h-[50px]'
             : 'bottom-4 right-4 w-[90vw] sm:w-[400px] h-[55vh] sm:h-[600px]'
         } ${
           isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
@@ -207,9 +233,14 @@ export default function ResumeChatbot() {
             <div className="flex items-center space-x-2">
               <div className="relative">
                 <ChatBubbleLeftRightIcon className="h-5 w-5 text-[var(--text-secondary)]" />
-                <span className="absolute -bottom-1 -right-1 flex h-2 w-2">
-                  <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-[var(--success)] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--success)]"></span>
+                <span
+                  className="absolute -bottom-1 -right-1 flex h-2 w-2"
+                  title={serviceDown ? 'Chat service unavailable' : 'Online'}
+                >
+                  {!serviceDown && (
+                    <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-[var(--success)] opacity-75"></span>
+                  )}
+                  <span className={`relative inline-flex rounded-full h-2 w-2 ${serviceDown ? 'bg-[var(--error)]' : 'bg-[var(--success)]'}`}></span>
                 </span>
               </div>
               <div>
@@ -254,17 +285,50 @@ export default function ResumeChatbot() {
                           : 'bg-[var(--background-secondary)] text-[var(--text)]'
                       }`}
                     >
-                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                      {message.role === 'assistant' ? (
+                        // Assistant replies render as markdown (models format lists/bold
+                        // no matter what the prompt says); components are chat-scaled.
+                        <div className="text-sm">
+                          <DynamicReactMarkdown
+                            components={{
+                              p: ({ children }) => <p className="mb-2 leading-relaxed last:mb-0">{children}</p>,
+                              strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                              ul: ({ children }) => <ul className="mb-2 list-disc space-y-1 pl-4 last:mb-0">{children}</ul>,
+                              ol: ({ children }) => <ol className="mb-2 list-decimal space-y-1 pl-4 last:mb-0">{children}</ol>,
+                              li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                              code: ({ children }) => (
+                                <code className="rounded bg-[var(--background-tertiary)] px-1 py-0.5 font-mono text-xs">{children}</code>
+                              ),
+                              a: ({ href, children }) => (
+                                <a href={href} target="_blank" rel="noopener noreferrer" className="text-[var(--primary)] underline underline-offset-2">
+                                  {children}
+                                </a>
+                              ),
+                              // Chat bubbles have no room for heading scale - flatten to bold lines.
+                              h1: ({ children }) => <p className="mb-2 font-semibold">{children}</p>,
+                              h2: ({ children }) => <p className="mb-2 font-semibold">{children}</p>,
+                              h3: ({ children }) => <p className="mb-2 font-semibold">{children}</p>,
+                              img: () => null,
+                            }}
+                          >
+                            {message.content}
+                          </DynamicReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                      )}
                     </div>
                   </div>
                 ))}
                 {isLoading && (
                   <div className="flex justify-start">
                     <div className="bg-[var(--background-secondary)] rounded-lg px-4 py-2">
-                      <div className="flex space-x-1.5">
-                        <div className="w-2 h-2 bg-[var(--text-tertiary)] rounded-full animate-pulse" style={{ animationDelay: '0ms' }}></div>
-                        <div className="w-2 h-2 bg-[var(--text-tertiary)] rounded-full animate-pulse" style={{ animationDelay: '150ms' }}></div>
-                        <div className="w-2 h-2 bg-[var(--text-tertiary)] rounded-full animate-pulse" style={{ animationDelay: '300ms' }}></div>
+                      {/* data-essential-motion: exempt from the global reduced-motion
+                          kill - a typing/status indicator is essential motion. */}
+                      <div data-essential-motion className="flex space-x-1.5">
+                        <div className="w-2 h-2 bg-[var(--text-tertiary)] rounded-full animate-chat-dot" style={{ animationDelay: '0ms' }}></div>
+                        <div className="w-2 h-2 bg-[var(--text-tertiary)] rounded-full animate-chat-dot" style={{ animationDelay: '150ms' }}></div>
+                        <div className="w-2 h-2 bg-[var(--text-tertiary)] rounded-full animate-chat-dot" style={{ animationDelay: '300ms' }}></div>
                       </div>
                     </div>
                   </div>
@@ -298,7 +362,7 @@ export default function ResumeChatbot() {
               )}
 
               {/* Input Form */}
-              <form id="chat-form" onSubmit={handleSubmit} className="p-4 border-t border-[var(--border)]">
+              <form onSubmit={handleSubmit} className="p-4 border-t border-[var(--border)]">
                 <div className="flex space-x-2">
                   <input
                     type="text"

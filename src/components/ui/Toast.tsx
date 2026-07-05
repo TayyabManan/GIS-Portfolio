@@ -23,17 +23,19 @@ const ToastViewport = React.forwardRef<
 ))
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName
 
+// Neutral elevated surface (site card language); the variant reads through a 4px
+// left accent strip (echoes the site's border-l accents) and the colored icon,
+// not a heavy colored border.
 const toastVariants = cva(
-  'group pointer-events-auto relative flex w-full items-center justify-between space-x-3 overflow-hidden rounded-lg border-2 p-4 pr-10 shadow-xl backdrop-blur-sm transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[state=open]:fade-in-0',
+  "group pointer-events-auto relative flex w-full items-center justify-between space-x-3 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--background)] p-4 pl-5 pr-12 text-[var(--text)] shadow-lg transition-all before:absolute before:inset-y-0 before:left-0 before:w-1 before:content-[''] data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[state=open]:fade-in-0",
   {
     variants: {
       variant: {
-        default: 'border-[var(--border)] bg-[var(--background)]/95 text-[var(--text)]',
-        destructive:
-          'border-[var(--error)] bg-[var(--error)]/5 text-[var(--text)]',
-        success: 'border-[var(--success)] bg-[var(--success)]/5 text-[var(--text)]',
-        warning: 'border-[var(--warning)] bg-[var(--warning)]/5 text-[var(--text)]',
-        info: 'border-[var(--primary)] bg-[var(--primary)]/5 text-[var(--text)]',
+        default: 'before:bg-[var(--border-hover)]',
+        destructive: 'before:bg-[var(--error)]',
+        success: 'before:bg-[var(--success)]',
+        warning: 'before:bg-[var(--warning)]',
+        info: 'before:bg-[var(--primary)]',
       },
     },
     defaultVariants: {
@@ -64,7 +66,7 @@ const ToastAction = React.forwardRef<
   <ToastPrimitives.Action
     ref={ref}
     className={cn(
-      'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive',
+      'inline-flex h-8 min-h-0! min-w-0! shrink-0 items-center justify-center rounded-md border border-[var(--border)] bg-transparent px-3 text-sm font-medium transition-colors hover:bg-[var(--background-secondary)] disabled:pointer-events-none disabled:opacity-50',
       className
     )}
     {...props}
@@ -79,7 +81,13 @@ const ToastClose = React.forwardRef<
   <ToastPrimitives.Close
     ref={ref}
     className={cn(
-      'absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1.5 text-[var(--text-tertiary)] hover:text-[var(--text)] opacity-70 hover:opacity-100 transition-all hover:bg-[var(--background-secondary)]/50 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-[var(--border-hover)]',
+      // The important suffix is required: the global `button { min-height: 44px }`
+      // in globals.css is UNLAYERED, so it beats Tailwind's layered utilities at any
+      // specificity - plain min-h-0 loses. Visual box is a tidy 32px; the invisible
+      // after: extender keeps a ~44px effective touch target. No local focus classes:
+      // keyboard focus gets the site-wide *:focus-visible outline, and mouse clicks
+      // leave no lingering ring.
+      "absolute right-2 top-2 flex h-8 w-8 min-h-0! min-w-0! items-center justify-center rounded-lg text-[var(--text-tertiary)] transition-colors after:absolute after:-inset-1.5 after:content-[''] hover:bg-[var(--background-secondary)] hover:text-[var(--text)]",
       className
     )}
     toast-close=""
@@ -131,7 +139,9 @@ interface ToastState {
 }
 
 const TOAST_LIMIT = 5
-const TOAST_REMOVE_DELAY = 1000000
+// Time a dismissed toast stays in state before removal - just long enough for the
+// exit animation (~300ms). The old 1000000 (shadcn default) kept ghosts ~16.7 min.
+const TOAST_REMOVE_DELAY = 5000
 
 let count = 0
 
@@ -293,7 +303,7 @@ toast.success = (message: string, description?: string) => {
     title: message,
     description,
     variant: 'success',
-    icon: <CheckCircle className="h-5 w-5" />,
+    icon: <CheckCircle className="h-5 w-5 text-[var(--success)]" />,
   })
 }
 
@@ -302,7 +312,7 @@ toast.error = (message: string, description?: string) => {
     title: message,
     description,
     variant: 'destructive',
-    icon: <AlertCircle className="h-5 w-5" />,
+    icon: <AlertCircle className="h-5 w-5 text-[var(--error)]" />,
   })
 }
 
@@ -311,7 +321,7 @@ toast.warning = (message: string, description?: string) => {
     title: message,
     description,
     variant: 'warning',
-    icon: <AlertTriangle className="h-5 w-5" />,
+    icon: <AlertTriangle className="h-5 w-5 text-[var(--warning)]" />,
   })
 }
 
@@ -320,7 +330,7 @@ toast.info = (message: string, description?: string) => {
     title: message,
     description,
     variant: 'info',
-    icon: <Info className="h-5 w-5" />,
+    icon: <Info className="h-5 w-5 text-[var(--primary)]" />,
   })
 }
 
@@ -331,7 +341,7 @@ toast.loading = (message: string, description?: string) => {
     variant: 'default',
     duration: 0, // Don't auto-dismiss loading toasts
     icon: (
-      <div className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+      <div className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent text-[var(--primary)]" />
     ),
   })
 }
@@ -358,13 +368,22 @@ function useToast() {
 
 // Toaster component
 function Toaster() {
-  const { toasts } = useToast()
+  const { toasts, dismiss } = useToast()
 
   return (
     <ToastProvider>
       {toasts.map(function ({ id, title, description, action, variant, icon, ...props }) {
         return (
-          <Toast key={id} variant={variant} {...props}>
+          <Toast
+            key={id}
+            variant={variant}
+            // open is controlled from our store, so Radix's close/swipe requests must
+            // be routed back into it - without this the X and swipe were no-ops.
+            onOpenChange={(open) => {
+              if (!open) dismiss(id)
+            }}
+            {...props}
+          >
             <div className="flex gap-3 items-start w-full">
               {icon && <div className="flex-shrink-0 mt-0.5">{icon}</div>}
               <div className="grid gap-1 flex-1 min-w-0">

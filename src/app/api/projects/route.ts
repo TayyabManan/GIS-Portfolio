@@ -9,7 +9,10 @@ export async function GET() {
         'Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
       },
     })
-  } catch {
+  } catch (error) {
+    // Log server-side (fs/frontmatter failures are otherwise undiagnosable);
+    // the client still gets a generic body.
+    console.error('Projects API error:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -8,14 +8,12 @@ techStack: ["React", "Flask", "Pandas", "Scikit-learn", "Google Earth Engine", "
 image: "/projects/watertrace.webp"
 demoUrl: "https://watertrace.vercel.app"
 githubUrl: "https://github.com/TayyabManan/WaterTrace"
-featured: false
+featured: true
 date: "2025-01-09"
 ---
 
-# WaterTrace Pakistan
-
 ## Overview
-WaterTrace is a machine learning system for predicting and monitoring groundwater levels across Pakistan. It processes 22 years of satellite data from NASA's GRACE mission (2002-2017) and GLDAS land surface models (2018-2024) to forecast groundwater depletion patterns across all 145 districts. The model achieves R²=0.89, and the results are served through an interactive web dashboard with district-level maps and time-series charts.
+WaterTrace is a machine learning system for predicting and monitoring groundwater levels across Pakistan. It processes 22 years of satellite data from NASA's [GRACE mission](https://grace.jpl.nasa.gov/) (2002-2017) and [GLDAS land surface models](https://ldas.gsfc.nasa.gov/gldas) (2018-2024) to forecast groundwater depletion patterns across all 145 districts. The model achieves R²=0.89, and the results are served through an interactive web dashboard with district-level maps and time-series charts.
 
 **[Read the full technical deep-dive →](/blog/building-watertrace)**
 

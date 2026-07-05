@@ -12,10 +12,8 @@ featured: false
 date: "2025-12-08"
 ---
 
-# Face Expression Detection in Group Photos
-
 ## Overview
-A deep learning web app that detects and classifies facial expressions in images. Built with PyTorch and Flask, using a ResNet-18 model trained on the RAF-DB dataset at **80% accuracy**.
+A deep learning web app that detects and classifies facial expressions in images. Built with PyTorch and Flask, using a ResNet-18 model trained on the [RAF-DB dataset](http://www.whdeng.cn/raf/model1.html) at **80% accuracy**.
 
 **[Read the full technical deep-dive →](/blog/building-face-expression-detection)**
 

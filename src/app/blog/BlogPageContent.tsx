@@ -2,8 +2,11 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { CalendarIcon, ClockIcon, TagIcon, FolderIcon } from '@heroicons/react/24/outline'
 import { BlogPost } from '@/lib/markdown'
+import { useGridFlip } from '@/components/effects/useGridFlip'
+import CategoryFilter from '@/components/ui/CategoryFilter'
 
 interface BlogPageContentProps {
   posts: BlogPost[]
@@ -17,6 +20,9 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
   const filteredPosts = selectedCategory === 'all'
     ? posts
     : posts.filter(p => p.category === selectedCategory)
+
+  // FLIP morph on filter change (desktop only; no-op hard swap on mobile)
+  const { gridRef, capture } = useGridFlip(filteredPosts.map((p) => p.slug).join('|'))
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -33,29 +39,20 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
         {/* Header - Left aligned */}
         <div className="mb-12 max-w-4xl">
           <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text)] mb-4">
-            Blog
+            AI/ML Engineering, Built in Public
           </h1>
           <p className="text-lg sm:text-xl text-[var(--text-secondary)]">
-            Sharing my learning journey in AI Engineering, insights from ML projects, and experiences with Computer Vision, NLP, and Deep Learning.
+            Technical deep-dives on building AI/ML systems: LLM fine-tuning, computer vision, NLP, and production ML, with the metrics, trade-offs, and failures behind each project.
           </p>
         </div>
 
         {/* Category Filter - Left aligned */}
-        <div className="flex flex-wrap gap-3 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 min-h-[44px] rounded-lg font-medium transition-all text-sm sm:text-base cursor-pointer ${
-                selectedCategory === category
-                  ? 'bg-[var(--primary)] text-white shadow-lg sm:scale-105'
-                  : 'bg-[var(--background-secondary)] text-[var(--text)] hover:bg-[var(--background-tertiary)] border border-[var(--border)] hover:border-[var(--primary)]'
-              }`}
-            >
-              {category.charAt(0).toUpperCase() + category.slice(1)}
-            </button>
-          ))}
-        </div>
+        <CategoryFilter
+          categories={categories}
+          selected={selectedCategory}
+          onSelect={(category) => { capture(); setSelectedCategory(category) }}
+          formatLabel={(category) => category.charAt(0).toUpperCase() + category.slice(1)}
+        />
 
         {/* Blog Posts Grid */}
         {filteredPosts.length === 0 ? (
@@ -82,19 +79,22 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div ref={gridRef} className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post) => (
-              <article key={post.slug}>
+              <article key={post.slug} data-flip-id={post.slug}>
                 <Link
                   href={`/blog/${post.slug}`}
                   className="group block bg-[var(--background)] border border-[var(--border)] rounded-xl overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--primary)] h-full"
                 >
-                  {/* Image */}
+                  {/* Image (next/image so blog thumbnails are indexable + alt'd) */}
                   {post.image && (
                     <div className="relative h-48 overflow-hidden">
-                      <div
-                        className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                        style={{ backgroundImage: `url(${post.image})` }}
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] via-transparent to-transparent opacity-60" />
                     </div>

@@ -68,7 +68,7 @@ export default function Footer() {
         className="fixed bottom-0 w-full border-t border-[var(--border)] shadow-2xl bg-[var(--background)]"
         style={{ height: height || undefined }}
       >
-        {/* Inner container — natural flow, measured by ref */}
+        {/* Inner container - natural flow, measured by ref */}
         <div ref={containerRef} className="flex flex-col">
           {/* Links section */}
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full pt-8 pb-6">
@@ -175,9 +175,16 @@ export default function Footer() {
           {/* Large Name Display */}
           <div className="flex items-end justify-center pb-1 sm:pb-2 md:pb-3 px-4 sm:px-6 md:px-8 pointer-events-none">
             <div className="relative pr-4 sm:pr-8">
-              <h1 className="font-extrabold select-none leading-none tracking-tighter whitespace-nowrap text-[clamp(2rem,10vw,8rem)] sm:text-[12vw] md:text-[13vw] text-[var(--text)]">
+              {/* Decorative brand wordmark: a <p>, not an <h1>, so it doesn't
+                  compete with each page's real heading for the sole H1 slot.
+                  fontFamily restores the Bricolage Grotesque heading font, which
+                  globals.css otherwise scopes only to h1-h6. */}
+              <p
+                style={{ fontFamily: 'var(--font-heading), system-ui, sans-serif' }}
+                className="font-extrabold select-none leading-none tracking-tighter whitespace-nowrap text-[clamp(2rem,10vw,8rem)] sm:text-[12vw] md:text-[13vw] text-[var(--text)]"
+              >
                 Tayyab Manan
-              </h1>
+              </p>
               <span className="absolute top-0 -right-2 sm:-right-6 text-[3vw] sm:text-[2.5vw] md:text-[2vw] font-bold text-[var(--text)]">
                 ©
               </span>

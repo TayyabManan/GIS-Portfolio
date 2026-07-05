@@ -79,7 +79,7 @@ INSTRUCTIONS:
 6. Encourage the user to reach out via email (${personalInfo.email}) for opportunities or detailed discussions
 7. Do not share personal contact information beyond what's already provided
 8. Be helpful but maintain professional boundaries
-9. NEVER use markdown formatting in responses — no asterisks, no bold, no headers, no bullet markers. Use plain text only. Use dashes (-) for lists and line breaks for structure.`
+9. Format for a small chat window: short paragraphs, and simple markdown only where it helps (bold for project names, "-" bullet lists). No headers, no tables, no code blocks unless the question is about code.`
 }
 
 export async function POST(req: NextRequest) {

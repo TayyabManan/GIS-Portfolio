@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import ResumePageContent from './ResumePageContent'
 
 export const metadata: Metadata = {
-  title: 'Resume - Tayyab Manan | AI/ML Engineer',
-  description: 'AI/ML Engineer resume. Building production ML systems with PyTorch, TensorFlow & LangChain. Expertise in Computer Vision, Multi-Agent Systems, and Geospatial AI. MS in AI Engineering at COMSATS.',
+  title: 'Resume',
+  description: 'AI/ML Engineer résumé: production ML with PyTorch, TensorFlow & LangChain; Computer Vision, Multi-Agent Systems & Geospatial AI. MS in AI Engineering, COMSATS.',
   keywords: [
     'AI ML engineer resume',
     'machine learning engineer CV',

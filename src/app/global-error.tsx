@@ -1,12 +1,14 @@
 'use client'
 
 import { useEffect } from 'react'
+import { themes } from '@/lib/themes'
 
 /**
  * Catches errors thrown by the root layout itself (which the route-level
  * `error.tsx` cannot catch). When it renders it REPLACES the root layout, so it
  * must render its own <html>/<body> and cannot rely on globals.css or the theme
- * CSS variables being applied — hence the self-contained inline styles.
+ * CSS variables being applied - hence the self-contained inline styles, sourced
+ * from the themes.light constants so they can't drift from the palette.
  */
 export default function GlobalError({
   error,
@@ -32,8 +34,8 @@ export default function GlobalError({
           textAlign: 'center',
           fontFamily:
             'system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-          background: '#fafaf9',
-          color: '#1c1917',
+          background: themes.light.background,
+          color: themes.light.text,
         }}
       >
         <div style={{ maxWidth: '28rem' }}>
@@ -43,7 +45,7 @@ export default function GlobalError({
               fontWeight: 800,
               lineHeight: 1,
               margin: 0,
-              color: '#a8a29e',
+              color: themes.light.textTertiary,
             }}
           >
             500
@@ -51,7 +53,7 @@ export default function GlobalError({
           <h2 style={{ fontSize: '1.5rem', fontWeight: 700, margin: '1rem 0 0.5rem' }}>
             Something went wrong
           </h2>
-          <p style={{ color: '#57534e', margin: '0 0 2rem' }}>
+          <p style={{ color: themes.light.textSecondary, margin: '0 0 2rem' }}>
             A critical error occurred while loading the page. Try again, or head back home.
           </p>
           <div
@@ -66,7 +68,7 @@ export default function GlobalError({
               onClick={() => reset()}
               style={{
                 cursor: 'pointer',
-                background: '#3568d4',
+                background: themes.light.primary,
                 color: '#ffffff',
                 border: 'none',
                 padding: '0.75rem 1.5rem',
@@ -82,8 +84,8 @@ export default function GlobalError({
               href="/"
               style={{
                 display: 'inline-block',
-                border: '1px solid #d6d3d1',
-                color: '#1c1917',
+                border: `1px solid ${themes.light.border}`,
+                color: themes.light.text,
                 textDecoration: 'none',
                 padding: '0.75rem 1.5rem',
                 borderRadius: '0.5rem',

@@ -1,6 +1,16 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 @import "lenis/dist/lenis.css";
 @import "../styles/tokens.css";
+
+/* Wire Tailwind's shadow-sm/md/lg utilities to the themed elevation tokens
+   (warm-tinted in light, heavier in dark, stronger in high-contrast).
+   shadow-xl/2xl keep Tailwind defaults. */
+@theme inline {
+  --shadow-sm: var(--elevation-sm);
+  --shadow-md: var(--elevation-md);
+  --shadow-lg: var(--elevation-lg);
+}
 
 /* Reset and base styles */
 html {
@@ -53,9 +63,11 @@ body {
   }
 }
 
-/* Theme variables */
+/* Theme variables - CANONICAL source of truth for both themes.
+   The inline script in layout.tsx / ThemeContext only set data-theme on <html>;
+   src/lib/themes.ts is a small mirror of the light palette for non-CSS contexts. */
 :root {
-  /* Default theme variables (will be overridden by JavaScript) */
+  /* Light theme (default) */
   --primary: #3568d4;
   --primary-hover: #2952b3;
   --primary-light: #eef2fa;
@@ -71,26 +83,62 @@ body {
   --error: #dc2626;
   --warning: #d97706;
 
-  /* Semantic aliases (mirror themes.light — accent=primary blue, info=primary, highlight=warning) */
+  /* Semantic aliases (accent=primary blue, info=primary; green/amber reserved for status) */
   --accent: #3568d4;
   --info: #3568d4;
-  --highlight: #d97706;
-
-  /* Hero gradient (solid background — no special gradient in light) */
-  --hero-gradient-start: #eef2fa;
-  --hero-gradient-mid: #fafaf9;
-  --hero-gradient-end: #fafaf9;
 
   /* Themed overlay/scrim for modals and menus */
   --overlay: rgb(28 25 23 / 0.5);
 
-  --shadow-sm: 0 1px 2px 0 rgb(28 25 23 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(28 25 23 / 0.07), 0 2px 4px -2px rgb(28 25 23 / 0.05);
-  --shadow-lg: 0 10px 15px -3px rgb(28 25 23 / 0.07), 0 4px 6px -4px rgb(28 25 23 / 0.05);
+  --elevation-sm: 0 1px 2px 0 rgb(28 25 23 / 0.05);
+  --elevation-md: 0 4px 6px -1px rgb(28 25 23 / 0.07), 0 2px 4px -2px rgb(28 25 23 / 0.05);
+  --elevation-lg: 0 10px 15px -3px rgb(28 25 23 / 0.07), 0 4px 6px -4px rgb(28 25 23 / 0.05);
 
   /* Animation variables */
   --transition-speed: 200ms;
   --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark theme - activated by data-theme="dark" on <html> (set pre-paint by the
+   inline script in layout.tsx, toggled by ThemeContext) */
+[data-theme="dark"] {
+  /* Accent - slightly lighter blue, legible on dark surfaces */
+  --primary: #5b8cdf;
+  --primary-hover: #7ea5e8;
+  --primary-light: rgba(91, 140, 223, 0.18);
+
+  /* Backgrounds - warm stone, lifted (library evening, not midnight) */
+  --background: #1c1917;
+  --background-secondary: #292524;
+  --background-tertiary: #3b3835;
+
+  /* Text - warm off-whites */
+  --text: #edebe8;
+  --text-secondary: #a8a29e;
+  /* Nudged lighter than the light-theme tertiary (which is also #78716c) so 12–14px labels clear
+     WCAG AA (~5:1) on the #1c1917 dark background - this token was previously copied unchanged. */
+  --text-tertiary: #8f8a84;
+
+  /* Borders - warm stone, clearly visible */
+  --border: #3b3835;
+  --border-hover: #57534e;
+
+  /* Status - lighter for dark backgrounds */
+  --success: #4ade80;
+  --error: #f87171;
+  --warning: #fbbf24;
+
+  /* Semantic aliases (accent=primary blue, info=primary) */
+  --accent: #5b8cdf;
+  --info: #5b8cdf;
+
+  /* Themed overlay/scrim for modals and menus */
+  --overlay: rgba(0, 0, 0, 0.6);
+
+  /* Shadows - heavier on dark to create depth */
+  --elevation-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --elevation-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --elevation-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
 }
 
 /* Pointer cursor on interactive elements (Tailwind v4 doesn't set this by default) */
@@ -156,7 +204,7 @@ input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 
-/* Typography — heading/body font split */
+/* Typography - heading/body font split */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading), system-ui, sans-serif;
   letter-spacing: -0.025em;
@@ -172,16 +220,18 @@ p {
   text-wrap: pretty;
 }
 
+/* Hero index pill hover (a GSAP-driven fill layer that slides up) is handled entirely inside
+   src/components/sections/Hero.tsx - no global rule needed. */
+
 /* Code and pre elements */
 code, pre {
   font-family: 'Consolas', 'Monaco', monospace;
   font-feature-settings: "liga" 1, "calt" 1;
 }
 
-/* Selection colors */
+/* Selection colors - 30% primary tint (opacity is not applicable to ::selection) */
 ::selection {
-  background-color: var(--primary);
-  opacity: 0.3;
+  background-color: color-mix(in srgb, var(--primary) 30%, transparent);
   color: inherit;
 }
 
@@ -229,13 +279,12 @@ select {
 }
 
 
-/* Fade in animation (scale variant — used by .animate-fadeIn) */
+/* Fade in animation (opacity + scale) - shared by .animate-fade-in (slow) and .animate-fadeIn (fast) */
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
 
-/* Fade in animation (slide-up variant — used by .animate-fade-in) */
 .animate-fade-in {
   animation: fadeIn 600ms ease-out;
 }
@@ -278,9 +327,11 @@ select {
   }
 }
 
-/* High contrast mode support - Phase 5 Enhancement */
+/* High contrast mode support - Phase 5 Enhancement.
+   Scoped to both themes and declared after them so it wins in either mode. */
 @media (prefers-contrast: high) {
-  :root {
+  :root,
+  [data-theme="dark"] {
     /* Enhanced contrast colors for accessibility */
     --primary: #0000ff;
     --primary-hover: #0000cc;
@@ -298,13 +349,12 @@ select {
     --warning: #cc6600;
     --info: #0066cc;
     --accent: #0000ff;
-    --highlight: #ffcc00;
     --overlay: rgb(0 0 0 / 0.6);
 
     /* Stronger shadows for better depth perception */
-    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.2);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+    --elevation-sm: 0 1px 3px 0 rgb(0 0 0 / 0.2);
+    --elevation-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+    --elevation-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
   }
 
   /* Stronger focus indicators */
@@ -332,6 +382,18 @@ select {
   animation: fadeIn 0.2s ease-out;
 }
 
+/* Chat typing indicator - a real bounce, not a faint pulse. Used with staggered
+   animation-delay per dot; the wrapper carries data-essential-motion so it keeps
+   moving under prefers-reduced-motion (status indication is essential motion). */
+@keyframes chatDot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+.animate-chat-dot {
+  animation: chatDot 1s ease-in-out infinite;
+}
+
 /* Skeleton loading animation */
 @keyframes shimmer {
   0% {
@@ -353,9 +415,11 @@ select {
   animation: shimmer 1.5s ease-in-out infinite;
 }
 
-/* Respect user's reduced motion preference */
+/* Respect user's reduced motion preference. Subtrees marked data-essential-motion
+   are exempt: WCAG treats status indication (e.g. the chat typing dots) as
+   essential motion that may keep animating. Keep the attribute rare and small. */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *:not([data-essential-motion]):not([data-essential-motion] *) {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

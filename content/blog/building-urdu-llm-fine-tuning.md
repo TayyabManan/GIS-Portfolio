@@ -1,6 +1,7 @@
 ---
 slug: "building-urdu-llm-fine-tuning"
 title: "Building an Urdu LLM: From Data Curation to Deployment"
+seoTitle: "Fine-Tuning an Urdu LLM with QLoRA"
 description: "A technical deep-dive into fine-tuning Qwen 2.5 7B for Urdu across three versions: curating a bilingual Urdu/Roman-Urdu corpus, QLoRA training on a rented H100, diagnosing and fixing catastrophic forgetting, building a blinded multi-judge evaluation harness (including a free Claude-Code-CLI judge), fixing the regressions a data change caused, RAG-aware retraining that fixed retrieval's structural failure without turning it into a blanket win, and shipping a live demo on Gradio + Modal."
 date: "2026-06-28"
 author: "Tayyab Manan"
@@ -8,13 +9,40 @@ category: "Machine Learning"
 tags: ["Machine Learning", "LLM Fine-Tuning", "QLoRA", "Low-Resource NLP", "LLM-as-Judge", "RAG", "Synthetic Data", "Modal", "MLOps"]
 image: "/projects/urdu-llm-fine-tuning.webp"
 readTime: "20 min read"
+faqs:
+  - question: "What model and method were used to build the Urdu LLM?"
+    answer: "Qwen 2.5 7B Instruct fine-tuned with QLoRA, which trains low-rank adapters on a frozen 4-bit base, so it runs on modest hardware and ships as a small adapter. Total cost was about $60 across three versions."
+  - question: "How much better is the fine-tuned model than the base?"
+    answer: "The current version wins about 79.5% of blind pairwise comparisons against base Qwen 2.5 7B, judged by multiple independent LLM judges on a 100-prompt evaluation set, and it recovers every regression its predecessor introduced."
+  - question: "What is catastrophic forgetting and how was it fixed?"
+    answer: "v1 over-fit to Urdu and lost general ability, drifting or breaking on ordinary prompts. The v2 fix mixed general-capability data back in, lowered the learning rate, and trained fewer epochs so the model gained Urdu without erasing what the base already knew."
+  - question: "Why did Roman Urdu and code-mixing matter?"
+    answer: "Most Pakistanis type Roman Urdu (Urdu in Latin script) and freely mix in English. A model that only handles formal Urdu script solves the wrong problem, so the corpus deliberately covered all three registers."
+  - question: "How do you evaluate an LLM without a standard benchmark?"
+    answer: "A blinded pairwise harness: multiple LLM judges (including a free Claude-Code-CLI judge) compare base vs fine-tuned answers with the order randomized to cancel position bias, reported as a median win rate with the range across judges."
+howTo:
+  name: "How to fine-tune an Urdu LLM with QLoRA"
+  description: "The end-to-end pipeline behind a Qwen 2.5 7B Urdu fine-tune, from curating a bilingual corpus to shipping a live demo, across three iterations."
+  steps:
+    - name: "Curate a bilingual Urdu corpus"
+      text: "Combine four sources across Urdu script and Roman Urdu - an instruction dataset, Cohere Aya, an existing Roman-Urdu Q&A set, and LLM transliterations - then clean, add synthetic code-mixed data, and format for instruction tuning."
+    - name: "Train QLoRA adapters"
+      text: "Fine-tune low-rank adapters on a frozen, 4-bit Qwen 2.5 7B Instruct base on a rented H100, training a fraction of a percent of the weights that ship as a small adapter."
+    - name: "Diagnose and fix catastrophic forgetting"
+      text: "When v1 over-fit to Urdu and lost general ability, mix general-capability data back in, lower the learning rate, and train fewer epochs so the model gains Urdu without erasing the base's knowledge."
+    - name: "Evaluate with a blinded multi-judge harness"
+      text: "Compare base vs fine-tuned answers on a 100-prompt set using several LLM judges (including a free Claude-Code-CLI judge), randomizing order to cancel position bias and reporting the median win rate and range."
+    - name: "Retrain to fix regressions and make RAG real"
+      text: "Feed the evaluation findings back into the data, let Python own factual answers, and retrain v3 to recover every regression while making retrieval safe on factual queries."
+    - name: "Deploy on free infrastructure"
+      text: "Serve the 7B model behind a Gradio UI on Modal so the demo runs live at low cost - the whole project came to about $60."
 ---
-
-# Building an Urdu LLM: From Data Curation to Deployment
 
 This post is the technical deep-dive behind the [Urdu LLM Fine-Tuning](/projects/urdu-llm-fine-tuning) project. I'll walk through the full pipeline across three versions: curating a bilingual Urdu corpus, QLoRA training, a multi-judge evaluation harness, a RAG layer that failed and the retraining that fixed it, and a live demo that works. It was my first end-to-end fine-tuning project, built in public for about $60, and a lot of what I learned came from getting things wrong on a public timeline. Three versions in, the current model wins about 79.5% of blind comparisons against the base.
 
-## The Problem: Urdu Is Demographically Huge, Computationally Tiny
+## Why is Urdu a hard language for LLMs?
+
+**Urdu has ~230 million speakers but very little clean, instruction-tuned text, and almost no open models specialized for it.** General base models produce Urdu but wobble, slipping into English (or even Chinese) on unusual prompts. The real target is a model that handles all three registers Pakistanis actually use: Urdu script, Roman Urdu, and code-mixing.
 
 Urdu has roughly 230 million speakers, which puts it among the most spoken languages on the planet. In machine learning it's still treated as low-resource. The issue isn't a shortage of Urdu text. It's a shortage of Urdu text in the clean, instruction-tuned form modern chat models train on, plus a near-total absence of open models specialized for it. General base models will produce Urdu, but they tend to wobble: they slip into English on anything slightly unusual, and one popular 7B base slips into *Chinese* when you push it.
 
@@ -73,7 +101,9 @@ Training ran on a single Modal H100. The configuration:
 
 That last number is worth pausing on. A 7B model fine-tuned with QLoRA peaked at 8.56 GB on an 80 GB card. Fine-tuning at this scale fits comfortably on hardware most people can rent for a few dollars, or even own. The barrier is lower than the "7B" label suggests.
 
-### The v1 Mistake: Catastrophic Forgetting
+### What is catastrophic forgetting, and how did it break v1?
+
+**Catastrophic forgetting is when fine-tuning on one skill erases others the model already had.** v1 over-fit to Urdu and started drifting or breaking on ordinary prompts. The fix was to mix general-capability data back in, lower the learning rate, and train fewer epochs, so Urdu improved without overwriting the base model's existing knowledge.
 
 The first version was trained for 3 epochs, almost entirely on Urdu-*script* data. It got better at Urdu and noticeably worse at anything involving code. On my evaluation set, v1 won 0% of code-mixed prompts and 10% of "explain this code in Urdu" prompts. The model had specialized so hard on one distribution that it forgot a capability the base model already had.
 
@@ -103,7 +133,9 @@ Two gotchas cost me time and are worth flagging:
 - **`save_total_limit` can delete your best checkpoint.** With `load_best_model_at_end=True`, if the checkpoint cap evicts the best checkpoint before training ends, there's nothing to load back. v1 hit this exactly. v2 raised the limit.
 - **Always make training resumable.** Rented GPUs time out. My first long run hit a wall-clock timeout and resumed from a checkpoint instead of restarting from zero. Total training came to roughly five hours of H100 time across one timeout-and-resume. Wrapping logging and volume commits in a `try/finally` meant even a crash persisted the training log.
 
-## Evaluation: Measuring "Better" Without a Benchmark
+## How do you evaluate an Urdu LLM without a benchmark?
+
+**Build a blinded pairwise harness and let several LLM judges vote.** With no Urdu chat benchmark, each judge compares the base and fine-tuned answers to the same prompt with the order randomized to cancel position bias. Reporting the median win rate and its range across judges gives a defensible "better" without relying on a single number.
 
 For a low-resource language, evaluation is harder than training. There's no off-the-shelf Urdu instruction-following benchmark to point at, so I built the harness, and I tried to make it skeptical of its own results, because the easiest thing in the world is to convince yourself your model improved.
 

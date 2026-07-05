@@ -1,9 +1,10 @@
 import { Metadata } from 'next'
 import AboutPageContent from './AboutPageContent'
+import { aboutFaqs, faqPageSchema } from '@/lib/faqs'
 
 export const metadata: Metadata = {
-  title: 'About - Tayyab Manan | AI/ML Engineer',
-  description: 'AI/ML Engineer specializing in Computer Vision, Multi-Agent Systems, and Geospatial AI. Building production ML systems with PyTorch, TensorFlow & LangChain.',
+  title: 'About',
+  description: 'AI/ML Engineer in Computer Vision, NLP & Geospatial AI. From a GIS degree to an MS in AI Engineering at COMSATS; Junior AI Developer at Cointegration.',
   keywords: [
     'about Tayyab Manan',
     'AI ML engineer',
@@ -53,7 +54,7 @@ export default function AboutPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbJsonLd, faqPageSchema(aboutFaqs)]) }}
       />
       <AboutPageContent />
     </>

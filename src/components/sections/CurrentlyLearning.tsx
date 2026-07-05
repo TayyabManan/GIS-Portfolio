@@ -73,9 +73,9 @@ export default function CurrentlyLearning() {
   }
 
   return (
-    <section className="py-16 sm:py-24 bg-transparent">
+    <section data-reveal-group className="py-16 sm:py-24 bg-transparent">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        <div data-reveal="heading" className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--background)] border border-[var(--border)] mb-4">
             <SparklesIcon className="h-5 w-5 text-[var(--accent)]" />
             <span className="text-sm font-semibold text-[var(--text-secondary)]">Continuous Learning</span>
@@ -94,6 +94,7 @@ export default function CurrentlyLearning() {
             return (
               <div
                 key={index}
+                data-reveal="item"
                 className="bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 sm:p-8 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--primary)]"
               >
                 <div className="flex items-center gap-3 mb-6">

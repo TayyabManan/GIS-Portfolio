@@ -1,6 +1,7 @@
 ---
 slug: "building-face-expression-detection"
 title: "Face Expression Detection: Tackling Class Imbalance with Ensemble Learning and Cloud GPUs"
+seoTitle: "Facial Expression Detection with ResNet-18"
 description: "Technical deep-dive into building a facial expression recognition system for group photos. From handling severe class imbalance to cloud GPU training on Modal.com, deploying on Hugging Face Spaces."
 date: "2025-12-08"
 author: "Tayyab Manan"
@@ -8,17 +9,26 @@ category: "Computer Vision"
 tags: ["Computer Vision", "Deep Learning", "PyTorch", "Transfer Learning", "MTCNN", "Flask", "Hugging Face", "Modal.com"]
 image: "/projects/face-expression-detection.webp"
 readTime: "15 min read"
+faqs:
+  - question: "How accurate is the facial expression model?"
+    answer: "The final weighted ensemble reaches 80% accuracy across 7 emotions on RAF-DB. More importantly, per-class recall on the rare Fear and Disgust classes rose from around 50% into the high-60s, so the model no longer ignores minority emotions."
+  - question: "How do you handle class imbalance in emotion recognition?"
+    answer: "Not with SMOTEENN. A weighted sampler for balanced batches, class weights, high dropout (0.6), label smoothing (0.15), and ensembling models trained with different losses together beat any single fix. Focal Loss alone helped the minority classes but wrecked the majority ones."
+  - question: "Why ResNet-18 instead of a bigger model like EfficientNet-B2?"
+    answer: "ResNet-18 generalized better on this 15,339-image dataset and outperformed the larger EfficientNet-B2. On smaller datasets the simpler model often wins, and the deeper custom classification head mattered more than backbone size."
+  - question: "How much did training cost?"
+    answer: "About $3.50 total. Every experiment ran on Modal.com's pay-per-use A100 GPUs, which made cloud training affordable without owning a local GPU."
 ---
-
-# Face Expression Detection: Tackling Class Imbalance with Ensemble Learning and Cloud GPUs
 
 Facial expression recognition sounds simple until you try to build it. Humans read emotions from faces thousands of times a day without thinking about it. Getting a machine to do the same is a different problem entirely.
 
-I built a **Face Expression Detection** system that identifies 7 emotions in group photos: Surprise, Fear, Disgust, Happiness, Sadness, Anger, and Neutral. The final model hits **80% accuracy** on the RAF-DB dataset and is deployed as a web app on Hugging Face Spaces.
+I built a **Face Expression Detection** system that identifies 7 emotions in group photos: Surprise, Fear, Disgust, Happiness, Sadness, Anger, and Neutral. The final model hits **80% accuracy** on the [RAF-DB dataset](http://www.whdeng.cn/raf/model1.html) and is deployed as a web app on Hugging Face Spaces.
 
 The path from initial baseline to production taught me more about practical ML than any textbook did, mostly because textbooks don't cover the part where your second training run overwrites your first model.
 
-## The Problem: Emotions in the Wild
+## Why is reading emotions in real-world photos hard?
+
+**Real group photos are messy in ways lab datasets aren't: varied angles, occlusions, small faces, and subtle expressions.** The system has to reliably detect every face and then classify emotions that are genuinely ambiguous, all while the training data skews heavily toward a few common expressions like happiness.
 
 Most emotion recognition research focuses on controlled datasets with perfect lighting, frontal faces, and exaggerated expressions. Real-world group photos are messier: varied angles, occlusions, subtle expressions, faces at all sizes.
 
@@ -135,7 +145,9 @@ Overall accuracy looked respectable at 82.14%, but the per-class breakdown told 
 
 This is what aggregate metrics hide. 82% accuracy sounds fine until you realize the model can't recognize two of seven emotions.
 
-## Fighting Class Imbalance
+## How do you fix severe class imbalance in an emotion dataset?
+
+**No single trick fixes it. The win comes from stacking several.** A weighted sampler balances each batch, class weights and label smoothing curb overconfidence, high dropout limits overfitting to the majority classes, and ensembling models trained with different losses recovers the rare Fear and Disgust classes without wrecking the common ones.
 
 ### Attempt 1: Focal Loss
 

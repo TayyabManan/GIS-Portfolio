@@ -3,6 +3,14 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 
+// Module-level registry so lazily-loaded GSAP code (src/lib/gsap.ts) can sync
+// ScrollTrigger to lenis without owning its lifecycle. Null on mobile/Safari,
+// where native scroll events drive ScrollTrigger directly.
+let activeLenis: Lenis | null = null
+export function getLenis(): Lenis | null {
+  return activeLenis
+}
+
 export default function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Detect mobile devices
@@ -37,6 +45,7 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
       touchMultiplier: 2,
       infinite: false,
     })
+    activeLenis = lenis
 
     // Request animation frame function
     let rafId: number
@@ -50,6 +59,7 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
     // Cleanup
     return () => {
       cancelAnimationFrame(rafId)
+      activeLenis = null
       lenis.destroy()
     }
   }, [])

@@ -1,94 +1,40 @@
+/**
+ * Light-palette constants for the rare places that cannot read CSS variables:
+ * route metadata in `layout.tsx` (mask-icon) and the self-contained
+ * `global-error.tsx` page (which replaces the root layout, so globals.css
+ * may not be applied).
+ *
+ * The CANONICAL theme definitions live in `src/app/globals.css`:
+ * `:root` = light, `[data-theme="dark"]` = dark. Theme switching only flips
+ * the `data-theme` attribute on <html> (see layout.tsx inline script and
+ * ThemeContext). If you change a color there, mirror it here.
+ */
 export const themes = {
   light: {
-    // Backgrounds — warm stone family
     primary: '#3568d4',
     primaryHover: '#2952b3',
     primaryLight: '#eef2fa',
 
-    // Backgrounds
     background: '#fafaf9',
     backgroundSecondary: '#f5f5f4',
     backgroundTertiary: '#e7e5e4',
 
-    // Text — warm stone, paired with background
     text: '#1c1917',
     textSecondary: '#57534e',
     textTertiary: '#78716c',
 
-    // Borders
     border: '#d6d3d1',
     borderHover: '#a8a29e',
 
-    // Status — functional only
     success: '#16a34a',
     error: '#dc2626',
     warning: '#d97706',
 
-    // Aliases — single blue accent; green/amber reserved for semantics only
     accent: '#3568d4',
     info: '#3568d4',
-    highlight: '#d97706',
 
-    // Overlay/scrim for modals and menus
     overlay: 'rgba(28, 25, 23, 0.5)',
-
-    // Hero background (same as base — no special gradient)
-    heroBackground: '#fafaf9',
-    heroGradientStart: '#eef2fa',
-    heroGradientMid: '#fafaf9',
-    heroGradientEnd: '#fafaf9',
-
-    // Shadows — warm-tinted
-    shadowSm: '0 1px 2px 0 rgb(28 25 23 / 0.05)',
-    shadowMd: '0 4px 6px -1px rgb(28 25 23 / 0.07), 0 2px 4px -2px rgb(28 25 23 / 0.05)',
-    shadowLg: '0 10px 15px -3px rgb(28 25 23 / 0.07), 0 4px 6px -4px rgb(28 25 23 / 0.05)',
-  },
-
-  dark: {
-    // Accent — slightly lighter blue, legible on dark surfaces
-    primary: '#5b8cdf',
-    primaryHover: '#7ea5e8',
-    primaryLight: 'rgba(91, 140, 223, 0.18)',
-
-    // Backgrounds — warm stone, lifted (library evening, not midnight)
-    background: '#1c1917',
-    backgroundSecondary: '#292524',
-    backgroundTertiary: '#3b3835',
-
-    // Text — warm off-whites
-    text: '#edebe8',
-    textSecondary: '#a8a29e',
-    textTertiary: '#78716c',
-
-    // Borders — warm stone, clearly visible
-    border: '#3b3835',
-    borderHover: '#57534e',
-
-    // Status — lighter for dark backgrounds
-    success: '#4ade80',
-    error: '#f87171',
-    warning: '#fbbf24',
-
-    // Aliases — single blue accent; green/amber reserved for semantics only
-    accent: '#5b8cdf',
-    info: '#5b8cdf',
-    highlight: '#fbbf24',
-
-    // Overlay/scrim for modals and menus
-    overlay: 'rgba(0, 0, 0, 0.6)',
-
-    // Hero background
-    heroBackground: '#1c1917',
-    heroGradientStart: '#1c1917',
-    heroGradientMid: '#1c1917',
-    heroGradientEnd: '#1c1917',
-
-    // Shadows — heavier on dark to create depth
-    shadowSm: '0 1px 2px 0 rgb(0 0 0 / 0.3)',
-    shadowMd: '0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3)',
-    shadowLg: '0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3)',
   },
 } as const;
 
-export type Theme = typeof themes.light;
-export type ThemeKey = keyof typeof themes;
+export type ThemeKey = 'light' | 'dark';

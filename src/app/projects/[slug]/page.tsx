@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getProjectBySlug, getAllProjectSlugs, getAdjacentProjects } from '@/lib/markdown'
+import { truncateAtWord } from '@/lib/utils'
+import { author, PERSON_ID } from '@/lib/author'
 import ProjectPageClient from './ProjectPageClient'
 
 // Force static generation for all project pages
@@ -27,13 +29,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const imageUrl = project.image || '/images/profile-picture.webp'
   const projectUrl = `https://tayyabmanan.com/projects/${project.slug}`
 
-  // Create rich description with tech stack
-  const techStackText = project.techStack?.slice(0, 5).join(', ') || 'ML/AI technologies'
-  const fullDescription = `${project.description} Built with ${techStackText}. ${project.category} project showcasing expertise in machine learning, AI development, and geospatial intelligence.`
+  // Keep the meta description inside the ~155-char SERP window (the layout
+  // template appends "| Tayyab Manan" to the bare title).
+  const metaDescription = truncateAtWord(project.description)
 
   return {
-    title: `${project.title} - ${project.subtitle || 'ML Project'} | Tayyab Manan`,
-    description: fullDescription,
+    title: project.title,
+    description: metaDescription,
     keywords: [
       project.title,
       'ML project',
@@ -109,18 +111,16 @@ export default async function ProjectPage({ params }: PageProps) {
     },
     author: {
       '@type': 'Person',
-      name: 'Tayyab Manan',
-      url: 'https://tayyabmanan.com',
-      jobTitle: 'AI/ML Engineer',
-      sameAs: [
-        'https://www.linkedin.com/in/tayyabmanan',
-        'https://github.com/TayyabManan',
-        'https://twitter.com/tayyabmanan'
-      ]
+      '@id': PERSON_ID,
+      name: author.name,
+      url: author.url,
+      jobTitle: author.role,
+      sameAs: author.sameAs,
     },
     creator: {
       '@type': 'Person',
-      name: 'Tayyab Manan'
+      '@id': PERSON_ID,
+      name: author.name,
     },
     datePublished: project.date || new Date().toISOString(),
     keywords: project.techStack?.join(', '),
@@ -146,12 +146,14 @@ export default async function ProjectPage({ params }: PageProps) {
     datePublished: project.date || new Date().toISOString(),
     author: {
       '@type': 'Person',
-      name: 'Tayyab Manan',
-      url: 'https://tayyabmanan.com'
+      '@id': PERSON_ID,
+      name: author.name,
+      url: author.url,
     },
     creator: {
       '@type': 'Person',
-      name: 'Tayyab Manan'
+      '@id': PERSON_ID,
+      name: author.name,
     },
     about: {
       '@type': 'Thing',

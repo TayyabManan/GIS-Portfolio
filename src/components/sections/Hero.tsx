@@ -1,8 +1,14 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
-import { motion, AnimatePresence, type Variants } from 'framer-motion'
-import { SimpleCommandHint } from '@/components/ui/SimpleCommandHint'
+import { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'
+import Link from 'next/link'
+import { motion, AnimatePresence, useReducedMotion, type Variants } from 'framer-motion'
+import { Github, Linkedin, FileText, ArrowUpRight } from 'lucide-react'
+import WiggleLine from '@/components/effects/WiggleLine'
+
+// useLayoutEffect on the client, useEffect during SSR (avoids the server warning). Lets the
+// desktop entrance flip to its pre-animation state before the browser paints - no flash.
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 const EASE: [number, number, number, number] = [0.25, 0.1, 0.25, 1]
 
@@ -28,7 +34,8 @@ const itemVariants: Variants = {
   },
 }
 
-// No animation variant — renders instantly for LCP-critical elements on mobile
+// No animation variant - renders instantly for LCP-critical elements on mobile
+// and whenever the user prefers reduced motion.
 const instantVariants: Variants = {
   initial: { opacity: 1, y: 0 },
   animate: { opacity: 1, y: 0 },
@@ -41,35 +48,174 @@ const ruleVariants: Variants = {
     opacity: 1,
     transition: {
       duration: 0.8,
-      delay: 0.7,
+      delay: 0.6,
       ease: EASE,
     },
   },
 }
 
-const specializations = [
-  'Computer Vision',
-  'Multi-Agent Systems',
-  'Production ML',
-  'Geospatial AI',
+// Four focus areas - rotated in the mobile hero, and a numbered index on desktop.
+// Each pill links to its flagship project. `metric` is the real, already-published number
+// shown by the fill layer that rises on hover - keep these terse so the pill width
+// (sized to the wider of label/metric) stays close to today's.
+const focusAreas = [
+  { label: 'Computer Vision', metric: '80% accuracy', href: '/projects/face-expression-detection' },
+  { label: 'Explainable ML', metric: '73.2% accuracy', href: '/projects/us-visa-prediction' },
+  { label: 'Production ML', metric: '79.5% win rate', href: '/projects/urdu-llm-fine-tuning' },
+  { label: 'Geospatial AI', metric: 'R²=0.89 · 145 districts', href: '/projects/watertrace' },
 ]
 
+// Reused external-link arrow (↗) for affiliation links.
+function ExternalArrow() {
+  return (
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
+      fill="none"
+      className="shrink-0 translate-y-[-1px]"
+      aria-hidden="true"
+    >
+      <path d="M3.5 2.5H9.5V8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9.5 2.5L2.5 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+const affiliationLinkClass =
+  'inline-flex items-center gap-0.5 text-[var(--primary)] font-semibold underline underline-offset-2 decoration-[var(--primary)]/30 hover:decoration-[var(--primary)] transition-all'
+
+// Heading font for the focus-area pill text: <a>/<span> don't inherit the h1-scoped
+// heading font, so the pill layers set it explicitly (shared across sizer/base/fill).
+const PILL_FONT = { fontFamily: 'var(--font-heading), system-ui, sans-serif' } as const
+
 export default function Hero() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [isMobile, setIsMobile] = useState(true) // Default true so SSR renders without animation delay
+  // < lg (1024px). Default true so SSR renders the mobile hero without animation delay.
+  const [isMobile, setIsMobile] = useState(true)
+  // Desktop-only entrance gate. Starts false so SSR + hydration render the desktop tree at its
+  // final state (LCP-friendly, no flash-of-invisible-content); once we confirm an lg+ viewport we
+  // flip it and remount the subtree (via `key`) so framer-motion reads `initial` fresh and plays
+  // the staggered reveal. Deliberately NOT gated on prefers-reduced-motion - like the GSAP pill
+  // effect, the hero's signature motion is meant to play regardless of the OS reduce-motion setting.
+  const [playDesktopEntrance, setPlayDesktopEntrance] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(0) // rotating specialization (mobile hero only)
+  const prefersReducedMotion = useReducedMotion()
+  const indexRef = useRef<HTMLUListElement>(null)
+
+  // Skip entrance animation on mobile (LCP) or when reduced motion is requested.
+  const noAnim = isMobile || Boolean(prefersReducedMotion)
+
   useEffect(() => {
-    const update = () => setIsMobile(window.innerWidth < 768)
+    const update = () => setIsMobile(window.innerWidth < 1024)
     update()
     window.addEventListener('resize', update)
     return () => window.removeEventListener('resize', update)
   }, [])
 
+  // Trigger the desktop entrance once, after mount, on lg+ viewports (see playDesktopEntrance).
+  useIsomorphicLayoutEffect(() => {
+    if (window.matchMedia('(min-width: 1024px)').matches) {
+      setPlayDesktopEntrance(true)
+    }
+  }, [])
+
+  // Rotate the specialization only while the mobile hero is on screen and motion is allowed.
   useEffect(() => {
+    if (!isMobile || prefersReducedMotion) return
     const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % specializations.length)
+      setActiveIndex((prev) => (prev + 1) % focusAreas.length)
     }, 3000)
     return () => clearInterval(interval)
-  }, [])
+  }, [isMobile, prefersReducedMotion])
+
+  // Fill-up on the focus-area index pills (desktop, fine-pointer only). On hover or keyboard focus GSAP slides a
+  // primary fill layer (with a slightly arced cap) up from below to cover the pill while the base
+  // text travels up and out; on leave both slide back. GSAP is used (not a CSS transition) so the
+  // motion survives the global prefers-reduced-motion rule that would otherwise zero it. Dynamically
+  // imported so the mobile hero never ships it; gsap.matchMedia reverts the listeners below lg.
+  useEffect(() => {
+    if (!indexRef.current) return
+    // Gate the import itself: touch / narrow viewports never download GSAP.
+    if (!window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches) return
+    let cancelled = false
+    let revert: (() => void) | null = null
+    // fonts.ready before measuring: the pills' widths depend on the heading font,
+    // and the rest/hover widths are captured in px at bind time.
+    Promise.all([import('gsap'), document.fonts?.ready ?? Promise.resolve()]).then(([{ default: gsap }]) => {
+      const ul = indexRef.current
+      if (cancelled || !ul) return
+      const mm = gsap.matchMedia()
+      mm.add('(min-width: 1024px)', () => {
+        // Pin the w-fit ul at its intrinsic width BEFORE parking rows at px widths.
+        // Without this the ul re-derives its size from the rows' explicit px values
+        // (intrinsic sizing ignores % widths but honors px), collapsing the rail by
+        // the arrow slot and leaving no room for the hover expansion.
+        // ceil, not offsetWidth: offsetWidth rounds DOWN, and pinning half a pixel
+        // short of the intrinsic width made the longest metric wrap on hover.
+        const fullW = Math.ceil(ul.getBoundingClientRect().width)
+        gsap.set(ul, { width: fullW })
+        const rows = gsap.utils.toArray<HTMLElement>('[data-index-row]', ul)
+        const disposers = rows.map((row) => {
+          const fill = row.querySelector<HTMLElement>('[data-index-fill]')
+          const base = row.querySelector<HTMLElement>('[data-index-base]')
+          const arrows = gsap.utils.toArray<HTMLElement>('[data-index-arrow]', row)
+          if (!fill || !base) return () => {}
+          // Park the fill - plus its arced cap (h-3 = 12px above it) - fully below the pill.
+          gsap.set(fill, { yPercent: 100, y: 18 })
+          gsap.set(base, { yPercent: 0 })
+          // Rest state: the pill sits 32px narrower than its slot (the arrow slot:
+          // 16px icon + 16px gap-4) hugging the rail's right edge, mirroring the CSS
+          // `w-[calc(100%-2rem)] ml-auto` rest classes so there's no jump when these
+          // inline values take over. On hover it expands leftward to the pinned full
+          // width while the arrow fades/slides in - one gesture with the fill rise.
+          const restW = fullW - 32
+          gsap.set(row, { width: restW })
+          gsap.set(arrows, { opacity: 0, x: 8 })
+          // Explicit in/out tweens (not timeline.reverse) so the fill comes and goes at the same speed.
+          const DUR = 0.32
+          const EASE = 'power3.out'
+          const enter = () => {
+            gsap.to(fill, { yPercent: 0, y: 0, duration: DUR, ease: EASE, overwrite: true })
+            gsap.to(base, { yPercent: -100, duration: DUR, ease: EASE, overwrite: true })
+            gsap.to(row, { width: fullW, duration: DUR, ease: EASE, overwrite: true })
+            gsap.to(arrows, { opacity: 1, x: 0, duration: DUR, ease: EASE, overwrite: true })
+          }
+          const leave = () => {
+            gsap.to(fill, { yPercent: 100, y: 18, duration: DUR, ease: EASE, overwrite: true })
+            gsap.to(base, { yPercent: 0, duration: DUR, ease: EASE, overwrite: true })
+            gsap.to(row, { width: restW, duration: DUR, ease: EASE, overwrite: true })
+            gsap.to(arrows, { opacity: 0, x: 8, duration: DUR, ease: EASE, overwrite: true })
+          }
+          row.addEventListener('mouseenter', enter)
+          row.addEventListener('mouseleave', leave)
+          // Keyboard focus drives the same fill so the signature motion isn't mouse-only.
+          row.addEventListener('focus', enter)
+          row.addEventListener('blur', leave)
+          return () => {
+            row.removeEventListener('mouseenter', enter)
+            row.removeEventListener('mouseleave', leave)
+            row.removeEventListener('focus', enter)
+            row.removeEventListener('blur', leave)
+            gsap.killTweensOf([fill, base, row, ...arrows])
+            gsap.set([fill, base, row, ...arrows], { clearProps: 'all' })
+          }
+        })
+        return () => {
+          disposers.forEach((dispose) => dispose())
+          gsap.set(ul, { clearProps: 'width' })
+        }
+      })
+      revert = () => mm.revert()
+    }).catch(() => {
+      // Motion is progressive enhancement - a failed gsap chunk load leaves the
+      // pills static (CSS rest state) instead of surfacing an unhandled rejection.
+    })
+    return () => {
+      cancelled = true
+      revert?.()
+    }
+    // Re-bind after the entrance remount (key change) swaps in fresh pill nodes.
+  }, [playDesktopEntrance])
 
   const scrollToProjects = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -87,37 +233,44 @@ export default function Hero() {
     []
   )
 
+  // Desktop children animate only once the entrance gate resolves; otherwise they render at rest.
+  const desktopItem = playDesktopEntrance ? itemVariants : instantVariants
+  const desktopRule = playDesktopEntrance ? ruleVariants : instantVariants
+
   return (
-    <section className="relative flex flex-col min-h-[calc(100dvh-64px)] overflow-hidden bg-[var(--background)]">
-      <div className="relative flex-1 flex items-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative bg-[var(--background)]">
+      {/* ===================== MOBILE / TABLET HERO (below lg) ===================== */}
+      {/* The original single-column hero, kept as-is for small screens (no marquee). */}
+      <div className="flex min-h-[calc(100dvh-64px)] items-center px-4 sm:px-6 lg:hidden">
         <motion.div
-          className="mx-auto max-w-4xl w-full py-12 sm:py-16"
-          variants={isMobile ? undefined : containerVariants}
-          initial={isMobile ? "animate" : "initial"}
+          className="mx-auto w-full max-w-4xl py-12 sm:py-16"
+          variants={noAnim ? undefined : containerVariants}
+          initial={noAnim ? 'animate' : 'initial'}
           animate="animate"
         >
-          {/* Greeting: lighter weight, sets human tone before the big title */}
+          {/* Greeting */}
           <motion.p
-            variants={isMobile ? instantVariants : itemVariants}
-            className="text-base sm:text-lg font-medium text-[var(--text-secondary)] tracking-wide"
+            variants={noAnim ? instantVariants : itemVariants}
+            className="text-base font-medium tracking-wide text-[var(--text-secondary)] sm:text-lg"
           >
             Hello, I&apos;m Tayyab Manan
           </motion.p>
 
-          {/* Title: large, tight tracking, commands the page */}
+          {/* Title */}
           <motion.h1
-            variants={isMobile ? instantVariants : itemVariants}
-            className="mt-3 text-[2.75rem] leading-[1.08] font-bold tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl"
+            variants={noAnim ? instantVariants : itemVariants}
+            className="mt-3 text-[2.75rem] font-bold leading-[1.08] tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl"
           >
             AI/ML Engineer
           </motion.h1>
 
-          {/* Rotating specialization */}
+          {/* Rotating specialization - visual flourish only. The animated text is hidden from
+              assistive tech (a polite live region here re-announced every 3s forever); the full
+              list is exposed once, statically, in the sr-only element right after this block. */}
           <motion.div
-            variants={itemVariants}
-            className="mt-5 h-8 sm:h-9 relative overflow-hidden"
-            aria-live="polite"
-            aria-atomic="true"
+            variants={noAnim ? instantVariants : itemVariants}
+            className="relative mt-5 h-8 overflow-hidden sm:h-9"
+            aria-hidden="true"
           >
             <AnimatePresence mode="wait">
               <motion.p
@@ -126,153 +279,312 @@ export default function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.35, ease: EASE }}
-                className="text-base sm:text-lg font-semibold text-[var(--primary)] uppercase tracking-[0.12em] absolute left-0"
+                className="absolute left-0 text-base font-semibold uppercase tracking-[0.12em] text-[var(--primary)] sm:text-lg"
               >
-                {specializations[activeIndex]}
+                {focusAreas[activeIndex].label}
               </motion.p>
             </AnimatePresence>
           </motion.div>
+          <p className="sr-only">Focus areas: {focusAreas.map((a) => a.label).join(', ')}.</p>
 
-          {/* Drawn rule: a thin line that scales in, creates visual structure */}
+          {/* Drawn rule */}
           <motion.div
-            variants={ruleVariants}
-            className="mt-7 h-px w-16 bg-[var(--border-hover)] origin-left"
+            variants={noAnim ? instantVariants : ruleVariants}
+            className="mt-7 h-px w-16 origin-left bg-[var(--border-hover)]"
             aria-hidden="true"
           />
 
-          {/* Bio: concise, human, not marketing copy — LCP element on mobile, skip animation */}
+          {/* Bio */}
           <motion.p
-            variants={isMobile ? instantVariants : itemVariants}
-            className="mt-7 text-base sm:text-lg leading-relaxed text-[var(--text-secondary)] max-w-xl"
+            variants={noAnim ? instantVariants : itemVariants}
+            className="mt-7 max-w-xl text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg"
           >
             Graduate student at{' '}
-            <a
-              href="https://www.comsats.edu.pk/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-0.5 text-[var(--primary)] font-semibold underline underline-offset-2 decoration-[var(--primary)]/30 hover:decoration-[var(--primary)] transition-all"
-            >
+            <a href="https://www.comsats.edu.pk/" target="_blank" rel="noopener noreferrer" className={affiliationLinkClass}>
               COMSATS
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="shrink-0 translate-y-[-1px]" aria-hidden="true">
-                <path d="M3.5 2.5H9.5V8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M9.5 2.5L2.5 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <ExternalArrow />
             </a>
-            , building machine learning systems
-            across computer vision, NLP, and geospatial AI. Currently an AI
-            Developer at{' '}
-            <a
-              href="https://cointegration.ai/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-0.5 text-[var(--primary)] font-semibold underline underline-offset-2 decoration-[var(--primary)]/30 hover:decoration-[var(--primary)] transition-all"
-            >
+            , building machine learning systems across computer vision, NLP, and geospatial AI.
+            Currently an AI Developer at{' '}
+            <a href="https://cointegration.ai/" target="_blank" rel="noopener noreferrer" className={affiliationLinkClass}>
               Cointegration
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="shrink-0 translate-y-[-1px]" aria-hidden="true">
-                <path d="M3.5 2.5H9.5V8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M9.5 2.5L2.5 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <ExternalArrow />
             </a>
-            .
+            {' '}since 2025.
           </motion.p>
 
-          {/* Status line: flat, informational, engineer-style */}
+          {/* Status line */}
           <motion.div
-            variants={itemVariants}
-            className="mt-6 flex flex-row items-center gap-4 text-sm text-[var(--text-tertiary)] flex-wrap"
+            variants={noAnim ? instantVariants : itemVariants}
+            className="mt-6 flex flex-row flex-wrap items-center gap-4 text-sm text-[var(--text-tertiary)]"
           >
             <span className="inline-flex items-center gap-2">
-              <span
-                className="w-1.5 h-1.5 rounded-full bg-[var(--success)]"
-                aria-hidden="true"
-              />
-              <span>Available for roles</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)]" aria-hidden="true" />
+              <span>Open to full-time AI/ML roles</span>
             </span>
-            <span
-              className="hidden sm:inline text-[var(--border-hover)]"
-              aria-hidden="true"
-            >
-              /
-            </span>
+            <span className="hidden text-[var(--border-hover)] sm:inline" aria-hidden="true">/</span>
             <span>Islamabad, UTC+5</span>
-            <span
-              className="hidden sm:inline text-[var(--border-hover)]"
-              aria-hidden="true"
-            >
-              /
-            </span>
+            <span className="hidden text-[var(--border-hover)] sm:inline" aria-hidden="true">/</span>
             <span>Replies in 24h</span>
           </motion.div>
 
-          {/* CTAs: left-aligned to match the content flow */}
+          {/* Actions: primary CTAs + secondary profile links */}
           <motion.div
-            variants={itemVariants}
-            className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4"
+            variants={noAnim ? instantVariants : itemVariants}
+            className="mt-10 flex flex-col gap-x-6 gap-y-6 sm:flex-row sm:items-center"
           >
-            <a
-              href="#projects"
-              onClick={scrollToProjects}
-              className="group bg-[var(--primary)] px-6 sm:px-8 py-3 sm:py-4 text-sm font-semibold text-white rounded-lg hover:bg-[var(--primary-hover)] active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center sm:justify-start gap-2 w-full sm:w-auto"
-            >
-              View Projects
-              <span
-                aria-hidden="true"
-                className="inline-block transition-transform duration-200 group-hover:translate-x-0.5"
+            <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4">
+              <a
+                href="#projects"
+                onClick={scrollToProjects}
+                className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-[var(--primary-hover)] active:scale-[0.98] sm:w-auto sm:justify-start sm:px-8 sm:py-4"
               >
-                &rarr;
-              </span>
-            </a>
-            <a
-              href="/contact"
-              className="group text-sm font-semibold text-[var(--text)] hover:text-[var(--primary)] border-2 border-[var(--border)] hover:border-[var(--primary)] px-6 sm:px-8 py-3 sm:py-4 rounded-lg transition-all duration-200 flex items-center justify-center sm:justify-start gap-2 w-full sm:w-auto"
-            >
-              Get in touch
-              <span
-                aria-hidden="true"
-                className="inline-block transition-transform duration-200 group-hover:translate-x-0.5"
+                View Projects
+                <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
+                  &rarr;
+                </span>
+              </a>
+              <a
+                href="/contact"
+                className="group flex w-full items-center justify-center gap-2 rounded-lg border-2 border-[var(--border)] px-6 py-3 text-sm font-semibold text-[var(--text)] transition-all duration-200 hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-[0.98] sm:w-auto sm:justify-start sm:px-8 sm:py-4"
               >
-                &rarr;
-              </span>
-            </a>
+                Get in Touch
+                <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
+                  &rarr;
+                </span>
+              </a>
+            </div>
+
+            <div className="hidden h-8 w-px bg-[var(--border)] sm:block" aria-hidden="true" />
+
+            <div className="flex items-center justify-center gap-6 sm:justify-start sm:gap-5">
+              <a
+                href="https://github.com/TayyabManan"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub profile"
+                title="GitHub"
+                className="text-[var(--text-secondary)] transition-colors hover:text-[var(--primary)]"
+              >
+                <Github className="h-5 w-5" />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/tayyabmanan"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn profile"
+                title="LinkedIn"
+                className="text-[var(--text-secondary)] transition-colors hover:text-[var(--primary)]"
+              >
+                <Linkedin className="h-5 w-5" />
+              </a>
+              <Link
+                href="/resume"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--primary)]"
+              >
+                <FileText className="h-4 w-4" />
+                Resume
+              </Link>
+            </div>
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Tech stack marquee */}
-      <div className="mt-auto overflow-hidden border-t border-[var(--border)] py-5 select-none" aria-hidden="true">
+      {/* ===================== DESKTOP HERO (lg and up) ===================== */}
+      {/* Editorial oversize layout; the numbered index is the target for a future GSAP animation. */}
+      <div className="hidden min-h-[calc(100dvh-64px)] items-center px-4 sm:px-6 lg:flex lg:px-8">
         <motion.div
-          key={isMobile ? 'mobile' : 'desktop'}
-          className="flex whitespace-nowrap"
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: isMobile ? 15 : 40, ease: 'linear', repeat: Infinity }}
+          key={playDesktopEntrance ? 'entrance' : 'static'}
+          className="mx-auto w-full max-w-7xl py-16 lg:py-20"
+          variants={playDesktopEntrance ? containerVariants : undefined}
+          initial={playDesktopEntrance ? 'initial' : 'animate'}
+          animate="animate"
         >
-          {[0, 1].map((i) => (
-            <div key={i} className="flex shrink-0 items-center">
-              {[
-                'PyTorch', 'TensorFlow', 'LangChain', 'Computer Vision',
-                'NLP', 'Geospatial AI', 'HuggingFace', 'OpenAI',
-                'Scikit-learn', 'FastAPI', 'Docker', 'MLOps',
-                'Multi-Agent Systems', 'Python', 'Deep Learning',
-                'Time Series', 'Remote Sensing', 'CrewAI',
-              ].map((item) => (
-                <span key={item} className="flex items-center">
-                  <span
-                    className="text-base font-medium text-[var(--text-secondary)] tracking-wide px-6"
-                    style={{ fontFamily: 'var(--font-heading), system-ui, sans-serif' }}
-                  >
-                    {item}
+          {/* 1. Eyebrow row - greeting */}
+          <motion.div variants={desktopItem}>
+            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+              Hello, I&apos;m Tayyab Manan
+            </p>
+          </motion.div>
+
+          {/* 2. Headline - fluid oversize, spans the container width.
+              A <p>, not an <h1>: the mobile hero variant already owns the page's
+              single <h1>, and Google indexes mobile-first, so this desktop-only
+              twin stays a styled paragraph to avoid a duplicate H1. */}
+          <motion.p
+            variants={desktopItem}
+            className="mt-6 text-[clamp(2.75rem,11vw,10rem)] font-bold leading-[0.98]! tracking-[-0.03em]! text-[var(--text)]"
+          >
+            AI/ML Engineer
+          </motion.p>
+
+          {/* 3. Meta row - role/affiliation + location */}
+          <motion.div
+            variants={desktopItem}
+            className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between"
+          >
+            <p className="text-sm text-[var(--text-secondary)]">
+              AI Developer at{' '}
+              <a href="https://cointegration.ai/" target="_blank" rel="noopener noreferrer" className={affiliationLinkClass}>
+                Cointegration
+                <ExternalArrow />
+              </a>
+              {' '}since 2025 &middot; Graduate student at{' '}
+              <a href="https://www.comsats.edu.pk/" target="_blank" rel="noopener noreferrer" className={affiliationLinkClass}>
+                COMSATS
+                <ExternalArrow />
+              </a>
+            </p>
+            <p className="text-xs uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
+              Islamabad &middot; UTC+5
+            </p>
+          </motion.div>
+
+          {/* 4. Hairline rule - interactive bezier: bends with the cursor on hover,
+              springs back elastically on leave (see WiggleLine) */}
+          <motion.div variants={desktopRule} className="mt-4 origin-left" aria-hidden="true">
+            <WiggleLine />
+          </motion.div>
+
+          {/* 5. Two-column grid - lede/actions (left) + focus-area index (right) */}
+          <div className="mt-10 grid items-start gap-12 lg:grid-cols-[1fr_auto] lg:gap-16">
+            {/* Left column */}
+            <motion.div variants={desktopItem}>
+              <p className="max-w-xl text-lg text-[var(--text-secondary)] sm:text-xl">
+                I build machine-learning systems that make it to production, from
+                computer-vision pipelines to multi-agent workflows.
+              </p>
+
+              {/* CTA row */}
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="#projects"
+                  onClick={scrollToProjects}
+                  className="group flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white transition-[background-color,transform] duration-200 hover:bg-[var(--primary-hover)] active:scale-[0.98] sm:px-8 sm:py-4"
+                >
+                  View Projects
+                  <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-y-0.5">
+                    &darr;
                   </span>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 text-[var(--primary)]" aria-hidden="true">
-                    <path d="M8 0L9.79 6.21L16 8L9.79 9.79L8 16L6.21 9.79L0 8L6.21 6.21L8 0Z" fill="currentColor" />
-                  </svg>
-                </span>
-              ))}
-            </div>
-          ))}
+                </a>
+                <a
+                  href="/contact"
+                  className="group flex items-center justify-center gap-2 rounded-lg border-2 border-[var(--border)] px-6 py-3 text-sm font-semibold text-[var(--text)] transition-[color,border-color,transform] duration-200 hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-[0.98]"
+                >
+                  Get in Touch
+                  <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
+                    &rarr;
+                  </span>
+                </a>
+              </div>
+
+              {/* Socials row - 44px touch targets, offset so the first icon aligns to the column edge */}
+              <div className="mt-7 -ml-2.5 flex items-center gap-1">
+                <a
+                  href="https://github.com/TayyabManan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub profile"
+                  title="GitHub"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-[var(--text-secondary)] transition-colors hover:text-[var(--primary)]"
+                >
+                  <Github className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/tayyabmanan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn profile"
+                  title="LinkedIn"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-[var(--text-secondary)] transition-colors hover:text-[var(--primary)]"
+                >
+                  <Linkedin className="h-5 w-5" />
+                </a>
+                <span className="mx-1.5 h-4 w-px bg-[var(--border)]" aria-hidden="true" />
+                <Link
+                  href="/resume"
+                  className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg px-1.5 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--primary)]"
+                >
+                  <FileText className="h-4 w-4" />
+                  Resume
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Right column - numbered index of focus areas */}
+            <motion.div variants={desktopItem} className="flex flex-col items-end">
+              <ul ref={indexRef} className="flex w-fit flex-col gap-3">
+                {focusAreas.map((area) => (
+                  <li key={area.label}>
+                    <Link
+                      href={area.href}
+                      data-index-row
+                      className="group relative isolate ml-auto flex w-[calc(100%-2rem)] items-center overflow-hidden rounded-full px-5 py-3 shadow-[inset_0_0_0_1px_var(--border)] transition-shadow duration-200 hover:shadow-[inset_0_0_0_1px_var(--primary)] focus-visible:rounded-full"
+                    >
+                      {/* Sizer - invisible, in-flow; fixes each pill's intrinsic size. The parent ul's
+                          w-fit sizes to the widest pill and every pill stretches to it, so they're all
+                          the same width; the absolute layers can't change it (prevents hover "expand").
+                          Base shows the label and the fill shows the metric, so the sizer stacks BOTH
+                          copies in one grid cell - the pill sizes to whichever is wider. */}
+                      <span aria-hidden="true" className="invisible inline-grid">
+                        {[area.label, area.metric].map((text) => (
+                          <span key={text} className="col-start-1 row-start-1 inline-flex items-center gap-4 whitespace-nowrap">
+                            <span
+                              className="text-base font-semibold"
+                              style={PILL_FONT}
+                            >
+                              {text}
+                            </span>
+                            <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+                          </span>
+                        ))}
+                      </span>
+
+                      {/* Base (unfilled) content - visible/accessible copy; slides up as the fill rises */}
+                      <span
+                        data-index-base
+                        className="absolute inset-0 flex items-center justify-between gap-4 whitespace-nowrap px-5 will-change-transform"
+                      >
+                        <span
+                          className="text-base font-semibold text-[var(--text)]"
+                          style={PILL_FONT}
+                        >
+                          {area.label}
+                        </span>
+                        <ArrowUpRight data-index-arrow className="h-4 w-4 shrink-0 text-[var(--primary)] opacity-0" aria-hidden="true" />
+                      </span>
+
+                      {/* Fill layer - a primary fill (with a slightly arced, flat-bottomed cap) slides
+                          up from below on hover, carrying white copies of the content. The inline
+                          transform parks it below from the first paint (matching GSAP's yPercent:100 +
+                          y:18) so the pill doesn't flash filled before the lazy-loaded GSAP runs. */}
+                      <span
+                        data-index-fill
+                        aria-hidden="true"
+                        className="absolute inset-0 flex items-center justify-between gap-4 whitespace-nowrap bg-[var(--primary)] px-5 text-white will-change-transform"
+                        style={{ transform: 'translateY(calc(100% + 18px))' }}
+                      >
+                        {/* Flat-bottomed dome so it joins the fill with no side gaps; 1px overlap. */}
+                        <span
+                          className="pointer-events-none absolute inset-x-0 bottom-[calc(100%-1px)] h-3 bg-[var(--primary)]"
+                          style={{ borderRadius: '50% 50% 0 0 / 100% 100% 0 0' }}
+                        />
+                        <span
+                          className="text-base font-semibold"
+                          style={PILL_FONT}
+                        >
+                          {area.metric}
+                        </span>
+                        <ArrowUpRight data-index-arrow className="h-4 w-4 shrink-0 opacity-0" aria-hidden="true" />
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
-
-      <SimpleCommandHint />
     </section>
   )
 }

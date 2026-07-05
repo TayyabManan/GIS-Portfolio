@@ -55,7 +55,7 @@ const ProjectCard = React.memo(function ProjectCard({ project }: ProjectCardProp
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             placeholder="blur"
-            blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ3NSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjFmNWY5Ii8+PC9zdmc+"
+            blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ3NSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmNWY0Ii8+PC9zdmc+"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-[var(--text-tertiary)]">
@@ -63,11 +63,11 @@ const ProjectCard = React.memo(function ProjectCard({ project }: ProjectCardProp
           </div>
         )}
         {project.category === 'Full Stack' ? (
-          <div className="absolute top-4 left-4 bg-[var(--primary)] text-white px-2 py-1 rounded-lg text-xs font-medium z-10">
+          <div className="absolute top-4 left-4 bg-[var(--primary)] text-white px-2 py-1 rounded-md text-xs font-medium z-10">
             Full Stack
           </div>
         ) : project.featured ? (
-          <div className="absolute top-4 left-4 bg-[var(--primary)] text-white px-2 py-1 rounded-lg text-xs font-medium z-10">
+          <div className="absolute top-4 left-4 bg-[var(--primary)] text-white px-2 py-1 rounded-md text-xs font-medium z-10">
             Featured
           </div>
         ) : null}
@@ -117,11 +117,10 @@ const ProjectCard = React.memo(function ProjectCard({ project }: ProjectCardProp
         </div>
 
         <div className="flex flex-wrap gap-2 mb-4 transition-all duration-300">
-          {(isExpanded ? project.techStack : project.techStack.slice(0, 3)).map((tech, index) => (
+          {(isExpanded ? project.techStack : project.techStack.slice(0, 3)).map((tech) => (
             <span
               key={tech}
-              className="inline-flex items-center rounded-md bg-[var(--background-secondary)] px-2 py-1 text-xs font-medium text-[var(--text-secondary)] animate-in fade-in duration-200"
-              style={{ animationDelay: `${index * 30}ms` }}
+              className="inline-flex items-center rounded-md bg-[var(--background-secondary)] px-2 py-1 text-xs font-medium text-[var(--text-secondary)]"
             >
               {tech}
             </span>

@@ -12,8 +12,6 @@ featured: false
 date: "2024-11-20"
 ---
 
-# Electric Vehicle Suitability Analysis
-
 ## Overview
 A geospatial project for figuring out where to put EV charging stations in Lahore. The system combines demographic data, economic indicators, infrastructure networks, and spatial analysis to score and rank potential sites across Lahore's 5 tehsils using multi-criteria decision analysis and weighted scoring.
 

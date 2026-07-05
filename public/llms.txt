@@ -1,12 +1,16 @@
-# Tayyab Manan - AI Engineer & Geospatial Developer
+# Tayyab Manan - AI/ML Engineer
 
-> Portfolio of Tayyab Manan, an AI Engineering student specializing in machine learning, geospatial AI, and full-stack web development. Featured projects include ML-powered groundwater prediction using satellite data, time-series forecasting systems, geospatial optimization algorithms, and production web applications. Technical expertise spans Python, React, TypeScript, Flask, Google Earth Engine, Scikit-learn, and modern web technologies.
+> Portfolio of Tayyab Manan, an AI/ML Engineer specializing in Computer Vision, NLP/LLMs, Geospatial AI, and production ML systems. Featured work includes an Urdu LLM fine-tuned with QLoRA, an explainable US-visa outcome predictor, ML-powered groundwater prediction from satellite data, and multi-agent workflows built with LangChain and AutoGen. Technical expertise spans Python, PyTorch, TensorFlow, Scikit-learn, Hugging Face, LangChain, FastAPI, Docker, and MLOps. Currently an AI Developer at Cointegration and a Master's student in AI Engineering at COMSATS. Open to full-time AI/ML roles.
 
 ## About
 
-I'm an AI Engineering student focused on applying machine learning to real-world problems, particularly in geospatial analysis and environmental monitoring. My work combines data science, ML engineering, and full-stack development to build systems that provide actionable insights for critical challenges like water resource management, infrastructure optimization, and educational decision-making.
+I'm an AI/ML Engineer building production machine learning systems across Computer Vision, NLP, and Geospatial AI. My work spans LLM fine-tuning, explainable prediction models, multi-agent workflows, and satellite-data forecasting. I combine ML engineering, evaluation rigor, and full-stack deployment to ship systems that solve real problems. I work as an AI Developer at Cointegration and am pursuing a Master's in AI Engineering at COMSATS. I'm open to full-time AI/ML roles.
 
 ## Featured Projects
+
+- [Urdu LLM Fine-Tuning](https://tayyabmanan.com/projects/urdu-llm-fine-tuning): A Qwen 2.5 7B Instruct model fine-tuned with QLoRA to speak natural Urdu, Roman Urdu, and Urdu/English code-mixing. Reaches a 79.5% pairwise win rate over the base model across two independent LLM judges on a 100-prompt evaluation set, with RAG-aware training for factual queries. Validated with a blinded multi-judge harness and shipped as a live Gradio + Modal demo. Built end-to-end in public for about $60. Stack: Python, PyTorch, Unsloth, QLoRA/PEFT, Hugging Face, Modal.
+
+- [US Visa Approval Prediction](https://tayyabmanan.com/projects/us-visa-prediction): Predicts US PERM labor-certification outcomes and explains each decision with SHAP. Built as a 5-stage MLOps pipeline with GridSearchCV across 5 boosting models, threshold tuning for denied-recall, and a FastAPI backend. 73.2% accuracy (vs 66.8% naive baseline) on 25K records. Stack: Python, Scikit-learn, XGBoost, SHAP, FastAPI.
 
 - [WaterTrace Pakistan](https://tayyabmanan.com/projects/watertrace): ML-powered groundwater prediction system using 22 years of NASA satellite data (GRACE & GLDAS). Features time-series forecasting models achieving R²=0.89 accuracy, processing 235 monthly observations across 145 districts. Built with React, Flask, Scikit-learn, and Google Earth Engine. Addresses Pakistan's critical water crisis through predictive analytics.
 
@@ -69,4 +73,4 @@ Python, React, TypeScript, Next.js, Flask, Scikit-learn, Pandas, NumPy, Google E
 
 ---
 
-This file follows the llms.txt standard (https://llmstxt.org/) to help AI language models better understand and reference this portfolio's content. Last updated: January 2025.
+This file follows the llms.txt standard (https://llmstxt.org/) to help AI language models better understand and reference this portfolio's content. Last updated: July 2026.

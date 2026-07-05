@@ -318,7 +318,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay + Dropdown — kept OUTSIDE the transformed navbar above.
+      {/* Mobile Menu Overlay + Dropdown - kept OUTSIDE the transformed navbar above.
           The navbar has transform: translate3d(...), which would otherwise become the
           containing block for these position:fixed children, shrinking the scrim to the
           navbar height and breaking tap-anywhere-to-close. */}
@@ -376,7 +376,7 @@ export default function Header() {
               <Link
                 href="/resume"
                 role="menuitem"
-                className="flex items-center justify-center px-4 py-3 mt-2 text-white font-medium rounded-xl transition-all duration-200 active:scale-[0.98] gap-2 bg-[var(--primary)] active:bg-[var(--primary-hover)]"
+                className="flex items-center justify-center px-4 py-3 mt-2 text-white font-medium rounded-lg transition-all duration-200 active:scale-[0.98] gap-2 bg-[var(--primary)] active:bg-[var(--primary-hover)]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Resume

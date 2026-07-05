@@ -10,6 +10,8 @@ import ShareButtons from '@/components/ui/ShareButtons'
 import CodeBlock from '@/components/ui/CodeBlock'
 import TableOfContents from '@/components/ui/TableOfContents'
 import BackToTop from '@/components/ui/BackToTop'
+import FAQ from '@/components/ui/FAQ'
+import AuthorBio from '@/components/ui/AuthorBio'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { extractTextContent } from '@/lib/utils'
 
@@ -58,7 +60,9 @@ export default function BlogPostClient({ post, adjacentPosts }: BlogPostClientPr
     <>
       <ReadingProgress />
       <div className="min-h-[100dvh] py-16 sm:py-24 bg-[var(--background)]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* px-6 on mobile (not the site's usual px-4): long-form justified prose runs
+          flush to both gutter edges, so reading pages get a wider 24px gutter. */}
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Breadcrumbs */}
         <div className="mb-8">
           <Breadcrumbs
@@ -92,7 +96,9 @@ export default function BlogPostClient({ post, adjacentPosts }: BlogPostClientPr
           <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--text-tertiary)] pb-6 border-b border-[var(--border)]">
             <div className="flex items-center gap-2">
               <UserIcon className="h-4 w-4" />
-              <span>{post.author}</span>
+              <Link href="/about" className="hover:text-[var(--primary)] transition-colors">
+                {post.author}
+              </Link>
             </div>
             <div className="flex items-center gap-2">
               <CalendarIcon className="h-4 w-4" />
@@ -138,15 +144,17 @@ export default function BlogPostClient({ post, adjacentPosts }: BlogPostClientPr
             <TableOfContents content={post.content} variant="mobile" />
 
             {/* Content */}
-            <div className="prose prose-lg max-w-none">
+            <div className="max-w-none">
           <DynamicReactMarkdown
             components={{
+              // The styled <header> above is the post's sole <h1>; any stray
+              // `#` in the body renders as <h2> so hierarchy stays single-H1.
               h1: ({ children }) => {
                 const id = generateHeadingId(children)
                 return (
-                  <h1 id={id} className="text-3xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
+                  <h2 id={id} className="text-3xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
                     {children}
-                  </h1>
+                  </h2>
                 )
               },
               h2: ({ children }) => {
@@ -244,6 +252,14 @@ export default function BlogPostClient({ post, adjacentPosts }: BlogPostClientPr
                 {post.content}
               </DynamicReactMarkdown>
             </div>
+
+            {/* FAQ (AEO): rendered from frontmatter so it matches FAQPage schema */}
+            {post.faqs && post.faqs.length > 0 && (
+              <FAQ items={post.faqs} className="mt-12 pt-8 border-t border-[var(--border)]" />
+            )}
+
+            {/* Author bio (E-E-A-T) */}
+            <AuthorBio />
 
             {/* Previous / Next Post Navigation */}
             {adjacentPosts && (adjacentPosts.prev || adjacentPosts.next) && (

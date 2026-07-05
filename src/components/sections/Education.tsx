@@ -27,9 +27,9 @@ export default function Education() {
   ]
 
   return (
-    <section className="py-16 sm:py-24 bg-[var(--background)]">
+    <section data-reveal-group className="py-16 sm:py-24 bg-[var(--background)]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        <div data-reveal="heading" className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl">
             Education
           </h2>
@@ -42,6 +42,7 @@ export default function Education() {
           {education.map((edu, index) => (
             <div
               key={index}
+              data-reveal="item"
               className="relative bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 sm:p-8 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--primary)]"
             >
               {/* Status Badge */}

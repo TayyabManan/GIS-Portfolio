@@ -12,8 +12,6 @@ featured: false
 date: "2025-01-06"
 ---
 
-# TeacherRank
-
 ## Overview
 TeacherRank is a web app that lets students rate and review their teachers across multiple dimensions instead of reducing them to a single number. The platform supports ratings for teaching quality, communication, helpfulness, and course difficulty, with real-time data sync and a responsive interface. The goal is to help students make better decisions during course registration while giving institutions useful feedback.
 

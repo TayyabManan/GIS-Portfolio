@@ -1,12 +1,24 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { CommandLineIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 export function SimpleCommandHint() {
   const [isVisible, setIsVisible] = useState(false)
   const [isDismissed, setIsDismissed] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
+  // Timers armed outside effect cleanups (the 30s re-arm, the reshow-after-open);
+  // tracked here so unmount clears them instead of firing setState on a dead component.
+  const strayTimers = useRef<Array<ReturnType<typeof setTimeout>>>([])
+
+  const trackTimer = (id: ReturnType<typeof setTimeout>) => {
+    strayTimers.current.push(id)
+  }
+
+  useEffect(() => {
+    const timers = strayTimers.current
+    return () => timers.forEach(clearTimeout)
+  }, [])
 
   useEffect(() => {
     // Check if device is desktop (not mobile or tablet)
@@ -43,9 +55,9 @@ export function SimpleCommandHint() {
         setIsVisible(false)
         setIsDismissed(true)
         // Reset dismissed state after 30 seconds so it can show again
-        setTimeout(() => {
+        trackTimer(setTimeout(() => {
           setIsDismissed(false)
-        }, 30000)
+        }, 30000))
       }, 5000)
 
       return () => clearTimeout(autoDismissTimer)
@@ -63,20 +75,20 @@ export function SimpleCommandHint() {
     document.dispatchEvent(event)
     setIsVisible(false)
     // Reshow after a delay when opened
-    setTimeout(() => {
+    trackTimer(setTimeout(() => {
       if (!isDismissed) {
         setIsVisible(true)
       }
-    }, 3000)
+    }, 3000))
   }
 
   const handleDismiss = () => {
     setIsVisible(false)
     setIsDismissed(true)
     // Reset dismissed state after 30 seconds so it can show again
-    setTimeout(() => {
+    trackTimer(setTimeout(() => {
       setIsDismissed(false)
-    }, 30000)
+    }, 30000))
   }
 
   // Don't render on mobile/tablet devices

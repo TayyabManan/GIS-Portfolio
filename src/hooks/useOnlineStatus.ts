@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
  * Tracks the browser's online/offline status.
  *
  * Initializes to `true` (assume online) so the server render and first client
- * render agree — this avoids a false "offline" flash and a hydration mismatch.
+ * render agree - this avoids a false "offline" flash and a hydration mismatch.
  * The real value is read from `navigator.onLine` on mount, and kept in sync via
  * the `online`/`offline` window events.
  */

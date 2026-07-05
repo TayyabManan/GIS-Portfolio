@@ -1,6 +1,7 @@
 ---
 slug: "building-teacherrank"
 title: "Building TeacherRank: A Student-Driven Teacher Review Platform"
+seoTitle: "Building TeacherRank with React & Supabase"
 description: "Technical deep-dive into building a comprehensive teacher rating platform using React, TypeScript, and Supabase. Implementation details for full-stack development, real-time databases, and performance optimization."
 date: "2025-06-15"
 author: "Tayyab Manan"
@@ -8,15 +9,24 @@ category: "Web Development"
 tags: ["React", "TypeScript", "Supabase", "Full-Stack", "Web Development", "Technical"]
 image: "/projects/teacher-rank.png"
 readTime: "10 min read"
+faqs:
+  - question: "What stack does TeacherRank use?"
+    answer: "React 18 + TypeScript on Vite, with Supabase for auth, a real-time Postgres database, and row-level security. TanStack Query handles server state and caching, Tailwind + DaisyUI handle styling, and hosting is on Vercel."
+  - question: "Why rate teachers on multiple dimensions instead of one score?"
+    answer: "A single number can't separate a tough-but-effective professor from a disorganized one. TeacherRank rates teaching quality, communication, helpfulness, and course difficulty separately, so students can see, for example, 'hard course, good teacher.'"
+  - question: "How was the app optimized for performance?"
+    answer: "Route-based code splitting cut the initial bundle 60% (450KB to 180KB), virtual scrolling renders about 15 cards at a time, and Brotli compression shrank assets ~80%. The Lighthouse score went from 65 to above 95."
+  - question: "How does TeacherRank prevent fake or abusive reviews?"
+    answer: "Mandatory email verification, DOMPurify + Zod input sanitization, rate limits (5 reviews/hour, 20/day), a 50-character minimum comment, and Supabase row-level security that enforces 'edit only your own reviews' at the database layer."
 ---
-
-# TeacherRank: A Student-Driven Teacher Review Platform
 
 Course registration has a basic information problem: you're picking professors based on almost nothing. Existing platforms give you a single number, which doesn't tell you whether a professor is tough but effective, responsive to emails, or fair with grading. Those are different things, and they matter differently to different students.
 
 I built **TeacherRank** to fix that with a multi-dimensional rating system that gives students structured, specific feedback about educators.
 
-## The Problem and Opportunity
+## Why build a multi-dimensional teacher review platform?
+
+**Because a single star rating hides everything that actually matters.** When you commit to a professor for a semester, you need to know whether they're tough but effective, responsive over email, or fair on grading. Those are distinct qualities one number can't capture. TeacherRank rates four separate dimensions so students choose on specifics, not a blurry average.
 
 Students pick professors based on incomplete or outdated information. A single numerical rating can't distinguish between a professor who's challenging but teaches well and one who's just disorganized. That distinction matters a lot when you're committing to a semester.
 
@@ -58,7 +68,9 @@ The advanced search panel supports combinations of filters: teacher name, subjec
 
 ## Performance Optimization Challenges
 
-### Addressing Performance Bottlenecks
+### How do you cut initial load time and keep a long list scrolling smoothly?
+
+**Split the JavaScript by route and only render the cards you can see.** Route-based lazy loading cut the initial bundle from 450KB to 180KB (First Contentful Paint 2.1s to 0.8s), while virtual scrolling windows the teacher list to about 15 cards at a time so it stays smooth even on older phones.
 
 Performance testing with a production-scale database exposed several problems. Initial page load was 4.2 seconds. The teacher list had frame drops during scrolling. Search felt sluggish.
 

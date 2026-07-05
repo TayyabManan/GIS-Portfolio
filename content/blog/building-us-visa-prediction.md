@@ -1,6 +1,7 @@
 ---
 slug: "building-us-visa-prediction"
 title: "Building a US Visa Prediction System: From EDA to Deployment"
+seoTitle: "Building a US Visa Approval Predictor"
 description: "A deep technical dive into building an ML system that predicts PERM labor certification outcomes, covering EDA on 25K records, model selection across 5 boosting algorithms, threshold tuning for class imbalance, SHAP explainability, and deployment on Hugging Face Spaces."
 date: "2026-04-05"
 author: "Tayyab Manan"
@@ -8,15 +9,38 @@ category: "Machine Learning"
 tags: ["Machine Learning", "Classification", "SHAP", "XGBoost", "FastAPI", "MLOps", "Explainable AI"]
 image: "/projects/us-visa-prediction.webp"
 readTime: "15 min read"
+faqs:
+  - question: "How accurate is the US visa (PERM) prediction model?"
+    answer: "The production model is threshold-tuned Gradient Boosting: 73.2% test accuracy with 61.4% recall on denials across a 5,096-case hold-out set. Accuracy was traded down slightly to catch more at-risk cases."
+  - question: "Why not use SMOTEENN to fix the class imbalance?"
+    answer: "SMOTEENN inflated cross-validation scores but didn't generalize. The models overfit synthetic samples near the decision boundary. Training on the natural 2:1 distribution and tuning the threshold to 0.37 worked better."
+  - question: "Is the visa predictor legal advice?"
+    answer: "No. It's an informational risk indicator built on historical DOL patterns, hosted free, with a SHAP explanation for every prediction. It is not a decision tool or a substitute for an immigration attorney."
+  - question: "How does the model explain its predictions?"
+    answer: "SHAP's TreeExplainer computes each feature's contribution, aggregated from ~20 encoded features back to the 10 original ones, with a rule-based fallback so every prediction gets a human-readable explanation even when SHAP fails."
+howTo:
+  name: "How to build the US visa (PERM) prediction pipeline"
+  description: "The five-stage CRISP-DM MLOps pipeline behind the PERM approval predictor, from raw records to a deployed, explainable model."
+  steps:
+    - name: "Data ingestion"
+      text: "Read the 25,480 EasyVisa PERM records, engineer company_age from year of establishment, drop unused columns, and make a stratified train/test split."
+    - name: "Data validation"
+      text: "Validate columns against a schema and run Kolmogorov-Smirnov drift detection between the train and test sets before any transformation."
+    - name: "Data transformation"
+      text: "Fit a scikit-learn ColumnTransformer on training data only - ordinal, one-hot, and Yeo-Johnson power transforms - and serialize it with the model so training and inference match exactly."
+    - name: "Model training"
+      text: "Grid-search five boosting models with 5-fold cross-validation on the natural class distribution, then tune the decision threshold to 0.37 to meet a 60% denied-recall constraint."
+    - name: "Model evaluation"
+      text: "Compare the new model against the current production model and only promote it if F1 improves by at least 0.07, preventing regressions on retraining."
 ---
-
-# Building a US Visa Prediction System: From EDA to Deployment
 
 This post is the technical deep-dive behind the [US Visa Approval Prediction](/projects/us-visa-prediction) project. I'll walk through the full CRISP-DM pipeline, from understanding the problem through EDA and model selection, to SHAP explainability and Docker deployment.
 
-## The Problem: PERM is Opaque and Expensive
+## Why predict PERM labor-certification outcomes?
 
-When a U.S. employer wants to permanently hire a foreign worker, they file a PERM (Program Electronic Review Management) labor certification with the Department of Labor. The DOL either certifies or denies each case. The process takes 6-18 months, costs $5,000-$15,000 in legal fees, and a denial means starting over.
+**PERM is a slow, expensive black box, so an early read on approval odds is genuinely useful.** Employers wait 6-18 months and a denial means starting over, yet applicants have little visibility into what actually drives the decision. A model that predicts the outcome *and* explains it lets people gauge case strength before they commit.
+
+When a U.S. employer wants to permanently hire a foreign worker, they file a [PERM (Program Electronic Review Management) labor certification](https://flag.dol.gov/programs/permanent) with the Department of Labor. The DOL either certifies or denies each case. The process takes 6-18 months, is commonly cited as costing $5,000-$15,000 in legal fees, and a denial means starting over.
 
 The frustrating part is that applicants and immigration attorneys have limited visibility into which factors actually drive outcomes. I wanted to build a system that predicts the outcome and, more importantly, explains *why*, so applicants can get a read on their chances before they file.
 
@@ -85,11 +109,15 @@ Each component receives a config object with paths and parameters, runs its logi
 
 ### Handling Class Imbalance: Why Not SMOTEENN?
 
+**Because resampling looked great in cross-validation but fell apart on held-out data.** SMOTEENN synthesizes minority samples and cleans noisy boundaries, but the models overfit those synthetic points near the decision boundary. Training on the natural 2:1 distribution and tuning the threshold afterward gave a cleaner learning signal and generalized better.
+
 I tested SMOTEENN early on. It synthesizes minority samples and cleans noisy boundary samples. The results were disappointing: cross-validation scores looked inflated, but the gains didn't hold on the test set. The models were overfitting to synthetic samples near the decision boundary.
 
 What worked better was training on the natural distribution and adjusting the decision threshold after training. This gives models a cleaner learning signal that reflects real-world class proportions. LightGBM and CatBoost also handle imbalance internally through native class weighting.
 
-### Metric Selection: Accuracy + Denied Recall Constraint
+### How do you pick the right metric for imbalanced visa data?
+
+**Optimize accuracy, but constrain denied recall so the model stays useful.** Optimizing F1 alone pushed the model to over-predict denials. The final setup uses accuracy in GridSearchCV plus a post-training threshold that guarantees at least 60% recall on denials. That keeps the metric stakeholders actually read while making sure the model still catches the cases that matter.
 
 I initially optimized F1, but this led to models that over-predicted denials: high recall at the cost of too many false alarms. The final approach:
 

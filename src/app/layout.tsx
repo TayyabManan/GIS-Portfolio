@@ -41,10 +41,10 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://tayyabmanan.com'),
   applicationName: 'Tayyab Manan',
   title: {
-    default: 'Tayyab Manan — AI/ML Engineer',
+    default: 'Tayyab Manan - AI/ML Engineer',
     template: '%s | Tayyab Manan'
   },
-  description: 'AI/ML Engineer building production ML systems, computer vision solutions, and multi-agent workflows. PyTorch, TensorFlow, LangChain. Portfolio showcasing deployed machine learning projects and AI-powered applications.',
+  description: 'AI/ML Engineer shipping production ML, computer vision & multi-agent systems. Six deployed projects with live demos in PyTorch, TensorFlow & LangChain.',
   keywords: [
     'AI ML Engineer',
     'Machine Learning Engineer',
@@ -75,26 +75,18 @@ export const metadata: Metadata = {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
   openGraph: {
-    title: 'Tayyab Manan — AI/ML Engineer',
+    title: 'Tayyab Manan - AI/ML Engineer',
     description: 'AI/ML Engineer building production ML systems, computer vision solutions, and multi-agent workflows. PyTorch, TensorFlow, LangChain.',
     url: 'https://tayyabmanan.com',
     siteName: 'Tayyab Manan',
     locale: 'en_US',
     type: 'profile',
-    images: [
-      {
-        url: '/images/profile-picture.webp',
-        width: 1200,
-        height: 630,
-        alt: 'Tayyab Manan — AI/ML Engineer Portfolio',
-      }
-    ],
+    // OG/Twitter image is supplied by the app/opengraph-image.tsx branded card.
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tayyab Manan — AI/ML Engineer',
+    title: 'Tayyab Manan - AI/ML Engineer',
     description: 'AI/ML Engineer building production ML systems with PyTorch, TensorFlow & LangChain. Computer Vision, Multi-Agent Systems & Geospatial AI.',
-    images: ['/images/profile-picture.webp'],
     creator: '@tayyabmanan',
   },
   robots: {
@@ -122,7 +114,7 @@ export const metadata: Metadata = {
       {
         rel: 'mask-icon',
         url: '/logo.svg',
-        color: '#3568d4',
+        color: themes.light.primary,
       },
     ],
   },
@@ -146,9 +138,9 @@ const jsonLd = [
     image: {
       '@type': 'ImageObject',
       url: 'https://tayyabmanan.com/images/profile-picture.webp',
-      width: 1200,
-      height: 630,
-      caption: 'Tayyab Manan — AI/ML Engineer'
+      width: 1024,
+      height: 1024,
+      caption: 'Tayyab Manan - AI/ML Engineer'
     },
     sameAs: [
       'https://www.linkedin.com/in/tayyabmanan',
@@ -156,6 +148,11 @@ const jsonLd = [
       'https://twitter.com/tayyabmanan'
     ],
     jobTitle: 'AI/ML Engineer',
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Cointegration',
+      url: 'https://cointegration.ai/'
+    },
     alumniOf: [
       {
         '@type': 'CollegeOrUniversity',
@@ -240,7 +237,7 @@ const jsonLd = [
     '@id': 'https://tayyabmanan.com/#website',
     url: 'https://tayyabmanan.com',
     name: 'Tayyab Manan',
-    alternateName: ['Tayyab Manan Portfolio', 'Tayyab Manan — AI/ML Engineer'],
+    alternateName: ['Tayyab Manan Portfolio', 'Tayyab Manan - AI/ML Engineer'],
     description: 'AI/ML Engineer portfolio showcasing production machine learning systems, computer vision applications, multi-agent workflows, and geospatial AI solutions built with PyTorch, TensorFlow, and LangChain.',
     about: {
       '@id': 'https://tayyabmanan.com/#person'
@@ -285,7 +282,7 @@ const jsonLd = [
       {
         '@type': 'WebPage',
         name: 'About',
-        description: 'About Tayyab Manan — AI/ML Engineer',
+        description: 'About Tayyab Manan - AI/ML Engineer',
         url: 'https://tayyabmanan.com/about'
       },
       {
@@ -350,21 +347,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Pre-paint theme resolution: only sets data-theme; the token values
+            live in globals.css (:root = light, [data-theme="dark"] = dark) */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
-                  var themes = ${JSON.stringify(themes)};
-                  var saved = localStorage.getItem('theme');
-                  var key = (saved === 'dark' || saved === 'light') ? saved :
+                  const saved = localStorage.getItem('theme');
+                  const key = (saved === 'dark' || saved === 'light') ? saved :
                     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                  var t = themes[key];
-                  var r = document.documentElement;
-                  r.setAttribute('data-theme', key);
-                  Object.entries(t).forEach(function(e) {
-                    r.style.setProperty('--' + e[0].replace(/([A-Z])/g, '-$1').toLowerCase(), e[1]);
-                  });
+                  document.documentElement.setAttribute('data-theme', key);
                 } catch (e) {}
               })();
             `,
@@ -374,10 +367,6 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Font optimization - preconnect to Google Fonts for faster loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-
         {/* DNS prefetch for analytics */}
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />

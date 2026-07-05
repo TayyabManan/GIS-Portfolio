@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { themes, type ThemeKey } from '@/lib/themes';
+import { type ThemeKey } from '@/lib/themes';
 
 type ThemePreference = ThemeKey | 'system';
 
@@ -24,15 +24,8 @@ export function useTheme() {
 }
 
 function applyTheme(key: ThemeKey) {
-  const root = document.documentElement;
-  const selectedTheme = themes[key];
-
-  Object.entries(selectedTheme).forEach(([k, value]) => {
-    const cssVarName = `--${k.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
-    root.style.setProperty(cssVarName, value);
-  });
-
-  root.setAttribute('data-theme', key);
+  // Token values live in globals.css; switching themes is just flipping the attribute
+  document.documentElement.setAttribute('data-theme', key);
 }
 
 function getSystemTheme(): ThemeKey {

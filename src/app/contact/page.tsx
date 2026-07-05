@@ -1,9 +1,10 @@
 import { Metadata } from 'next'
 import ContactPageContent from './ContactPageContent'
+import { contactFaqs, faqPageSchema } from '@/lib/faqs'
 
 export const metadata: Metadata = {
-  title: 'Contact - Tayyab Manan | AI/ML Engineer',
-  description: 'Get in touch for collaboration opportunities, project discussions, or AI/ML engineering inquiries. Specializing in Computer Vision, Multi-Agent Systems & Geospatial AI.',
+  title: 'Contact',
+  description: 'Get in touch about AI/ML roles or collaboration. Islamabad-based, open to remote work, and I reply within 24 hours.',
   keywords: [
     'contact AI engineer',
     'ML engineer collaboration',
@@ -53,7 +54,7 @@ export default function ContactPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbJsonLd, faqPageSchema(contactFaqs)]) }}
       />
       <ContactPageContent />
     </>

@@ -3,7 +3,7 @@ slug: "urdu-llm-fine-tuning"
 title: "Urdu LLM Fine-Tuning"
 subtitle: "QLoRA-Tuned Qwen 2.5 7B for Urdu, Roman Urdu & Code-Mixed Chat"
 description: "A Qwen 2.5 7B Instruct model fine-tuned with QLoRA to speak natural Urdu: Urdu script, Roman Urdu, and Urdu/English code-mixing. The current version reaches a 79.5% pairwise win rate over the base model across two independent LLM judges on a 100-prompt evaluation set, recovers every regression its predecessor introduced, and adds RAG-aware training that makes retrieval safe on factual queries. Validated with a multi-judge harness (including a free Claude-Code-CLI judge) and shipped as a live Gradio + Modal demo. A first end-to-end fine-tune, built in public for about $60."
-category: "Machine Learning & MLOps"
+category: "Natural Language Processing"
 techStack: ["Python", "PyTorch", "Unsloth", "QLoRA / PEFT", "Hugging Face", "Modal", "Gradio", "Haystack", "Qdrant", "rank-bm25"]
 image: "/projects/urdu-llm-fine-tuning.webp"
 demoUrl: "https://huggingface.co/spaces/TayyabManan/urdu-llm-chat"
@@ -11,8 +11,6 @@ githubUrl: "https://github.com/TayyabManan/Urdu-LLM"
 featured: true
 date: "2026-06-28"
 ---
-
-# Urdu LLM Fine-Tuning
 
 ## Overview
 Urdu has around 230 million speakers, which makes it one of the most widely spoken languages on earth. In machine learning it is still treated as low-resource: there is plenty of Urdu text in the world, but very little of it exists in the clean, instruction-tuned form modern chat models learn from, and almost no open models are specialized for it. The base models that *do* speak Urdu tend to drift into English the moment a prompt gets slightly unusual. One popular 7B base drifts into Chinese.

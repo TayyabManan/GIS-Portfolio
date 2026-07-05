@@ -60,56 +60,81 @@ export default function TableOfContents({ content, variant = 'both' }: TableOfCo
     return items
   }, [content])
 
+  // Scroll-spy: highlight the section you've scrolled to. This computes the
+  // active heading deterministically every frame (the last heading whose top
+  // has passed the reading line) instead of using an IntersectionObserver band,
+  // which left gaps where no heading was "intersecting" and intermittently
+  // failed to update the highlight while scrolling (especially with smooth
+  // scroll skipping headings through the narrow band). Only TOC headings are
+  // considered, so unrelated <h2 id> elements (e.g. an FAQ) can't hijack it.
   useEffect(() => {
-    // Don't set up observer if no items
     if (tocItems.length === 0) return
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the entry that's intersecting and closest to the top
-        const intersectingEntries = entries.filter(entry => entry.isIntersecting)
+    const ids = tocItems.map((item) => item.id)
+    let elements: HTMLElement[] = []
+    const collect = () => {
+      elements = ids
+        .map((id) => document.getElementById(id))
+        .filter((el): el is HTMLElement => el !== null)
+    }
+    collect()
 
-        if (intersectingEntries.length > 0) {
-          // Sort by position on page and take the first one
-          intersectingEntries.sort((a, b) => {
-            return a.boundingClientRect.top - b.boundingClientRect.top
-          })
-          setActiveId(intersectingEntries[0].target.id)
-        }
-      },
-      {
-        rootMargin: '-100px 0px -66% 0px',
-        threshold: [0, 0.25, 0.5, 0.75, 1]
+    let ticking = false
+    const update = () => {
+      ticking = false
+      // Headings render via a lazily-hydrated markdown component; if they aren't
+      // in the DOM yet, re-collect on the next scroll/frame.
+      if (elements.length === 0) {
+        collect()
+        if (elements.length === 0) return
       }
-    )
-
-    // Retry logic to ensure headings are found
-    let hasSetInitialActive = false
-    const setupObserver = (retries = 0) => {
-      const headings = document.querySelectorAll('h2[id], h3[id]')
-
-      if (headings.length > 0) {
-        // Headings found, set up observer
-        headings.forEach((heading) => observer.observe(heading))
-
-        // Set initial active ID to first heading (only once)
-        if (!hasSetInitialActive) {
-          hasSetInitialActive = true
-          setActiveId(headings[0].id)
-        }
-      } else if (retries < 10) {
-        // Retry after a delay if headings not found yet
-        setTimeout(() => setupObserver(retries + 1), 100)
+      const line = 120 // a heading becomes "current" once its top passes this y
+      let currentId = elements[0].id
+      for (const el of elements) {
+        if (el.getBoundingClientRect().top <= line) currentId = el.id
+        else break
+      }
+      setActiveId(currentId)
+    }
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(update)
       }
     }
 
-    // Start setup with retry logic
-    setupObserver()
+    update()
 
+    // Headings hydrate lazily (DynamicReactMarkdown, ssr:true): on a client-side
+    // navigation the markdown (and its heading ids) commits AFTER this effect
+    // runs, so the initial collect() finds nothing and nothing re-collects at
+    // rest. Watch the article until the headings appear, run once, then stop -
+    // so it never interferes with scroll-following afterwards. (On a fresh load
+    // the SSR HTML already contains the headings, so this branch is skipped.)
+    let mo: MutationObserver | null = null
+    if (elements.length === 0) {
+      const article = document.querySelector('article')
+      if (article) {
+        mo = new MutationObserver(() => {
+          collect()
+          if (elements.length > 0) {
+            update()
+            mo?.disconnect()
+            mo = null
+          }
+        })
+        mo.observe(article, { childList: true, subtree: true })
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll, { passive: true })
     return () => {
-      observer.disconnect()
+      mo?.disconnect()
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
     }
-  }, [tocItems.length])
+  }, [tocItems])
 
   // Check if nav has overflow and handle scroll behavior
   useEffect(() => {

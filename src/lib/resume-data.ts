@@ -79,7 +79,7 @@ export const resumeData: ResumeData = {
     github: "https://github.com/TayyabManan",
     linkedin: "https://www.linkedin.com/in/tayyabmanan",
     summary:
-      "AI/ML Engineer building production ML systems with PyTorch, TensorFlow, and LangChain. Specializing in Computer Vision, Multi-Agent Systems, and Geospatial AI. Experienced in deploying models serving 145 districts, building multi-agent workflows that save 15+ hours/week, and reducing data retrieval latency by 40%. Currently pursuing a Master's in AI Engineering at COMSATS while working as an AI Developer at Cointegration.",
+      "AI/ML Engineer building production ML systems with PyTorch, TensorFlow, and LangChain. Specializing in Computer Vision, Multi-Agent Systems, and Geospatial AI. Experienced in deploying models serving 145 districts, building multi-agent workflows that save 15+ hours/week, and reducing processing time by 40%. Currently pursuing a Master's in AI Engineering at COMSATS while working as an AI Developer at Cointegration.",
   },
 
   skills: [
@@ -433,7 +433,7 @@ export const resumeData: ResumeData = {
       title: "Junior AI Developer",
       company: "COINTEGRATION",
       location: "Islamabad, Pakistan",
-      startDate: "2023-01",
+      startDate: "2025-01",
       endDate: "Present",
       current: true,
       description: [
@@ -706,9 +706,13 @@ export function formatDate(dateString: string): string {
     return dateString;
   }
 
+  // Format in UTC: "YYYY-MM" strings parse as UTC midnight, so formatting in the
+  // viewer's local timezone would shift the month backward west of UTC (e.g.
+  // "2023-01" -> "Dec 2022" for US viewers). Pin to UTC to keep the intended month.
   return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
+    timeZone: "UTC",
   });
 }
 

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence, useReducedMotion, type Variants } from 'framer-motion'
 import { Github, Linkedin, FileText, ArrowUpRight } from 'lucide-react'
 import WiggleLine from '@/components/effects/WiggleLine'
+import HeroReadout, { warmHeroReadout, type HeroReadoutVariant } from '@/components/effects/HeroReadout'
 
 const EASE: [number, number, number, number] = [0.25, 0.1, 0.25, 1]
 
@@ -54,11 +55,11 @@ const ruleVariants: Variants = {
 // Each pill links to its flagship project. `metric` is the real, already-published number
 // shown by the fill layer that rises on hover - keep these terse so the pill width
 // (sized to the wider of label/metric) stays close to today's.
-const focusAreas = [
-  { label: 'Computer Vision', metric: '80% accuracy', href: '/projects/face-expression-detection' },
-  { label: 'Explainable ML', metric: '73.2% accuracy', href: '/projects/us-visa-prediction' },
-  { label: 'Production ML', metric: '79.5% win rate', href: '/projects/urdu-llm-fine-tuning' },
-  { label: 'Geospatial AI', metric: 'R²=0.89 · 145 districts', href: '/projects/watertrace' },
+const focusAreas: { label: string; metric: string; href: string; readout: HeroReadoutVariant }[] = [
+  { label: 'Computer Vision', metric: '80% accuracy', href: '/projects/face-expression-detection', readout: 'accuracy' },
+  { label: 'Explainable ML', metric: '73.2% accuracy', href: '/projects/us-visa-prediction', readout: 'hbars' },
+  { label: 'Production ML', metric: '79.5% win rate', href: '/projects/urdu-llm-fine-tuning', readout: 'bars-up' },
+  { label: 'Geospatial AI', metric: 'R²=0.89 · 145 districts', href: '/projects/watertrace', readout: 'scatter-fit' },
 ]
 
 // Reused external-link arrow (↗) for affiliation links.
@@ -91,6 +92,10 @@ export default function Hero() {
   const [activeIndex, setActiveIndex] = useState(0) // rotating specialization (mobile hero only)
   const prefersReducedMotion = useReducedMotion()
   const indexRef = useRef<HTMLUListElement>(null)
+
+  // Desktop focus-index readout: hidden at rest; shows the hovered/focused
+  // pill's chart and morphs between charts (see HeroReadout).
+  const [readoutArea, setReadoutArea] = useState<number | null>(null)
 
   // Skip entrance animation on mobile (LCP) or when reduced motion is requested.
   const noAnim = isMobile || Boolean(prefersReducedMotion)
@@ -433,7 +438,8 @@ export default function Hero() {
             {/* Left column */}
             <div className="hero-reveal" style={{ animationDelay: '500ms' }}>
               <p className="max-w-xl text-lg text-[var(--text-secondary)] sm:text-xl">
-                I build machine-learning systems that make it to production, from
+                I build machine-learning systems that make it to{' '}
+                <span className="marker-highlight">production</span>, from
                 computer-vision pipelines to multi-agent workflows.
               </p>
 
@@ -493,14 +499,31 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Right column - numbered index of focus areas */}
+            {/* Right column - numbered index of focus areas, with a live readout
+                to its LEFT that morphs into the hovered area's micro-chart. The
+                chart sits beside the pills (not below) so the pill you point at
+                and its reaction are in the same glance. */}
             <div className="flex flex-col items-end hero-reveal" style={{ animationDelay: '650ms' }}>
-              <ul ref={indexRef} className="flex w-fit flex-col gap-3">
-                {focusAreas.map((area) => (
+              <div className="flex items-center gap-8">
+                {/* Live readout - empty until a pill is pointed at, then draws
+                    that area's chart and morphs between charts as you move */}
+                <HeroReadout variant={readoutArea === null ? null : focusAreas[readoutArea].readout} />
+              <ul
+                ref={indexRef}
+                onPointerEnter={warmHeroReadout}
+                onPointerLeave={() => setReadoutArea(null)}
+                onBlur={(e) => {
+                  if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setReadoutArea(null)
+                }}
+                className="flex w-fit flex-col gap-3"
+              >
+                {focusAreas.map((area, index) => (
                   <li key={area.label}>
                     <Link
                       href={area.href}
                       data-index-row
+                      onPointerEnter={() => setReadoutArea(index)}
+                      onFocus={() => setReadoutArea(index)}
                       className="group relative isolate ml-auto flex w-[calc(100%-2rem)] items-center overflow-hidden rounded-full px-5 py-3 shadow-[inset_0_0_0_1px_var(--border)] transition-shadow duration-200 hover:shadow-[inset_0_0_0_1px_var(--primary)] focus-visible:rounded-full"
                     >
                       {/* Sizer - invisible, in-flow; fixes each pill's intrinsic size. The parent ul's
@@ -563,6 +586,7 @@ export default function Hero() {
                   </li>
                 ))}
               </ul>
+              </div>
             </div>
           </div>
         </div>

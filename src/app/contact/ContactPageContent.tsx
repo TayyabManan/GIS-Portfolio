@@ -42,6 +42,13 @@ export default function ContactPageContent() {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
+  // Retains the last non-idle status so the banner's content stays rendered
+  // while its grid row collapses (otherwise the text vanishes the frame the
+  // collapse starts).
+  const [lastStatus, setLastStatus] = useState<"success" | "error" | null>(null);
+  useEffect(() => {
+    if (submitStatus !== "idle") setLastStatus(submitStatus);
+  }, [submitStatus]);
 
   const {
     register,
@@ -68,7 +75,7 @@ export default function ContactPageContent() {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
 
-    try {
+    const sendMessage = async () => {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
@@ -83,13 +90,26 @@ export default function ContactPageContent() {
       if (!response.ok) {
         throw new Error(result.error || "Failed to send message");
       }
+    };
 
+    try {
+      // One toast morphs through sending -> sent | failed in place
+      // (update-toast lifecycle; see toast.promise in Toast.tsx).
+      await toast.promise(sendMessage(), {
+        loading: { title: "Sending your message…" },
+        success: {
+          title: "Message sent",
+          description: "I'll get back to you within 24 hours.",
+        },
+        error: {
+          title: "Couldn't send your message",
+          description: "Please try again, or use the email link below.",
+        },
+      });
       setSubmitStatus("success");
-      toast.success("Message sent", "I'll get back to you within 24 hours.");
       reset();
     } catch {
       setSubmitStatus("error");
-      toast.error("Couldn't send your message", "Please try again, or use the email link below.");
     } finally {
       clearTimeout(timeout);
       setIsSubmitting(false);
@@ -205,22 +225,38 @@ export default function ContactPageContent() {
                 Send a Message
               </h2>
 
-              {submitStatus === "success" && (
-                <div className="mb-6 p-4 bg-[var(--success)]/10 border border-[var(--success)]/20 rounded-lg">
-                  <p className="text-[var(--success)]">
-                    Message sent. I&apos;ll reply within 24 hours.
-                  </p>
+              {/* Status banner (board: closed -> open -> closed). Always-mounted
+                  grid wrapper morphs grid-template-rows 0fr<->1fr so the form is
+                  pushed smoothly instead of jumping; content is kept via
+                  lastStatus while collapsing; inert makes the error banner's
+                  email link unfocusable when closed. Divs need explicit
+                  transition classes (the global rule only covers buttons/links). */}
+              <div
+                data-state={submitStatus !== "idle" ? "open" : "closed"}
+                inert={submitStatus === "idle"}
+                className={
+                  submitStatus !== "idle"
+                    ? "grid grid-rows-[1fr] opacity-100 transition-[grid-template-rows,opacity] duration-morph ease-morph"
+                    : "grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] duration-200 ease-in"
+                }
+              >
+                <div className="overflow-hidden min-h-0">
+                  {lastStatus === "error" ? (
+                    <div className="mb-6 p-4 bg-[var(--error)]/10 border border-[var(--error)]/20 rounded-lg">
+                      <p className="text-[var(--error)]">
+                        Couldn&apos;t send your message. Try again or email me directly at{' '}
+                        <ObfuscatedEmail className="underline hover:text-[var(--error)]/80" />.
+                      </p>
+                    </div>
+                  ) : lastStatus === "success" ? (
+                    <div className="mb-6 p-4 bg-[var(--success)]/10 border border-[var(--success)]/20 rounded-lg">
+                      <p className="text-[var(--success)]">
+                        Message sent. I&apos;ll reply within 24 hours.
+                      </p>
+                    </div>
+                  ) : null}
                 </div>
-              )}
-
-              {submitStatus === "error" && (
-                <div className="mb-6 p-4 bg-[var(--error)]/10 border border-[var(--error)]/20 rounded-lg">
-                  <p className="text-[var(--error)]">
-                    Couldn&apos;t send your message. Try again or email me directly at{' '}
-                    <ObfuscatedEmail className="underline hover:text-[var(--error)]/80" />.
-                  </p>
-                </div>
-              )}
+              </div>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div>
@@ -242,7 +278,7 @@ export default function ContactPageContent() {
                     aria-describedby={errors.name ? "name-error" : undefined}
                   />
                   {errors.name && (
-                    <p id="name-error" role="alert" className="mt-1 text-sm text-[var(--error)]">
+                    <p id="name-error" role="alert" className="mt-1 text-sm text-[var(--error)] animate-in fade-in slide-in-from-top-1 duration-micro ease-out">
                       {errors.name.message}
                     </p>
                   )}
@@ -273,7 +309,7 @@ export default function ContactPageContent() {
                     aria-describedby={errors.email ? "email-error" : undefined}
                   />
                   {errors.email && (
-                    <p id="email-error" role="alert" className="mt-1 text-sm text-[var(--error)]">
+                    <p id="email-error" role="alert" className="mt-1 text-sm text-[var(--error)] animate-in fade-in slide-in-from-top-1 duration-micro ease-out">
                       {errors.email.message}
                     </p>
                   )}
@@ -303,7 +339,7 @@ export default function ContactPageContent() {
                     aria-describedby={errors.subject ? "subject-error" : undefined}
                   />
                   {errors.subject && (
-                    <p id="subject-error" role="alert" className="mt-1 text-sm text-[var(--error)]">
+                    <p id="subject-error" role="alert" className="mt-1 text-sm text-[var(--error)] animate-in fade-in slide-in-from-top-1 duration-micro ease-out">
                       {errors.subject.message}
                     </p>
                   )}
@@ -342,7 +378,7 @@ export default function ContactPageContent() {
                     </span>
                   </div>
                   {errors.message && (
-                    <p id="message-error" role="alert" className="mt-1 text-sm text-[var(--error)]">
+                    <p id="message-error" role="alert" className="mt-1 text-sm text-[var(--error)] animate-in fade-in slide-in-from-top-1 duration-micro ease-out">
                       {errors.message.message}
                     </p>
                   )}

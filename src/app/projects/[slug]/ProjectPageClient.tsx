@@ -53,7 +53,6 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
                 { label: project.category, current: true },
               ]}
               size="sm"
-              animated={false}
             />
           </div>
 
@@ -87,6 +86,7 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
                 </div>
                 <button
                   onClick={() => setShowTech(!showTech)}
+                  aria-expanded={showTech}
                   className="flex items-center gap-1 text-[var(--text-tertiary)] hover:text-[var(--primary)] transition-colors cursor-pointer"
                 >
                   <span>{project.techStack.length} technologies</span>
@@ -94,9 +94,20 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
                 </button>
               </div>
 
-              {/* Tech Stack - collapsible */}
-              <div className={`overflow-hidden transition-all duration-200 ${showTech ? 'max-h-40 mt-4 opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className="flex flex-wrap gap-2">
+              {/* Tech Stack - collapsible (board: collapsed -> expanded -> collapsed).
+                  grid-template-rows 0fr<->1fr morphs to natural height (the old
+                  max-h-40 clipped past 160px and eased against the wrong height);
+                  spacing lives inside as pt-4 so it animates with the track. */}
+              <div
+                data-state={showTech ? 'expanded' : 'collapsed'}
+                className={`grid transition-[grid-template-rows,opacity] ${
+                  showTech
+                    ? 'grid-rows-[1fr] opacity-100 duration-morph ease-morph'
+                    : 'grid-rows-[0fr] opacity-0 duration-200 ease-in'
+                }`}
+              >
+                <div className="overflow-hidden min-h-0">
+                  <div className="flex flex-wrap gap-2 pt-4">
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
@@ -105,6 +116,7 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
                       {tech}
                     </span>
                   ))}
+                  </div>
                 </div>
               </div>
             </header>

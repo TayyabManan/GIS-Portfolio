@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import Link from 'next/link'
 import ProjectCard from '@/components/ui/ProjectCard'
+import Eyebrow from '@/components/ui/Eyebrow'
 import { type Project } from '@/lib/projects'
 import { useSectionReveal } from '@/components/effects/useSectionReveal'
 
@@ -21,6 +22,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
     <section ref={sectionRef} id="projects" data-reveal-group className="relative py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div data-reveal="heading" className="mb-12 max-w-4xl">
+          <Eyebrow index="01">Selected Work</Eyebrow>
           <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4">Featured Projects</h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)]">
             A few projects I&apos;ve taken from first model to live demo.

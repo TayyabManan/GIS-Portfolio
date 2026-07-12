@@ -5,6 +5,7 @@ import * as ToastPrimitives from '@radix-ui/react-toast'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { DUR, EASE_MORPH_CSS } from '@/lib/motion-tokens'
 
 const ToastProvider = ToastPrimitives.Provider
 
@@ -27,7 +28,7 @@ ToastViewport.displayName = ToastPrimitives.Viewport.displayName
 // left accent strip (echoes the site's border-l accents) and the colored icon,
 // not a heavy colored border.
 const toastVariants = cva(
-  "group pointer-events-auto relative flex w-full items-center justify-between space-x-3 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--background)] p-4 pl-5 pr-12 text-[var(--text)] shadow-lg transition-all before:absolute before:inset-y-0 before:left-0 before:w-1 before:content-[''] data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[state=open]:fade-in-0",
+  "group pointer-events-auto relative flex w-full items-center justify-between space-x-3 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--background)] p-4 pl-5 pr-12 text-[var(--text)] shadow-lg transition-all before:absolute before:inset-y-0 before:left-0 before:w-1 before:content-[''] before:transition-colors before:duration-morph data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[state=open]:fade-in-0",
   {
     variants: {
       variant: {
@@ -341,9 +342,62 @@ toast.loading = (message: string, description?: string) => {
     variant: 'default',
     duration: 0, // Don't auto-dismiss loading toasts
     icon: (
-      <div className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent text-[var(--primary)]" />
+      // data-essential-motion: a frozen spinner reads as a stalled request -
+      // status indication is the WCAG exemption this attribute exists for.
+      <div data-essential-motion className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent text-[var(--primary)]" />
     ),
   })
+}
+
+interface ToastPromiseMessage {
+  title: string
+  description?: string
+}
+
+/**
+ * Update-toast lifecycle (board: hidden -> sending -> sent | failed ->
+ * dismissed). ONE toast morphs through the states in place - same Radix Root,
+ * same corner; ToastItem animates the height/content change via WAAPI.
+ * Rethrows on rejection so callers can branch. duration: 0 skips the
+ * creation-time dismiss timer (and Toaster maps it to Infinity for Radix), so
+ * dismissal is armed here after settle.
+ */
+toast.promise = async <T,>(
+  promise: Promise<T>,
+  messages: {
+    loading: ToastPromiseMessage
+    success: ToastPromiseMessage
+    error: ToastPromiseMessage
+  }
+): Promise<T> => {
+  const t = toast({
+    ...messages.loading,
+    variant: 'default',
+    duration: 0,
+    icon: (
+      // data-essential-motion: a frozen spinner reads as a stalled request -
+      // status indication is the WCAG exemption this attribute exists for.
+      <div data-essential-motion className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent text-[var(--primary)]" />
+    ),
+  })
+  try {
+    const value = await promise
+    t.update({
+      ...messages.success,
+      variant: 'success',
+      icon: <CheckCircle className="h-5 w-5 text-[var(--success)]" />,
+    })
+    return value
+  } catch (error) {
+    t.update({
+      ...messages.error,
+      variant: 'destructive',
+      icon: <AlertCircle className="h-5 w-5 text-[var(--error)]" />,
+    })
+    throw error
+  } finally {
+    setTimeout(t.dismiss, 5000)
+  }
 }
 
 function useToast() {
@@ -366,38 +420,106 @@ function useToast() {
   }
 }
 
+// Renders one toast and, when its content is updated in place (toast.promise:
+// sending -> sent | failed), morphs the container height and rises the new
+// content in. WAAPI (el.animate), not CSS: it is immune to the global
+// prefers-reduced-motion zeroing (status feedback is the one tier that must
+// stay visible), costs zero bundle, and height:auto isn't CSS-transitionable.
+// Missing Web Animations API -> heights snap; content still correct.
+function ToastItem({
+  toast: t,
+  onDismiss,
+}: {
+  toast: ToastState
+  onDismiss: (id: string) => void
+}) {
+  const { id, title, description, action, variant, icon, duration, open } = t
+  const rootRef = React.useRef<React.ElementRef<typeof ToastPrimitives.Root>>(null)
+  const contentRef = React.useRef<HTMLDivElement>(null)
+  const contentKey = `${title}|${description}|${variant}`
+  const prevKeyRef = React.useRef<string | undefined>(undefined)
+  const prevHeightRef = React.useRef(0)
+  const [announceText, setAnnounceText] = React.useState('')
+
+  React.useLayoutEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+    const prevKey = prevKeyRef.current
+    const prevHeight = prevHeightRef.current
+    const nextHeight = root.offsetHeight
+    prevKeyRef.current = contentKey
+    prevHeightRef.current = nextHeight
+    // Animate only genuine in-place content swaps, never the initial mount.
+    if (prevKey === undefined || prevKey === contentKey) return
+    // Radix only announces a toast on MOUNT; an in-place update (toast.promise
+    // settling) is silent to screen readers, so announce it ourselves. Set
+    // before the WAAPI guard - the announcement must not depend on el.animate.
+    setAnnounceText([title, description].filter(Boolean).join('. '))
+    if (typeof root.animate !== 'function') return
+    if (prevHeight > 0 && prevHeight !== nextHeight) {
+      // fill 'none' (default): lands back on natural auto height, no cleanup.
+      root.animate(
+        [{ height: `${prevHeight}px` }, { height: `${nextHeight}px` }],
+        { duration: DUR.morph * 1000, easing: EASE_MORPH_CSS }
+      )
+    }
+    contentRef.current?.animate(
+      [
+        { opacity: 0, transform: 'translateY(4px)' },
+        { opacity: 1, transform: 'translateY(0)' },
+      ],
+      { duration: 180, easing: 'ease-out' }
+    )
+  }, [contentKey, title, description])
+
+  return (
+    <Toast
+      ref={rootRef}
+      variant={variant}
+      open={open}
+      // Radix treats duration 0 as "close immediately", not "never" - our
+      // store uses 0 for promise/loading toasts, so map it to Infinity.
+      duration={duration === 0 ? Infinity : duration}
+      // open is controlled from our store, so Radix's close/swipe requests must
+      // be routed back into it - without this the X and swipe were no-ops.
+      onOpenChange={(o) => {
+        if (!o) onDismiss(id)
+      }}
+    >
+      <div ref={contentRef} className="flex gap-3 items-start w-full">
+        {/* key remounts the icon on variant change, replaying icon-swap-in */}
+        {icon && (
+          <div key={variant ?? 'default'} className="icon-swap-in flex-shrink-0 mt-0.5">
+            {icon}
+          </div>
+        )}
+        <div className="grid gap-1 flex-1 min-w-0">
+          {title && <ToastTitle>{title}</ToastTitle>}
+          {description && (
+            <ToastDescription>{description}</ToastDescription>
+          )}
+        </div>
+      </div>
+      {/* Populated only on in-place content swaps (mounts are announced by
+          Radix itself); assertive matches Radix's foreground level. */}
+      <span aria-live="assertive" aria-atomic="true" className="sr-only">
+        {announceText}
+      </span>
+      {action}
+      <ToastClose />
+    </Toast>
+  )
+}
+
 // Toaster component
 function Toaster() {
   const { toasts, dismiss } = useToast()
 
   return (
     <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, variant, icon, ...props }) {
-        return (
-          <Toast
-            key={id}
-            variant={variant}
-            // open is controlled from our store, so Radix's close/swipe requests must
-            // be routed back into it - without this the X and swipe were no-ops.
-            onOpenChange={(open) => {
-              if (!open) dismiss(id)
-            }}
-            {...props}
-          >
-            <div className="flex gap-3 items-start w-full">
-              {icon && <div className="flex-shrink-0 mt-0.5">{icon}</div>}
-              <div className="grid gap-1 flex-1 min-w-0">
-                {title && <ToastTitle>{title}</ToastTitle>}
-                {description && (
-                  <ToastDescription>{description}</ToastDescription>
-                )}
-              </div>
-            </div>
-            {action}
-            <ToastClose />
-          </Toast>
-        )
-      })}
+      {toasts.map((t) => (
+        <ToastItem key={t.id} toast={t} onDismiss={dismiss} />
+      ))}
       <ToastViewport />
     </ToastProvider>
   )

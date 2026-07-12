@@ -69,7 +69,7 @@ export default function HomePage() {
         <section className="relative border-t border-[var(--border)] py-16 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:items-start lg:gap-14">
-              <FAQ items={homeFaqs} />
+              <FAQ items={homeFaqs} eyebrow={{ index: '04', label: 'Q&A' }} />
               <div className="lg:sticky lg:top-24 lg:self-start">
                 <CallToAction />
               </div>

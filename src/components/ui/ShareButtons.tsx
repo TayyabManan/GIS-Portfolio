@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { ShareIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { toast } from '@/components/ui/Toast'
+import { useMountTransition } from '@/hooks/useMountTransition'
 
 interface ShareButtonsProps {
   title: string
@@ -12,6 +13,9 @@ interface ShareButtonsProps {
 export default function ShareButtons({ title, url }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  // Keeps the panel mounted 100ms after close so the exit animation can play
+  // (board: closed -> open -> closed).
+  const { mounted, state } = useMountTransition(isOpen, 100)
 
   const encodedUrl = encodeURIComponent(url)
   const encodedTitle = encodeURIComponent(title)
@@ -50,13 +54,25 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
         <span>Share</span>
       </button>
 
-      {isOpen && (
+      {mounted && (
         <>
+          {/* Backdrop is gated on isOpen (not mounted): it must stop
+              intercepting clicks the moment the panel starts exiting. */}
+          {isOpen && (
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setIsOpen(false)}
+            />
+          )}
+          {/* Panel opens ABOVE the trigger, so the scale origin is bottom-right.
+              fill-mode-forwards holds the exit's end state if the unmount timer
+              lands a frame late; inert makes the exiting panel unclickable and
+              unfocusable during that window. */}
           <div
-            className="fixed inset-0 z-40"
-            onClick={() => setIsOpen(false)}
-          />
-          <div className="absolute bottom-full mb-2 right-0 z-50 bg-[var(--background)] border border-[var(--border)] rounded-xl shadow-2xl p-4 w-64">
+            data-state={state}
+            inert={state === 'closed'}
+            className="absolute bottom-full mb-2 right-0 z-50 bg-[var(--background)] border border-[var(--border)] rounded-xl shadow-2xl p-4 w-64 origin-bottom-right data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-bottom-1 data-[state=open]:duration-micro data-[state=open]:ease-out data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:duration-100 data-[state=closed]:ease-in data-[state=closed]:fill-mode-forwards data-[state=closed]:pointer-events-none"
+          >
             <h3 className="text-sm font-semibold text-[var(--text)] mb-3">Share this post</h3>
 
             <div className="space-y-2">
@@ -109,14 +125,16 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
                 onClick={handleCopyLink}
                 className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[var(--background-secondary)] transition-colors text-left border-t border-[var(--border)] mt-2 pt-3 cursor-pointer"
               >
+                {/* Icon remounts on the idle <-> copied flip, replaying the
+                    icon-swap-in pop (board: idle -> copied -> idle). */}
                 {copied ? (
                   <>
-                    <CheckIcon className="h-5 w-5 text-[var(--success)]" />
+                    <CheckIcon className="icon-swap-in h-5 w-5 text-[var(--success)]" />
                     <span className="text-sm text-[var(--success)]">Link copied!</span>
                   </>
                 ) : (
                   <>
-                    <svg className="h-5 w-5 text-[var(--text-secondary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <svg className="icon-swap-in h-5 w-5 text-[var(--text-secondary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
                     <span className="text-sm text-[var(--text)]">Copy link</span>

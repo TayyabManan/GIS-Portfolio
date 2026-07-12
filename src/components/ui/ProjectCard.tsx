@@ -2,22 +2,32 @@ import React, { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { CodeBracketIcon, ChevronDownIcon, ChevronUpIcon, LinkIcon } from '@heroicons/react/24/outline'
-
-interface Project {
-  slug: string
-  title: string
-  subtitle: string
-  description: string
-  category: string
-  techStack: string[]
-  image: string
-  demoUrl?: string
-  githubUrl?: string
-  featured: boolean
-}
+import { MetricSparkline, type MetricChart } from '@/components/effects/NotebookDoodles'
+import { type Project } from '@/lib/projects'
 
 interface ProjectCardProps {
   project: Project
+}
+
+// Re-sketch the metric chip's micro-chart when the card is hovered. WAAPI, not
+// CSS: it bypasses the global reduced-motion zeroing so the owner (who runs RM
+// on) sees it too. Charts are fully drawn at rest, so no-WAAPI browsers just
+// skip the flourish. Stroke paths [data-draw] redraw left-to-right (staggered
+// for multi-bar charts); fills [data-pop] fade in just after.
+function playChipDraw(card: HTMLElement) {
+  const chart = card.querySelector('.metric-chart')
+  if (!chart) return
+  chart.querySelectorAll<SVGPathElement>('[data-draw]').forEach((path, i) => {
+    if (typeof path.animate !== 'function') return
+    path.animate(
+      [{ strokeDashoffset: 100 }, { strokeDashoffset: 0 }],
+      { duration: 480, delay: i * 60, easing: 'ease-out', fill: 'backwards' }
+    )
+  })
+  chart.querySelectorAll<SVGElement>('[data-pop]').forEach((el) => {
+    if (typeof el.animate !== 'function') return
+    el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 480, delay: 120, easing: 'ease-out', fill: 'backwards' })
+  })
 }
 
 const ProjectCard = React.memo(function ProjectCard({ project }: ProjectCardProps) {
@@ -45,6 +55,7 @@ const ProjectCard = React.memo(function ProjectCard({ project }: ProjectCardProp
       className="group relative bg-[var(--background)] rounded-xl shadow-sm overflow-hidden border border-[var(--border)] transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--primary)]"
       style={{ willChange: 'transform' }}
       aria-label={`${project.title} - ${project.category} project`}
+      onPointerEnter={(e) => playChipDraw(e.currentTarget)}
     >
       <div className="aspect-video relative overflow-hidden bg-[var(--border)]">
         {project.image ? (
@@ -73,11 +84,24 @@ const ProjectCard = React.memo(function ProjectCard({ project }: ProjectCardProp
         ) : null}
         {/* Gradient overlay for better text contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--text)]/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Metric chip (data-decorative): a real published number in the
+            annotation voice. Sibling of the Image, so it doesn't ride the
+            hover scale; themed surface keeps it legible over any screenshot.
+            The sparkline is decoration; the metric text is real content. */}
+        {project.metric && (
+          <span className="absolute bottom-3 right-3 z-10 inline-flex items-center gap-1.5 rounded border border-[var(--border)] bg-[var(--background)]/90 px-2 py-1 backdrop-blur-sm">
+            <MetricSparkline variant={project.metricChart as MetricChart | undefined} className="h-2.5 w-auto text-[var(--accent-ink)]" />
+            <span className="font-mono text-[11px] font-medium leading-none text-[var(--text)]">
+              {project.metric}
+            </span>
+          </span>
+        )}
       </div>
 
       <div className="p-6 sm:p-8 transition-all duration-300">
         <div className="flex items-center gap-2 mb-2">
-          <span className="inline-flex items-center rounded-md bg-[var(--accent)]/10 px-2 py-1 text-xs font-medium text-[var(--accent)]">
+          {/* accent-ink, not accent: raw lime text on light bg is ~2:1 */}
+          <span className="inline-flex items-center rounded-md bg-[var(--accent)]/15 px-2 py-1 text-xs font-medium text-[var(--accent-ink)]">
             {project.category}
           </span>
         </div>

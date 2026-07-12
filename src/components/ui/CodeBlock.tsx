@@ -40,10 +40,12 @@ export default function CodeBlock({ children, className }: CodeBlockProps) {
         className="absolute top-3 right-3 p-2.5 min-h-[44px] min-w-[44px] rounded-lg bg-[var(--background)] border border-[var(--border)] hover:bg-[var(--background-secondary)] transition-colors cursor-pointer flex items-center justify-center"
         title={copied ? 'Copied!' : 'Copy code'}
       >
+        {/* Icon remounts on the idle <-> copied flip, replaying the
+            icon-swap-in pop (board: idle -> copied -> idle). */}
         {copied ? (
-          <CheckIcon className="h-4 w-4 text-[var(--success)]" />
+          <CheckIcon className="icon-swap-in h-4 w-4 text-[var(--success)]" />
         ) : (
-          <ClipboardIcon className="h-4 w-4 text-[var(--text-secondary)]" />
+          <ClipboardIcon className="icon-swap-in h-4 w-4 text-[var(--text-secondary)]" />
         )}
       </button>
       <pre className={className}>

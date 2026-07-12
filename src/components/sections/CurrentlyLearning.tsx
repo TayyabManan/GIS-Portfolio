@@ -3,6 +3,7 @@ import {
   BeakerIcon,
   RocketLaunchIcon
 } from '@heroicons/react/24/outline'
+import Eyebrow from '@/components/ui/Eyebrow'
 
 export default function CurrentlyLearning() {
   const learningItems = [
@@ -59,11 +60,12 @@ export default function CurrentlyLearning() {
   return (
     <section data-reveal-group className="py-16 sm:py-24 bg-transparent">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div data-reveal="heading" className="text-center mb-12">
+        <div data-reveal="heading" className="mb-12 max-w-4xl">
+          <Eyebrow index="03">In Progress</Eyebrow>
           <h2 className="text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl">
             Currently Learning & Exploring
           </h2>
-          <p className="mt-4 text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-[var(--text-secondary)] max-w-2xl">
             Actively expanding my skills and knowledge in AI/ML through courses, experiments, and research
           </p>
         </div>

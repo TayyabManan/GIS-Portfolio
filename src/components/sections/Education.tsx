@@ -1,4 +1,5 @@
 import { AcademicCapIcon, BookOpenIcon } from '@heroicons/react/24/outline'
+import Eyebrow from '@/components/ui/Eyebrow'
 
 export default function Education() {
   const education = [
@@ -29,7 +30,8 @@ export default function Education() {
   return (
     <section data-reveal-group className="py-16 sm:py-24 bg-[var(--background)]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div data-reveal="heading" className="text-center mb-12">
+        <div data-reveal="heading" className="mb-12 max-w-4xl">
+          <Eyebrow index="02">Background</Eyebrow>
           <h2 className="text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl">
             Education
           </h2>
@@ -83,7 +85,7 @@ export default function Education() {
               <ul className="space-y-3">
                 {edu.highlights.map((highlight, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-sm text-[var(--text-secondary)]">
-                    <span className="text-[var(--accent)] mt-1">•</span>
+                    <span className="text-[var(--accent-ink)] mt-1">•</span>
                     <span>{highlight}</span>
                   </li>
                 ))}

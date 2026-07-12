@@ -4,6 +4,8 @@ title: "EV Suitability Analysis"
 subtitle: "Geospatial Analysis for EV Infrastructure Planning"
 description: "Multi-criteria spatial optimization for EV charging station site selection in Lahore using weighted scoring algorithms, demographic analysis, and geospatial data to find the best locations for charging infrastructure."
 category: "Geospatial AI"
+metric: "90%+ coverage"
+metricChart: "coverage"
 techStack: ["Python", "QGIS", "ArcGIS", "Open Street Map", "Demographic Data"]
 image: "/projects/ev-analysis.webp"
 demoUrl: "https://ev-analysis.netlify.app/"

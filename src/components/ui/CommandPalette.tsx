@@ -47,7 +47,18 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
   const { theme, preference, setPreference, toggleTheme } = useTheme()
   const [search, setSearch] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [recentCommands, setRecentCommands] = useState<string[]>([])
+  // Lazy-read so the FIRST committed DOM already contains the Recent group -
+  // the mount-only row stagger below animates the final grouping instead of a
+  // tree that a post-mount setState immediately reshuffles. (This component
+  // only mounts client-side, when the palette opens; the guard is defensive.)
+  const [recentCommands, setRecentCommands] = useState<string[]>(() => {
+    if (typeof window === 'undefined') return []
+    try {
+      return JSON.parse(localStorage.getItem('recentCommands') || '[]')
+    } catch {
+      return []
+    }
+  })
   const listRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -151,14 +162,6 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
     }] : []),
   ], [navigate, onClose, theme, preference, toggleTheme, setPreference])
 
-  // Load recent commands
-  useEffect(() => {
-    const saved = localStorage.getItem('recentCommands')
-    if (saved) {
-      try { setRecentCommands(JSON.parse(saved)) } catch { /* ignore */ }
-    }
-  }, [])
-
   const executeCommand = useCallback((command: CommandItem) => {
     const updated = [command.id, ...recentCommands.filter(id => id !== command.id)].slice(0, 5)
     setRecentCommands(updated)
@@ -244,6 +247,29 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
     }
   }, [selectedIndex])
 
+  // First-open row cascade (board: shell-open -> populating -> settled).
+  // WAAPI: zero bundle cost and immune to the reduced-motion CSS zeroing -
+  // for RM users the shell's CSS enter is zeroed, so this is the one motion
+  // they see. Mount-only by design: this content chunk remounts fresh per
+  // open, and filtering while typing must never stagger (rows re-render per
+  // keystroke). fill 'backwards' holds delayed rows invisible until their
+  // turn; missing WAAPI -> rows appear instantly (today's behavior).
+  useEffect(() => {
+    const rows = listRef.current?.querySelectorAll<HTMLElement>('[data-index]')
+    if (!rows || rows.length === 0 || typeof rows[0].animate !== 'function') return
+    Array.from(rows)
+      .slice(0, 10)
+      .forEach((row, i) => {
+        row.animate(
+          [
+            { opacity: 0, transform: 'translateY(4px)' },
+            { opacity: 1, transform: 'translateY(0)' },
+          ],
+          { duration: 150, easing: 'ease-out', delay: i * 30, fill: 'backwards' }
+        )
+      })
+  }, [])
+
   let itemIndex = -1
 
   return (
@@ -321,8 +347,10 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
                       )}
                       <ArrowRightIcon
                         className={cn(
-                          'h-4 w-4 transition-opacity duration-75',
-                          isSelected ? 'text-white opacity-100' : 'text-[var(--text-tertiary)] opacity-0 group-hover:opacity-100'
+                          'h-4 w-4 transition-[opacity,translate] duration-75 ease-out',
+                          isSelected
+                            ? 'text-white opacity-100 translate-x-0'
+                            : 'text-[var(--text-tertiary)] opacity-0 -translate-x-0.5 group-hover:opacity-100 group-hover:translate-x-0'
                         )}
                       />
                     </div>

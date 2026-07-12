@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { CalendarIcon, ClockIcon, TagIcon, FolderIcon } from '@heroicons/react/24/outline'
 import { BlogPost } from '@/lib/markdown'
 import { useGridFlip } from '@/components/effects/useGridFlip'
+import { EmptyAxes } from '@/components/effects/NotebookDoodles'
 import CategoryFilter from '@/components/ui/CategoryFilter'
 
 interface BlogPageContentProps {
@@ -57,10 +58,14 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
         {/* Blog Posts Grid */}
         {filteredPosts.length === 0 ? (
           <div className="text-center py-12">
+            <div className="doodle mx-auto mb-4 w-28">
+              <EmptyAxes className="w-full" />
+              <p className="font-mono text-[10px] tracking-[0.08em] mt-1">n=0</p>
+            </div>
             <p className="text-lg text-[var(--text-secondary)] mb-4">
               {selectedCategory !== 'all'
                 ? 'No posts in this category yet.'
-                : 'No blog posts yet.'}
+                : 'Nothing published yet. The projects have the receipts.'}
             </p>
             {selectedCategory !== 'all' ? (
               <button

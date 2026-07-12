@@ -16,6 +16,7 @@ type GsapCore = typeof import('gsap')['default']
 type ScrollTriggerType = typeof import('gsap/ScrollTrigger')['ScrollTrigger']
 type FlipType = typeof import('gsap/Flip')['Flip']
 type SplitTextType = typeof import('gsap/SplitText')['SplitText']
+type MorphSVGType = typeof import('gsap/MorphSVGPlugin')['MorphSVGPlugin']
 
 /** Gate checked before any dynamic import - matches the hero's pill effect. */
 export const DESKTOP_MOTION = '(min-width: 1024px) and (pointer: fine)'
@@ -34,7 +35,38 @@ export const MOTION = {
 let corePromise: Promise<{ gsap: GsapCore; ScrollTrigger: ScrollTriggerType }> | null = null
 let flipPromise: Promise<{ gsap: GsapCore; Flip: FlipType }> | null = null
 let splitTextPromise: Promise<{ gsap: GsapCore; SplitText: SplitTextType }> | null = null
+let gsapCorePromise: Promise<{ gsap: GsapCore }> | null = null
+let morphPromise: Promise<{ gsap: GsapCore; MorphSVG: MorphSVGType }> | null = null
 let wired = false
+
+/** gsap core + MorphSVG (hero focus-index readout chart morphs). Free in the
+ * public package since GSAP 3.13. */
+export function loadMorphSVG() {
+  if (!morphPromise) {
+    morphPromise = Promise.all([import('gsap'), import('gsap/MorphSVGPlugin')]).then(([g, m]) => {
+      const gsap = g.default
+      gsap.registerPlugin(m.MorphSVGPlugin)
+      return { gsap, MorphSVG: m.MorphSVGPlugin }
+    }).catch((err) => {
+      morphPromise = null // don't cache the rejection - allow retry
+      throw err
+    })
+  }
+  return morphPromise
+}
+
+/** gsap core only, no plugins (transient micro tweens, e.g. the nav underline
+ * handoff). Same module instance as the plugin loaders - pattern consistency,
+ * not extra bytes. */
+export function loadCore() {
+  if (!gsapCorePromise) {
+    gsapCorePromise = import('gsap').then((g) => ({ gsap: g.default })).catch((err) => {
+      gsapCorePromise = null // don't cache the rejection - allow retry
+      throw err
+    })
+  }
+  return gsapCorePromise
+}
 
 /** gsap core + ScrollTrigger, registered, with the one-time global wiring. */
 export function loadScrollCore() {

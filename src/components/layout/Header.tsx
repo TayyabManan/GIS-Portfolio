@@ -7,6 +7,7 @@ import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon, ChatBubbleLeftRightIcon, Sun
 import Logo from '@/components/ui/Logo'
 import { useCommandPalette, preloadCommandPalette } from '@/components/ui/CommandPaletteProvider'
 import { useTheme } from '@/contexts/ThemeContext'
+import { useNavUnderline, warmNavUnderline } from '@/components/effects/useNavUnderline'
 
 const navigationItems = [
   { name: 'Home', href: '/', shortcut: 'Alt+H' },
@@ -16,11 +17,14 @@ const navigationItems = [
   { name: 'Contact', href: '/contact', shortcut: 'Alt+C' },
 ]
 
+// Stable identity so useNavUnderline's effect doesn't re-run per render.
+const NAV_HREFS = navigationItems.map((item) => item.href)
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const { open: openCommandPalette } = useCommandPalette()
-  const { theme, toggleTheme } = useTheme()
+  const { toggleTheme } = useTheme()
 
   const pathname = usePathname()
 
@@ -31,6 +35,11 @@ export default function Header() {
     }
     return pathname.startsWith(href)
   }
+
+  // Active-underline handoff between nav links on route change (desktop only;
+  // below the gate the class swap is instant). See useNavUnderline.
+  const activeHref = navigationItems.find((item) => isActive(item.href))?.href ?? null
+  const setUnderlineRef = useNavUnderline(activeHref, NAV_HREFS)
 
   // Enhanced scroll detection for mobile (especially iOS)
   useEffect(() => {
@@ -121,7 +130,7 @@ export default function Header() {
         }}
       >
         <div
-          className={`flex items-center justify-between transition-all duration-300 ${
+          className={`nav-surface flex items-center justify-between transition-all duration-300 ${
             isScrolled
               ? 'h-14 px-4 sm:px-6 rounded-full shadow-lg border border-[var(--border)] bg-[var(--background)] opacity-95'
               : 'h-16 bg-transparent'
@@ -148,8 +157,13 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="flex items-center gap-1 lg:gap-2">
+          {/* Desktop Navigation. Hover/focus warms the gsap chunk for the
+              underline handoff (intent-based, like preloadCommandPalette). */}
+          <div
+            className="flex items-center gap-1 lg:gap-2"
+            onPointerEnter={warmNavUnderline}
+            onFocus={warmNavUnderline}
+          >
             {navigationItems.map((item) => {
               const active = isActive(item.href)
               return (
@@ -164,11 +178,21 @@ export default function Header() {
                   aria-current={active ? 'page' : undefined}
                 >
                   {item.name}
-                  {active && (
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 rounded-full bg-[var(--primary)]" />
-                  )}
-                  {/* Tooltip */}
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50 bg-[var(--background-tertiary)] text-[var(--text)] border border-[var(--border)]">
+                  {/* Underline bar rendered for EVERY link (board: rest ->
+                      handoff-out -> handoff-in). Resting state is class-driven
+                      (SSR-correct); [transform:scaleX()] arbitrary properties,
+                      not scale-x-*, because v4's scale-x-* sets the standalone
+                      `scale` property, which would compose with GSAP's inline
+                      transform. left-1/4 + w-1/2 centers without a translate. */}
+                  <div
+                    ref={setUnderlineRef(item.href)}
+                    aria-hidden="true"
+                    className={`absolute bottom-0 left-1/4 w-1/2 h-0.5 rounded-full bg-[var(--primary)] ${
+                      active ? '[transform:scaleX(1)]' : '[transform:scaleX(0)]'
+                    }`}
+                  />
+                  {/* Tooltip - 4px rise on reveal */}
+                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs rounded opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-[opacity,translate] duration-micro ease-out pointer-events-none whitespace-nowrap z-50 bg-[var(--background-tertiary)] text-[var(--text)] border border-[var(--border)]">
                     {item.shortcut}
                   </div>
                 </Link>
@@ -192,13 +216,15 @@ export default function Header() {
               onClick={toggleTheme}
               type="button"
               className="p-2 min-h-[44px] min-w-[44px] rounded-lg transition-all duration-200 group flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--primary)] hover:bg-[var(--background-secondary)]"
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label="Toggle theme"
             >
-              {theme === 'dark' ? (
-                <SunIcon className="h-5 w-5" />
-              ) : (
-                <MoonIcon className="h-5 w-5" />
-              )}
+              {/* Both icons render stacked; [data-theme] CSS in globals.css
+                  cross-fades them (board: moon-resting <-> sun-resting) and is
+                  correct pre-hydration, unlike theme state. */}
+              <span className="relative block h-5 w-5" aria-hidden="true">
+                <MoonIcon className="theme-icon-moon absolute inset-0 h-5 w-5" />
+                <SunIcon className="theme-icon-sun absolute inset-0 h-5 w-5" />
+              </span>
             </button>
 
             {/* Resume Button */}
@@ -235,7 +261,7 @@ export default function Header() {
         >
           {/* Mobile Nav Bar */}
           <div
-            className={`transition-all duration-300 ease-out ${
+            className={`nav-surface transition-all duration-300 ease-out ${
               isScrolled
                 ? 'rounded-full shadow-lg border border-[var(--border)] bg-[var(--background)] opacity-95'
                 : mobileMenuOpen
@@ -288,13 +314,13 @@ export default function Header() {
                   onClick={toggleTheme}
                   type="button"
                   className="p-2 min-h-[44px] min-w-[44px] transition-colors rounded-lg flex items-center justify-center text-[var(--text-secondary)] active:text-[var(--primary)] active:bg-[var(--background-secondary)]"
-                  aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                  aria-label="Toggle theme"
                 >
-                  {theme === 'dark' ? (
-                    <SunIcon className="h-5 w-5" />
-                  ) : (
-                    <MoonIcon className="h-5 w-5" />
-                  )}
+                  {/* Stacked pair, cross-faded by [data-theme] CSS (see globals.css) */}
+                  <span className="relative block h-5 w-5" aria-hidden="true">
+                    <MoonIcon className="theme-icon-moon absolute inset-0 h-5 w-5" />
+                    <SunIcon className="theme-icon-sun absolute inset-0 h-5 w-5" />
+                  </span>
                 </button>
 
                 {/* Hamburger Menu */}

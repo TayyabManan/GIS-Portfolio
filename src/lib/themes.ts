@@ -30,7 +30,10 @@ export const themes = {
     error: '#dc2626',
     warning: '#d97706',
 
-    accent: '#3568d4',
+    accent: '#d9f21e',
+    accentInk: '#4d5e00',
+    accentContrast: '#1c1917',
+    accentFlood: '#def33f',
     info: '#3568d4',
 
     overlay: 'rgba(28, 25, 23, 0.5)',

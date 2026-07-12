@@ -48,18 +48,22 @@ export default function BackToTop() {
     requestAnimationFrame(animateScroll)
   }
 
+  // Always mounted so visibility can transition (board: hidden <-> visible).
+  // Tailwind v4's `translate` is independent of `active:scale-*` - no
+  // transform fight. `inert` (not aria-hidden/tabIndex) hides it: the browser
+  // also moves focus off the button when it hides mid-press, so focus is never
+  // stranded on an aria-hidden element.
   return (
-    <>
-      {isVisible && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 p-3 bg-[var(--primary)] text-white rounded-full shadow-lg hover:bg-[var(--primary-hover)] transition-[background-color,transform,box-shadow] duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2"
-          aria-label="Back to top"
-          title="Back to top"
-        >
-          <ArrowUpIcon className="h-6 w-6" />
-        </button>
-      )}
-    </>
+    <button
+      onClick={scrollToTop}
+      className={`fixed bottom-8 right-8 z-50 p-3 bg-[var(--primary)] text-white rounded-full shadow-lg hover:bg-[var(--primary-hover)] transition-[opacity,translate,background-color,transform,box-shadow] duration-200 ease-out active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
+      }`}
+      aria-label="Back to top"
+      inert={!isVisible}
+      title="Back to top"
+    >
+      <ArrowUpIcon className="h-6 w-6" />
+    </button>
   )
 }

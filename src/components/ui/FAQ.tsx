@@ -1,5 +1,6 @@
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
 import { cn } from '@/lib/utils'
+import Eyebrow from '@/components/ui/Eyebrow'
 import type { FaqItem } from '@/lib/faqs'
 
 interface FAQProps {
@@ -7,6 +8,8 @@ interface FAQProps {
   title?: string
   /** Optional supporting line under the heading. */
   description?: string
+  /** Optional mono annotation above the heading (home sections only). */
+  eyebrow?: { index?: string; label: string }
   /**
    * 'stacked' (default): heading on top, accordion below (for a narrow column).
    * 'aside': heading in a sticky left column, accordion in a wider right column
@@ -17,9 +20,10 @@ interface FAQProps {
   className?: string
 }
 
-function FaqHeader({ title, description }: { title: string; description?: string }) {
+function FaqHeader({ title, description, eyebrow }: { title: string; description?: string; eyebrow?: FAQProps['eyebrow'] }) {
   return (
     <>
+      {eyebrow && <Eyebrow index={eyebrow.index}>{eyebrow.label}</Eyebrow>}
       <h2 id="faq-heading" className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text)]">
         {title}
       </h2>
@@ -49,7 +53,10 @@ function FaqList({ items, className }: { items: FaqItem[]; className?: string })
             </span>
           </summary>
           <div className="px-5 pb-5 sm:px-6 sm:pb-6">
-            <p className="animate-fadeIn border-t border-[var(--border)] pt-4 text-[15px] leading-relaxed text-[var(--text-secondary)]">
+            {/* fade + 4px slide reads better on body text than fadeIn's scale
+                zoom; the height morph itself is the @supports
+                interpolate-size progressive enhancement in globals.css. */}
+            <p className="animate-in fade-in slide-in-from-top-1 duration-200 ease-out border-t border-[var(--border)] pt-4 text-[15px] leading-relaxed text-[var(--text-secondary)]">
               {item.answer}
             </p>
           </div>
@@ -68,6 +75,7 @@ export default function FAQ({
   items,
   title = 'Frequently Asked Questions',
   description,
+  eyebrow,
   layout = 'stacked',
   className,
 }: FAQProps) {
@@ -78,7 +86,7 @@ export default function FAQ({
       <section aria-labelledby="faq-heading" className={cn(className)}>
         <div className="grid gap-8 lg:grid-cols-[1fr_1.6fr] lg:items-start lg:gap-14">
           <div className="max-w-md lg:sticky lg:top-24">
-            <FaqHeader title={title} description={description} />
+            <FaqHeader title={title} description={description} eyebrow={eyebrow} />
           </div>
           <FaqList items={items} />
         </div>
@@ -89,7 +97,7 @@ export default function FAQ({
   return (
     <section aria-labelledby="faq-heading" className={cn(className)}>
       <div className="mb-8 max-w-2xl">
-        <FaqHeader title={title} description={description} />
+        <FaqHeader title={title} description={description} eyebrow={eyebrow} />
       </div>
       <FaqList items={items} className="max-w-3xl" />
     </section>

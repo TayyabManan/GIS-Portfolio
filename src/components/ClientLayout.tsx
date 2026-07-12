@@ -14,7 +14,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   return (
     <CommandPaletteProvider>
-      <div className="bg-[var(--background)] min-h-[100dvh] transition-colors">
+      <div className="site-shell bg-[var(--background)] min-h-[100dvh] transition-colors">
         <Header />
         <main id="main-content" className="min-h-[100dvh] focus:outline-none">
           {children}

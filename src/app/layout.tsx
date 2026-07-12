@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Bricolage_Grotesque, Geist } from 'next/font/google'
+import { Bricolage_Grotesque, Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ProgressBarProvider } from '@/components/ProgressBar'
@@ -28,6 +28,21 @@ const geist = Geist({
   display: 'swap',
   preload: true,
   fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+  adjustFontFallback: true,
+})
+
+// Annotation voice: eyebrows, doodle captions, metric chips, code blocks.
+// Variable is --font-geist-mono (NOT --font-mono) on purpose: Tailwind's
+// @theme key --font-mono in globals.css maps to it, and naming both the same
+// would make the emitted --default-mono-font-family self-referential.
+// preload: false - all mono usage sits below the fold; swap + metric-adjusted
+// fallback keeps the late paint shift-free.
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-geist-mono',
+  display: 'swap',
+  preload: false,
+  fallback: ['Consolas', 'Monaco', 'monospace'],
   adjustFontFallback: true,
 })
 
@@ -371,7 +386,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
       </head>
-      <body className={`${geist.variable} ${bricolageGrotesque.variable} ${geist.className}`} suppressHydrationWarning>
+      <body className={`${geist.variable} ${bricolageGrotesque.variable} ${geistMono.variable} ${geist.className}`} suppressHydrationWarning>
         {/* Page transition progress bar */}
         <ProgressBarProvider />
         {/* Skip to main content link for screen readers */}

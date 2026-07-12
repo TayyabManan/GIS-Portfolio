@@ -4,6 +4,7 @@ import { useState } from 'react'
 import ProjectCard from '@/components/ui/ProjectCard'
 import { type Project } from '@/lib/projects'
 import { useGridFlip } from '@/components/effects/useGridFlip'
+import { EmptyAxes } from '@/components/effects/NotebookDoodles'
 import CategoryFilter from '@/components/ui/CategoryFilter'
 
 const categories = ['All', 'Geospatial AI', 'Computer Vision', 'Natural Language Processing', 'Machine Learning & MLOps', 'Web Application']
@@ -55,6 +56,10 @@ export default function ProjectsPageContent({ projects }: ProjectsPageContentPro
         {/* Empty State */}
         {filteredProjects.length === 0 && (
           <div className="text-center py-12">
+            <div className="doodle mx-auto mb-4 w-28">
+              <EmptyAxes className="w-full" />
+              <p className="font-mono text-[10px] tracking-[0.08em] mt-1">n=0</p>
+            </div>
             <p className="text-[var(--text-secondary)] mb-4">No projects in this category yet.</p>
             <button
               onClick={() => setSelectedCategory('All')}

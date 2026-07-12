@@ -61,7 +61,7 @@ export default function Footer() {
 
   return (
     <div
-      className="relative"
+      className="site-footer relative"
       style={{ height: height || undefined, clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }}
     >
       <footer

@@ -4,6 +4,8 @@ title: "Urdu LLM Fine-Tuning"
 subtitle: "QLoRA-Tuned Qwen 2.5 7B for Urdu, Roman Urdu & Code-Mixed Chat"
 description: "A Qwen 2.5 7B Instruct model fine-tuned with QLoRA to speak natural Urdu: Urdu script, Roman Urdu, and Urdu/English code-mixing. The current version reaches a 79.5% pairwise win rate over the base model across two independent LLM judges on a 100-prompt evaluation set, recovers every regression its predecessor introduced, and adds RAG-aware training that makes retrieval safe on factual queries. Validated with a multi-judge harness (including a free Claude-Code-CLI judge) and shipped as a live Gradio + Modal demo. A first end-to-end fine-tune, built in public for about $60."
 category: "Natural Language Processing"
+metric: "79.5% win rate"
+metricChart: "bars-up"
 techStack: ["Python", "PyTorch", "Unsloth", "QLoRA / PEFT", "Hugging Face", "Modal", "Gradio", "Haystack", "Qdrant", "rank-bm25"]
 image: "/projects/urdu-llm-fine-tuning.webp"
 demoUrl: "https://huggingface.co/spaces/TayyabManan/urdu-llm-chat"

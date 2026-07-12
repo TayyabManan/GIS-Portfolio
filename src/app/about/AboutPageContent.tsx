@@ -10,6 +10,7 @@ import FAQ from '@/components/ui/FAQ'
 import { aboutFaqs } from '@/lib/faqs'
 import { DESKTOP_MOTION, MOTION, loadScrollCore } from '@/lib/gsap'
 import { useSectionReveal } from '@/components/effects/useSectionReveal'
+import { ScatterOutlier } from '@/components/effects/NotebookDoodles'
 
 const skills = [
   'Machine Learning & Deep Learning (PyTorch, TensorFlow)',
@@ -113,7 +114,7 @@ export default function AboutPage() {
 
   return (
     <div ref={rootRef} className="relative bg-[var(--background)] py-16 sm:py-24 min-h-[100dvh]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header - Left aligned */}
         <div className="mb-16 max-w-4xl">
           <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text)] mb-4">About Me</h1>
@@ -121,6 +122,12 @@ export default function AboutPage() {
             AI/ML Engineer building machine learning systems across Computer Vision, NLP,
             and Geospatial AI. Open to full-time AI/ML roles.
           </p>
+        </div>
+
+        {/* Notebook doodle in the header's right whitespace - the circled
+            outlier is a quiet self-portrait joke. No caption. */}
+        <div className="doodle absolute right-12 top-6 hidden w-32 xl:block">
+          <ScatterOutlier className="w-full" />
         </div>
 
         {/* Main Content */}

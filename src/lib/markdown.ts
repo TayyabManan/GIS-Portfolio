@@ -64,6 +64,8 @@ export function getProjectBySlug(slug: string): ProjectWithContent | null {
       image: data.image || '',
       demoUrl: data.demoUrl,
       githubUrl: data.githubUrl,
+      metric: data.metric,
+      metricChart: data.metricChart,
       featured: data.featured || false,
       date: data.date || '',
       content

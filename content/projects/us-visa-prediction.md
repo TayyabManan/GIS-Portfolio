@@ -4,6 +4,8 @@ title: "US Visa Approval Prediction"
 subtitle: "ML-Powered PERM Certification Predictor with SHAP Explainability"
 description: "Machine learning system that predicts US PERM labor certification outcomes and explains why using SHAP. Features a 5-stage MLOps pipeline, GridSearchCV across 5 boosting models, threshold-tuned Gradient Boosting, and a FastAPI backend with per-prediction explainability."
 category: "Machine Learning & MLOps"
+metric: "73.2% acc"
+metricChart: "hbars"
 techStack: ["Python", "Scikit-learn", "XGBoost", "LightGBM", "CatBoost", "SHAP", "FastAPI", "Docker"]
 image: "/projects/us-visa-prediction.webp"
 demoUrl: "https://huggingface.co/spaces/TayyabManan/visa_prediction"

@@ -4,6 +4,8 @@ title: "WaterTrace Pakistan"
 subtitle: "Groundwater Prediction Using Satellite Data and ML"
 description: "Machine learning system for groundwater monitoring and prediction in Pakistan, built on 22 years of satellite data (2002-2024) from GRACE and GLDAS. Features time-series forecasting with Gradient Boosting (R²=0.89), interactive district-level maps, and a Flask API for predictions."
 category: "Geospatial AI"
+metric: "R²=0.89"
+metricChart: "scatter-fit"
 techStack: ["React", "Flask", "Pandas", "Scikit-learn", "Google Earth Engine", "Leaflet", "Recharts", "Tailwind CSS"]
 image: "/projects/watertrace.webp"
 demoUrl: "https://watertrace.vercel.app"

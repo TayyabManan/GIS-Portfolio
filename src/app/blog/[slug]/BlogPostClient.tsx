@@ -71,7 +71,6 @@ export default function BlogPostClient({ post, adjacentPosts }: BlogPostClientPr
               { label: post.category, current: true },
             ]}
             size="sm"
-            animated={false}
           />
         </div>
 

@@ -4,6 +4,8 @@ title: "TeacherRank"
 subtitle: "Student-Driven Teacher Review Platform"
 description: "A teacher rating and review platform that lets students share structured feedback about educators across multiple dimensions, helping others make more informed decisions during course registration. Built with React, TypeScript, and Supabase."
 category: "Web Application"
+metric: "−60% bundle"
+metricChart: "bars-down"
 techStack: ["React", "TypeScript", "Supabase", "TanStack Query", "React Router", "Tailwind CSS", "DaisyUI", "Vite", "React Hook Form", "Zod"]
 image: "/projects/teacher-rank.png"
 demoUrl: "https://teacherrank.vercel.app/"

@@ -4,6 +4,8 @@ title: "Face Expression Detection"
 subtitle: "Deep Learning Emotion Recognition in Group Photos"
 description: "A deep learning web application that detects and classifies facial expressions in images. Built with PyTorch and Flask, featuring a ResNet-18 model trained on the RAF-DB dataset achieving 80% accuracy."
 category: "Computer Vision"
+metric: "80% acc"
+metricChart: "accuracy"
 techStack: ["Python", "PyTorch", "Flask", "MTCNN", "OpenCV", "ResNet-18", "Docker", "Hugging Face"]
 image: "/projects/face-expression-detection.webp"
 demoUrl: "https://huggingface.co/spaces/TayyabManan/face-expression-detection"

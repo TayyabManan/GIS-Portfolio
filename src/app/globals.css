@@ -10,6 +10,25 @@
   --shadow-sm: var(--elevation-sm);
   --shadow-md: var(--elevation-md);
   --shadow-lg: var(--elevation-lg);
+  /* Powers the font-mono utility (eyebrows, captions, metric chips, code).
+     var reference resolves per-element inside <body>, where next/font
+     defines --font-geist-mono. */
+  --font-mono: var(--font-geist-mono), ui-monospace, 'Consolas', 'Monaco', monospace;
+}
+
+/* Motion tokens - micro-interaction tier (boards: DESIGN_SYSTEM.md, Motion).
+   micro 150ms ease-out for state decorations; morph 300ms ease-morph for
+   container height/size changes; exits ~30% faster with ease-in (use bare
+   duration-100/duration-200 + ease-in, not a token). @theme registration
+   generates duration-micro / duration-morph / ease-morph utilities AND sets
+   --tw-duration/--tw-ease, which tw-animate-css's animate-in/out read.
+   `static` guarantees the vars are emitted for raw CSS rules that reference
+   them. JS mirror: src/lib/motion-tokens.ts. Scroll-reveal tier lives in
+   MOTION in src/lib/gsap.ts. */
+@theme static {
+  --transition-duration-micro: 150ms;
+  --transition-duration-morph: 300ms;
+  --ease-morph: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 /* Reset and base styles */
@@ -83,8 +102,17 @@ body {
   --error: #dc2626;
   --warning: #d97706;
 
-  /* Semantic aliases (accent=primary blue, info=primary; green/amber reserved for status) */
-  --accent: #3568d4;
+  /* Marker-lime accent family (personality layer - see DESIGN_SYSTEM.md).
+     Usage contract: --accent = the marker itself (highlight swipes, doodle
+     strokes, /15 chip washes - never body text, never buttons/borders/focus
+     outside the 404); --accent-ink = lime legible AS TEXT on the page bg;
+     --accent-contrast = text sitting ON solid lime; --accent-flood = the 404
+     page surface. Scarce on normal pages, loud only on delight pages.
+     info stays a primary alias; green/amber reserved for status. */
+  --accent: #d9f21e;
+  --accent-ink: #4d5e00;
+  --accent-contrast: #1c1917;
+  --accent-flood: #def33f;
   --info: #3568d4;
 
   /* Themed overlay/scrim for modals and menus */
@@ -128,8 +156,15 @@ body {
   --error: #f87171;
   --warning: #fbbf24;
 
-  /* Semantic aliases (accent=primary blue, info=primary) */
-  --accent: #5b8cdf;
+  /* Marker-lime accent family. --accent / --accent-ink keep the SAME lime as
+     light (#d9f21e) so lime elements read identically in both themes - the
+     dark background is dark enough for the bright lime to work as ink too.
+     Only --accent-flood adapts (a bright-lime 404 body would blow out on dark
+     and break nav-chrome contrast). */
+  --accent: #d9f21e;
+  --accent-ink: #d9f21e;
+  --accent-contrast: #1c1917;
+  --accent-flood: #2d330b;
   --info: #5b8cdf;
 
   /* Themed overlay/scrim for modals and menus */
@@ -223,9 +258,10 @@ p {
 /* Hero index pill hover (a GSAP-driven fill layer that slides up) is handled entirely inside
    src/components/sections/Hero.tsx - no global rule needed. */
 
-/* Code and pre elements */
+/* Code and pre elements. var-with-fallback keeps contexts without the body
+   font classes (e.g. global-error) on the Consolas stack. */
 code, pre {
-  font-family: 'Consolas', 'Monaco', monospace;
+  font-family: var(--font-geist-mono, 'Consolas'), 'Monaco', monospace;
   font-feature-settings: "liga" 1, "calt" 1;
 }
 
@@ -316,14 +352,19 @@ select {
   .no-print {
     @apply hidden;
   }
-  
+
   body {
     font-size: 12pt;
     line-height: 1.5;
   }
-  
+
   a {
     @apply underline;
+  }
+
+  /* Doodles are screen decoration, never document content */
+  [data-doodle] {
+    display: none;
   }
 }
 
@@ -348,7 +389,10 @@ select {
     --error: #cc0000;
     --warning: #cc6600;
     --info: #0066cc;
-    --accent: #0000ff;
+    --accent: #4d5e00;
+    --accent-ink: #3a4700;
+    --accent-contrast: #ffffff;
+    --accent-flood: #ffffff;
     --overlay: rgb(0 0 0 / 0.6);
 
     /* Stronger shadows for better depth perception */
@@ -375,6 +419,19 @@ select {
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 2px;
+  }
+
+  /* Personality layer degrades: no decorative ink, highlight becomes a plain
+     underline (the flood token is already white in this block) */
+  [data-doodle] {
+    display: none;
+  }
+  .marker-highlight {
+    color: inherit;
+    text-decoration: underline;
+  }
+  .marker-highlight::before {
+    background: transparent;
   }
 }
 
@@ -447,6 +504,148 @@ select {
   animation: heroRuleDraw 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) both;
 }
 
+/* === Personality layer (kill-boring pass; guardrails: DESIGN_SYSTEM.md) === */
+
+/* Notebook doodles: quiet ink on normal pages. Full-pressure ink exists only
+   on the 404/500 pages, which skip this class. */
+.doodle {
+  color: var(--text-tertiary);
+  opacity: 0.55;
+}
+[data-theme="dark"] .doodle {
+  /* strokes glow more against the dark stone - ease off */
+  opacity: 0.42;
+}
+
+/* Metric-chip charts are fully drawn at rest; the card re-sketches them via
+   WAAPI on pointer-enter (see ProjectCard - WAAPI so it bypasses the
+   reduced-motion zeroing and stays visible to everyone). dasharray just gives
+   the draw something to reveal. */
+.metric-chart [data-draw] {
+  stroke-dasharray: 100;
+}
+
+/* 404 flood scope: the one place the accent gets to be loud. Local ink vars
+   flip with the theme so the page needs no dark: classes; under high
+   contrast --accent-flood is white and the doodle is hidden, so the page
+   degrades to the plain HC palette automatically. */
+.flood-404 {
+  --on-flood: #1c1917;
+  --on-flood-strong: #1c1917;
+  --flood-btn-bg: #1c1917;
+  --flood-btn-ink: var(--accent);
+  --flood-btn-bg-hover: #2e2a26;
+  background-color: var(--accent-flood);
+}
+[data-theme="dark"] .flood-404 {
+  --on-flood: #e9f5c0;
+  --on-flood-strong: #d9f21e;
+  --flood-btn-bg: var(--accent);
+  --flood-btn-ink: #1c1917;
+  --flood-btn-bg-hover: #d4ee55;
+}
+@media (prefers-contrast: high) {
+  .flood-404 {
+    --on-flood: #000000;
+    --on-flood-strong: #000000;
+    --flood-btn-bg: #000000;
+    --flood-btn-ink: #ffffff;
+    --flood-btn-bg-hover: #333333;
+  }
+}
+
+/* The header reserves a 64px in-flow spacer above <main>; on the 404 that
+   band would punch a stone-colored strip above the flood. Paint the whole
+   shell backdrop lime while a flood page is mounted, and keep the nav's
+   scrolled pill on the flood surface too (a stone pill over lime reads as
+   a glitch). No :has() support -> the strip returns, the old look. */
+body:has(.flood-404) .site-shell {
+  background-color: var(--accent-flood);
+}
+body:has(.flood-404) .nav-surface {
+  background-color: var(--accent-flood);
+  border-color: transparent;
+}
+/* The flood page is its own full-bleed statement - the reveal footer would
+   just clutter the bottom of it. */
+body:has(.flood-404) .site-footer {
+  display: none;
+}
+/* Make the 404 fill exactly one screen with NO magic header-height number:
+   turn the shell into a flex column on the flood route so <main> takes the
+   leftover space under the (in-flow) header spacer. Without this, <main>'s
+   own min-h-[100dvh] plus that spacer always overflow the viewport. */
+.site-shell:has(.flood-404) {
+  display: flex;
+  flex-direction: column;
+}
+.site-shell:has(.flood-404) > main {
+  flex: 1;
+  min-height: 0;
+}
+
+/* The single normal-page lime moment: a marker swipe behind one word of the
+   hero lede. Uneven radii + slight rotation = the edge of a real highlighter. */
+.marker-highlight {
+  position: relative;
+  z-index: 0;
+  color: var(--accent-contrast);
+  white-space: nowrap;
+}
+.marker-highlight::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0.08em -0.18em -0.02em -0.14em;
+  background: var(--accent);
+  border-radius: 0.35em 0.5em 0.4em 0.55em / 0.5em 0.35em 0.55em 0.4em;
+  transform: rotate(-1.1deg);
+}
+
+/* === Micro-interactions (keyframe boards: DESIGN_SYSTEM.md, Motion) ===
+   Feedback-tier polish: plain CSS, deliberately zeroed by the reduced-motion
+   gate below - every end state must stand alone as an instant snap. */
+
+/* Icon swap on remount: put key={state} + .icon-swap-in on an icon so React
+   remounting replays the pop. Consumers: CodeBlock copy, ShareButtons copy
+   row, Toast icon on variant change. */
+@keyframes iconSwapIn {
+  from { opacity: 0; scale: 0.5; }
+  to { opacity: 1; scale: 1; }
+}
+.icon-swap-in {
+  animation: iconSwapIn var(--transition-duration-micro) ease-out;
+}
+
+/* Theme toggle morph (board: moon-resting <-> sun-resting). Both icons render
+   stacked in the Header buttons; visibility is driven by the html[data-theme]
+   attribute, NOT React state, so the resting icon is correct pre-hydration
+   (ThemeContext initializes 'light' and only resolves after mount). Icons
+   counter-rotate a quarter turn while cross-fading. */
+.theme-icon-sun,
+.theme-icon-moon {
+  transition: opacity var(--transition-duration-micro) ease-out,
+              rotate var(--transition-duration-micro) ease-out,
+              scale var(--transition-duration-micro) ease-out;
+}
+.theme-icon-sun { opacity: 0; rotate: 90deg; scale: 0.75; }
+[data-theme="dark"] .theme-icon-sun { opacity: 1; rotate: 0deg; scale: 1; }
+[data-theme="dark"] .theme-icon-moon { opacity: 0; rotate: -90deg; scale: 0.75; }
+
+/* FAQ <details> height morph - progressive enhancement, Chromium 129+ only.
+   Other browsers keep the instant native toggle (the details/summary markup
+   stays crawlable and JS-free by design - see FAQ.tsx). */
+@supports (interpolate-size: allow-keywords) {
+  details { interpolate-size: allow-keywords; }
+  details::details-content {
+    height: 0;
+    overflow: clip;
+    transition: height var(--transition-duration-morph) var(--ease-morph),
+                content-visibility var(--transition-duration-morph) allow-discrete;
+  }
+  details[open]::details-content { height: auto; }
+}
+
 /* Respect user's reduced motion preference. Subtrees marked data-essential-motion
    are exempt: WCAG treats status indication (e.g. the chat typing dots) as
    essential motion that may keep animating. Keep the attribute rare and small. */
@@ -460,6 +659,13 @@ select {
   .animate-shimmer {
     animation: none;
     background: var(--background-tertiary);
+  }
+
+  /* The universal rule above matches elements only, not pseudo-elements, so
+     the FAQ ::details-content height morph must be zeroed explicitly.
+     Browsers without ::details-content simply drop this rule. */
+  details::details-content {
+    transition-duration: 0.01ms !important;
   }
 }
 

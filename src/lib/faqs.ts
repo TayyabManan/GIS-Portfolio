@@ -133,6 +133,6 @@ export const contactFaqs: FaqItem[] = [
   {
     question: 'What’s the best way to reach you?',
     answer:
-      'Use the form on this page or email me directly. My LinkedIn, GitHub, and Upwork profiles are linked here too.',
+      'Use the form on this page or email me directly. My LinkedIn and GitHub profiles are linked here too.',
   },
 ]

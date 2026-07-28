@@ -289,7 +289,9 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <div className="absolute right-4 top-3 text-xs text-[var(--text-tertiary)]">
+        {/* Keyboard hints are desktop-only - touch devices have no ESC key, and
+            the badge crowds the input at narrow widths. */}
+        <div className="absolute right-4 top-3 hidden text-xs text-[var(--text-tertiary)] sm:block">
           Press <kbd className="px-1.5 py-0.5 bg-[var(--background-secondary)] rounded">ESC</kbd> to close
         </div>
       </div>
@@ -374,8 +376,9 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
         </div>
       )}
 
-      {/* Footer */}
-      <div className="flex items-center justify-between border-t border-[var(--border)] bg-[var(--background-secondary)] px-4 py-2.5 text-xs text-[var(--text-secondary)]">
+      {/* Footer - keyboard legend only, so it's hidden entirely on touch widths
+          rather than left as an empty bar. */}
+      <div className="hidden items-center justify-between border-t border-[var(--border)] bg-[var(--background-secondary)] px-4 py-2.5 text-xs text-[var(--text-secondary)] sm:flex">
         <div className="flex gap-2">
           <span>Navigate</span>
           <kbd className="px-1.5 py-0.5 bg-[var(--background)] rounded">↑↓</kbd>

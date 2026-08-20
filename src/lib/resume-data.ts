@@ -454,6 +454,25 @@ export const resumeData: ResumeData = {
 
   projects: [
     {
+      name: "MLOps Platform, Bring Your Own Model",
+      description:
+        "Self-serve MLOps platform on OpenShift turning an unedited notebook or an externally trained model file into a versioned, evaluated, and monitored deployment",
+      technologies: [
+        "OpenShift",
+        "Kubernetes",
+        "Argo CD",
+        "GitOps",
+        "MLflow",
+        "Python",
+        "Jupyter",
+      ],
+      highlights: [
+        "Built a self-serve platform where an unedited notebook or an externally trained model file becomes a versioned, evaluated and monitored deployment; 23 model versions across 19 models, 9 serving live in production",
+        "Eliminated train/serve version skew by executing uploaded code on the serving image itself, contained in a pod with no service-account token, no secrets, and a 30-minute / 4 Gi fence",
+        "Gated every serving change behind a reviewed pull request carrying the requester's identity (Argo CD GitOps), with a seeded 20% holdout scored per run, drift alerting, and MLflow mirroring within 2 minutes",
+      ],
+    },
+    {
       name: "Urdu LLM Fine-Tuning",
       description:
         "QLoRA fine-tuning of Qwen 2.5 7B Instruct for natural Urdu, Roman Urdu, and Urdu/English code-mixed chat, with RAG-aware retrieval over Urdu Wikipedia",

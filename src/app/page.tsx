@@ -2,7 +2,6 @@ import { Metadata } from 'next'
 import Hero from '@/components/sections/Hero'
 import Education from '@/components/sections/Education'
 import FeaturedProjects from '@/components/sections/FeaturedProjects'
-import CurrentlyLearning from '@/components/sections/CurrentlyLearning'
 import CallToAction from '@/components/sections/CallToAction'
 import HomeScrollEffects from '@/components/effects/HomeScrollEffects'
 import FAQ from '@/components/ui/FAQ'
@@ -63,13 +62,12 @@ export default function HomePage() {
       {/* Client wrapper scroll-reveals these server sections via their data-reveal-* attributes */}
       <HomeScrollEffects>
         <Education />
-        <CurrentlyLearning />
         {/* FAQ + CTA sit side by side on desktop so the CTA fills the space to
             the right of the FAQ; they stack on mobile/tablet. */}
         <section className="relative border-t border-[var(--border)] py-16 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:items-start lg:gap-14">
-              <FAQ items={homeFaqs} eyebrow={{ index: '04', label: 'Q&A' }} />
+              <FAQ items={homeFaqs} eyebrow={{ index: '03', label: 'Q&A' }} />
               <div className="lg:sticky lg:top-24 lg:self-start">
                 <CallToAction />
               </div>

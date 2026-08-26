@@ -30,7 +30,7 @@ export default function OpengraphImage() {
             fontWeight: 600,
             letterSpacing: 6,
             textTransform: 'uppercase',
-            color: '#5b8cdf',
+            color: '#d9f21e',
           }}
         >
           AI/ML Engineer

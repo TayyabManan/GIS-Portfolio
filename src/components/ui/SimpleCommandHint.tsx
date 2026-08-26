@@ -96,7 +96,7 @@ export function SimpleCommandHint() {
 
   return (
     <div className="fixed bottom-4 right-4 z-50 animate-fade-in">
-      <div className="relative bg-[var(--primary)] text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-200">
+      <div className="relative bg-[var(--primary)] text-[var(--on-primary)] rounded-lg shadow-lg hover:shadow-xl transition-all duration-200">
         <div className="flex items-center">
           <button
             onClick={openCommandPalette}
@@ -116,7 +116,7 @@ export function SimpleCommandHint() {
             aria-label="Dismiss hint"
             title="Dismiss for 30 seconds"
           >
-            <XMarkIcon className="w-4 h-4 text-white opacity-70 group-hover:opacity-100" />
+            <XMarkIcon className="w-4 h-4 text-[var(--on-primary)] opacity-70 group-hover:opacity-100" />
           </button>
         </div>
       </div>

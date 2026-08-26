@@ -117,7 +117,7 @@ export default function AboutPage() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header - Left aligned */}
         <div className="mb-16 max-w-4xl">
-          <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text)] mb-4">About Me</h1>
+          <h1 className="text-4xl sm:text-5xl font-semibold text-[var(--text)] mb-4">About Me</h1>
           <p className="text-xl text-[var(--text-secondary)]">
             AI/ML Engineer building machine learning systems across Computer Vision, NLP,
             and Geospatial AI. Open to full-time AI/ML roles.
@@ -135,8 +135,8 @@ export default function AboutPage() {
           {/* Bio & Skills - Left side on desktop, order-1 on mobile */}
           <div className="lg:col-span-2 space-y-8 order-2 lg:order-1">
             <section>
-              <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4">About My Journey</h2>
-              <div className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed space-y-4 text-justify hyphens-auto">
+              <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)] mb-4">About My Journey</h2>
+              <div className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed space-y-4">
                 <p>
                   I got into AI through an unusual path: geography. During my Bachelor&apos;s in GIS at Punjab University,
                   I spent a lot of time working with satellite imagery and spatial data. At some point I realized the most
@@ -159,7 +159,7 @@ export default function AboutPage() {
             </section>
 
             <section>
-              <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-4">Core Competencies</h2>
+              <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)] mb-4">Core Competencies</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {skills.map((skill) => (
                   <div key={skill} className="flex items-center gap-3">
@@ -203,7 +203,7 @@ export default function AboutPage() {
           <section>
             <div className="flex items-center gap-3 mb-6">
               <AcademicCapIcon className="h-6 w-6 text-[var(--primary)]" />
-              <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)]">Education</h2>
+              <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)]">Education</h2>
             </div>
             <div className="space-y-6">
               {education.map((edu, index) => (
@@ -217,9 +217,9 @@ export default function AboutPage() {
                   />
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="text-lg font-semibold text-[var(--text)]">{edu.degree}</h3>
-                    <span className="text-sm text-[var(--primary)] font-medium">{edu.year}</span>
+                    <span className="font-mono text-xs font-medium tracking-[0.08em] text-[var(--text-tertiary)]">{edu.year}</span>
                   </div>
-                  <p className="text-[var(--primary)] font-medium mb-2">{edu.school}</p>
+                  <p className="text-[var(--text-secondary)] font-medium mb-2">{edu.school}</p>
                   <p className="text-[var(--text-secondary)]">{edu.description}</p>
                 </div>
               ))}
@@ -230,7 +230,7 @@ export default function AboutPage() {
           <section>
             <div className="flex items-center gap-3 mb-6">
               <BriefcaseIcon className="h-6 w-6 text-[var(--primary)]" />
-              <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)]">Experience</h2>
+              <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)]">Experience</h2>
             </div>
             <div className="space-y-6">
               {experience.map((exp, index) => (
@@ -244,9 +244,9 @@ export default function AboutPage() {
                   />
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="text-lg font-semibold text-[var(--text)]">{exp.role}</h3>
-                    <span className="text-sm text-[var(--primary)] font-medium">{exp.period}</span>
+                    <span className="font-mono text-xs font-medium tracking-[0.08em] text-[var(--text-tertiary)]">{exp.period}</span>
                   </div>
-                  <p className="text-[var(--primary)] font-medium mb-2">{exp.company}</p>
+                  <p className="text-[var(--text-secondary)] font-medium mb-2">{exp.company}</p>
                   <p className="text-[var(--text-secondary)]">{exp.description}</p>
                 </div>
               ))}
@@ -258,7 +258,7 @@ export default function AboutPage() {
         <section data-reveal-group className="mt-12">
           <div data-reveal="heading" className="flex items-center gap-3 mb-6">
             <CheckBadgeIcon className="h-6 w-6 text-[var(--primary)]" />
-            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)]">Certifications</h2>
+            <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)]">Certifications</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {resumeData.certifications.map((cert, index) => (
@@ -270,7 +270,7 @@ export default function AboutPage() {
                 ) : (
                   <h3 className="text-lg font-semibold text-[var(--text)] mb-1">{cert.name}</h3>
                 )}
-                <p className="text-[var(--primary)] font-medium mb-1">{cert.issuer}</p>
+                <p className="text-[var(--text-secondary)] font-medium mb-1">{cert.issuer}</p>
                 <p className="text-sm text-[var(--text-secondary)]">{formatDate(cert.date)}</p>
               </div>
             ))}
@@ -283,14 +283,14 @@ export default function AboutPage() {
           <FAQ items={aboutFaqs} />
           <div className="lg:sticky lg:top-24 lg:self-start">
             <div className="rounded-2xl border border-[var(--border)] bg-[var(--background-secondary)] p-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text)] mb-3">Let&apos;s Work Together</h2>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-[var(--text)] mb-3">Let&apos;s Work Together</h2>
               <p className="text-[var(--text-secondary)] mb-6 text-base sm:text-lg">
                 I&apos;m always up for new opportunities, collaborating on ML projects, or just trading
                 notes on machine learning, computer vision, and MLOps.
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-[var(--primary)] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[var(--primary-hover)] transition-all duration-200"
+                className="inline-flex items-center gap-2 bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 rounded-lg font-semibold hover:bg-[var(--primary-hover)] transition-all duration-200"
               >
                 Get in Touch
                 <span aria-hidden="true">→</span>

@@ -188,7 +188,7 @@ export default function ResumeChatbot() {
       <div className={`fixed bottom-4 right-4 z-[100] ${isOpen ? 'hidden' : 'block'}`}>
         <button
           onClick={handleOpen}
-          className="relative bg-[var(--primary)] text-white p-4 rounded-full shadow-lg hover:bg-[var(--primary-hover)] transition-all duration-300 group"
+          className="relative bg-[var(--primary)] text-[var(--on-primary)] p-4 rounded-full shadow-lg hover:bg-[var(--primary-hover)] transition-all duration-300 group"
           aria-label="Open resume assistant"
         >
           <ChatBubbleLeftRightIcon className="h-6 w-6" />
@@ -281,7 +281,7 @@ export default function ResumeChatbot() {
                     <div
                       className={`max-w-[80%] rounded-lg px-4 py-2 ${
                         message.role === 'user'
-                          ? 'bg-[var(--primary)] text-white'
+                          ? 'bg-[var(--primary)] text-[var(--on-primary)]'
                           : 'bg-[var(--background-secondary)] text-[var(--text)]'
                       }`}
                     >
@@ -376,7 +376,7 @@ export default function ResumeChatbot() {
                   <button
                     type="submit"
                     disabled={isLoading || !input.trim()}
-                    className="p-2.5 min-h-[44px] min-w-[44px] bg-[var(--primary)] text-white rounded-lg hover:bg-[var(--primary-hover)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    className="p-2.5 min-h-[44px] min-w-[44px] bg-[var(--primary)] text-[var(--on-primary)] rounded-lg hover:bg-[var(--primary-hover)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                   >
                     <PaperAirplaneIcon className="h-5 w-5" />
                   </button>

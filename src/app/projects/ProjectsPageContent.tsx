@@ -34,7 +34,7 @@ export default function ProjectsPageContent({ projects }: ProjectsPageContentPro
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header - Left aligned */}
         <div className="mb-12 max-w-4xl">
-          <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text)] mb-4">ML & AI Projects</h1>
+          <h1 className="text-4xl sm:text-5xl font-semibold text-[var(--text)] mb-4">ML & AI Projects</h1>
           <p className="text-lg sm:text-xl text-[var(--text-secondary)]">
             A collection of machine learning and AI projects demonstrating expertise in computer vision,
             NLP, geospatial AI, and MLOps, turning complex data into production-ready systems.
@@ -63,7 +63,7 @@ export default function ProjectsPageContent({ projects }: ProjectsPageContentPro
             <p className="text-[var(--text-secondary)] mb-4">No projects in this category yet.</p>
             <button
               onClick={() => setSelectedCategory('All')}
-              className="text-[var(--primary)] font-medium hover:underline"
+              className="font-medium text-[var(--text)] underline decoration-[var(--text)]/30 underline-offset-[0.15em] transition-[text-decoration-color] duration-200 hover:decoration-[var(--text)]"
             >
               Show all projects
             </button>

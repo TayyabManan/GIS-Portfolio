@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { ArrowLeftIcon, ArrowRightIcon, ArrowTopRightOnSquareIcon, CodeBracketIcon, CalendarIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import { DynamicReactMarkdown } from '@/lib/dynamic-imports'
+import { readingComponents, READING_BODY_CLASS } from '@/lib/reading-prose'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import ShareButtons from '@/components/ui/ShareButtons'
 import BackToTop from '@/components/ui/BackToTop'
@@ -41,8 +42,8 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
   return (
     <>
       <div className="min-h-[100dvh] py-16 sm:py-24 bg-[var(--background)]">
-        {/* px-6 on mobile (not the site's usual px-4): long-form justified prose runs
-            flush to both gutter edges, so reading pages get a wider 24px gutter. */}
+        {/* px-6 on mobile (not the site's usual px-4): reading pages get a wider
+            24px gutter so the measure breathes at the edges. */}
         <div className="mx-auto max-w-4xl px-6 lg:px-8">
           {/* Breadcrumbs */}
           <div className="mb-8">
@@ -59,7 +60,7 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
           <article>
             {/* Header */}
             <header className="mb-8">
-              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-[var(--text)] mb-4">
+              <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--text)] mb-4">
                 {project.title}
               </h1>
 
@@ -143,7 +144,7 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
                     href={project.demoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center bg-[var(--primary)] text-white px-6 py-3 rounded-lg text-sm font-medium hover:bg-[var(--primary-hover)] transition-colors"
+                    className="inline-flex items-center bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 rounded-lg text-sm font-medium hover:bg-[var(--primary-hover)] transition-colors"
                   >
                     <ArrowTopRightOnSquareIcon className="h-4 w-4 mr-2" />
                     Live Demo
@@ -164,72 +165,9 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
             )}
 
             {/* Content */}
-            <div className="max-w-none">
+            <div className={READING_BODY_CLASS}>
               <DynamicReactMarkdown
-                components={{
-                  // The styled <header> above is the page's sole <h1>; any stray
-                  // `#` in the body renders as <h2> so hierarchy stays single-H1.
-                  h1: ({ children }) => (
-                    <h2 className="text-3xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
-                      {children}
-                    </h2>
-                  ),
-                  h2: ({ children }) => (
-                    <h2 className="text-2xl font-bold tracking-tight text-[var(--text)] mt-8 mb-4">
-                      {children}
-                    </h2>
-                  ),
-                  h3: ({ children }) => (
-                    <h3 className="text-xl font-bold tracking-tight text-[var(--text)] mt-6 mb-3">
-                      {children}
-                    </h3>
-                  ),
-                  p: ({ children }) => (
-                    <p className="text-base text-[var(--text-secondary)] leading-relaxed mb-4 text-justify hyphens-auto">
-                      {children}
-                    </p>
-                  ),
-                  ul: ({ children }) => (
-                    <ul className="list-disc list-inside space-y-2 mb-4 text-[var(--text-secondary)]">
-                      {children}
-                    </ul>
-                  ),
-                  ol: ({ children }) => (
-                    <ol className="list-decimal list-inside space-y-2 mb-4 text-[var(--text-secondary)]">
-                      {children}
-                    </ol>
-                  ),
-                  li: ({ children }) => (
-                    <li className="text-base leading-relaxed">{children}</li>
-                  ),
-                  strong: ({ children }) => (
-                    <strong className="font-semibold text-[var(--text)]">{children}</strong>
-                  ),
-                  a: ({ href, children }) => (
-                    <a
-                      href={href}
-                      className="text-[var(--primary)] hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {children}
-                    </a>
-                  ),
-                  table: ({ children }) => (
-                    <div className="overflow-x-auto my-6 rounded-lg border border-[var(--border)]">
-                      <table className="w-full text-sm">{children}</table>
-                    </div>
-                  ),
-                  thead: ({ children }) => (
-                    <thead className="bg-[var(--background-tertiary)]">{children}</thead>
-                  ),
-                  th: ({ children }) => (
-                    <th className="px-4 py-3 text-left font-semibold text-[var(--text)] border-b border-[var(--border)]">{children}</th>
-                  ),
-                  td: ({ children }) => (
-                    <td className="px-4 py-3 text-[var(--text-secondary)] border-b border-[var(--border)]">{children}</td>
-                  ),
-                }}
+                components={readingComponents()}
               >
                 {project.content}
               </DynamicReactMarkdown>

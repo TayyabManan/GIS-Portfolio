@@ -6,8 +6,10 @@ import { type Project } from '@/lib/projects'
  * Composed DOM in the site's own system (server-renderable, theme-aware,
  * zero image bytes): category in the mono annotation voice, the project's
  * notebook cover chart as the art, and the real published metric with its
- * axis caption. Raw screenshots stay on the project detail pages, where
- * they are evidence rather than decoration.
+ * axis caption. Detail heroes / blog headers / OG cards use the matching
+ * generated cover IMAGES (scripts/generate-covers.mjs); raw screenshots
+ * live in git history and, where one earns its place, inside markdown
+ * bodies - never as a cover.
  *
  * The chart's data ink is the card's slot in the closed lime budget (it
  * absorbed the metric-chip sparkline). The metric is real content - never

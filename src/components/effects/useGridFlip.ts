@@ -99,7 +99,6 @@ export function useGridFlip(itemsKey: string) {
         gsap.set(targets, { clearProps: 'transform,opacity,visibility,width,height' })
       },
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemsKey])
 
   return { gridRef, capture }

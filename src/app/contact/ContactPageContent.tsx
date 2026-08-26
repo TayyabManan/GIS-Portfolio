@@ -121,7 +121,7 @@ export default function ContactPageContent() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header - Left aligned */}
         <div className="mb-16 max-w-4xl">
-          <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text)] mb-4">
+          <h1 className="text-4xl sm:text-5xl font-semibold text-[var(--text)] mb-4">
             Get in Touch
           </h1>
           <p className="text-lg sm:text-xl text-[var(--text-secondary)]">
@@ -132,7 +132,7 @@ export default function ContactPageContent() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-6">
+            <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)] mb-6">
               Contact Information
             </h2>
 
@@ -209,7 +209,7 @@ export default function ContactPageContent() {
           {/* Contact Form */}
           <div>
             <div className="bg-[var(--background-secondary)] p-6 sm:p-8 rounded-xl">
-              <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text)] mb-6">
+              <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)] mb-6">
                 Send a Message
               </h2>
 
@@ -384,7 +384,7 @@ export default function ContactPageContent() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[var(--primary)] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-[var(--primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 active:scale-[0.98] transition-[background-color,transform] duration-200"
+                  className="w-full bg-[var(--primary)] text-[var(--on-primary)] px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-[var(--primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 active:scale-[0.98] transition-[background-color,transform] duration-200"
                 >
                   {isSubmitting && (
                     <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">

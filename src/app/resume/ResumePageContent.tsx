@@ -30,17 +30,17 @@ export default function ResumePageContent() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
             <div className="mb-4 sm:mb-0">
-              <h1 className="text-xl sm:text-2xl font-bold text-[var(--text)]">Resume</h1>
+              <h1 className="text-xl sm:text-2xl font-semibold text-[var(--text)]">Resume</h1>
               <p className="text-sm sm:text-base text-[var(--text-secondary)]">Tayyab Manan - AI/ML Engineer</p>
             </div>
             <button
               onClick={downloadPDF}
               disabled={downloading}
-              className="inline-flex items-center px-6 py-3 border border-transparent text-sm sm:text-base font-semibold rounded-lg text-white bg-[var(--primary)] hover:bg-[var(--primary-hover)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] disabled:opacity-50 transition-colors"
+              className="inline-flex items-center px-6 py-3 border border-transparent text-sm sm:text-base font-semibold rounded-lg text-[var(--on-primary)] bg-[var(--primary)] hover:bg-[var(--primary-hover)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] disabled:opacity-50 transition-colors"
             >
               {downloading ? (
                 <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
                   Generating PDF...
                 </>
               ) : (
@@ -59,7 +59,7 @@ export default function ResumePageContent() {
         <div className="bg-[var(--background)] rounded-xl border border-[var(--border)] shadow-sm p-6 sm:p-8" id="resume-content">
           {/* Header Section */}
           <div className="text-center mb-8 pb-6 border-b-2 border-[var(--primary)]">
-            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text)] mb-2">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-[var(--text)] mb-2">
               {resumeData.personalInfo.name.toUpperCase()}
             </h2>
             <p className="text-base sm:text-lg text-[var(--text-secondary)] mb-4">

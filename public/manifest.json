@@ -4,8 +4,8 @@
   "description": "AI/ML Engineer specializing in Computer Vision, NLP, and Geospatial AI. Portfolio showcasing production ML projects built with PyTorch, TensorFlow, and LangChain. Open to full-time AI/ML roles.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#3568d4",
+  "background_color": "#fafaf9",
+  "theme_color": "#1c1917",
   "orientation": "portrait-primary",
   "scope": "/",
   "icons": [

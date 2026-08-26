@@ -13,7 +13,7 @@ export default function CallToAction() {
       data-reveal-stagger="0.12"
       className="rounded-2xl border border-[var(--border)] bg-[var(--background-secondary)] p-8 sm:p-10"
     >
-      <h2 data-reveal="item" className="text-2xl sm:text-3xl font-bold text-[var(--text)] mb-3">
+      <h2 data-reveal="item" className="text-2xl sm:text-3xl font-semibold text-[var(--text)] mb-3">
         Interested in collaborating?
       </h2>
       <p data-reveal="item" className="text-base sm:text-lg text-[var(--text-secondary)] mb-6">
@@ -23,7 +23,7 @@ export default function CallToAction() {
       <div data-reveal="item">
         <Link
           href="/contact"
-          className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3.5 text-base font-semibold text-white transition-all duration-200 hover:bg-[var(--primary-hover)]"
+          className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3.5 text-base font-semibold text-[var(--on-primary)] transition-all duration-200 hover:bg-[var(--primary-hover)]"
         >
           Get in Touch
           <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />

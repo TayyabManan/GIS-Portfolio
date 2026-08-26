@@ -24,7 +24,7 @@ function FaqHeader({ title, description, eyebrow }: { title: string; description
   return (
     <>
       {eyebrow && <Eyebrow index={eyebrow.index}>{eyebrow.label}</Eyebrow>}
-      <h2 id="faq-heading" className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text)]">
+      <h2 id="faq-heading" className="text-3xl sm:text-4xl font-semibold tracking-tight text-[var(--text)]">
         {title}
       </h2>
       <div className="mt-4 h-1 w-12 rounded-full bg-[var(--primary)]" />

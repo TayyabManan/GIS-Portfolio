@@ -11,15 +11,17 @@
  */
 export const themes = {
   light: {
-    primary: '#3568d4',
-    primaryHover: '#2952b3',
-    primaryLight: '#eef2fa',
+    primary: '#292524',
+    primaryHover: '#3f3b36',
+    primaryLight: '#e9e7e4',
+    onPrimary: '#fafaf9',
 
     background: '#fafaf9',
     backgroundSecondary: '#f5f5f4',
     backgroundTertiary: '#e7e5e4',
 
-    text: '#1c1917',
+    text: '#292524',
+    textReading: '#423d37',
     textSecondary: '#57534e',
     textTertiary: '#78716c',
 

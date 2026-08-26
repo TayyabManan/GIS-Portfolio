@@ -57,7 +57,6 @@ export default function WiggleLine() {
       window.removeEventListener('resize', onResize)
       if (reqId.current) cancelAnimationFrame(reqId.current)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const lerp = (a: number, b: number, t: number) => a * (1 - t) + b * t

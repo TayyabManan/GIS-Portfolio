@@ -1,19 +1,22 @@
 import type { Metadata } from 'next'
-import { Bricolage_Grotesque, Geist, Geist_Mono } from 'next/font/google'
+import { Bricolage_Grotesque, Hanken_Grotesk, IBM_Plex_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import ClientLayout from '@/components/ClientLayout'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
-import { themes } from '@/lib/themes'
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider'
 import './globals.css'
 
 
+// Display voice. Variable font with the opsz axis loaded: Bricolage carries
+// three optical cuts (12-96), so the hero's 10rem headline gets the tightened
+// display cut and small headings the readable text cut - no manual tracking
+// heroics needed (typography pass, Aug 2026).
 const bricolageGrotesque = Bricolage_Grotesque({
   subsets: ['latin'],
-  weight: ['500', '600', '700'],
+  axes: ['opsz'],
   variable: '--font-heading',
   display: 'swap',
   preload: true,
@@ -21,8 +24,12 @@ const bricolageGrotesque = Bricolage_Grotesque({
   adjustFontFallback: true,
 })
 
-const geist = Geist({
+// Body voice: warm humanist grotesque (replaced Geist - Vercel's brand font
+// read as borrowed identity to the design-literate, and its cool Swiss tone
+// fought the warm stone palette). Full italics for prose emphasis.
+const hankenGrotesk = Hanken_Grotesk({
   subsets: ['latin'],
+  style: ['normal', 'italic'],
   variable: '--font-body',
   display: 'swap',
   preload: true,
@@ -30,15 +37,17 @@ const geist = Geist({
   adjustFontFallback: true,
 })
 
-// Annotation voice: eyebrows, doodle captions, metric chips, code blocks.
-// Variable is --font-geist-mono (NOT --font-mono) on purpose: Tailwind's
-// @theme key --font-mono in globals.css maps to it, and naming both the same
-// would make the emitted --default-mono-font-family self-referential.
-// preload: false - all mono usage sits below the fold; swap + metric-adjusted
-// fallback keeps the late paint shift-free.
-const geistMono = Geist_Mono({
+// Annotation voice: eyebrows, doodle captions, cover metrics, code blocks
+// (replaced Geist Mono in the same pass as the body swap - the Geist pair is
+// the recognizable Vercel signature; Plex Mono carries genuine engineering-
+// document lineage that suits the lab-notebook identity). Variable is
+// --font-plex-mono (NOT --font-mono): the Tailwind @theme key --font-mono
+// maps to it, and naming both the same would make the emitted default
+// self-referential. preload: false - all mono usage sits below the fold.
+const plexMono = IBM_Plex_Mono({
   subsets: ['latin'],
-  variable: '--font-geist-mono',
+  weight: ['400', '500'],
+  variable: '--font-plex-mono',
   display: 'swap',
   preload: false,
   fallback: ['Consolas', 'Monaco', 'monospace'],
@@ -131,7 +140,9 @@ export const metadata: Metadata = {
       {
         rel: 'mask-icon',
         url: '/logo.svg',
-        color: themes.light.primary,
+        // Brand ink (deepest), matching logo.svg/manifest - deliberately NOT
+        // themes.light.primary, which is the softened UI ink (#292524).
+        color: '#1c1917',
       },
     ],
   },
@@ -388,11 +399,11 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
       </head>
-      <body className={`${geist.variable} ${bricolageGrotesque.variable} ${geistMono.variable} ${geist.className}`} suppressHydrationWarning>
+      <body className={`${hankenGrotesk.variable} ${bricolageGrotesque.variable} ${plexMono.variable} ${hankenGrotesk.className}`} suppressHydrationWarning>
         {/* Skip to main content link for screen readers */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--primary)] focus:text-white focus:rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)]"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--primary)] focus:text-[var(--on-primary)] focus:rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)]"
         >
           Skip to main content
         </a>

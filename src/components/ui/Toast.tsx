@@ -36,7 +36,7 @@ const toastVariants = cva(
         destructive: 'before:bg-[var(--error)]',
         success: 'before:bg-[var(--success)]',
         warning: 'before:bg-[var(--warning)]',
-        info: 'before:bg-[var(--primary)]',
+        info: 'before:bg-[var(--info)]',
       },
     },
     defaultVariants: {

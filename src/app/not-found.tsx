@@ -31,10 +31,10 @@ export default function NotFound() {
 
       {/* Headline block */}
       <div className="max-w-xl">
-        <h1 className="text-6xl sm:text-7xl font-bold text-[var(--on-flood-strong)] mb-2">
+        <h1 className="text-6xl sm:text-7xl font-semibold text-[var(--on-flood-strong)] mb-2">
           404
         </h1>
-        <h2 className="text-2xl sm:text-3xl font-bold text-[var(--on-flood)] mb-3">
+        <h2 className="text-2xl sm:text-3xl font-semibold text-[var(--on-flood)] mb-3">
           This page is the outlier.
         </h2>
         <p className="text-base sm:text-lg text-[var(--on-flood)]/80">

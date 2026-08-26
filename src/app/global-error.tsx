@@ -69,7 +69,7 @@ export default function GlobalError({
               style={{
                 cursor: 'pointer',
                 background: themes.light.primary,
-                color: '#ffffff',
+                color: themes.light.onPrimary,
                 border: 'none',
                 padding: '0.75rem 1.5rem',
                 borderRadius: '0.5rem',

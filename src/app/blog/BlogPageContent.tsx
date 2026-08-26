@@ -37,7 +37,7 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header - Left aligned */}
         <div className="mb-12 max-w-4xl">
-          <h1 className="text-4xl sm:text-5xl font-bold text-[var(--text)] mb-4">
+          <h1 className="text-4xl sm:text-5xl font-semibold text-[var(--text)] mb-4">
             AI/ML Engineering, Built in Public
           </h1>
           <p className="text-lg sm:text-xl text-[var(--text-secondary)]">
@@ -68,14 +68,14 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
             {selectedCategory !== 'all' ? (
               <button
                 onClick={() => setSelectedCategory('all')}
-                className="text-[var(--primary)] font-medium hover:underline"
+                className="font-medium text-[var(--text)] underline decoration-[var(--text)]/30 underline-offset-[0.15em] transition-[text-decoration-color] duration-200 hover:decoration-[var(--text)]"
               >
                 Show all posts
               </button>
             ) : (
               <Link
                 href="/projects"
-                className="text-[var(--primary)] font-medium hover:underline"
+                className="font-medium text-[var(--text)] underline decoration-[var(--text)]/30 underline-offset-[0.15em] transition-[text-decoration-color] duration-200 hover:decoration-[var(--text)]"
               >
                 Browse projects instead
               </Link>

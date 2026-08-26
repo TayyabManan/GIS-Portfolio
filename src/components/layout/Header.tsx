@@ -230,7 +230,7 @@ export default function Header() {
             {/* Resume Button */}
             <Link
               href="/resume"
-              className="ml-2 px-4 lg:px-5 py-2 text-white font-medium text-sm lg:text-base rounded-lg transition-all duration-200 flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)]"
+              className="ml-2 px-4 lg:px-5 py-2 text-[var(--on-primary)] font-medium text-sm lg:text-base rounded-lg transition-all duration-200 flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)]"
             >
               Resume
               <ChatBubbleLeftRightIcon className="h-4 w-4" />
@@ -402,7 +402,7 @@ export default function Header() {
               <Link
                 href="/resume"
                 role="menuitem"
-                className="flex items-center justify-center px-4 py-3 mt-2 text-white font-medium rounded-lg transition-all duration-200 active:scale-[0.98] gap-2 bg-[var(--primary)] active:bg-[var(--primary-hover)]"
+                className="flex items-center justify-center px-4 py-3 mt-2 text-[var(--on-primary)] font-medium rounded-lg transition-all duration-200 active:scale-[0.98] gap-2 bg-[var(--primary)] active:bg-[var(--primary-hover)]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Resume

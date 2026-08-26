@@ -32,7 +32,7 @@ export class ErrorBoundary extends Component<Props, State> {
         this.props.fallback || (
           <div className="min-h-[100dvh] flex items-center justify-center bg-[var(--background)]">
             <div className="text-center p-8">
-              <h2 className="text-2xl font-bold text-[var(--text)] mb-4">
+              <h2 className="text-2xl font-semibold text-[var(--text)] mb-4">
                 Something went wrong
               </h2>
               <p className="text-[var(--text-secondary)] mb-6">
@@ -40,7 +40,7 @@ export class ErrorBoundary extends Component<Props, State> {
               </p>
               <button
                 onClick={() => window.location.reload()}
-                className="bg-[var(--primary)] text-white px-6 py-3 rounded-lg hover:bg-[var(--primary-hover)] transition-colors"
+                className="bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 rounded-lg hover:bg-[var(--primary-hover)] transition-colors"
               >
                 Refresh Page
               </button>

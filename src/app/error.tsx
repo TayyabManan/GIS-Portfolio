@@ -25,8 +25,8 @@ export default function Error({
           <DivergedCurve className="w-full" />
           <p className="font-mono text-[10px] tracking-[0.08em] mt-1">diverged</p>
         </div>
-        <h1 className="text-6xl font-bold text-[var(--text-tertiary)] mb-4">500</h1>
-        <h2 className="text-2xl font-bold text-[var(--text)] mb-3">
+        <h1 className="text-6xl font-semibold text-[var(--text-tertiary)] mb-4">500</h1>
+        <h2 className="text-2xl font-semibold text-[var(--text)] mb-3">
           Something went wrong
         </h2>
         <p className="text-[var(--text-secondary)] mb-8">
@@ -37,7 +37,7 @@ export default function Error({
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={reset}
-            className="inline-flex items-center justify-center gap-2 bg-[var(--primary)] text-white px-6 py-3 rounded-lg font-medium hover:bg-[var(--primary-hover)] transition-colors"
+            className="inline-flex items-center justify-center gap-2 bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 rounded-lg font-medium hover:bg-[var(--primary-hover)] transition-colors"
           >
             <ArrowPathIcon className="h-5 w-5" />
             Try Again

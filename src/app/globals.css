@@ -10,10 +10,11 @@
   --shadow-sm: var(--elevation-sm);
   --shadow-md: var(--elevation-md);
   --shadow-lg: var(--elevation-lg);
-  /* Powers the font-mono utility (eyebrows, captions, metric chips, code).
-     var reference resolves per-element inside <body>, where next/font
-     defines --font-geist-mono. */
-  --font-mono: var(--font-geist-mono), ui-monospace, 'Consolas', 'Monaco', monospace;
+  /* Powers the font-mono / font-sans utilities. var references resolve
+     per-element inside <body>, where next/font defines the --font-plex-mono /
+     --font-body variables. */
+  --font-mono: var(--font-plex-mono), ui-monospace, 'Consolas', 'Monaco', monospace;
+  --font-sans: var(--font-body), system-ui, sans-serif;
 }
 
 /* Motion tokens - micro-interaction tier (boards: DESIGN_SYSTEM.md, Motion).
@@ -86,14 +87,23 @@ body {
    The inline script in layout.tsx / ThemeContext only set data-theme on <html>;
    src/lib/themes.ts is a small mirror of the light palette for non-CSS contexts. */
 :root {
-  /* Light theme (default) */
-  --primary: #3568d4;
-  --primary-hover: #2952b3;
-  --primary-light: #eef2fa;
+  /* Light theme (default). Ink-primary system (premium pass): interactive
+     primary is the INK, not a hue - stone + ink + rationed marker lime is the
+     whole identity. --on-primary flips with the polarity (Geist-style
+     foreground-on-background buttons); --info keeps the old blue for
+     semantic/status use only. */
+  --primary: #292524;
+  --primary-hover: #3f3b36;
+  --primary-light: #e9e7e4;
+  --on-primary: #fafaf9;
   --background: #fafaf9;
   --background-secondary: #f5f5f4;
   --background-tertiary: #e7e5e4;
-  --text: #1c1917;
+  --text: #292524;
+  /* Long-form reading ink: articles sit in the comfortable ~10:1 band
+     (research window 7:1-16:1; max contrast is a strain over thousands of
+     words). UI text stays on --text. */
+  --text-reading: #423d37;
   --text-secondary: #57534e;
   --text-tertiary: #78716c;
   --border: #d6d3d1;
@@ -104,15 +114,16 @@ body {
 
   /* Marker-lime accent family (personality layer - see DESIGN_SYSTEM.md).
      Usage contract: --accent = the marker itself (highlight swipes, doodle
-     strokes, /15 chip washes - never body text, never buttons/borders/focus
-     outside the 404); --accent-ink = lime legible AS TEXT on the page bg;
+     strokes - never body text, never buttons/borders/focus outside the
+     404); --accent-ink = lime legible AS TEXT on the page bg;
      --accent-contrast = text sitting ON solid lime; --accent-flood = the 404
      page surface. Scarce on normal pages, loud only on delight pages.
-     info stays a primary alias; green/amber reserved for status. */
+     Also the ::selection wash. Green/amber/blue reserved for status. */
   --accent: #d9f21e;
   --accent-ink: #4d5e00;
   --accent-contrast: #1c1917;
   --accent-flood: #def33f;
+  /* Semantic info blue - decoupled from --primary in the ink migration */
   --info: #3568d4;
 
   /* Themed overlay/scrim for modals and menus */
@@ -130,10 +141,12 @@ body {
 /* Dark theme - activated by data-theme="dark" on <html> (set pre-paint by the
    inline script in layout.tsx, toggled by ThemeContext) */
 [data-theme="dark"] {
-  /* Accent - slightly lighter blue, legible on dark surfaces */
-  --primary: #5b8cdf;
-  --primary-hover: #7ea5e8;
-  --primary-light: rgba(91, 140, 223, 0.18);
+  /* Ink primary inverts with the polarity: near-white actions on dark stone,
+     dark labels on them (the Vercel dark-button pattern). */
+  --primary: #e2ded9;
+  --primary-hover: #d3cec8;
+  --primary-light: rgba(237, 235, 232, 0.14);
+  --on-primary: #1c1917;
 
   /* Backgrounds - warm stone, lifted (library evening, not midnight) */
   --background: #1c1917;
@@ -142,6 +155,7 @@ body {
 
   /* Text - warm off-whites */
   --text: #edebe8;
+  --text-reading: #cfcbc4;
   --text-secondary: #a8a29e;
   /* Nudged lighter than the light-theme tertiary (which is also #78716c) so 12–14px labels clear
      WCAG AA (~5:1) on the #1c1917 dark background - this token was previously copied unchanged. */
@@ -165,6 +179,7 @@ body {
   --accent-ink: #d9f21e;
   --accent-contrast: #1c1917;
   --accent-flood: #2d330b;
+  /* Semantic info blue - decoupled from --primary in the ink migration */
   --info: #5b8cdf;
 
   /* Themed overlay/scrim for modals and menus */
@@ -242,14 +257,16 @@ input[type="search"]::-webkit-search-decoration {
 /* Typography - heading/body font split */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading), system-ui, sans-serif;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   line-height: 1.2;
   text-wrap: balance;
 }
 
-h1 { font-weight: 700; }
-h2 { font-weight: 600; }
-h3, h4, h5, h6 { font-weight: 500; }
+/* Display weight is 600, not 700 (typography pass): type reads heavier as it
+   grows, and Bricolage's ink traps turn to shouting at 700 x display sizes.
+   The opsz axis supplies the display cut; weight stays confident, not loud. */
+h1, h2 { font-weight: 600; }
+h3, h4, h5, h6 { font-weight: 500; letter-spacing: -0.01em; }
 
 p {
   text-wrap: pretty;
@@ -261,17 +278,26 @@ p {
 /* Code and pre elements. var-with-fallback keeps contexts without the body
    font classes (e.g. global-error) on the Consolas stack. */
 code, pre {
-  font-family: var(--font-geist-mono, 'Consolas'), 'Monaco', monospace;
+  font-family: var(--font-plex-mono, 'Consolas'), 'Monaco', monospace;
   font-feature-settings: "liga" 1, "calt" 1;
 }
 
-/* Selection colors - 30% primary tint (opacity is not applicable to ::selection) */
+/* Selection IS the marker: selecting text runs the highlighter over it.
+   Background tint only (MDN: don't restyle selection foreground); strength
+   drops in dark so light text stays >=4.5:1 on the olive wash. */
 ::selection {
-  background-color: color-mix(in srgb, var(--primary) 30%, transparent);
-  color: inherit;
+  background-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+[data-theme="dark"] ::selection {
+  background-color: color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
-/* Focus styles for accessibility */
+/* Focus styles for accessibility. --primary (the ink), NOT currentColor:
+   the offset ring draws OUTSIDE the control, over the surrounding page
+   surface - and on primary-filled buttons currentColor is --on-primary,
+   which equals the page background in both themes (an invisible ring; the
+   fresh-eyes review caught this shipped). Ink-on-page is visible behind
+   every control, including on the 404 flood. */
 *:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
@@ -377,10 +403,12 @@ select {
     --primary: #0000ff;
     --primary-hover: #0000cc;
     --primary-light: #e6e6ff;
+    --on-primary: #ffffff;
     --background: #ffffff;
     --background-secondary: #f0f0f0;
     --background-tertiary: #e0e0e0;
     --text: #000000;
+    --text-reading: #000000;
     --text-secondary: #1a1a1a;
     --text-tertiary: #333333;
     --border: #000000;
@@ -667,6 +695,11 @@ body:has(.flood-404) .site-footer {
   details::details-content {
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Resume reads as a document: dates and metrics align in columns */
+#resume-content {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Table of Contents - Custom scrollbar styling */

@@ -32,7 +32,7 @@ export default function Education() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div data-reveal="heading" className="mb-12 max-w-4xl">
           <Eyebrow index="02">Background</Eyebrow>
-          <h2 className="text-3xl font-bold tracking-tight text-[var(--text)] sm:text-4xl">
+          <h2 className="text-3xl font-semibold tracking-tight text-[var(--text)] sm:text-4xl">
             Education
           </h2>
           <p className="mt-4 text-lg text-[var(--text-secondary)]">

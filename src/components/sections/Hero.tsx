@@ -166,7 +166,7 @@ export default function Hero() {
           </p>
 
           {/* Title */}
-          <h1 className="mt-3 text-[2.75rem] font-bold leading-[1.08] tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">
+          <h1 className="mt-3 text-[2.75rem] font-semibold leading-[1.08] tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">
             AI/ML Engineer
           </h1>
 
@@ -215,7 +215,7 @@ export default function Hero() {
               <a
                 href="#projects"
                 onClick={scrollToProjects}
-                className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-[var(--primary-hover)] active:scale-[0.98] sm:w-auto sm:justify-start sm:px-8 sm:py-4"
+                className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-[var(--on-primary)] transition-all duration-200 hover:bg-[var(--primary-hover)] active:scale-[0.98] sm:w-auto sm:justify-start sm:px-8 sm:py-4"
               >
                 View Projects
                 <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
@@ -292,7 +292,7 @@ export default function Hero() {
               twin stays a styled paragraph to avoid a duplicate H1.
               Transform-only reveal (no opacity fade) so this LCP element paints at once. */}
           <p
-            className="mt-6 text-[clamp(2.75rem,11vw,10rem)] font-bold leading-[0.98]! tracking-[-0.03em]! text-[var(--text)] hero-reveal-headline"
+            className="mt-6 text-[clamp(2.75rem,11vw,10rem)] font-semibold leading-[0.98]! tracking-[-0.02em]! text-[var(--text)] hero-reveal-headline"
             style={{ animationDelay: '200ms' }}
           >
             AI/ML Engineer
@@ -341,7 +341,7 @@ export default function Hero() {
                 <a
                   href="#projects"
                   onClick={scrollToProjects}
-                  className="group flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white transition-[background-color,transform] duration-200 hover:bg-[var(--primary-hover)] active:scale-[0.98] sm:px-8 sm:py-4"
+                  className="group flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-[var(--on-primary)] transition-[background-color,transform] duration-200 hover:bg-[var(--primary-hover)] active:scale-[0.98] sm:px-8 sm:py-4"
                 >
                   View Projects
                   <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-y-0.5">
@@ -459,7 +459,7 @@ export default function Hero() {
                       <span
                         data-index-fill
                         aria-hidden="true"
-                        className="absolute inset-0 flex items-center justify-between gap-4 whitespace-nowrap bg-[var(--primary)] px-5 text-white will-change-transform"
+                        className="absolute inset-0 flex items-center justify-between gap-4 whitespace-nowrap bg-[var(--primary)] px-5 text-[var(--on-primary)] will-change-transform"
                         style={{ transform: 'translateY(calc(100% + 18px))' }}
                       >
                         {/* Flat-bottomed dome so it joins the fill with no side gaps; 1px overlap. */}

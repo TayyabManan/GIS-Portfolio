@@ -17,16 +17,16 @@ This portfolio demonstrates proficiency in both **modern web development** and *
 ## 🛠️ Technology Stack
 
 ### Frontend Development
-- **Next.js 15.3.5** - React framework with App Router and Server Components
-- **React 19.0.0** - Latest React features for modern web applications
+- **Next.js 15.5** - React framework with App Router and Server Components
+- **React 19.2** - Latest React features for modern web applications
 - **TypeScript** - Type-safe development for maintainable code
 - **HTML5 & CSS3** - Semantic markup and modern styling
 - **Responsive Design** - Mobile-first approach with cross-browser compatibility
 
 ### Styling & UI
 - **Tailwind CSS v4** - Utility-first CSS framework
-- **Framer Motion** - Smooth animations and transitions
-- **Headless UI** - Accessible component primitives
+- **GSAP + tiered CSS motion** - Lazy-loaded signature animations with reduced-motion handling
+- **Radix UI Toast** - Accessible notification primitives
 - **Custom CSS Variables** - Dynamic theming system
 - **Hero Icons** - Consistent iconography
 
@@ -182,7 +182,7 @@ src/
 
 ### Project Showcase
 - Dynamic project cards with filtering
-- Detailed project modals with galleries
+- Dedicated project pages with composed notebook covers
 - Technology stack visualization
 - Live demo links and GitHub repositories
 - Category-based organization
@@ -265,7 +265,7 @@ src/
 ## 📈 Continuous Improvement
 
 ### Completed Enhancements
-✅ Blog platform with MDX support
+✅ Blog platform with markdown content
 ✅ AI-powered resume chatbot
 ✅ Command palette navigation
 ✅ Multiple theme support

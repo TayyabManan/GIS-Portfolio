@@ -317,7 +317,7 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
                     className={cn(
                       'cursor-pointer select-none px-4 py-2.5 flex items-center justify-between group transition-colors duration-75',
                       isSelected
-                        ? 'bg-[var(--primary)] text-white'
+                        ? 'bg-[var(--primary)] text-[var(--on-primary)]'
                         : 'hover:bg-[var(--background-secondary)]'
                     )}
                     onClick={() => executeCommand(command)}
@@ -325,14 +325,14 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
                   >
                     <div className="flex items-center gap-3">
                       {Icon && (
-                        <Icon className={cn('h-5 w-5 flex-shrink-0', isSelected ? 'text-white' : 'text-[var(--text-tertiary)]')} />
+                        <Icon className={cn('h-5 w-5 flex-shrink-0', isSelected ? 'text-[var(--on-primary)]' : 'text-[var(--text-tertiary)]')} />
                       )}
                       <div>
-                        <p className={cn('font-medium', isSelected ? 'text-white' : 'text-[var(--text)]')}>
+                        <p className={cn('font-medium', isSelected ? 'text-[var(--on-primary)]' : 'text-[var(--text)]')}>
                           {command.title}
                         </p>
                         {command.description && (
-                          <p className={cn('text-xs', isSelected ? 'text-white/80' : 'text-[var(--text-secondary)]')}>
+                          <p className={cn('text-xs', isSelected ? 'text-[var(--on-primary)]/80' : 'text-[var(--text-secondary)]')}>
                             {command.description}
                           </p>
                         )}
@@ -342,7 +342,7 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
                       {command.shortcut && (
                         <kbd className={cn(
                           'hidden sm:inline-block px-1.5 py-0.5 text-xs rounded',
-                          isSelected ? 'bg-white/20 text-white' : 'bg-[var(--background-tertiary)] text-[var(--text-secondary)]'
+                          isSelected ? 'bg-[var(--on-primary)]/20 text-[var(--on-primary)]' : 'bg-[var(--background-tertiary)] text-[var(--text-secondary)]'
                         )}>
                           {command.shortcut}
                         </kbd>
@@ -351,7 +351,7 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
                         className={cn(
                           'h-4 w-4 transition-[opacity,translate] duration-75 ease-out',
                           isSelected
-                            ? 'text-white opacity-100 translate-x-0'
+                            ? 'text-[var(--on-primary)] opacity-100 translate-x-0'
                             : 'text-[var(--text-tertiary)] opacity-0 -translate-x-0.5 group-hover:opacity-100 group-hover:translate-x-0'
                         )}
                       />

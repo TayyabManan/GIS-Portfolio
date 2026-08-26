@@ -7,7 +7,7 @@ category: "Web Application"
 metric: "−60% bundle"
 metricChart: "bars-down"
 techStack: ["React", "TypeScript", "Supabase", "TanStack Query", "React Router", "Tailwind CSS", "DaisyUI", "Vite", "React Hook Form", "Zod"]
-image: "/projects/teacher-rank.png"
+image: "/projects/teacher-rank.webp"
 demoUrl: "https://teacherrank.vercel.app/"
 githubUrl: "https://github.com/TayyabManan/TeacherRank"
 featured: false

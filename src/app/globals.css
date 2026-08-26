@@ -517,8 +517,8 @@ select {
   opacity: 0.42;
 }
 
-/* Metric-chip charts are fully drawn at rest; the card re-sketches them via
-   WAAPI on pointer-enter (see ProjectCard - WAAPI so it bypasses the
+/* Cover charts (ProjectCover) are fully drawn at rest; the card re-sketches
+   them via WAAPI on pointer-enter (see ProjectCard - WAAPI so it bypasses the
    reduced-motion zeroing and stays visible to everyone). dasharray just gives
    the draw something to reveal. */
 .metric-chart [data-draw] {

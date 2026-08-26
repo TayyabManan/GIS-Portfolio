@@ -128,10 +128,10 @@ export function TrendArrow({ className }: DoodleProps) {
 }
 
 /**
- * Metric-chip micro-charts (40x12). Each project picks the shape that fits its
- * metric via frontmatter `metricChart`, so no two cards show the same doodle.
- * All share the one pen; fills use currentColor so the chip's --accent-ink
- * colors them. Unknown/absent variant falls back to the plain loss line.
+ * Chart-variant vocabulary shared by frontmatter `metricChart` and the cover
+ * charts below. Each project picks the shape that fits its metric, so no two
+ * covers show the same drawing. Unknown/absent variant falls back to the
+ * plain loss line.
  */
 export type MetricChart =
   | 'line'
@@ -148,73 +148,136 @@ export type MetricChart =
 // carry data-pop to fade in alongside. Fully drawn at rest.
 const DRAW = { 'data-draw': true, pathLength: 100 } as const
 
-function metricChartBody(variant: MetricChart) {
+/**
+ * Cover charts (240x120) - the project-card cover art, drawn at plot scale
+ * with the HeroReadout anatomy:
+ * constant hand axes (quiet ink) + one data element in --accent-ink (this IS
+ * the card's slot in the closed lime budget - it replaced the chip sparkline).
+ * Same variant vocabulary as MetricChart, driven by frontmatter `metricChart`.
+ * Stroke paths carry data-draw/pathLength so the card's pointer-enter
+ * re-sketch (WAAPI, see ProjectCard) replays them; fills carry data-pop.
+ */
+export const COVER_CAPTIONS: Record<MetricChart, string> = {
+  'scatter-fit': 'predicted vs observed',
+  'bars-up': 'win rate vs base',
+  'bars-down': 'bundle size',
+  hbars: 'feature importance',
+  accuracy: 'acc vs epochs',
+  coverage: 'spatial coverage',
+  roc: 'roc curve',
+  line: 'loss vs steps',
+}
+
+function coverChartBody(variant: MetricChart) {
   switch (variant) {
-    case 'scatter-fit': // regression fit (R²): dots straddling a rising trend line
+    case 'scatter-fit': // regression fit with observations straddling it
       return (
         <>
-          <path d="M3 10 L37 2.6" {...PEN} {...DRAW} strokeWidth="1.5" />
+          <path d="M40 84 C100 62 160 36 222 15" {...PEN} {...DRAW} strokeWidth="1.75" />
           <g fill="currentColor" stroke="none" data-pop>
-            <circle cx="7" cy="9.8" r="1" />
-            <circle cx="14" cy="6.2" r="1" />
-            <circle cx="21" cy="7" r="1" />
-            <circle cx="28" cy="3.4" r="1" />
-            <circle cx="34" cy="4" r="1" />
+            <circle cx="56" cy="78" r="3" />
+            <circle cx="84" cy="56" r="3" />
+            <circle cx="112" cy="64" r="3" />
+            <circle cx="144" cy="40" r="3" />
+            <circle cx="176" cy="45" r="3" />
+            <circle cx="206" cy="22" r="3" />
           </g>
         </>
       )
-    case 'bars-up': // comparison bars climbing (win rate: base -> tuned)
+    case 'bars-up': // comparison bars climbing base -> tuned
       return (
-        <g {...PEN} strokeWidth="1.75">
-          <path d="M7 11 L7 8.6" {...DRAW} />
-          <path d="M16 11 L16 6.4" {...DRAW} />
-          <path d="M25 11 L25 4.3" {...DRAW} />
-          <path d="M34 11 L34 2.2" {...DRAW} />
+        <g {...PEN} strokeWidth="3">
+          <path d="M60 92 C60.4 84 59.7 74 60 66" {...DRAW} />
+          <path d="M104 92 C104.4 78 103.6 60 104 48" {...DRAW} />
+          <path d="M148 92 C148.5 70 147.6 46 148 32" {...DRAW} />
+          <path d="M192 92 C192.4 60 191.5 32 192 14" {...DRAW} />
         </g>
       )
-    case 'bars-down': // shrinking bars (−60% bundle)
+    case 'bars-down': // shrinking bars
       return (
-        <g {...PEN} strokeWidth="1.75">
-          <path d="M7 11 L7 2.2" {...DRAW} />
-          <path d="M16 11 L16 4.7" {...DRAW} />
-          <path d="M25 11 L25 7" {...DRAW} />
-          <path d="M34 11 L34 9.3" {...DRAW} />
+        <g {...PEN} strokeWidth="3">
+          <path d="M60 92 C60.3 66 59.7 34 60 16" {...DRAW} />
+          <path d="M104 92 C104.3 72 103.7 52 104 42" {...DRAW} />
+          <path d="M148 92 C148.4 80 147.6 68 148 62" {...DRAW} />
+          <path d="M192 92 C192.3 86 191.7 80 192 76.5" {...DRAW} />
         </g>
       )
-    case 'hbars': // horizontal importance bars (SHAP explainability)
+    case 'hbars': // horizontal importance bars
       return (
-        <g {...PEN} strokeWidth="1.75">
-          <path d="M4 3 L31 3" {...DRAW} />
-          <path d="M4 6 L21 6" {...DRAW} />
-          <path d="M4 9 L35 9" {...DRAW} />
+        <g {...PEN} strokeWidth="3">
+          <path d="M38 32 C84 31.4 130 32.5 176 31.8" {...DRAW} />
+          <path d="M38 58 C68 57.5 98 58.4 128 57.9" {...DRAW} />
+          <path d="M38 84 C96 83.3 154 84.4 208 83.6" {...DRAW} />
         </g>
       )
-    case 'accuracy': // training-accuracy curve rising to a plateau
-      return <path d="M3 10.4 C8 10.2 12 4.4 19 3.4 C26 2.6 31 2.8 37 2.6" {...PEN} {...DRAW} strokeWidth="1.5" />
-    case 'coverage': // filled coverage area (spatial coverage)
+    case 'accuracy': // validation accuracy rising to a plateau
+      return (
+        <path
+          d="M38 88 C56 85 68 40 100 30 C136 20 180 17 220 15.5"
+          {...PEN}
+          {...DRAW}
+          strokeWidth="1.75"
+        />
+      )
+    case 'coverage': // covered area filling under the line
       return (
         <>
-          <path d="M3 9.5 L11 6.8 L19 7.6 L27 4.4 L37 3.4 L37 11 L3 11 Z" fill="currentColor" fillOpacity="0.18" stroke="none" data-pop />
-          <path d="M3 9.5 L11 6.8 L19 7.6 L27 4.4 L37 3.4" {...PEN} {...DRAW} strokeWidth="1.5" />
+          <path
+            d="M38 78 C50 73 62 65 74 62 C92 57.5 104 60 122 52 C146 41.5 170 38 222 33 L222 96 L38 96 Z"
+            fill="currentColor"
+            fillOpacity="0.14"
+            stroke="none"
+            data-pop
+          />
+          <path
+            d="M38 78 C50 73 62 65 74 62 C92 57.5 104 60 122 52 C146 41.5 170 38 222 33"
+            {...PEN}
+            {...DRAW}
+            strokeWidth="1.75"
+          />
         </>
       )
-    case 'roc': // ROC-style curve bowing to the top-left (classifier)
-      return <path d="M3 11 C6 4.5 11 3 19 2.7 C27 2.5 32 2.6 37 2.5" {...PEN} {...DRAW} strokeWidth="1.5" />
+    case 'roc': // ROC bowing to the top-left
+      return (
+        <path
+          d="M38 92 C46 40 62 26 100 21 C150 16.5 190 16 222 14.5"
+          {...PEN}
+          {...DRAW}
+          strokeWidth="1.75"
+        />
+      )
     case 'line':
-    default: // plain descending loss line
+    default: // descending loss with noise
       return (
-        <>
-          <path d="M2 2.5 L7 5 L13 4.2 L19 7.5 L25 6.6 L31 9 L36.5 9.6" {...PEN} {...DRAW} strokeWidth="1.5" />
-          <circle cx="36.5" cy="9.6" r="1.5" fill="currentColor" stroke="none" data-pop />
-        </>
+        <path
+          d="M38 20 C52 42 64 58 84 68 C100 75.5 116 70 134 76 C158 84 190 80 222 78"
+          {...PEN}
+          {...DRAW}
+          strokeWidth="1.75"
+        />
       )
   }
 }
 
-export function MetricSparkline({ variant = 'line', className }: DoodleProps & { variant?: MetricChart }) {
+export function CoverChart({ variant = 'line', className }: DoodleProps & { variant?: MetricChart }) {
   return (
-    <svg viewBox="0 0 40 12" {...doodleAttrs(`metric-chart ${className ?? ''}`)}>
-      {metricChartBody(variant)}
+    <svg
+      viewBox="0 0 240 120"
+      preserveAspectRatio="xMidYMid meet"
+      {...doodleAttrs(`metric-chart ${className ?? ''}`)}
+    >
+      {/* Constant notebook axes - one pen, overshot corner, loose ticks
+          (HeroReadout anatomy at cover scale) */}
+      <g stroke="var(--text-tertiary)" strokeWidth="1.25" opacity="0.7" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M28 10 C27.5 40 27.8 72 27.4 100" vectorEffect="non-scaling-stroke" />
+        <path d="M23 96.5 C80 95.8 160 96.6 228 95.7" vectorEffect="non-scaling-stroke" />
+        <path d="M24.6 36 L31.2 35.6" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+        <path d="M24.2 66.5 L30.8 66.9" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+        <path d="M85 94 L84.6 100" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+        <path d="M150 94.4 L150.5 100.2" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+        <path d="M205 93.8 L205.3 99.6" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+      </g>
+      {coverChartBody(variant)}
     </svg>
   )
 }

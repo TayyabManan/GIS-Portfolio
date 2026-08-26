@@ -10,10 +10,10 @@ export interface Project {
   githubUrl?: string
   featured: boolean
   date: string
-  /** Terse headline metric shown as a mono chip on the card, e.g. "80% accuracy".
-      Optional - cards without one render no chip. */
+  /** Terse headline metric shown in the mono voice on the card cover,
+      e.g. "80% accuracy". Optional - covers without one render no metric. */
   metric?: string
-  /** Which micro-chart doodle sits next to the metric (see MetricSparkline):
+  /** Which notebook chart the card cover draws (see CoverChart):
       'scatter-fit' | 'bars-up' | 'bars-down' | 'hbars' | 'accuracy' |
       'coverage' | 'roc' | 'line'. Defaults to 'line' when unset. */
   metricChart?: string

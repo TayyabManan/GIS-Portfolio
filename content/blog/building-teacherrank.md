@@ -7,7 +7,7 @@ date: "2025-06-15"
 author: "Tayyab Manan"
 category: "Web Development"
 tags: ["React", "TypeScript", "Supabase", "Full-Stack", "Web Development", "Technical"]
-image: "/projects/teacher-rank.png"
+image: "/projects/teacher-rank.webp"
 readTime: "10 min read"
 faqs:
   - question: "What stack does TeacherRank use?"

@@ -5,7 +5,7 @@ import { useSectionReveal } from '@/components/effects/useSectionReveal'
 
 /**
  * Client wrapper that scroll-reveals the home page's server-rendered sections
- * (Education, CurrentlyLearning, CallToAction). The children stay server
+ * (Education, CallToAction). The children stay server
  * components - they only carry data-reveal-* attributes; this layout-neutral
  * div provides the scope for useSectionReveal.
  */

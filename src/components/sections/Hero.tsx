@@ -310,6 +310,8 @@ export default function Hero() {
             <span className="hidden text-[var(--border-hover)] sm:inline" aria-hidden="true">/</span>
             <span>Islamabad, UTC+5</span>
             <span className="hidden text-[var(--border-hover)] sm:inline" aria-hidden="true">/</span>
+            <span>Available for remote contract work</span>
+            <span className="hidden text-[var(--border-hover)] sm:inline" aria-hidden="true">/</span>
             <span>Replies in 24h</span>
           </motion.div>
 
@@ -423,7 +425,7 @@ export default function Hero() {
               </a>
             </p>
             <p className="text-xs uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
-              Islamabad &middot; UTC+5
+              Islamabad &middot; UTC+5 &middot; Available for remote contract work
             </p>
           </div>
 

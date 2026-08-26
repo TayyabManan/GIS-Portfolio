@@ -2,56 +2,11 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence, useReducedMotion, type Variants } from 'framer-motion'
 import { Github, Linkedin, FileText, ArrowUpRight } from 'lucide-react'
 import WiggleLine from '@/components/effects/WiggleLine'
 import HeroReadout, { warmHeroReadout, type HeroReadoutVariant } from '@/components/effects/HeroReadout'
 
-const EASE: [number, number, number, number] = [0.25, 0.1, 0.25, 1]
-
-const containerVariants: Variants = {
-  initial: {},
-  animate: {
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants: Variants = {
-  initial: { opacity: 0, y: 14 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: EASE,
-    },
-  },
-}
-
-// No animation variant - renders instantly for LCP-critical elements on mobile
-// and whenever the user prefers reduced motion.
-const instantVariants: Variants = {
-  initial: { opacity: 1, y: 0 },
-  animate: { opacity: 1, y: 0 },
-}
-
-const ruleVariants: Variants = {
-  initial: { scaleX: 0, opacity: 0 },
-  animate: {
-    scaleX: 1,
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      delay: 0.6,
-      ease: EASE,
-    },
-  },
-}
-
-// Four focus areas - rotated in the mobile hero, and a numbered index on desktop.
+// Four focus areas - a static annotation line in the mobile hero, and a numbered index on desktop.
 // Each pill links to its flagship project. `metric` is the real, already-published number
 // shown by the fill layer that rises on hover - keep these terse so the pill width
 // (sized to the wider of label/metric) stays close to today's.
@@ -87,34 +42,11 @@ const affiliationLinkClass =
 const PILL_FONT = { fontFamily: 'var(--font-heading), system-ui, sans-serif' } as const
 
 export default function Hero() {
-  // < lg (1024px). Default true so SSR renders the mobile hero without animation delay.
-  const [isMobile, setIsMobile] = useState(true)
-  const [activeIndex, setActiveIndex] = useState(0) // rotating specialization (mobile hero only)
-  const prefersReducedMotion = useReducedMotion()
   const indexRef = useRef<HTMLUListElement>(null)
 
   // Desktop focus-index readout: hidden at rest; shows the hovered/focused
   // pill's chart and morphs between charts (see HeroReadout).
   const [readoutArea, setReadoutArea] = useState<number | null>(null)
-
-  // Skip entrance animation on mobile (LCP) or when reduced motion is requested.
-  const noAnim = isMobile || Boolean(prefersReducedMotion)
-
-  useEffect(() => {
-    const update = () => setIsMobile(window.innerWidth < 1024)
-    update()
-    window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
-  }, [])
-
-  // Rotate the specialization only while the mobile hero is on screen and motion is allowed.
-  useEffect(() => {
-    if (!isMobile || prefersReducedMotion) return
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % focusAreas.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [isMobile, prefersReducedMotion])
 
   // Fill-up on the focus-area index pills (desktop, fine-pointer only). On hover or keyboard focus GSAP slides a
   // primary fill layer (with a slightly arced cap) up from below to cover the pill while the base
@@ -227,63 +159,28 @@ export default function Hero() {
       {/* ===================== MOBILE / TABLET HERO (below lg) ===================== */}
       {/* The original single-column hero, kept as-is for small screens (no marquee). */}
       <div className="flex min-h-[calc(100dvh-64px)] items-center px-4 sm:px-6 lg:hidden">
-        <motion.div
-          className="mx-auto w-full max-w-4xl py-12 sm:py-16"
-          variants={noAnim ? undefined : containerVariants}
-          initial={noAnim ? 'animate' : 'initial'}
-          animate="animate"
-        >
+        <div className="mx-auto w-full max-w-4xl py-12 sm:py-16">
           {/* Greeting */}
-          <motion.p
-            variants={noAnim ? instantVariants : itemVariants}
-            className="text-base font-medium tracking-wide text-[var(--text-secondary)] sm:text-lg"
-          >
+          <p className="text-base font-medium tracking-wide text-[var(--text-secondary)] sm:text-lg">
             Hello, I&apos;m Tayyab Manan
-          </motion.p>
+          </p>
 
           {/* Title */}
-          <motion.h1
-            variants={noAnim ? instantVariants : itemVariants}
-            className="mt-3 text-[2.75rem] font-bold leading-[1.08] tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl"
-          >
+          <h1 className="mt-3 text-[2.75rem] font-bold leading-[1.08] tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">
             AI/ML Engineer
-          </motion.h1>
+          </h1>
 
-          {/* Rotating specialization - visual flourish only. The animated text is hidden from
-              assistive tech (a polite live region here re-announced every 3s forever); the full
-              list is exposed once, statically, in the sr-only element right after this block. */}
-          <motion.div
-            variants={noAnim ? instantVariants : itemVariants}
-            className="relative mt-5 h-8 overflow-hidden sm:h-9"
-            aria-hidden="true"
-          >
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={activeIndex}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.35, ease: EASE }}
-                className="absolute left-0 text-base font-semibold uppercase tracking-[0.12em] text-[var(--primary)] sm:text-lg"
-              >
-                {focusAreas[activeIndex].label}
-              </motion.p>
-            </AnimatePresence>
-          </motion.div>
-          <p className="sr-only">Focus areas: {focusAreas.map((a) => a.label).join(', ')}.</p>
+          {/* Focus areas - static, in the mono annotation voice (the word carousel
+              was cut in the premium pass: motion on a first-impression surface). */}
+          <p className="mt-5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+            {focusAreas.map((a) => a.label).join(' · ')}
+          </p>
 
           {/* Drawn rule */}
-          <motion.div
-            variants={noAnim ? instantVariants : ruleVariants}
-            className="mt-7 h-px w-16 origin-left bg-[var(--border-hover)]"
-            aria-hidden="true"
-          />
+          <div className="mt-7 h-px w-16 origin-left bg-[var(--border-hover)]" aria-hidden="true" />
 
           {/* Bio */}
-          <motion.p
-            variants={noAnim ? instantVariants : itemVariants}
-            className="mt-7 max-w-xl text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg"
-          >
+          <p className="mt-7 max-w-xl text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg">
             Graduate student at{' '}
             <a href="https://www.comsats.edu.pk/" target="_blank" rel="noopener noreferrer" className={affiliationLinkClass}>
               COMSATS
@@ -296,13 +193,10 @@ export default function Hero() {
               <ExternalArrow />
             </a>
             {' '}since 2025.
-          </motion.p>
+          </p>
 
           {/* Status line */}
-          <motion.div
-            variants={noAnim ? instantVariants : itemVariants}
-            className="mt-6 flex flex-row flex-wrap items-center gap-4 text-sm text-[var(--text-tertiary)]"
-          >
+          <div className="mt-6 flex flex-row flex-wrap items-center gap-4 text-sm text-[var(--text-tertiary)]">
             <span className="inline-flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)]" aria-hidden="true" />
               <span>Open to full-time AI/ML roles</span>
@@ -313,13 +207,10 @@ export default function Hero() {
             <span>Available for remote contract work</span>
             <span className="hidden text-[var(--border-hover)] sm:inline" aria-hidden="true">/</span>
             <span>Replies in 24h</span>
-          </motion.div>
+          </div>
 
           {/* Actions: primary CTAs + secondary profile links */}
-          <motion.div
-            variants={noAnim ? instantVariants : itemVariants}
-            className="mt-10 flex flex-col gap-x-6 gap-y-6 sm:flex-row sm:items-center"
-          >
+          <div className="mt-10 flex flex-col gap-x-6 gap-y-6 sm:flex-row sm:items-center">
             <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4">
               <a
                 href="#projects"
@@ -333,7 +224,7 @@ export default function Hero() {
               </a>
               <a
                 href="/contact"
-                className="group flex w-full items-center justify-center gap-2 rounded-lg border-2 border-[var(--border)] px-6 py-3 text-sm font-semibold text-[var(--text)] transition-all duration-200 hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-[0.98] sm:w-auto sm:justify-start sm:px-8 sm:py-4"
+                className="group flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--border)] px-6 py-3 text-sm font-semibold text-[var(--text)] transition-all duration-200 hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-[0.98] sm:w-auto sm:justify-start sm:px-8 sm:py-4"
               >
                 Get in Touch
                 <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
@@ -373,8 +264,8 @@ export default function Hero() {
                 Resume
               </Link>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
       {/* ===================== DESKTOP HERO (lg and up) ===================== */}
@@ -459,7 +350,7 @@ export default function Hero() {
                 </a>
                 <a
                   href="/contact"
-                  className="group flex items-center justify-center gap-2 rounded-lg border-2 border-[var(--border)] px-6 py-3 text-sm font-semibold text-[var(--text)] transition-[color,border-color,transform] duration-200 hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-[0.98]"
+                  className="group flex items-center justify-center gap-2 rounded-lg border border-[var(--border)] px-6 py-3 text-sm font-semibold text-[var(--text)] transition-[color,border-color,transform] duration-200 hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-[0.98]"
                 >
                   Get in Touch
                   <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">

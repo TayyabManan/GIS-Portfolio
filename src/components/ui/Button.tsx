@@ -22,7 +22,7 @@ export function Button({
   const variants = {
     primary: 'bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] focus:ring-[var(--primary)] disabled:bg-[var(--text-tertiary)] disabled:text-[var(--background-secondary)]',
     secondary: 'bg-[var(--background-secondary)] text-[var(--text)] hover:bg-[var(--background-tertiary)] focus:ring-[var(--border)] disabled:bg-[var(--background-tertiary)] disabled:text-[var(--text-tertiary)]',
-    outline: 'border-2 border-[var(--border)] text-[var(--text)] hover:bg-[var(--background-secondary)] focus:ring-[var(--border)] disabled:border-[var(--background-tertiary)] disabled:text-[var(--text-tertiary)]',
+    outline: 'border border-[var(--border)] text-[var(--text)] hover:bg-[var(--background-secondary)] focus:ring-[var(--border)] disabled:border-[var(--background-tertiary)] disabled:text-[var(--text-tertiary)]',
     ghost: 'text-[var(--text)] hover:bg-[var(--background-secondary)] focus:ring-[var(--border)] disabled:text-[var(--text-tertiary)]'
   }
   

@@ -45,7 +45,7 @@ export default function Education() {
             <div
               key={index}
               data-reveal="item"
-              className="relative bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 sm:p-8 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--primary)]"
+              className="relative bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 sm:p-8"
             >
               {/* Status Badge */}
               <div className="absolute top-6 right-6">

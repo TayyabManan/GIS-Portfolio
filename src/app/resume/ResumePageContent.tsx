@@ -56,7 +56,7 @@ export default function ResumePageContent() {
 
       {/* Resume Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-[var(--background)] rounded-xl border border-[var(--border)] shadow-sm p-6 sm:p-8 transition-all duration-200 hover:border-[var(--primary)] hover:shadow-md" id="resume-content">
+        <div className="bg-[var(--background)] rounded-xl border border-[var(--border)] shadow-sm p-6 sm:p-8" id="resume-content">
           {/* Header Section */}
           <div className="text-center mb-8 pb-6 border-b-2 border-[var(--primary)]">
             <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text)] mb-2">

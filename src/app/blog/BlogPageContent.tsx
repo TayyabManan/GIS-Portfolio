@@ -2,8 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { CalendarIcon, ClockIcon, TagIcon, FolderIcon } from '@heroicons/react/24/outline'
 import { BlogPost } from '@/lib/markdown'
 import { useGridFlip } from '@/components/effects/useGridFlip'
 import { EmptyAxes } from '@/components/effects/NotebookDoodles'
@@ -87,67 +85,29 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
           <div ref={gridRef} className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post) => (
               <article key={post.slug} data-flip-id={post.slug}>
+                {/* Text-first editorial card (premium pass): the annotation-voice
+                    meta, title, and description do the selling - no thumbnail
+                    (the raw screenshots live inside the posts as evidence).
+                    One hover gesture: the border hairline turns primary. */}
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="group block bg-[var(--background)] border border-[var(--border)] rounded-xl overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[var(--primary)] h-full"
+                  className="group flex h-full flex-col rounded-xl border border-[var(--border)] bg-[var(--background)] p-6 transition-[border-color] duration-200 hover:border-[var(--primary)] sm:p-8"
                 >
-                  {/* Image (next/image so blog thumbnails are indexable + alt'd) */}
-                  {post.image && (
-                    <div className="relative h-48 overflow-hidden">
-                      <Image
-                        src={post.image}
-                        alt={post.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] via-transparent to-transparent opacity-60" />
-                    </div>
-                  )}
+                  <p className="mb-3 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+                    {post.category} &middot; <time dateTime={post.date}>{formatDate(post.date)}</time>
+                  </p>
 
-                  {/* Content */}
-                  <div className="p-6 sm:p-8">
-                    {/* Category & Date */}
-                    <div className="flex items-center gap-4 text-xs text-[var(--text-tertiary)] mb-3">
-                      <div className="flex items-center gap-1">
-                        <FolderIcon className="h-4 w-4" />
-                        <span>{post.category}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <CalendarIcon className="h-4 w-4" />
-                        <time dateTime={post.date}>{formatDate(post.date)}</time>
-                      </div>
-                    </div>
+                  <h2 className="mb-2 text-lg font-semibold text-[var(--text)] line-clamp-2 sm:text-xl">
+                    {post.title}
+                  </h2>
 
-                    {/* Title */}
-                    <h2 className="text-lg sm:text-xl font-semibold text-[var(--text)] mb-2 group-hover:text-[var(--primary)] transition-colors line-clamp-2">
-                      {post.title}
-                    </h2>
+                  <p className="text-sm text-[var(--text-secondary)] line-clamp-3">
+                    {post.description}
+                  </p>
 
-                    {/* Description */}
-                    <p className="text-sm text-[var(--text-secondary)] mb-4 line-clamp-3">
-                      {post.description}
-                    </p>
-
-                    {/* Meta */}
-                    <div className="flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-1 text-[var(--text-tertiary)]">
-                        <ClockIcon className="h-4 w-4" />
-                        <span>{post.readTime || '5 min read'}</span>
-                      </div>
-
-                      {/* Tags */}
-                      {post.tags && post.tags.length > 0 && (
-                        <div className="flex items-center gap-1 text-[var(--text-tertiary)]">
-                          <TagIcon className="h-4 w-4" />
-                          <span className="line-clamp-1">{post.tags[0]}</span>
-                          {post.tags.length > 1 && (
-                            <span className="text-[var(--text-tertiary)]">+{post.tags.length - 1}</span>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <p className="mt-auto pt-4 font-mono text-[10px] leading-none tracking-[0.08em] text-[var(--text-tertiary)]">
+                    {post.readTime || '5 min read'}
+                  </p>
                 </Link>
               </article>
             ))}

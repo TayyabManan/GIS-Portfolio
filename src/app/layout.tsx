@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Bricolage_Grotesque, Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { ProgressBarProvider } from '@/components/ProgressBar'
 import ClientLayout from '@/components/ClientLayout'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { ThemeProvider } from '@/contexts/ThemeContext'
@@ -118,6 +117,9 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico' },
+      // Theme-aware mark: embedded prefers-color-scheme style flips the fill
+      // with the OS theme (modern browsers pick the SVG over the PNGs).
+      { url: '/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
@@ -387,8 +389,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
       </head>
       <body className={`${geist.variable} ${bricolageGrotesque.variable} ${geistMono.variable} ${geist.className}`} suppressHydrationWarning>
-        {/* Page transition progress bar */}
-        <ProgressBarProvider />
         {/* Skip to main content link for screen readers */}
         <a
           href="#main-content"

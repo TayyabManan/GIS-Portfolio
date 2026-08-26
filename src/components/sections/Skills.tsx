@@ -46,7 +46,7 @@ export default function Skills() {
             return (
               <div
                 key={category.name}
-                className="bg-[var(--background-secondary)] rounded-xl p-4 border border-[var(--border)] hover:border-[var(--primary)] transition-all hover:shadow-md"
+                className="bg-[var(--background-secondary)] rounded-xl p-4 border border-[var(--border)]"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <Icon className="h-4 w-4 text-[var(--primary)]" />

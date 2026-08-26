@@ -132,7 +132,7 @@ export default function Header() {
         <div
           className={`nav-surface flex items-center justify-between transition-all duration-300 ${
             isScrolled
-              ? 'h-14 px-4 sm:px-6 rounded-full shadow-lg border border-[var(--border)] bg-[var(--background)] opacity-95'
+              ? 'h-14 px-4 sm:px-6 rounded-full shadow-md border border-[var(--border)] bg-[var(--background)] opacity-95'
               : 'h-16 bg-transparent'
           }`}
         >
@@ -263,7 +263,7 @@ export default function Header() {
           <div
             className={`nav-surface transition-all duration-300 ease-out ${
               isScrolled
-                ? 'rounded-full shadow-lg border border-[var(--border)] bg-[var(--background)] opacity-95'
+                ? 'rounded-full shadow-md border border-[var(--border)] bg-[var(--background)] opacity-95'
                 : mobileMenuOpen
                 ? 'bg-[var(--background)]'
                 : 'bg-transparent'

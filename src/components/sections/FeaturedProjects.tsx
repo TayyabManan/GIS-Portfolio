@@ -29,7 +29,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
           {projects.map((project) => (
             <div key={project.slug} data-reveal="item">
               <ProjectCard project={project} />
@@ -37,14 +37,15 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
           ))}
         </div>
 
-        <div className="text-center">
-          <Link
-            href="/projects"
-            className="inline-flex items-center bg-[var(--primary)] text-white px-6 py-3 rounded-lg font-medium hover:bg-[var(--primary-hover)] transition-colors shadow-lg"
-          >
-            View All Projects
-          </Link>
-        </div>
+        {/* Quiet section-end link on the grid's edge (premium pass) - the
+            section header already announces the content; no filled CTA needed. */}
+        <Link
+          href="/projects"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-[var(--primary)] transition-colors hover:text-[var(--primary-hover)]"
+        >
+          All projects
+          <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">&rarr;</span>
+        </Link>
       </div>
     </section>
   )

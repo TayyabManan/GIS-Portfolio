@@ -2,7 +2,6 @@
 
 import { useRef, useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { MapPinIcon, EnvelopeIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import { Github, Linkedin } from 'lucide-react'
 import ObfuscatedEmail from '@/components/ui/ObfuscatedEmail'
 
@@ -59,98 +58,37 @@ export default function Footer() {
       >
         {/* Inner container - natural flow, measured by ref */}
         <div ref={containerRef} className="flex flex-col">
-          {/* Links section */}
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full pt-8 pb-6">
-            {/* Mobile */}
-            <div className="sm:hidden flex flex-col gap-5">
-              <div className="text-center">
-                <h3 className="text-sm font-semibold mb-3 text-[var(--text)]">Quick Links</h3>
-                <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
-                  <Link href="/" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors py-1.5">Home</Link>
-                  <span className="text-[var(--text-tertiary)]">•</span>
-                  <Link href="/projects" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors py-1.5">Projects</Link>
-                  <span className="text-[var(--text-tertiary)]">•</span>
-                  <Link href="/blog" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors py-1.5">Blog</Link>
-                  <span className="text-[var(--text-tertiary)]">•</span>
-                  <Link href="/about" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors py-1.5">About</Link>
-                  <span className="text-[var(--text-tertiary)]">•</span>
-                  <Link href="/contact" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors py-1.5">Contact</Link>
-                  <span className="text-[var(--text-tertiary)]">•</span>
-                  <a href="/resume" className="inline-flex items-center gap-1 text-sm text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors" target="_blank" rel="noopener noreferrer">
-                    Resume <ArrowTopRightOnSquareIcon className="h-3 w-3" />
+          {/* One quiet line above the wordmark (premium pass): nav + email +
+              social marks + mono meta. The wordmark reveal is the statement;
+              this row just stays out of its way. */}
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full pt-10 pb-8">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <nav aria-label="Footer" className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                <Link href="/" className="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text)]">Home</Link>
+                <Link href="/projects" className="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text)]">Projects</Link>
+                <Link href="/blog" className="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text)]">Blog</Link>
+                <Link href="/about" className="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text)]">About</Link>
+                <Link href="/contact" className="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text)]">Contact</Link>
+                <Link href="/resume" className="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text)]">Resume</Link>
+              </nav>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                <ObfuscatedEmail className="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text)]" />
+                <span className="hidden h-4 w-px bg-[var(--border)] sm:block" aria-hidden="true" />
+                <div className="-my-2 flex items-center gap-1">
+                  <a href="https://github.com/TayyabManan" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" title="GitHub" className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-[var(--text-secondary)] transition-colors hover:text-[var(--text)]">
+                    <Github className="h-5 w-5" />
+                  </a>
+                  <a href="https://www.linkedin.com/in/tayyabmanan" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" title="LinkedIn" className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-[var(--text-secondary)] transition-colors hover:text-[var(--text)]">
+                    <Linkedin className="h-5 w-5" />
+                  </a>
+                  <a href="https://huggingface.co/TayyabManan" target="_blank" rel="noopener noreferrer" aria-label="Hugging Face profile" title="Hugging Face" className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg" >
+                    <HuggingFaceIcon className="h-5 w-5" />
                   </a>
                 </div>
-              </div>
-
-              <div className="text-center">
-                <div className="flex flex-col items-center gap-2">
-                  <div className="flex items-center gap-2">
-                    <MapPinIcon className="h-3.5 w-3.5 text-[var(--text-tertiary)]" />
-                    <span className="text-sm text-[var(--text-secondary)]">Islamabad, Pakistan</span>
-                  </div>
-                  <ObfuscatedEmail className="text-sm text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors inline-flex items-center gap-2">
-                    <EnvelopeIcon className="h-3.5 w-3.5 text-[var(--text-tertiary)]" />
-                    <span>Email Me</span>
-                  </ObfuscatedEmail>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-center gap-4">
-                <a href="https://www.linkedin.com/in/tayyabmanan" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--primary)] hover:text-[var(--primary-hover)]" aria-label="LinkedIn Profile" title="LinkedIn">
-                  <Linkedin className="h-5 w-5" />
-                </a>
-                <a href="https://github.com/TayyabManan" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--text)] hover:text-[var(--text-secondary)]" aria-label="GitHub Profile" title="GitHub">
-                  <Github className="h-5 w-5" />
-                </a>
-                <a href="https://huggingface.co/TayyabManan" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all" aria-label="Hugging Face Profile" title="Hugging Face">
-                  <HuggingFaceIcon className="h-5 w-5" />
-                </a>
-              </div>
-            </div>
-
-            {/* Desktop */}
-            <div className="hidden sm:grid sm:grid-cols-3 gap-8">
-              <div>
-                <h3 className="text-lg font-semibold mb-4 text-[var(--text)]">Contact</h3>
-                <div className="space-y-1">
-                  <div className="flex items-start gap-3">
-                    <MapPinIcon className="h-5 w-5 text-[var(--text-tertiary)] mt-0.5 flex-shrink-0" />
-                    <span className="text-[var(--text-secondary)]">Islamabad, Pakistan</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <EnvelopeIcon className="h-5 w-5 text-[var(--text-tertiary)] mt-0.5 flex-shrink-0" />
-                    <ObfuscatedEmail className="text-[var(--text-secondary)] hover:text-[var(--text)] transition-colors break-all" />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold mb-4 text-[var(--text)]">Quick Links</h3>
-                <div className="space-y-0.5">
-                  <Link href="/" className="block text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors">Home</Link>
-                  <Link href="/projects" className="block text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors">Projects</Link>
-                  <Link href="/blog" className="block text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors">Blog</Link>
-                  <Link href="/about" className="block text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors">About</Link>
-                  <Link href="/contact" className="block text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors">Contact</Link>
-                  <a href="/resume" className="inline-flex items-center gap-1 text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors" target="_blank" rel="noopener noreferrer">
-                    Resume <ArrowTopRightOnSquareIcon className="h-4 w-4" />
-                  </a>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold mb-4 text-[var(--text)]">Connect</h3>
-                <div className="flex items-center gap-4">
-                  <a href="https://www.linkedin.com/in/tayyabmanan" target="_blank" rel="noopener noreferrer" className="p-3 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--primary)] hover:text-[var(--primary-hover)]" aria-label="LinkedIn Profile" title="LinkedIn">
-                    <Linkedin className="h-6 w-6" />
-                  </a>
-                  <a href="https://github.com/TayyabManan" target="_blank" rel="noopener noreferrer" className="p-3 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all text-[var(--text)] hover:text-[var(--text-secondary)]" aria-label="GitHub Profile" title="GitHub">
-                    <Github className="h-6 w-6" />
-                  </a>
-                  <a href="https://huggingface.co/TayyabManan" target="_blank" rel="noopener noreferrer" className="p-3 rounded-lg border border-[var(--border)] hover:border-[var(--border-hover)] transition-all" aria-label="Hugging Face Profile" title="Hugging Face">
-                    <HuggingFaceIcon className="h-6 w-6" />
-                  </a>
-                </div>
+                <span className="hidden h-4 w-px bg-[var(--border)] sm:block" aria-hidden="true" />
+                <p className="font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-[var(--text-tertiary)]">
+                  Islamabad, Pakistan &middot; UTC+5
+                </p>
               </div>
             </div>
           </div>

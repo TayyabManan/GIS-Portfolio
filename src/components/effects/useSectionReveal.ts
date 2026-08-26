@@ -50,8 +50,9 @@ export function useSectionReveal(scopeRef: RefObject<HTMLElement | null>, ready 
           if (items.length) gsap.set(items, { autoAlpha: 0, y: MOTION.riseItem })
           const tl = gsap.timeline({
             scrollTrigger: { trigger: group, start: MOTION.start, once: true },
-            // clearProps is mandatory: a leftover inline transform would silently
-            // kill the Tailwind hover:-translate-y-1 lifts on the cards.
+            // clearProps is mandatory: a leftover inline transform would create
+            // a containing block (breaking descendants' fixed/absolute layers)
+            // and silently pin any future hover transform on the cards.
             onComplete: () => gsap.set(targets, { clearProps: 'transform,opacity,visibility' }),
           })
           if (heading) {

@@ -380,7 +380,7 @@ export default function TableOfContents({ content, variant = 'both' }: TableOfCo
             <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[var(--border)] flex-shrink-0">
               <ListBulletIcon className="h-4 w-4 text-[var(--primary)]" />
               <h3 className="text-sm font-semibold text-[var(--text)] uppercase tracking-wide">
-                On This Page
+                On this page
               </h3>
             </div>
 

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { type ThemeKey } from '@/lib/themes';
+import { themeColor, type ThemeKey } from '@/lib/themes';
 
 type ThemePreference = ThemeKey | 'system';
 
@@ -26,6 +26,13 @@ export function useTheme() {
 function applyTheme(key: ThemeKey) {
   // Token values live in globals.css; switching themes is just flipping the attribute
   document.documentElement.setAttribute('data-theme', key);
+  // Keep the browser chrome on the page surface. The SSR tags (layout.tsx
+  // viewport) are media-queried for first paint; once the resolved theme is
+  // known it owns both tags, so the address bar follows the site toggle even
+  // when it diverges from the OS scheme.
+  document.querySelectorAll('meta[name="theme-color"]').forEach((tag) => {
+    tag.setAttribute('content', themeColor[key]);
+  });
 }
 
 function getSystemTheme(): ThemeKey {

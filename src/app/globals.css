@@ -92,6 +92,9 @@ body {
      whole identity. --on-primary flips with the polarity (Geist-style
      foreground-on-background buttons); --info keeps the old blue for
      semantic/status use only. */
+  /* Native UI (form controls, scrollbars, autofill) follows the theme - without
+     this, dark mode gets light-scheme selects/autofill punching through the ink. */
+  color-scheme: light;
   --primary: #292524;
   --primary-hover: #3f3b36;
   --primary-light: #e9e7e4;
@@ -143,6 +146,7 @@ body {
 [data-theme="dark"] {
   /* Ink primary inverts with the polarity: near-white actions on dark stone,
      dark labels on them (the Vercel dark-button pattern). */
+  color-scheme: dark;
   --primary: #e2ded9;
   --primary-hover: #d3cec8;
   --primary-light: rgba(237, 235, 232, 0.14);
@@ -270,6 +274,14 @@ h3, h4, h5, h6 { font-weight: 500; letter-spacing: -0.01em; }
 
 p {
   text-wrap: pretty;
+}
+
+/* Long-form prose in dark mode: light-on-dark optically thins type, so the
+   reading voice nudges up to 440 (Hanken loads as a variable font). Ported
+   from the retired serif's rule - the reasoning is face-agnostic. Only
+   article bodies carry the class; UI text stays at 400. */
+[data-theme="dark"] .article-body {
+  font-weight: 440;
 }
 
 /* Hero index pill hover (a GSAP-driven fill layer that slides up) is handled entirely inside
@@ -400,6 +412,8 @@ select {
   :root,
   [data-theme="dark"] {
     /* Enhanced contrast colors for accessibility */
+    /* The HC palette is forced-light in both themes; native UI must match it */
+    color-scheme: light;
     --primary: #0000ff;
     --primary-hover: #0000cc;
     --primary-light: #e6e6ff;

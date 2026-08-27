@@ -50,8 +50,10 @@ export function readingComponents({ headingId }: ReadingComponentOptions = {}): 
       </h3>
     ),
     p: ({ children }) => <p className="mb-4">{children}</p>,
-    ul: ({ children }) => <ul className="list-disc list-inside space-y-2 mb-4">{children}</ul>,
-    ol: ({ children }) => <ol className="list-decimal list-inside space-y-2 mb-4">{children}</ol>,
+    // Hanging markers (book style): the marker sits in the padding and wrapped
+    // lines align with the first line's text, not under the bullet.
+    ul: ({ children }) => <ul className="list-disc list-outside pl-[1.625em] space-y-2 mb-4">{children}</ul>,
+    ol: ({ children }) => <ol className="list-decimal list-outside pl-[1.625em] space-y-2 mb-4">{children}</ol>,
     li: ({ children }) => <li>{children}</li>,
     strong: ({ children }) => <strong className="font-semibold text-[var(--text)]">{children}</strong>,
     code: ({ children, className }) => {

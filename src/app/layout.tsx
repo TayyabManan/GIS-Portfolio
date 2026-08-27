@@ -5,6 +5,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import ClientLayout from '@/components/ClientLayout'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { ThemeProvider } from '@/contexts/ThemeContext'
+import { themeColor } from '@/lib/themes'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider'
 import './globals.css'
@@ -58,6 +59,13 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
+  // Address-bar color = page surface (paper/stone). Media-queried for first
+  // paint; after hydration ThemeContext rewrites both tags whenever the site
+  // toggle diverges from the OS scheme.
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: themeColor.light },
+    { media: '(prefers-color-scheme: dark)', color: themeColor.dark },
+  ],
 }
 
 export const metadata: Metadata = {

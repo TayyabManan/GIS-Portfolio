@@ -43,3 +43,15 @@ export const themes = {
 } as const;
 
 export type ThemeKey = 'light' | 'dark';
+
+/**
+ * Browser-chrome color per theme (the meta theme-color): always the page
+ * surface, so the address bar melts into the paper/stone instead of framing
+ * it. Dark value mirrors --background in globals.css `[data-theme="dark"]`.
+ * Consumed by layout.tsx (SSR, media-queried) and ThemeContext (post-
+ * hydration, follows the site toggle when it diverges from the OS).
+ */
+export const themeColor: Record<ThemeKey, string> = {
+  light: themes.light.background,
+  dark: '#1c1917',
+};

@@ -39,6 +39,8 @@ const affiliationLinkClass =
 
 // Heading font for the focus-area pill text: <a>/<span> don't inherit the h1-scoped
 // heading font, so the pill layers set it explicitly (shared across sizer/base/fill).
+// The headline itself does NOT use this - owner call (Aug 2026): the hero headline
+// speaks the body voice (Hanken) on every breakpoint, see the h1's font-sans below.
 const PILL_FONT = { fontFamily: 'var(--font-heading), system-ui, sans-serif' } as const
 
 export default function Hero() {
@@ -165,8 +167,11 @@ export default function Hero() {
             Hello, I&apos;m Tayyab Manan
           </p>
 
-          {/* Title */}
-          <h1 className="mt-3 text-[2.75rem] font-semibold leading-[1.08] tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">
+          {/* Title. font-sans! beats the global h1 rule (which would set the
+              Bricolage heading face - and, being unlayered, outranks plain
+              utilities): the hero headline is deliberately in the body voice,
+              matching the desktop twin, a <p> that inherits Hanken from <body>. */}
+          <h1 className="mt-3 font-sans! text-[2.75rem] font-semibold leading-[1.08] tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">
             AI/ML Engineer
           </h1>
 

@@ -27,12 +27,4 @@ export const projectSlugSchema = z.string()
   .regex(/^[a-z0-9-]+$/, 'Invalid project slug')
   .max(100, 'Slug too long')
 
-// Environment variables validation
-export const envSchema = z.object({
-  NEXT_PUBLIC_GA_MEASUREMENT_ID: z.string().optional(),
-  NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: z.string().optional(),
-  NTFY_TOPIC: z.string().optional(),
-})
-
 export type ContactFormData = z.infer<typeof contactFormSchema>
-export type ProjectSlug = z.infer<typeof projectSlugSchema>

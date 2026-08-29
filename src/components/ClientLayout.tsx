@@ -6,11 +6,9 @@ import { Toaster } from '@/components/ui/Toast'
 import OfflineBanner from '@/components/ui/OfflineBanner'
 import { CommandPaletteProvider } from '@/components/ui/CommandPaletteProvider'
 import { useGlobalKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts'
-import { useSkipToContent } from '@/hooks/useFocusManagement'
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   useGlobalKeyboardShortcuts()
-  useSkipToContent()
 
   return (
     <CommandPaletteProvider>

@@ -5,15 +5,19 @@ import Link from 'next/link'
 import { Github, Linkedin, FileText, ArrowUpRight } from 'lucide-react'
 import WiggleLine from '@/components/effects/WiggleLine'
 import HeroReadout, { warmHeroReadout, type HeroReadoutVariant } from '@/components/effects/HeroReadout'
+import { desktopMotionOK } from '@/lib/gsap'
 
 // Four focus areas - a static annotation line in the mobile hero, and a numbered index on desktop.
 // Each pill links to its flagship project. `metric` is the real, already-published number
 // shown by the fill layer that rises on hover - keep these terse so the pill width
-// (sized to the wider of label/metric) stays close to today's.
+// (sized to the wider of label/metric) stays close to today's. Every metric
+// carries its baseline or context (bare accuracy invites skepticism from
+// anyone who knows ML): 7-class task, denied-class recall, vs-base win rate,
+// district count. Numbers must match the project pages verbatim.
 const focusAreas: { label: string; metric: string; href: string; readout: HeroReadoutVariant }[] = [
-  { label: 'Computer Vision', metric: '80% accuracy', href: '/projects/face-expression-detection', readout: 'accuracy' },
-  { label: 'Explainable ML', metric: '73.2% accuracy', href: '/projects/us-visa-prediction', readout: 'hbars' },
-  { label: 'Production ML', metric: '79.5% win rate', href: '/projects/urdu-llm-fine-tuning', readout: 'bars-up' },
+  { label: 'Computer Vision', metric: '80% acc · 7 classes', href: '/projects/face-expression-detection', readout: 'accuracy' },
+  { label: 'Explainable ML', metric: '73.2% acc · 61% recall', href: '/projects/us-visa-prediction', readout: 'hbars' },
+  { label: 'Production ML', metric: '79.5% win vs base', href: '/projects/urdu-llm-fine-tuning', readout: 'bars-up' },
   { label: 'Geospatial AI', metric: 'R²=0.89 · 145 districts', href: '/projects/watertrace', readout: 'scatter-fit' },
 ]
 
@@ -57,8 +61,9 @@ export default function Hero() {
   // imported so the mobile hero never ships it; gsap.matchMedia reverts the listeners below lg.
   useEffect(() => {
     if (!indexRef.current) return
-    // Gate the import itself: touch / narrow viewports never download GSAP.
-    if (!window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches) return
+    // Gate the import itself: touch / narrow viewports never download GSAP,
+    // and reduced-motion users keep the static pills (rest state is complete).
+    if (!desktopMotionOK()) return
     let cancelled = false
     let revert: (() => void) | null = null
     // fonts.ready before measuring: the pills' widths depend on the heading font,
@@ -162,17 +167,23 @@ export default function Hero() {
       {/* The original single-column hero, kept as-is for small screens (no marquee). */}
       <div className="flex min-h-[calc(100dvh-64px)] items-center px-4 sm:px-6 lg:hidden">
         <div className="mx-auto w-full max-w-4xl py-12 sm:py-16">
-          {/* Greeting */}
+          {/* Greeting - carries the job title now that the headline is the
+              claim (home restructure: title demoted, claim promoted). */}
           <p className="text-base font-medium tracking-wide text-[var(--text-secondary)] sm:text-lg">
-            Hello, I&apos;m Tayyab Manan
+            Hello, I&apos;m Tayyab Manan &middot; AI/ML engineer
           </p>
 
-          {/* Title. font-sans! beats the global h1 rule (which would set the
-              Bricolage heading face - and, being unlayered, outranks plain
-              utilities): the hero headline is deliberately in the body voice,
-              matching the desktop twin, a <p> that inherits Hanken from <body>. */}
-          <h1 className="mt-3 font-sans! text-[2.75rem] font-semibold leading-[1.08] tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">
-            AI/ML Engineer
+          {/* Headline = the claim, not the job title. font-sans! beats the
+              global h1 rule (which would set the Bricolage heading face - and,
+              being unlayered, outranks plain utilities): the hero headline is
+              deliberately in the body voice, matching the desktop twin, a <p>
+              that inherits Hanken from <body>. leading needs the ! for the
+              same unlayered-rule reason now that it wraps to several lines.
+              The marker swipe rides the final word - the page's one lime
+              moment lands in the headline on every breakpoint. */}
+          <h1 className="mt-3 font-sans! text-4xl font-semibold leading-[1.1]! tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">
+            I build ML systems that make it to{' '}
+            <span className="marker-highlight">production</span>
           </h1>
 
           {/* Focus areas - static, in the mono annotation voice (the word carousel
@@ -278,34 +289,53 @@ export default function Hero() {
       <div className="hidden min-h-[calc(100dvh-64px)] items-center px-4 sm:px-6 lg:flex lg:px-8">
         {/* CSS-driven staggered entrance (see .hero-reveal* in globals.css): plays on
             first paint instead of after hydration, so the hero doesn't sit static for a
-            beat then replay. data-essential-motion opts the whole group out of the global
-            reduce-motion zeroing, keeping the signature reveal (as the previous version did). */}
+            beat then replay. No data-essential-motion: the entrance is decorative, so
+            the global reduced-motion rule zeroes it to an instant appearance (the
+            animations still complete - fill 'both' lands every element visible). */}
         <div
-          data-essential-motion
           className="mx-auto w-full max-w-7xl py-16 lg:py-20"
         >
-          {/* 1. Eyebrow row - greeting */}
+          {/* 1. Eyebrow row - greeting + job title (title demoted here in the
+              home restructure; the headline below carries the claim) */}
           <div className="hero-reveal" style={{ animationDelay: '100ms' }}>
             <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-              Hello, I&apos;m Tayyab Manan
+              Hello, I&apos;m Tayyab Manan &middot; AI/ML Engineer
             </p>
           </div>
 
-          {/* 2. Headline - fluid oversize, spans the container width.
-              A <p>, not an <h1>: the mobile hero variant already owns the page's
-              single <h1>, and Google indexes mobile-first, so this desktop-only
-              twin stays a styled paragraph to avoid a duplicate H1.
-              Transform-only reveal (no opacity fade) so this LCP element paints at once. */}
+          {/* 2. Headline - the claim, fluid oversize across two balanced lines
+              (manual break; the clamp is sized so neither line wraps inside
+              the max-w-7xl container). A <p>, not an <h1>: the mobile hero
+              variant already owns the page's single <h1>, and Google indexes
+              mobile-first, so this desktop-only twin stays a styled paragraph
+              to avoid a duplicate H1. Transform-only reveal (no opacity fade)
+              so this LCP element paints at once. The marker swipe rides the
+              final word - the lime moment at its maximum size. */}
           <p
-            className="mt-6 text-[clamp(2.75rem,11vw,10rem)] font-semibold leading-[0.98]! tracking-[-0.02em]! text-[var(--text)] hero-reveal-headline"
+            className="mt-4 text-[clamp(2.5rem,7.3vw,6.25rem)] font-semibold leading-[1.05]! tracking-[-0.02em]! text-[var(--text)] hero-reveal-headline"
             style={{ animationDelay: '200ms' }}
           >
-            AI/ML Engineer
+            I build ML systems that
+            <br />
+            make it to <span className="marker-highlight">production</span>
           </p>
 
-          {/* 3. Meta row - role/affiliation + location */}
+          {/* 3. Meta row - role/affiliation + location. Kicker rhythm: the
+              eyebrow sits TIGHT above the headline (mt-4, one lockup) and the
+              meta gets MORE air below it (mt-7) - the reverse read as off.
+              The clamp cap is now an OWNER TASTE CALL, deliberately below the
+              maximum the container allows - do not "fix" it back up. The
+              measured maximum is 7.25rem (line one runs ~10em in Hanken at
+              -0.02em tracking, which is the largest cap clearing the 1216px
+              inner width at ~95% fill); the owner found that too big on
+              2026-08-29 and chose 6.25rem / 7.3vw = 100px at 1440, ~77% fill.
+              A previous pass raised this clamp for measure-fill reasons and
+              overshot what the owner wanted - fill is the ceiling, not the
+              target. Leading 1.05 per the display band (1.02 was under it).
+              Mobile keeps its own ladder (text-4xl sm:text-6xl md:text-7xl),
+              left alone by the same call. */}
           <div
-            className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between hero-reveal"
+            className="mt-7 flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between hero-reveal"
             style={{ animationDelay: '350ms' }}
           >
             <p className="text-sm text-[var(--text-secondary)]">
@@ -320,13 +350,31 @@ export default function Hero() {
                 <ExternalArrow />
               </a>
             </p>
-            <p className="text-xs uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
+            {/* Matches the left half's size and case so the row reads as ONE meta
+                line; the ink step (tertiary vs secondary) carries the hierarchy
+                instead. Was 12px uppercase tracked, which made two halves of the
+                same line look unrelated - and uppercasing the LEFT half to match
+                was worse: 70 characters of tracked caps wrapped to two lines. */}
+            <p className="text-sm text-[var(--text-tertiary)]">
               Islamabad &middot; UTC+5 &middot; Available for remote contract work
             </p>
           </div>
 
           {/* 4. Hairline rule - interactive bezier: bends with the cursor on hover,
-              springs back elastically on leave (see WiggleLine) */}
+              springs back elastically on leave (see WiggleLine).
+              mt-4 = 16px above the rule against 40px below. That asymmetry is
+              CORRECT and owner-confirmed (Aug 2026): the rule terminates the
+              header block, so it belongs to the meta line above it rather than
+              floating midway to the lede. An audit briefly "fixed" this to
+              mt-12 and the owner rejected it on sight - don't re-balance it.
+
+              MEASUREMENT TRAP: in headless/automation contexts the .hero-reveal
+              entrance animations freeze at their FIRST keyframe, so the meta row
+              sits at heroRise's translateY(14px) and the lede does too. Measuring
+              then reports 2px above / 54px below and invents a spacing bug that
+              does not exist. Before trusting any hero geometry, run
+              el.getAnimations().forEach(a => a.finish()) on the .hero-reveal*
+              elements, or measure in a real browser. */}
           <div className="mt-4 origin-left hero-reveal-rule" style={{ animationDelay: '600ms' }} aria-hidden="true">
             <WiggleLine />
           </div>
@@ -335,10 +383,11 @@ export default function Hero() {
           <div className="mt-10 grid items-start gap-12 lg:grid-cols-[1fr_auto] lg:gap-16">
             {/* Left column */}
             <div className="hero-reveal" style={{ animationDelay: '500ms' }}>
+              {/* The claim moved up to the headline; the lede is now the
+                  proof line - domains plus a verifiable fact. */}
               <p className="max-w-xl text-lg text-[var(--text-secondary)] sm:text-xl">
-                I build machine-learning systems that make it to{' '}
-                <span className="marker-highlight">production</span>, from
-                computer-vision pipelines to multi-agent workflows.
+                Computer vision, NLP, geospatial AI, and multi-agent workflows.
+                Six deployed projects, every one with a live demo.
               </p>
 
               {/* CTA row */}

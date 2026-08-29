@@ -1,14 +1,12 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { CheckCircleIcon, CheckBadgeIcon } from '@heroicons/react/24/solid'
-import { MapPinIcon, AcademicCapIcon, BriefcaseIcon } from '@heroicons/react/24/outline'
 import { resumeData, formatDate } from '@/lib/resume-data'
 import Link from 'next/link'
 import Image from 'next/image'
 import FAQ from '@/components/ui/FAQ'
 import { aboutFaqs } from '@/lib/faqs'
-import { DESKTOP_MOTION, MOTION, loadScrollCore } from '@/lib/gsap'
+import { desktopMotionOK, MOTION, loadScrollCore } from '@/lib/gsap'
 import { useSectionReveal } from '@/components/effects/useSectionReveal'
 import { ScatterOutlier } from '@/components/effects/NotebookDoodles'
 
@@ -68,7 +66,7 @@ export default function AboutPage() {
   // prefers-reduced-motion rule; lazy so mobile never ships it.
   useEffect(() => {
     if (!rootRef.current) return
-    if (!window.matchMedia(DESKTOP_MOTION).matches) return
+    if (!desktopMotionOK()) return
     let cancelled = false
     let revert: (() => void) | null = null
     loadScrollCore().then(({ gsap }) => {
@@ -135,7 +133,10 @@ export default function AboutPage() {
           {/* Bio & Skills - Left side on desktop, order-1 on mobile */}
           <div className="lg:col-span-2 space-y-8 order-2 lg:order-1">
             <section>
-              <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)] mb-4">About My Journey</h2>
+              {/* Interior sections sit one step below the page-title scale
+                  (text-2xl/3xl) - display-size H2s on utility sections read
+                  as shouting. Headings speak the site voice, not resume-ese. */}
+              <h2 className="text-2xl sm:text-3xl font-semibold text-[var(--text)] mb-4">How I got here</h2>
               <div className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed space-y-4">
                 <p>
                   I got into AI through an unusual path: geography. During my Bachelor&apos;s in GIS at Punjab University,
@@ -159,15 +160,21 @@ export default function AboutPage() {
             </section>
 
             <section>
-              <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)] mb-4">Core Competencies</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-[var(--text)] mb-4">What I work with</h2>
+              {/* Plain two-column list in the body voice - the checkmark-icon
+                  grid is retired (a checkmark asserts nothing the text
+                  doesn't), and these are full phrases, so they read in Hanken
+                  (owner call: mono annotation voice is for short labels).
+                  Markers stay tertiary ink, not lime: the closed lime budget
+                  doesn't include this list. */}
+              <ul className="grid grid-cols-1 gap-x-10 gap-y-2.5 md:grid-cols-2">
                 {skills.map((skill) => (
-                  <div key={skill} className="flex items-center gap-3">
-                    <CheckCircleIcon className="h-5 w-5 text-[var(--primary)] flex-shrink-0" />
-                    <span className="text-[var(--text-secondary)]">{skill}</span>
-                  </div>
+                  <li key={skill} className="flex items-baseline gap-3 text-sm leading-relaxed text-[var(--text-secondary)]">
+                    <span aria-hidden="true" className="text-[var(--text-tertiary)]">·</span>
+                    {skill}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </section>
           </div>
 
@@ -184,15 +191,11 @@ export default function AboutPage() {
               />
             </div>
 
-            <div className="text-center space-y-4">
-              <div className="flex items-center justify-center gap-2 text-[var(--text-secondary)]">
-                <MapPinIcon className="h-5 w-5" />
-                <span>Islamabad, Pakistan</span>
-              </div>
-              <div className="flex items-center justify-center gap-2 text-[var(--text-secondary)]">
-                <BriefcaseIcon className="h-5 w-5" />
-                <span>Available for Remote Work</span>
-              </div>
+            {/* Plain text meta - the icon rows were the retired template
+                generation; the words carry everything the pictograms did. */}
+            <div className="space-y-1.5 text-center text-sm text-[var(--text-secondary)]">
+              <p>Islamabad, Pakistan</p>
+              <p>Available for remote work</p>
             </div>
           </div>
         </div>
@@ -201,10 +204,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Education */}
           <section>
-            <div className="flex items-center gap-3 mb-6">
-              <AcademicCapIcon className="h-6 w-6 text-[var(--primary)]" />
-              <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)]">Education</h2>
-            </div>
+            <h2 className="mb-6 text-2xl sm:text-3xl font-semibold text-[var(--text)]">Education</h2>
             <div className="space-y-6">
               {education.map((edu, index) => (
                 <div key={index} data-tl-item className="relative border-l-2 border-[var(--primary-light)] pl-6 pb-6">
@@ -228,10 +228,7 @@ export default function AboutPage() {
 
           {/* Experience */}
           <section>
-            <div className="flex items-center gap-3 mb-6">
-              <BriefcaseIcon className="h-6 w-6 text-[var(--primary)]" />
-              <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)]">Experience</h2>
-            </div>
+            <h2 className="mb-6 text-2xl sm:text-3xl font-semibold text-[var(--text)]">Experience</h2>
             <div className="space-y-6">
               {experience.map((exp, index) => (
                 <div key={index} data-tl-item className="relative border-l-2 border-[var(--primary-light)] pl-6 pb-6">
@@ -256,25 +253,38 @@ export default function AboutPage() {
 
         {/* Certifications */}
         <section data-reveal-group className="mt-12">
-          <div data-reveal="heading" className="flex items-center gap-3 mb-6">
-            <CheckBadgeIcon className="h-6 w-6 text-[var(--primary)]" />
-            <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)]">Certifications</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <h2 data-reveal="heading" className="mb-6 text-2xl sm:text-3xl font-semibold text-[var(--text)]">Certifications</h2>
+          {/* Hairline rows, single column - the old two-column grid ran
+              ragged with five items. Linked names use the ink-link grammar
+              (underline as affordance, WCAG G183). */}
+          <ul className="max-w-3xl">
             {resumeData.certifications.map((cert, index) => (
-              <div key={index} data-reveal="item" className="border-l-2 border-[var(--primary-light)] pl-6">
-                {cert.credentialUrl ? (
-                  <a href={cert.credentialUrl} target="_blank" rel="noopener noreferrer" className="text-lg font-semibold text-[var(--text)] hover:text-[var(--primary)] transition-colors mb-1 block">
-                    {cert.name}
-                  </a>
-                ) : (
-                  <h3 className="text-lg font-semibold text-[var(--text)] mb-1">{cert.name}</h3>
-                )}
-                <p className="text-[var(--text-secondary)] font-medium mb-1">{cert.issuer}</p>
-                <p className="text-sm text-[var(--text-secondary)]">{formatDate(cert.date)}</p>
-              </div>
+              <li
+                key={index}
+                data-reveal="item"
+                className="flex flex-col gap-1 border-t border-[var(--border)] py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+              >
+                <div>
+                  {cert.credentialUrl ? (
+                    <a
+                      href={cert.credentialUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-[var(--text)] underline decoration-[var(--text)]/30 underline-offset-[0.15em] transition-[text-decoration-color] duration-200 hover:decoration-[var(--text)]"
+                    >
+                      {cert.name}
+                    </a>
+                  ) : (
+                    <h3 className="inline font-semibold text-[var(--text)]">{cert.name}</h3>
+                  )}
+                  <p className="text-sm text-[var(--text-secondary)]">{cert.issuer}</p>
+                </div>
+                <p className="shrink-0 font-mono text-xs font-medium tracking-[0.08em] text-[var(--text-secondary)]">
+                  {formatDate(cert.date)}
+                </p>
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
 
         {/* FAQ + CTA side by side on desktop; the CTA fills the space beside

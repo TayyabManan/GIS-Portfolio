@@ -1,3 +1,10 @@
+/**
+ * The Project shape. TYPE ONLY - the data itself comes from markdown
+ * frontmatter via src/lib/markdown.ts (getAllProjectsFromMarkdown etc.).
+ * A stale empty `projects: Project[] = []` array and a `getFeaturedProjects()`
+ * that filtered it (so it could only ever return []) lived here until the
+ * Aug 2026 dead-code sweep; the markdown loader replaced them long before.
+ */
 export interface Project {
   slug: string
   title: string
@@ -19,9 +26,3 @@ export interface Project {
   metricChart?: string
 }
 
-// Temporary static data - will be replaced with API fetch
-export const projects: Project[] = []
-
-export function getFeaturedProjects(): Project[] {
-  return projects.filter(project => project.featured)
-}

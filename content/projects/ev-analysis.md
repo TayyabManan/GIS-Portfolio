@@ -17,6 +17,8 @@ date: "2024-11-20"
 ## Overview
 A geospatial project for figuring out where to put EV charging stations in Lahore. The system combines demographic data, economic indicators, infrastructure networks, and spatial analysis to score and rank potential sites across Lahore's 5 tehsils using multi-criteria decision analysis and weighted scoring.
 
+![the site-selection map · 10 ranked sites across 3 rollout phases](/projects/screens/ev-analysis.webp)
+
 ## Key Features
 - **Site Selection Algorithm**: Multi-criteria optimization for EV charging station placement across Lahore's 5 tehsils
 - **Weighted Scoring Model**: Scoring algorithm that integrates demographic, accessibility, and growth factors with tunable weights (population 30%, growth 20%, accessibility 25%, infrastructure 15%, economic 10%)

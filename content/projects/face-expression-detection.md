@@ -4,7 +4,7 @@ title: "Face Expression Detection"
 subtitle: "Deep Learning Emotion Recognition in Group Photos"
 description: "A deep learning web application that detects and classifies facial expressions in images. Built with PyTorch and Flask, featuring a ResNet-18 model trained on the RAF-DB dataset achieving 80% accuracy."
 category: "Computer Vision"
-metric: "80% acc"
+metric: "80% acc · 7 classes"
 metricChart: "accuracy"
 techStack: ["Python", "PyTorch", "Flask", "MTCNN", "OpenCV", "ResNet-18", "Docker", "Hugging Face"]
 image: "/projects/face-expression-detection.webp"
@@ -19,6 +19,8 @@ A deep learning web app that detects and classifies facial expressions in images
 
 **[Read the full technical deep-dive →](/blog/building-face-expression-detection)**
 
+![the model reading a group · 8 faces, all 7 classes · 85–92% confidence](/projects/screens/face-expression-detection.webp "app")
+
 ## Features
 - **7 Emotion Classes**: Surprise, Fear, Disgust, Happiness, Sadness, Anger, Neutral
 - **Multi-face Detection**: Detects and analyzes multiple faces in a single image
@@ -28,19 +30,19 @@ A deep learning web app that detects and classifies facial expressions in images
 - **Dark/Light Mode**: Toggle between themes
 - **Responsive Design**: Works on desktop and mobile
 
-## What We Did
+## What I Did
 
 ### Face Detection Pipeline
-We used a two-stage approach with MTCNN as the primary face detector and Haar Cascade as fallback. MTCNN handles multiple faces in group photos well, and Haar Cascade picks up faces that MTCNN misses (unusual angles, extreme lighting).
+I used a two-stage approach with MTCNN as the primary face detector and Haar Cascade as fallback. MTCNN handles multiple faces in group photos well, and Haar Cascade picks up faces that MTCNN misses (unusual angles, extreme lighting).
 
 ### Model Training
-We used transfer learning with ResNet-18 pretrained on ImageNet and fine-tuned on RAF-DB (Real-world Affective Faces Database), which has 15,339 images across 7 emotion classes. The custom classification head uses batch normalization and dropout for regularization.
+I used transfer learning with ResNet-18 pretrained on ImageNet and fine-tuned on RAF-DB (Real-world Affective Faces Database), which has 15,339 images across 7 emotion classes. The custom classification head uses batch normalization and dropout for regularization.
 
 ### Handling Class Imbalance
-RAF-DB has serious class imbalance (Happiness: 39%, Fear: 2.3%). We addressed this with focal loss, class weights, and weighted sampling to improve performance on minority classes like Fear and Disgust. The ensemble of models trained with different loss functions ended up being the most effective approach.
+RAF-DB has serious class imbalance (Happiness: 39%, Fear: 2.3%). I addressed this with focal loss, class weights, and weighted sampling to improve performance on minority classes like Fear and Disgust. The ensemble of models trained with different loss functions ended up being the most effective approach.
 
 ### Web Application
-We built a Flask web app with image upload, real-time emotion detection, and annotated output showing bounding boxes and confidence scores. Deployed on Hugging Face Spaces using Docker.
+I built a Flask web app with image upload, real-time emotion detection, and annotated output showing bounding boxes and confidence scores. Deployed on Hugging Face Spaces using Docker.
 
 ## Tech Stack
 

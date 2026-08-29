@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, type RefObject } from 'react'
-import { DESKTOP_MOTION, MOTION, loadScrollCore } from '@/lib/gsap'
+import { desktopMotionOK, MOTION, loadScrollCore } from '@/lib/gsap'
 
 /**
  * Scroll-triggered section reveal (desktop + fine-pointer only, plays once).
@@ -22,8 +22,9 @@ import { DESKTOP_MOTION, MOTION, loadScrollCore } from '@/lib/gsap'
 export function useSectionReveal(scopeRef: RefObject<HTMLElement | null>, ready = true) {
   useEffect(() => {
     if (!ready || !scopeRef.current) return
-    // Gate the import itself: touch / narrow viewports never download GSAP.
-    if (!window.matchMedia(DESKTOP_MOTION).matches) return
+    // Gate the import itself: touch / narrow viewports never download GSAP,
+    // and reduced-motion users keep everything statically visible.
+    if (!desktopMotionOK()) return
     let cancelled = false
     let revert: (() => void) | null = null
     loadScrollCore().then(({ gsap }) => {

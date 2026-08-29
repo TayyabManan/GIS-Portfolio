@@ -1,8 +1,8 @@
 ---
 slug: "building-urdu-llm-fine-tuning"
-title: "Building an Urdu LLM: From Data Curation to Deployment"
+title: "Fine-Tuning an Urdu LLM: Data Curation to Deployment"
 seoTitle: "Fine-Tuning an Urdu LLM with QLoRA"
-description: "A technical deep-dive into fine-tuning Qwen 2.5 7B for Urdu across three versions: curating a bilingual Urdu/Roman-Urdu corpus, QLoRA training on a rented H100, diagnosing and fixing catastrophic forgetting, building a blinded multi-judge evaluation harness (including a free Claude-Code-CLI judge), fixing the regressions a data change caused, RAG-aware retraining that fixed retrieval's structural failure without turning it into a blanket win, and shipping a live demo on Gradio + Modal."
+description: "Fine-tuning Qwen 2.5 7B for Urdu across three versions: a bilingual Urdu/Roman-Urdu corpus, QLoRA on a rented H100, catastrophic forgetting diagnosed and fixed, a blinded multi-judge evaluation harness, RAG-aware retraining, and a live Gradio + Modal demo, all for about $60."
 date: "2026-06-28"
 author: "Tayyab Manan"
 category: "Machine Learning"
@@ -40,7 +40,9 @@ howTo:
 
 This post is the technical deep-dive behind the [Urdu LLM Fine-Tuning](/projects/urdu-llm-fine-tuning) project. I'll walk through the full pipeline across three versions: curating a bilingual Urdu corpus, QLoRA training, a multi-judge evaluation harness, a RAG layer that failed and the retraining that fixed it, and a live demo that works. It was my first end-to-end fine-tuning project, built in public for about $60, and a lot of what I learned came from getting things wrong on a public timeline. Three versions in, the current model wins about 79.5% of blind comparisons against the base.
 
-## Why is Urdu a hard language for LLMs?
+![the live space answering in roman urdu · python decorators, working code included](/projects/screens/urdu-llm-fine-tuning.webp "app")
+
+## Why Urdu Is Hard for LLMs
 
 **Urdu has ~230 million speakers but very little clean, instruction-tuned text, and almost no open models specialized for it.** General base models produce Urdu but wobble, slipping into English (or even Chinese) on unusual prompts. The real target is a model that handles all three registers Pakistanis actually use: Urdu script, Roman Urdu, and code-mixing.
 
@@ -101,7 +103,7 @@ Training ran on a single Modal H100. The configuration:
 
 That last number is worth pausing on. A 7B model fine-tuned with QLoRA peaked at 8.56 GB on an 80 GB card. Fine-tuning at this scale fits comfortably on hardware most people can rent for a few dollars, or even own. The barrier is lower than the "7B" label suggests.
 
-### What is catastrophic forgetting, and how did it break v1?
+### Catastrophic Forgetting, and How It Broke v1
 
 **Catastrophic forgetting is when fine-tuning on one skill erases others the model already had.** v1 over-fit to Urdu and started drifting or breaking on ordinary prompts. The fix was to mix general-capability data back in, lower the learning rate, and train fewer epochs, so Urdu improved without overwriting the base model's existing knowledge.
 
@@ -133,7 +135,7 @@ Two gotchas cost me time and are worth flagging:
 - **`save_total_limit` can delete your best checkpoint.** With `load_best_model_at_end=True`, if the checkpoint cap evicts the best checkpoint before training ends, there's nothing to load back. v1 hit this exactly. v2 raised the limit.
 - **Always make training resumable.** Rented GPUs time out. My first long run hit a wall-clock timeout and resumed from a checkpoint instead of restarting from zero. Total training came to roughly five hours of H100 time across one timeout-and-resume. Wrapping logging and volume commits in a `try/finally` meant even a crash persisted the training log.
 
-## How do you evaluate an Urdu LLM without a benchmark?
+## Evaluating an Urdu LLM Without a Benchmark
 
 **Build a blinded pairwise harness and let several LLM judges vote.** With no Urdu chat benchmark, each judge compares the base and fine-tuned answers to the same prompt with the order randomized to cancel position bias. Reporting the median win rate and its range across judges gives a defensible "better" without relying on a single number.
 

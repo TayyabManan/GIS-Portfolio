@@ -1,9 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { DynamicReactMarkdown } from '@/lib/dynamic-imports'
-import { CalendarIcon, ClockIcon, UserIcon, ArrowLeftIcon, ArrowRightIcon, TagIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 import { BlogPostWithContent, BlogPost } from '@/lib/markdown'
 import { readingComponents, READING_BODY_CLASS } from '@/lib/reading-prose'
 import ShareButtons from '@/components/ui/ShareButtons'
@@ -76,43 +75,30 @@ export default function BlogPostClient({ post, adjacentPosts }: BlogPostClientPr
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8 lg:gap-12">
           {/* Main Content */}
           <article className="min-w-0">
-            {/* Header */}
-            <header className="mb-8">
+            {/* Header. Meta is the annotation voice (category · date · read
+                time), matching the blog cards — the icon meta row is retired.
+                The byline is redundant on a single-author site; author lives
+                in the BlogPosting JSON-LD. */}
+            <header className="mb-8 border-b border-[var(--border)] pb-6">
+          <p className="mb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+            {post.category} &middot; <time dateTime={post.date}>{formatDate(post.date)}</time>
+            {post.readTime && <> &middot; {post.readTime}</>}
+          </p>
+
           {/* Title */}
           <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--text)] mb-4">
             {post.title}
           </h1>
 
           {/* Description */}
-          <p className="text-xl text-[var(--text-secondary)] mb-6">
+          <p className="text-xl text-[var(--text-secondary)]">
             {post.description}
           </p>
 
-          {/* Meta Information */}
-          <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--text-tertiary)] pb-6 border-b border-[var(--border)]">
-            <div className="flex items-center gap-2">
-              <UserIcon className="h-4 w-4" />
-              <Link href="/about" className="hover:text-[var(--primary)] transition-colors">
-                {post.author}
-              </Link>
-            </div>
-            <div className="flex items-center gap-2">
-              <CalendarIcon className="h-4 w-4" />
-              <time dateTime={post.date}>{formatDate(post.date)}</time>
-            </div>
-            {post.readTime && (
-              <div className="flex items-center gap-2">
-                <ClockIcon className="h-4 w-4" />
-                <span>{post.readTime}</span>
-              </div>
-            )}
-          </div>
-
-          {/* Tags */}
+          {/* Tags - three at most; past that a tag list is noise, not wayfinding */}
           {post.tags && post.tags.length > 0 && (
-            <div className="mt-6 flex flex-wrap items-center gap-2">
-              <TagIcon className="h-4 w-4 text-[var(--text-tertiary)]" />
-              {post.tags.map((tag) => (
+            <div className="mt-5 flex flex-wrap items-center gap-2">
+              {post.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
                   className="px-3 py-1 text-xs font-medium bg-[var(--background-secondary)] text-[var(--text-secondary)] rounded-full border border-[var(--border)]"
@@ -124,17 +110,10 @@ export default function BlogPostClient({ post, adjacentPosts }: BlogPostClientPr
           )}
             </header>
 
-            {/* Featured Image */}
-            {post.image && (
-              <div className="mb-12 rounded-2xl overflow-hidden relative w-full aspect-video">
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
+            {/* The cover image (frontmatter `image`) is deliberately NOT
+                rendered here - it repeated the title as pixels on a text-first
+                reading page. It remains the OG/social card; in-body evidence
+                figures carry the visuals (see reading-prose.tsx). */}
 
             {/* Mobile TOC - Shows before content */}
             <TableOfContents content={post.content} variant="mobile" />

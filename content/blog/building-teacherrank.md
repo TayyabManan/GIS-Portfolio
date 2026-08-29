@@ -1,8 +1,8 @@
 ---
 slug: "building-teacherrank"
-title: "Building TeacherRank: A Student-Driven Teacher Review Platform"
-seoTitle: "Building TeacherRank with React & Supabase"
-description: "Technical deep-dive into building a comprehensive teacher rating platform using React, TypeScript, and Supabase. Implementation details for full-stack development, real-time databases, and performance optimization."
+title: "TeacherRank: A Student-Driven Teacher Review Platform"
+seoTitle: "TeacherRank with React & Supabase"
+description: "React, TypeScript, and Supabase in production: multi-dimensional teacher ratings, real-time sync, and the route-splitting pass that cut the initial bundle 60%."
 date: "2025-06-15"
 author: "Tayyab Manan"
 category: "Web Development"
@@ -24,7 +24,9 @@ Course registration has a basic information problem: you're picking professors b
 
 I built **TeacherRank** to fix that with a multi-dimensional rating system that gives students structured, specific feedback about educators.
 
-## Why build a multi-dimensional teacher review platform?
+![the live index · 377 teachers, 59 reviews, ranked](/projects/screens/teacher-rank.webp "app")
+
+## One Number Is Not a Review
 
 **Because a single star rating hides everything that actually matters.** When you commit to a professor for a semester, you need to know whether they're tough but effective, responsive over email, or fair on grading. Those are distinct qualities one number can't capture. TeacherRank rates four separate dimensions so students choose on specifics, not a blurry average.
 
@@ -68,7 +70,7 @@ The advanced search panel supports combinations of filters: teacher name, subjec
 
 ## Performance Optimization Challenges
 
-### How do you cut initial load time and keep a long list scrolling smoothly?
+### Cutting Load Time on a Long List
 
 **Split the JavaScript by route and only render the cards you can see.** Route-based lazy loading cut the initial bundle from 450KB to 180KB (First Contentful Paint 2.1s to 0.8s), while virtual scrolling windows the teacher list to about 15 cards at a time so it stays smooth even on older phones.
 

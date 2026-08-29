@@ -1,8 +1,8 @@
 ---
 slug: "building-watertrace"
-title: "Building WaterTrace: ML-Powered Groundwater Prediction Using 22 Years of Satellite Data"
-seoTitle: "Building WaterTrace: ML Groundwater Prediction"
-description: "Technical deep-dive into building a geospatial AI system for groundwater monitoring in Pakistan. From processing NASA satellite data to deploying time-series ML models achieving R²=0.89 accuracy."
+title: "WaterTrace: Predicting Pakistan's Groundwater from 22 Years of Satellite Data"
+seoTitle: "WaterTrace: ML Groundwater Prediction"
+description: "A geospatial AI system for groundwater monitoring in Pakistan: NASA satellite data processed into time-series ML models that reach R²=0.89, served through district-level maps."
 date: "2025-01-20"
 author: "Tayyab Manan"
 category: "Machine Learning"
@@ -24,7 +24,9 @@ Pakistan has a serious water problem. Groundwater levels are dropping, agricultu
 
 I built **WaterTrace** to do something about this with ML and geospatial analysis. The platform processes 22 years of satellite data (2002-2024) from NASA's [GRACE mission](https://grace.jpl.nasa.gov/) and [GLDAS models](https://ldas.gsfc.nasa.gov/gldas) to predict groundwater trends across all 145 districts of Pakistan with 89% accuracy.
 
-## Why use satellite data to monitor Pakistan's groundwater?
+![the live dashboard · 22-year anomaly series, observed to predicted · 145 districts](/projects/screens/watertrace.webp "app")
+
+## The Case for Satellite Data
 
 **Ground sensors are too sparse to track a national aquifer, but satellites cover the whole country every month.** Pakistan is among the world's most water-stressed nations, yet monitoring has relied on scattered, expensive well readings. Pairing GRACE and GLDAS observations with ML turns 22 years of satellite data into district-level depletion forecasts anyone can read.
 
@@ -92,7 +94,7 @@ district_data = grace.map(extract_district_mean).flatten()
 
 This processes over 163 GRACE images and 72 GLDAS images, computing spatial averages for each of Pakistan's 145 administrative districts. The output is a clean tabular dataset with columns for district ID, date, and groundwater measurements.
 
-### How do you bridge the gap between GRACE and GLDAS data?
+### Bridging the GRACE-GLDAS Gap
 
 **Calibrate GLDAS soil moisture to GRACE's scale, then widen the error bars.** The two sources correlate at r=0.78 during their overlap, so a linear calibration aligns them, and every post-2017 forecast carries wider confidence intervals to reflect that it rests on proxy data. Validation kept prediction error under RMSE 0.7 cm across the transition.
 
@@ -104,7 +106,7 @@ The transition isn't perfect, but validation showed prediction errors stayed wit
 
 ## Machine Learning Implementation
 
-### How do you engineer features for time-series groundwater prediction?
+### Feature Engineering for Time-Series Prediction
 
 **Turn each district's raw monthly reading into temporal, trend, seasonal, and spatial features.** Lag values (1, 3, 6, 12 months), rolling means, sine/cosine month encodings for monsoon cycles, and neighbouring-district averages give the model the context a single measurement lacks. Together this feature engineering lifted R² from 0.65 to 0.89, more than any algorithm change.
 

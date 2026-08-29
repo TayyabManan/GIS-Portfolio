@@ -21,7 +21,9 @@ export default function ProjectCover({ project }: { project: Project }) {
 
   return (
     <div className="relative flex aspect-video flex-col border-b border-[var(--border)] bg-[var(--background-secondary)] p-5 sm:p-6">
-      <p className="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+      {/* Annotation text on this surface is 11px + secondary ink: tertiary on
+          --background-secondary computes ~4.4:1, just under WCAG AA. */}
+      <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-secondary)]">
         {project.category}
       </p>
 
@@ -31,13 +33,16 @@ export default function ProjectCover({ project }: { project: Project }) {
         <CoverChart variant={variant} className="h-full w-full" />
       </div>
 
-      <div className="flex items-baseline justify-between gap-3">
+      {/* flex-wrap + ml-auto: on the narrowest 3-column band (~1024px) the
+          longer baselined metrics can meet the caption; the caption then wraps
+          under, staying right-aligned, instead of overflowing the cover. */}
+      <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         {project.metric && (
           <span className="font-mono text-xs font-medium tabular-nums leading-none text-[var(--text)]">
             {project.metric}
           </span>
         )}
-        <span aria-hidden="true" className="font-mono text-[10px] leading-none tracking-[0.08em] text-[var(--text-tertiary)]">
+        <span aria-hidden="true" className="ml-auto font-mono text-[11px] leading-none tracking-[0.08em] text-[var(--text-secondary)]">
           {COVER_CAPTIONS[variant]}
         </span>
       </div>

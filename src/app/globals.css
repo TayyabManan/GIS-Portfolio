@@ -284,6 +284,18 @@ p {
   font-weight: 440;
 }
 
+/* Evidence figures: a bright product screenshot on the dark stone otherwise
+   glows like a lightbox. Brightness only - no tinting, the evidence stays
+   honest. High contrast gets the unaltered image. */
+[data-theme="dark"] .article-body figure img {
+  filter: brightness(0.88);
+}
+@media (prefers-contrast: high) {
+  .article-body figure img {
+    filter: none;
+  }
+}
+
 /* Hero index pill hover (a GSAP-driven fill layer that slides up) is handled entirely inside
    src/components/sections/Hero.tsx - no global rule needed. */
 
@@ -353,21 +365,22 @@ select {
 }
 
 
-/* Fade in animation (opacity + scale) - shared by .animate-fade-in (slow) and .animate-fadeIn (fast) */
+/* Fade in animation (opacity + scale). Drives .animate-fadeIn (200ms) further
+   down - the mobile TOC panel is the only consumer. A second, slower
+   .animate-fade-in (600ms) sat here unused and was removed in the Aug 2026
+   dead-code sweep. */
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
 
-.animate-fade-in {
-  animation: fadeIn 600ms ease-out;
-}
-
-/* Screen reader only content */
-.sr-only {
-  @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
-  clip: rect(0, 0, 0, 0);
-}
+/* Screen-reader-only content uses Tailwind's own `sr-only` utility - do NOT
+   redefine it here. The hand-written copy that used to live at this spot was
+   redundant (same behaviour, `clip` instead of `clip-path`) and UNLAYERED, so
+   it outranked every utility in @layer utilities regardless of specificity -
+   the same trap as the unlayered h1-h6 rules above that silently eat
+   `tracking-*` / `leading-*`. It happened not to break `focus:not-sr-only`,
+   but it sat one property away from doing so. */
 
 
 /* Utility classes */
@@ -493,33 +506,13 @@ select {
   animation: chatDot 1s ease-in-out infinite;
 }
 
-/* Skeleton loading animation */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--background-secondary) 0%,
-    var(--background-tertiary) 50%,
-    var(--background-secondary) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
-}
-
 /* Home hero desktop entrance. Runs as CSS on first paint instead of a
    post-hydration framer-motion remount, so the staggered reveal plays
    immediately rather than leaving the hero visibly static for a beat and then
-   replaying once the (heavier, in production) JS hydrates. The hero container
-   carries data-essential-motion, so this signature entrance keeps playing under
-   the OS reduce-motion setting - matching the previous behavior. */
+   replaying once the (heavier, in production) JS hydrates. No
+   data-essential-motion (compliance pass): the entrance is decorative, so the
+   global reduced-motion rule zeroes it - the animations complete instantly
+   and fill 'both' lands every element visible. */
 @keyframes heroRise {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
@@ -634,13 +627,20 @@ body:has(.flood-404) .site-footer {
   color: var(--accent-contrast);
   white-space: nowrap;
 }
+/* Radii stay UNEVEN (that asymmetry is the whole point - a real swipe has no
+   two corners alike) but were cut ~70% in the Aug 2026 hero pass: at 0.35-0.55em
+   the corners ran 56-89% of the band's half-height, so the swipe read as a
+   filled pill and invited a click. The band also hugged the full line box
+   (95% of it); it now sits at ~78%, covering the word plus its descender and
+   nothing more. Horizontal stays negative (the swipe overshoots the word on
+   both sides, like a real marker); vertical is inset. */
 .marker-highlight::before {
   content: "";
   position: absolute;
   z-index: -1;
-  inset: 0.08em -0.18em -0.02em -0.14em;
+  inset: 0.22em -0.18em 0.06em -0.14em;
   background: var(--accent);
-  border-radius: 0.35em 0.5em 0.4em 0.55em / 0.5em 0.35em 0.55em 0.4em;
+  border-radius: 0.10em 0.16em 0.12em 0.18em / 0.16em 0.10em 0.18em 0.12em;
   transform: rotate(-1.1deg);
 }
 
@@ -690,17 +690,16 @@ body:has(.flood-404) .site-footer {
 
 /* Respect user's reduced motion preference. Subtrees marked data-essential-motion
    are exempt: WCAG treats status indication (e.g. the chat typing dots) as
-   essential motion that may keep animating. Keep the attribute rare and small. */
+   essential motion that may keep animating. Keep the attribute rare and small.
+   This rule only reaches CSS animations/transitions - the GSAP/WAAPI tiers
+   write inline styles, so they gate themselves on motionOK() in
+   src/lib/motion-tokens.ts (same OS setting, plus the localStorage
+   'motion'='always' personal override toggled from the command palette). */
 @media (prefers-reduced-motion: reduce) {
   *:not([data-essential-motion]):not([data-essential-motion] *) {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .animate-shimmer {
-    animation: none;
-    background: var(--background-tertiary);
   }
 
   /* The universal rule above matches elements only, not pseudo-elements, so

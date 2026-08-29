@@ -121,19 +121,28 @@ the footer wordmark (`font-extrabold`, untouchable) and the header logo lockup
 Headings: `letter-spacing: -0.02em` (h3–h6 `-0.01em`), `line-height: 1.2`, `text-wrap: balance`.
 Body: `line-height: 1.6`, `text-wrap: pretty`.
 
-### Article typography (blog posts)
+### Reading typography (blog + project bodies)
 
-Long-form bodies are set in **Newsreader on a 65ch measure**: wrapper
-`article-body max-w-[65ch] font-serif text-lg leading-[1.65]
-text-[var(--text-reading)] lg:text-[1.1875rem]` — 18px rising to 19px on large
-viewports (reading distance grows with the screen), leading 1.65, the dedicated
-reading ink (~10:1 — softer than UI `--text`, darker than the old secondary
-gray), left-aligned (justification retired), block paragraph spacing, **no
-indents** (code blocks and lists reset indent logic). Paragraphs/lists inherit
-the wrapper cascade; inline code scales at `0.85em`. In dark mode the
-`.article-body` rule in globals.css raises the serif to weight 440 — light-on-
-dark thins type optically and Newsreader's hairlines sparkle at 400 on stone. Inside reading bodies: headings stay Bricolage, tables return
-to `font-sans text-sm`, code stays mono.
+Long-form bodies are set in **Hanken Grotesk on a 65ch measure** (one family
+for prose and chrome — the Newsreader serif experiment was retired, see §2
+table): wrapper `article-body max-w-[65ch] text-[1.0625rem] leading-[1.7]
+text-[var(--text-reading)] lg:text-lg` — 17px rising to 18px on large
+viewports (reading distance grows with the screen), leading 1.7 (a
+large-x-height sans wants the top of the leading band), the dedicated reading
+ink (~10:1 — softer than UI `--text`, darker than the old secondary gray),
+left-aligned (justification retired), block paragraph spacing, **no indents**
+(code blocks and lists reset indent logic). Paragraphs/lists inherit the
+wrapper cascade; inline code scales at `0.85em`. In dark mode the
+`.article-body` rule in globals.css raises the body to weight 440 (Hanken is
+a variable font) — light-on-dark optically thins type; the rule was ported
+from the retired serif because the reasoning is face-agnostic. Inside reading
+bodies: headings stay Bricolage, tables return to `font-sans text-sm`, code
+stays mono.
+
+Post headers use the annotation voice for meta — one mono line
+(`category · date · read time`, 11px uppercase) above the title, matching the
+blog cards. No icon meta rows, no visible byline (the author lives in the
+JSON-LD), and at most **three** tag chips.
 
 **One reading voice, everywhere (uniformity rule, Aug 2026):** every
 markdown-rendered body — blog posts AND project pages — uses the same
@@ -158,19 +167,30 @@ gesture, section CTAs on the arrow.
 | Role | Classes |
 |---|---|
 | H1 — page title | `text-4xl sm:text-5xl font-semibold` |
-| H1 — Hero only (intentionally oversized, fluid) | `text-[clamp(2.75rem,11vw,10rem)] font-semibold leading-[0.98]! tracking-[-0.02em]!` |
+| H1 — Hero only (intentionally oversized, fluid) | `text-[clamp(2.5rem,8.6vw,7.25rem)] font-semibold leading-[1.05]! tracking-[-0.02em]!` |
 | H2 — section heading | `text-3xl sm:text-4xl font-semibold` |
+| H2 — interior subsection (About page sections) | `text-2xl sm:text-3xl font-semibold` — display-size H2s on utility sections read as shouting |
 | H3 — card title | `text-lg sm:text-xl font-semibold` |
 | Page intro / subtitle | `text-lg sm:text-xl text-[var(--text-secondary)]` |
 | Section intro | `text-base sm:text-lg text-[var(--text-secondary)]` |
 | Card description / meta | `text-sm text-[var(--text-secondary)]` |
 
-> The **Hero H1** is a sanctioned exception to the fixed scale. The homepage hero renders
-> two responsive layouts (`src/components/sections/Hero.tsx`): **below `lg`** the original
-> single-column hero keeps the fixed oversized scale `text-[2.75rem] sm:text-6xl md:text-7xl
-> font-semibold tracking-tight`; **at `lg` and up** the editorial layout uses the fluid
-> `clamp(2.75rem, 11vw, 10rem)` above so the headline spans the full container width. The
-> clamp is capped at `10rem`; no other heading may use a fluid `clamp()` scale.
+> The **Hero H1** is a sanctioned exception to the fixed scale — and since the
+> home restructure it is **the claim, not the job title**: "I build ML systems
+> that make it to production", with the marker swipe on the final word and the
+> title demoted to the greeting eyebrow ("Hello, I'm Tayyab Manan · AI/ML
+> Engineer"). The homepage hero renders two responsive layouts
+> (`src/components/sections/Hero.tsx`): **below `lg`** the single-column hero
+> sets the claim at `text-4xl sm:text-6xl md:text-7xl font-semibold
+> leading-[1.1]!` (this `<h1>` is the page's sole H1); **at `lg` and up** the
+> editorial twin (a `<p>`) uses the fluid `clamp(2.5rem, 8.6vw, 7.25rem)`
+> above across **two balanced lines with a manual `<br/>`** — the cap is
+> **measured, not guessed**: line one runs ~10em in Hanken at −0.02em
+> tracking, so 7.25rem is the largest cap that clears the container's 1216px
+> inner width (~95% measure-fill; don't "round up" without re-measuring).
+> Leading 1.05 (display band); kicker rhythm is tight-above/air-below —
+> eyebrow→headline `mt-4`, headline→meta `mt-7`. No other heading may use a
+> fluid `clamp()` scale.
 > The `!` on `leading`/`tracking` is required: the base `h1…h6` rule in `globals.css`
 > (`line-height: 1.2; letter-spacing: -0.02em`) is unlayered and would otherwise win over
 > the utilities. The tight `0.98` leading keeps the headline compact when it wraps.
@@ -227,20 +247,30 @@ transition-[border-color] duration-200 hover:border-[var(--primary)]   ← inter
 
 The card's image slot renders **composed DOM, not a screenshot**: an
 `aspect-video` panel on `bg-[var(--background-secondary)]` with a hairline
-`border-b`, containing the category (mono annotation voice, 10px/0.14em
+`border-b`, containing the category (mono annotation voice, 11px/0.14em
 uppercase), the project's notebook **CoverChart** (240×120, HeroReadout
 anatomy: quiet `--text-tertiary` hand axes + data ink in `--accent-ink`),
 and a bottom row with the real `metric:` (mono 12px, `tabular-nums`, real
 content — never aria-hidden) against the chart's axis caption
-(`COVER_CAPTIONS`, mono 10px). Theme-aware for free; in print and
+(`COVER_CAPTIONS`, mono 11px). Cover text sits on `--background-secondary`,
+where tertiary ink computes ~4.4:1 (under AA) — category and caption use
+`--text-secondary`. Metrics carry their baseline or context
+(`80% acc · 7 classes`, `79.5% win rate` against the `win rate vs base`
+caption) — a bare accuracy number invites skepticism; the bottom row is
+`flex-wrap` so the longest metric+caption pairs wrap instead of overflowing
+at the narrowest 3-column band. Theme-aware for free; in print and
 high-contrast the chart hides via `data-doodle` and the cover degrades to a
 clean typographic panel. Frontmatter `metricChart` picks the drawing, so no
 two covers repeat.
 
 ### Cover images (`scripts/generate-covers.mjs`)
 
-`project.image` (detail hero, blog post header, OG/social cards) is an
-**art-directed 1600×900 cover image**, not a screenshot. The template follows
+`project.image` is an **art-directed 1600×900 cover image**, not a
+screenshot — and since the evidence pass it is the **OG/social card only**,
+never rendered in-page: on detail pages and blog posts it repeated the
+header's title/subtitle/metric as pixels and outranked the real evidence by
+position. Identity is the typographic header's job; proof is the evidence
+figure's job; the cover's job is link unfurls. The template follows
 the owner-made Urdu LLM cover — dark stone ground, drawn lime diamond + mono
 eyebrow, big Bricolage title, subtitle, thin rule, real metric in lime, site +
 repo footer — plus the project's notebook chart (the CoverChart vocabulary) as
@@ -253,6 +283,38 @@ one run. `urdu-llm-fine-tuning.webp` is the owner-made original and is never
 regenerated. Every metric/claim on a cover must be a real published figure.
 Raw product screenshots, where they earn their place, belong inside
 project/blog markdown bodies — never as the cover.
+
+### Evidence figures (screenshots in reading bodies)
+
+Product screenshots are the site's proof layer and live **inside project/blog
+markdown bodies** (never as covers). Raw screenshots clashed with the ink
+palette and were once removed wholesale — the fix is not filtering the
+product (evidence must stay honest) but **containing** it: every body image
+renders inside the ink mat via the shared `img` renderer in
+`src/lib/reading-prose.tsx`:
+
+- `<figure>` on `--background-secondary`, `rounded-xl`, hairline border —
+  the mat mediates between the product's foreign palette and the page.
+- The markdown **alt text renders as a mono annotation `<figcaption>`**
+  (11px, tracking 0.08em, secondary ink, `aria-hidden` — the alt already
+  speaks for screen readers). Caption voice: lowercase, terse, factual,
+  `·` separators, real numbers only.
+- A markdown **title of `"app"`** — `![caption](/path "app")` — adds the
+  browser-chrome row: three hairline `border-hover` dots, monochrome,
+  never traffic-light colors. Use it for windowed-app shots; charts, maps,
+  and diagrams get the plain mat.
+- Dark mode eases figures to `brightness(0.88)` (globals.css) so bright
+  UIs don't glow like lightboxes on the dark stone; high contrast resets
+  the filter. Brightness only — never tint evidence.
+- Images must sit alone on their markdown line (the `p` renderer unwraps
+  image-only paragraphs; figure-in-p is invalid HTML).
+
+**Capture discipline:** shoot the product **doing its job** (a real answer
+generated, a populated chart, live counts), never an empty landing state if
+it can be helped; 1440×810 viewport at 2× (headless Chrome / puppeteer with
+real waits for async data), banners dismissed with the privacy-preserving
+choice; export 1600-wide WebP q82 to `public/projects/screens/<slug>.webp`.
+Every number visible in a caption must be really on the screenshot.
 
 ### Radius scale
 
@@ -291,9 +353,11 @@ On hover/focus, a `--primary` fill (with a slightly arced, flat-bottomed cap)
 **slides up from below** to cover the pill — carrying the project's real metric in
 `--on-primary` — while the base label slides up and out and the pill **expands
 leftward** from its rest width (full − 32px) to the rail's pinned full width, the
-arrow fading in as one gesture. GSAP-driven, desktop / fine-pointer only (see
-`src/components/sections/Hero.tsx`); GSAP is used (not a CSS transition) so the motion
-survives the global `prefers-reduced-motion` rule that zeroes transitions.
+arrow fading in as one gesture. GSAP-driven, desktop / fine-pointer only, and
+gated on `desktopMotionOK()` (see `src/components/sections/Hero.tsx`) — under
+reduced motion the effect never arms and the pills keep their complete static
+rest state (inset-ring hover still works; it's a CSS transition the global
+gate zeroes to an instant swap).
 
 Each pill has **three stacked copies** of the content:
 
@@ -319,13 +383,22 @@ Each pill has **three stacked copies** of the content:
 
 ### Motion
 
-Three tiers, each with its own engine and reduced-motion stance:
+Three tiers, each with its own engine — and ONE reduced-motion stance
+(compliance pass, Aug 2026): **every tier honors the OS setting.** The CSS
+tier is zeroed by the global gate; the JS tiers check `motionOK()`
+(`src/lib/motion-tokens.ts`) at bind/play time, because inline WAAPI/GSAP
+styles are outside the CSS rule's reach. The old deliberate bypass is
+retired — the owner's want-motion-despite-RM preference is now the
+`localStorage 'motion'='always'` override, toggled from the command palette
+("Enable Motion", shown only to reduced-motion users). Every gated surface
+must stay fully functional motionless: end states stand alone, charts render
+complete, swaps are instant.
 
 | Tier | Engine | Numbers | Reduced motion |
 |---|---|---|---|
 | Feedback micro-interactions (icon swaps, popover/banner entrances, form errors, height morphs) | Plain CSS (`duration-micro`/`duration-morph`, `ease-morph`, `animate-in/out`) | micro 150ms ease-out · morph 300ms ease-morph · exits ~30% faster ease-in · staggers 30–80ms/item | **Zeroed** by the global gate — every end state must stand alone as an instant snap |
-| Status/signature JS motion (nav underline handoff, toast lifecycle morph, palette row cascade) | GSAP (`src/lib/gsap.ts` loaders, `DESKTOP_MOTION`-gated) or WAAPI `el.animate` (zero bundle, works on mobile) | same bands as above | **Bypasses** the CSS gate deliberately (owner runs RM on and wants motion; WAAPI/GSAP write inline styles) |
-| Scroll reveals / grid morphs | GSAP `MOTION` tokens (`power3.out`, 0.6/0.55s, stagger 0.1) | see `src/lib/gsap.ts` | Bypasses (same rationale) |
+| Status/signature JS motion (nav underline handoff, toast lifecycle morph, palette row cascade) | GSAP (`src/lib/gsap.ts` loaders, `desktopMotionOK()`-gated) or WAAPI `el.animate` (zero bundle, works on mobile; `motionOK()`-gated) | same bands as above | **Honored** — gates skip binding; instant end states |
+| Scroll reveals / grid morphs | GSAP `MOTION` tokens (`power3.out`, 0.6/0.55s, stagger 0.1) | see `src/lib/gsap.ts` | **Honored** — content is never hidden, so nothing reveals: it's simply visible |
 
 Duration ladder within CSS work: `duration-75` keyboard-selection feedback (palette —
 deliberate sub-band exception so the highlight tracks held arrow-key repeats),
@@ -336,7 +409,8 @@ image zooms/overlays.
 Rules: animate height only via `grid-template-rows 0fr↔1fr` (+ `overflow-hidden
 min-h-0` inner) or transform — never `top/left/max-height`. Enumerate transition
 properties; no new `transition-all`. `data-essential-motion` is for status
-indication only (census: chat dots, hero, toast loading spinner) — a frozen
+indication only (census: chat dots, toast loading spinner — the hero entrance
+lost its exemption in the compliance pass; it was decorative) — a frozen
 spinner reads as a stalled request. No framer-motion anywhere in ClientLayout's tree (Header, Footer,
 Toast, OfflineBanner, CommandPalette) — it would enter every route's First Load JS.
 Exit-capable conditional UI uses `useMountTransition` (`src/hooks/`) +
@@ -393,20 +467,29 @@ Hard rules:
   animate on load or scroll. The only two that move do so on interaction — the
   HeroReadout morphs its chart on pill hover (GSAP MorphSVG via `loadMorphSVG()`,
   desktop `xl:` only) and project-cover CoverCharts re-sketch on card hover
-  (WAAPI); both deliberately bypass reduced-motion. WiggleLine stays the only
+  (WAAPI); both honor reduced motion via `motionOK()` (charts render complete
+  either way - the animation is only a flourish). WiggleLine stays the only
   *ambient* living line.
 - **Sterile zones**: resume page, blog article bodies, project detail bodies, contact form.
 - **Copy discipline**: annotations ≤3 words, mono, lowercase.
 - **No handwriting fonts** — the hand-drawn feel lives exclusively in the SVG paths.
-- The `.marker-highlight` word ("production", hero lede) is the single normal-page lime
+- The `.marker-highlight` word ("production", the hero **headline** on both
+  breakpoints since the home restructure) is the single normal-page lime
   moment; high contrast flattens it to an underline.
 - Eyebrows (`src/components/ui/Eyebrow.tsx`): mono 11px/500, uppercase, tracking .16em,
-  numbered on home only (`01 / SELECTED WORK` … `03 / Q&A`); a `<p>`, never a heading.
+  numbered on home only (`01 / SELECTED WORK` · `02 / WRITING` · `03 / BACKGROUND` —
+  the home FAQ left in the restructure; contact/about keep theirs); a `<p>`, never a heading.
 - Project-cover metrics read from frontmatter `metric:` — real published numbers
   only. Each cover picks its notebook chart via frontmatter `metricChart`
   (scatter-fit / bars-up / bars-down / hbars / accuracy / coverage / roc /
-  line), so no two covers share a drawing. The chart is decorative; the
-  number is real content (not aria-hidden). See "Project cover" in §4.
+  line), so no two covers share a drawing. **Where a real published series
+  exists, the chart plots it**: `bars-up` is the Urdu win-rate progression
+  (v1 51.5% / v2 66% / v3 79.5%) and `bars-down` is TeacherRank's bundle
+  before/after (450KB→180KB), proportions baked into the path literals with
+  the wobble (hydration rule — never runtime randomness). Variants without a
+  published series stay stylized and decorative; do not invent data points
+  for them. The metric text is real content (not aria-hidden). See "Project
+  cover" in §4.
 
 ### Z-index ladder (fixed/floating chrome)
 

@@ -1,8 +1,8 @@
 ---
 slug: "building-us-visa-prediction"
-title: "Building a US Visa Prediction System: From EDA to Deployment"
-seoTitle: "Building a US Visa Approval Predictor"
-description: "A deep technical dive into building an ML system that predicts PERM labor certification outcomes, covering EDA on 25K records, model selection across 5 boosting algorithms, threshold tuning for class imbalance, SHAP explainability, and deployment on Hugging Face Spaces."
+title: "Predicting US Visa Outcomes: EDA to Deployment"
+seoTitle: "US Visa Approval Predictor with SHAP"
+description: "An ML system that predicts PERM labor-certification outcomes: EDA on 25K records, five boosting algorithms compared, threshold tuning for class imbalance, SHAP explainability, and deployment on Hugging Face Spaces."
 date: "2026-04-05"
 author: "Tayyab Manan"
 category: "Machine Learning"
@@ -36,7 +36,9 @@ howTo:
 
 This post is the technical deep-dive behind the [US Visa Approval Prediction](/projects/us-visa-prediction) project. I'll walk through the full CRISP-DM pipeline, from understanding the problem through EDA and model selection, to SHAP explainability and Docker deployment.
 
-## Why predict PERM labor-certification outcomes?
+![the live predictor · 10-feature form, base rate and f1 stated up front](/projects/screens/us-visa-prediction.webp "app")
+
+## Why PERM Outcomes Are Worth Predicting
 
 **PERM is a slow, expensive black box, so an early read on approval odds is genuinely useful.** Employers wait 6-18 months and a denial means starting over, yet applicants have little visibility into what actually drives the decision. A model that predicts the outcome *and* explains it lets people gauge case strength before they commit.
 
@@ -107,7 +109,7 @@ Each component receives a config object with paths and parameters, runs its logi
 
 ## Model Training
 
-### Handling Class Imbalance: Why Not SMOTEENN?
+### Class Imbalance Without SMOTEENN
 
 **Because resampling looked great in cross-validation but fell apart on held-out data.** SMOTEENN synthesizes minority samples and cleans noisy boundaries, but the models overfit those synthetic points near the decision boundary. Training on the natural 2:1 distribution and tuning the threshold afterward gave a cleaner learning signal and generalized better.
 
@@ -115,7 +117,7 @@ I tested SMOTEENN early on. It synthesizes minority samples and cleans noisy bou
 
 What worked better was training on the natural distribution and adjusting the decision threshold after training. This gives models a cleaner learning signal that reflects real-world class proportions. LightGBM and CatBoost also handle imbalance internally through native class weighting.
 
-### How do you pick the right metric for imbalanced visa data?
+### Picking a Metric for Imbalanced Data
 
 **Optimize accuracy, but constrain denied recall so the model stays useful.** Optimizing F1 alone pushed the model to over-predict denials. The final setup uses accuracy in GridSearchCV plus a post-training threshold that guarantees at least 60% recall on denials. That keeps the metric stakeholders actually read while making sure the model still catches the cases that matter.
 

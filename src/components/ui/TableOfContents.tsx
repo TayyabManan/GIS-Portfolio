@@ -327,7 +327,10 @@ export default function TableOfContents({ content, variant = 'both' }: TableOfCo
           <div className="flex items-center gap-2">
             <ListBulletIcon className="h-5 w-5 text-[var(--text-tertiary)]" />
             <span className="font-semibold text-sm">On this page</span>
-            <span className="text-xs text-[var(--text-tertiary)]">({tocItems.length} sections)</span>
+            {/* secondary, NOT tertiary: this sits on --background-secondary, where
+                tertiary computes ~4.4:1 (under AA). Same call as the Education
+                period and the ProjectCover caption. */}
+            <span className="text-xs text-[var(--text-secondary)]">({tocItems.length} sections)</span>
           </div>
           {isOpen ? (
             <ChevronUpIcon className="h-5 w-5 text-[var(--text-tertiary)]" />

@@ -1,7 +1,7 @@
 'use client'
 
 import { useLayoutEffect, useRef } from 'react'
-import { DESKTOP_MOTION, loadCore } from '@/lib/gsap'
+import { desktopMotionOK, loadCore } from '@/lib/gsap'
 
 // Set once the gsap core chunk has resolved. A handoff that finds the chunk
 // cold skips animating (the class swap already painted; replaying it late
@@ -16,7 +16,7 @@ let coreReady = false
  * promise, so repeated calls are free.
  */
 export function warmNavUnderline() {
-  if (window.matchMedia(DESKTOP_MOTION).matches) {
+  if (desktopMotionOK()) {
     loadCore()
       .then(() => {
         coreReady = true
@@ -62,7 +62,7 @@ export function useNavUnderline(activeHref: string | null, hrefs: readonly strin
     if (prev === activeHref) return
     prevActiveRef.current = activeHref
 
-    if (!window.matchMedia(DESKTOP_MOTION).matches) return
+    if (!desktopMotionOK()) return
 
     const oldBar = prev ? barsRef.current.get(prev) : undefined
     const newBar = activeHref ? barsRef.current.get(activeHref) : undefined

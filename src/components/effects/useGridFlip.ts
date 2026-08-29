@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
-import { DESKTOP_MOTION, MOTION, loadFlip } from '@/lib/gsap'
+import { desktopMotionOK, MOTION, loadFlip } from '@/lib/gsap'
 
 type FlipModule = Awaited<ReturnType<typeof loadFlip>>
 
@@ -28,9 +28,10 @@ export function useGridFlip(itemsKey: string) {
   const modRef = useRef<FlipModule | null>(null)
   const flipRef = useRef<ReturnType<FlipModule['Flip']['from']> | null>(null)
 
-  // Preload on mount (desktop-gated) so capture() can be synchronous at click time.
+  // Preload on mount (desktop-gated, reduced-motion honored) so capture()
+  // can be synchronous at click time.
   useEffect(() => {
-    if (!window.matchMedia(DESKTOP_MOTION).matches) return
+    if (!desktopMotionOK()) return
     let cancelled = false
     loadFlip().then((mod) => {
       if (!cancelled) modRef.current = mod

@@ -2,11 +2,10 @@ import { Metadata } from 'next'
 import Hero from '@/components/sections/Hero'
 import Education from '@/components/sections/Education'
 import FeaturedProjects from '@/components/sections/FeaturedProjects'
+import LatestWriting from '@/components/sections/LatestWriting'
 import CallToAction from '@/components/sections/CallToAction'
 import HomeScrollEffects from '@/components/effects/HomeScrollEffects'
-import FAQ from '@/components/ui/FAQ'
-import { getFeaturedProjectsFromMarkdown } from '@/lib/markdown'
-import { homeFaqs, faqPageSchema } from '@/lib/faqs'
+import { getFeaturedProjectsFromMarkdown, getAllBlogPosts } from '@/lib/markdown'
 
 // Read project data at build time so the featured grid ships in the initial
 // HTML (AI crawlers don't execute the client fetch that used to populate it).
@@ -37,6 +36,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   const featured = getFeaturedProjectsFromMarkdown().slice(0, 3)
+  const posts = getAllBlogPosts().slice(0, 3)
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
@@ -51,23 +51,28 @@ export default function HomePage() {
     ],
   }
 
+  // Home restructure: work -> writing -> compact background + the single CTA.
+  // The FAQ moved off the home page (it was an SEO artifact reading as
+  // machine-written; contact/about keep theirs), and its FAQPage schema left
+  // with it - Google requires schema text to be visible on the page.
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbJsonLd, faqPageSchema(homeFaqs)]) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumbJsonLd]) }}
       />
       <Hero />
       <FeaturedProjects projects={featured} />
       {/* Client wrapper scroll-reveals these server sections via their data-reveal-* attributes */}
       <HomeScrollEffects>
-        <Education />
-        {/* FAQ + CTA sit side by side on desktop so the CTA fills the space to
-            the right of the FAQ; they stack on mobile/tablet. */}
+        <LatestWriting posts={posts} />
+        {/* Background + CTA side by side on desktop: the quiet education
+            rows fill the left, the page's one Get-in-Touch card the right.
+            They stack on mobile/tablet. */}
         <section className="relative border-t border-[var(--border)] py-16 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:items-start lg:gap-14">
-              <FAQ items={homeFaqs} eyebrow={{ index: '03', label: 'Q&A' }} />
+              <Education />
               <div className="lg:sticky lg:top-24 lg:self-start">
                 <CallToAction />
               </div>

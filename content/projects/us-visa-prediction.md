@@ -4,7 +4,7 @@ title: "US Visa Approval Prediction"
 subtitle: "ML-Powered PERM Certification Predictor with SHAP Explainability"
 description: "Machine learning system that predicts US PERM labor certification outcomes and explains why using SHAP. Features a 5-stage MLOps pipeline, GridSearchCV across 5 boosting models, threshold-tuned Gradient Boosting, and a FastAPI backend with per-prediction explainability."
 category: "Machine Learning & MLOps"
-metric: "73.2% acc"
+metric: "73.2% acc · 61% recall"
 metricChart: "hbars"
 techStack: ["Python", "Scikit-learn", "XGBoost", "LightGBM", "CatBoost", "SHAP", "FastAPI", "Docker"]
 image: "/projects/us-visa-prediction.webp"
@@ -20,6 +20,8 @@ When a U.S. employer wants to hire a foreign worker permanently, they file a [PE
 This system predicts whether a PERM application will be certified or denied, and explains *why*, so applicants and attorneys can evaluate case strength before they file. Built following the CRISP-DM methodology with a modular MLOps pipeline.
 
 **[Read the full technical deep-dive →](/blog/building-us-visa-prediction)**
+
+![the live predictor · 10-feature form, base rate and f1 stated up front](/projects/screens/us-visa-prediction.webp "app")
 
 ## Key Features
 - **Outcome Prediction**: Gradient Boosting classifier predicting PERM certification or denial with 73.2% accuracy

@@ -63,8 +63,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       images: [
         {
           url: imageUrl,
-          width: 1200,
-          height: 630,
+          // Covers are generated at 1600x900 (scripts/generate-covers.mjs);
+          // the old 1200x630 declaration mis-stated the aspect ratio.
+          width: 1600,
+          height: 900,
           alt: `${project.title} - ${project.subtitle || 'ML Project Screenshot'}`,
         }
       ],

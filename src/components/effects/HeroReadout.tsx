@@ -2,13 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { loadMorphSVG } from '@/lib/gsap'
+import { motionOK } from '@/lib/motion-tokens'
 
 /**
  * Live readout beside the hero's focus-area pill index. Hidden at rest;
  * pointing at a pill draws in a proper notebook chart for that area, and
  * moving between pills MORPHS the data line from one chart into the next
- * (GSAP MorphSVG - the house signature-motion lane, deliberately visible
- * under the owner's reduced-motion setting).
+ * (GSAP MorphSVG). Under reduced motion (motionOK() false) the readout stays
+ * fully functional: the panel snaps visible with the chart already complete,
+ * and variant changes hard-swap the shape - information without choreography.
  *
  * Anatomy: constant hand-drawn axes (same pen as the 404 scatter) + ONE
  * morphable multi-subpath data line + a dots layer that pops in only for the
@@ -62,16 +64,20 @@ const SCATTER_DOTS: [number, number][] = [
 
 const INITIAL: HeroReadoutVariant = 'accuracy'
 
-/** Warm the MorphSVG chunk on hover intent so the first morph doesn't stutter. */
+/** Warm the MorphSVG chunk on hover intent so the first morph doesn't
+ * stutter. Reduced motion never morphs, so it never needs the chunk. */
 export function warmHeroReadout() {
+  if (!motionOK()) return
   loadMorphSVG().catch(() => {})
 }
 
-/** Animate an element's opacity from wherever it is to `to`. WAAPI so it
- * bypasses the reduced-motion CSS zeroing; no WAAPI -> snap (fail-visible). */
+/** Animate an element's opacity from wherever it is to `to`. WAAPI; under
+ * reduced motion or without WAAPI, snap (fail-visible - the readout still
+ * appears, it just doesn't fade). */
 function fadeTo(el: HTMLElement | SVGElement | null, to: number, duration: number, easing: string) {
   if (!el) return
-  if (typeof el.animate !== 'function') {
+  if (!motionOK() || typeof el.animate !== 'function') {
+    if (typeof el.getAnimations === 'function') el.getAnimations().forEach((a) => a.cancel())
     el.style.opacity = String(to)
     return
   }
@@ -112,7 +118,7 @@ export default function HeroReadout({ variant }: HeroReadoutProps) {
     const showDots = (on: boolean) => {
       if (!dots) return
       fadeTo(dots, on ? 1 : 0, on ? 300 : 150, on ? 'ease-out' : 'ease-in')
-      if (on && typeof dots.animate === 'function') {
+      if (on && motionOK() && typeof dots.animate === 'function') {
         dots.querySelectorAll('circle').forEach((c, i) => {
           c.getAnimations().forEach((a) => a.cancel())
           c.animate([{ opacity: 0 }, { opacity: 1 }], {
@@ -130,7 +136,9 @@ export default function HeroReadout({ variant }: HeroReadoutProps) {
     if (prev === null) {
       path.setAttribute('d', chart.d)
       fadeTo(root, 1, 240, 'ease-out')
-      if (typeof path.animate === 'function') {
+      // Reduced motion: no pen-draw - dashoffset rests at 0, so the line is
+      // simply complete the moment the panel appears.
+      if (motionOK() && typeof path.animate === 'function') {
         path.getAnimations().forEach((a) => a.cancel())
         path.animate([{ strokeDashoffset: 100 }, { strokeDashoffset: 0 }], {
           duration: 520,
@@ -143,7 +151,14 @@ export default function HeroReadout({ variant }: HeroReadoutProps) {
     }
 
     // shown -> different chart: morph the data line; details crossfade.
+    // Reduced motion: hard-swap the shape (correct end state, no morph) and
+    // skip the MorphSVG chunk entirely.
     if (prev !== variant) {
+      if (!motionOK()) {
+        path.setAttribute('d', chart.d)
+        showDots(chart.dots)
+        return
+      }
       loadMorphSVG()
         .then(({ gsap }) => {
           // A newer hover (or a hide) may have superseded this one while the

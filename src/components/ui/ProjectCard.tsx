@@ -3,17 +3,19 @@ import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import ProjectCover from '@/components/ui/ProjectCover'
 import { type Project } from '@/lib/projects'
+import { motionOK } from '@/lib/motion-tokens'
 
 interface ProjectCardProps {
   project: Project
 }
 
-// Re-sketch the cover chart when the card is pointed at. WAAPI, not CSS: it
-// bypasses the global reduced-motion zeroing so the owner (who runs RM on)
-// sees it too. Charts are fully drawn at rest, so no-WAAPI browsers just skip
-// the flourish. Stroke paths [data-draw] redraw left-to-right (staggered for
-// multi-bar charts); fills [data-pop] fade in just after.
+// Re-sketch the cover chart when the card is pointed at. WAAPI (zero bundle,
+// works on mobile); charts are fully drawn at rest, so no-WAAPI browsers and
+// reduced-motion users simply keep the complete drawing - the flourish is
+// gated on motionOK(). Stroke paths [data-draw] redraw left-to-right
+// (staggered for multi-bar charts); fills [data-pop] fade in just after.
 function playCoverSketch(card: HTMLElement) {
+  if (!motionOK()) return
   const chart = card.querySelector('.metric-chart')
   if (!chart) return
   chart.querySelectorAll<SVGPathElement>('[data-draw]').forEach((path, i) => {

@@ -19,6 +19,8 @@ TeacherRank is a web app that lets students rate and review their teachers acros
 
 **[Read the full technical deep-dive →](/blog/building-teacherrank)**
 
+![the live index · 377 teachers, 59 reviews, ranked](/projects/screens/teacher-rank.webp "app")
+
 ## Key Features
 - **Multi-Dimensional Ratings**: Separate scores for teaching quality, communication, helpfulness, and course difficulty
 - **Search & Filtering**: Find teachers by name, subject, institution, or rating with real-time results

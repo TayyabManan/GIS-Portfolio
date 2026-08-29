@@ -134,22 +134,24 @@ function coverChartBody(variant: MetricChart) {
           </g>
         </>
       )
-    case 'bars-up': // comparison bars climbing base -> tuned
+    case 'bars-up': // REAL DATA: Urdu LLM win rate vs base across versions -
+      // v1 51.5% / v2 66% / v3 79.5% (published in the fine-tuning post's
+      // evaluation section). Heights are value/100 x 80px from the y=92
+      // baseline; wobble stays baked in the literals (hydration rule).
       return (
         <g {...PEN} strokeWidth="3">
-          <path d="M60 92 C60.4 84 59.7 74 60 66" {...DRAW} />
-          <path d="M104 92 C104.4 78 103.6 60 104 48" {...DRAW} />
-          <path d="M148 92 C148.5 70 147.6 46 148 32" {...DRAW} />
-          <path d="M192 92 C192.4 60 191.5 32 192 14" {...DRAW} />
+          <path d="M70 92 C70.4 79 69.6 62 70 51" {...DRAW} />
+          <path d="M126 92 C126.4 74 125.6 52 126 39" {...DRAW} />
+          <path d="M182 92 C182.4 70 181.5 42 182 28.5" {...DRAW} />
         </g>
       )
-    case 'bars-down': // shrinking bars
+    case 'bars-down': // REAL DATA: TeacherRank initial bundle, before/after
+      // route-based code splitting - 450KB -> 180KB (published in the
+      // TeacherRank post). Second bar is 180/450 of the first's height.
       return (
         <g {...PEN} strokeWidth="3">
-          <path d="M60 92 C60.3 66 59.7 34 60 16" {...DRAW} />
-          <path d="M104 92 C104.3 72 103.7 52 104 42" {...DRAW} />
-          <path d="M148 92 C148.4 80 147.6 68 148 62" {...DRAW} />
-          <path d="M192 92 C192.3 86 191.7 80 192 76.5" {...DRAW} />
+          <path d="M88 92 C88.3 66 87.7 34 88 16" {...DRAW} />
+          <path d="M164 92 C164.3 82 163.7 68 164 61.5" {...DRAW} />
         </g>
       )
     case 'hbars': // horizontal importance bars

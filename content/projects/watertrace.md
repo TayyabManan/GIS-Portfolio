@@ -4,7 +4,7 @@ title: "WaterTrace Pakistan"
 subtitle: "Groundwater Prediction Using Satellite Data and ML"
 description: "Machine learning system for groundwater monitoring and prediction in Pakistan, built on 22 years of satellite data (2002-2024) from GRACE and GLDAS. Features time-series forecasting with Gradient Boosting (R²=0.89), interactive district-level maps, and a Flask API for predictions."
 category: "Geospatial AI"
-metric: "R²=0.89"
+metric: "R² 0.65→0.89"
 metricChart: "scatter-fit"
 techStack: ["React", "Flask", "Pandas", "Scikit-learn", "Google Earth Engine", "Leaflet", "Recharts", "Tailwind CSS"]
 image: "/projects/watertrace.webp"
@@ -18,6 +18,8 @@ date: "2025-01-09"
 WaterTrace is a machine learning system for predicting and monitoring groundwater levels across Pakistan. It processes 22 years of satellite data from NASA's [GRACE mission](https://grace.jpl.nasa.gov/) (2002-2017) and [GLDAS land surface models](https://ldas.gsfc.nasa.gov/gldas) (2018-2024) to forecast groundwater depletion patterns across all 145 districts. The model achieves R²=0.89, and the results are served through an interactive web dashboard with district-level maps and time-series charts.
 
 **[Read the full technical deep-dive →](/blog/building-watertrace)**
+
+![the live dashboard · 22-year anomaly series, observed to predicted · 145 districts](/projects/screens/watertrace.webp "app")
 
 ## Key Features
 - **Satellite Data Integration**: Combines GRACE gravity anomaly data and GLDAS soil moisture measurements across 22 years

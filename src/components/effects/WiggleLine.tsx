@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { motionOK } from '@/lib/motion-tokens'
 
 /**
  * The hero's hairline rule as an interactive quadratic bezier: the line bends
@@ -10,8 +11,9 @@ import { useEffect, useRef } from 'react'
  * adapted to: measure the container instead of the window, clamp the bend to a
  * tasteful amplitude, center the hover zone on the line, hold mutable state in
  * refs (parent re-renders must not reset a wiggle in flight), and use theme
- * tokens. rAF + attribute-driven, so it animates even under the global
- * prefers-reduced-motion rule, which only kills CSS animations/transitions.
+ * tokens. rAF + attribute-driven (outside the reduced-motion CSS rule's
+ * reach), so the handlers gate on motionOK() - reduced-motion users get a
+ * plain static hairline, which is the line's complete resting state.
  */
 const AMPLITUDE = 60 // max px the line may bend either way
 const MID = 80 // path baseline inside the 160px-tall overflow svg
@@ -81,6 +83,7 @@ export default function WiggleLine() {
   }
 
   const manageMouseEnter = () => {
+    if (!motionOK()) return
     // Re-entering mid-wiggle: take over from the current state cleanly.
     if (reqId.current) {
       cancelAnimationFrame(reqId.current)
@@ -89,6 +92,7 @@ export default function WiggleLine() {
   }
 
   const manageMouseMove = (e: React.MouseEvent) => {
+    if (!motionOK()) return
     const bound = container.current?.getBoundingClientRect()
     if (!bound) return
     x.current = (e.clientX - bound.left) / bound.width
@@ -100,6 +104,7 @@ export default function WiggleLine() {
   }
 
   const manageMouseLeave = () => {
+    if (!motionOK()) return
     animateOut()
   }
 

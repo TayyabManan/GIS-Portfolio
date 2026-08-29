@@ -734,26 +734,3 @@ export function formatDate(dateString: string): string {
     timeZone: "UTC",
   });
 }
-
-// Function to calculate experience duration
-export function calculateDuration(startDate: string, endDate: string): string {
-  const start = new Date(startDate);
-  const end = endDate === "Present" ? new Date() : new Date(endDate);
-
-  const months =
-    (end.getFullYear() - start.getFullYear()) * 12 +
-    (end.getMonth() - start.getMonth());
-
-  if (months < 12) {
-    return `${months} month${months !== 1 ? "s" : ""}`;
-  }
-
-  const years = Math.floor(months / 12);
-  const remainingMonths = months % 12;
-
-  if (remainingMonths === 0) {
-    return `${years} year${years !== 1 ? "s" : ""}`;
-  }
-
-  return `${years} year${years !== 1 ? "s" : ""}, ${remainingMonths} month${remainingMonths !== 1 ? "s" : ""}`;
-}

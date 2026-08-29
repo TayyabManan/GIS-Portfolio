@@ -64,52 +64,26 @@ export function howToSchema(howTo: HowTo, opts?: { image?: string }) {
 // elsewhere on the site (availability, 24h reply, remote, stack, metrics).
 // ---------------------------------------------------------------------------
 
-export const homeFaqs: FaqItem[] = [
-  {
-    question: 'Is Tayyab Manan available for AI/ML work?',
-    answer:
-      'Yes. I’m open to full-time AI/ML engineering roles and some freelance work, and I reply to messages within 24 hours. I work remotely from Islamabad, Pakistan (UTC+5).',
-  },
-  {
-    question: 'What does Tayyab Manan specialize in?',
-    answer:
-      'Production machine learning, computer vision, multi-agent AI systems, and geospatial AI. I build models end to end, from training in PyTorch and TensorFlow to deploying them behind Flask or FastAPI APIs.',
-  },
-  {
-    question: 'What tech stack does he use?',
-    answer:
-      'PyTorch, TensorFlow, and Scikit-learn for ML. LangChain, AutoGen, and CrewAI for multi-agent systems. React, Next.js, and Flask or FastAPI to ship the app around them.',
-  },
-  {
-    question: 'Are the portfolio projects actually deployed?',
-    answer:
-      'Yes. Every project has a live demo (on Hugging Face Spaces, Vercel, or Netlify) and a public GitHub repo. WaterTrace predicts groundwater at R²=0.89, and my Urdu LLM fine-tune wins 79.5% of blind comparisons against the base model.',
-  },
-  {
-    question: 'How can I get in touch?',
-    answer:
-      'Use the contact page or email me directly. I usually reply within 24 hours, and I’m happy to talk about roles, collaborations, or project ideas.',
-  },
-]
+// Voice rule: questions are what a visitor would actually ask ("Are you…"),
+// answers are first person. Never third-person name-stuffed questions — they
+// read as schema farming. FAQPage JSON-LD is happy with this phrasing, and
+// Google requires the visible text to match the schema anyway. Max three per
+// page: an FAQ is a footnote, not a section. (The home FAQ was removed in the
+// home restructure; only about + contact render one now.)
 
 export const aboutFaqs: FaqItem[] = [
   {
-    question: 'What is Tayyab Manan’s background?',
+    question: 'What’s your background?',
     answer:
-      'I started in Geographic Information Science at the University of the Punjab, working with satellite imagery and spatial data, and moved into machine learning from there. I’m now doing an MS in AI Engineering at COMSATS University, Islamabad.',
+      'I started in Geographic Information Science at the University of the Punjab, working with satellite imagery and spatial data, and moved into machine learning from there. I’m now doing an MS in AI Engineering at COMSATS University, Islamabad, alongside certifications from ESRI and the Samsung Innovation Campus.',
   },
   {
-    question: 'What are his qualifications?',
-    answer:
-      'A BS in Geographic Information Science (2025) and an in-progress MS in Artificial Intelligence Engineering at COMSATS, plus certifications from ESRI and the Samsung Innovation Campus.',
-  },
-  {
-    question: 'Where does he work?',
+    question: 'Where do you work?',
     answer:
       'I’m a Junior AI Developer at Cointegration, where I build production ML models and multi-agent workflows with LangChain, AutoGen, and the Model Context Protocol.',
   },
   {
-    question: 'Has he shipped production ML systems?',
+    question: 'Have you shipped production ML systems?',
     answer:
       'Yes. Six of my projects are deployed with live demos and public repos, including WaterTrace (R²=0.89 across 145 districts), an Urdu LLM fine-tune (79.5% win rate), and face-expression detection (80% on RAF-DB).',
   },
@@ -129,10 +103,5 @@ export const contactFaqs: FaqItem[] = [
     question: 'Do you work remotely?',
     answer:
       'Yes. I work remotely from Islamabad, Pakistan, and I’ve worked with teams spread across different time zones.',
-  },
-  {
-    question: 'What’s the best way to reach you?',
-    answer:
-      'Use the form on this page or email me directly. My LinkedIn and GitHub profiles are linked here too.',
   },
 ]

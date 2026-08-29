@@ -5,7 +5,7 @@ import * as ToastPrimitives from '@radix-ui/react-toast'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { DUR, EASE_MORPH_CSS } from '@/lib/motion-tokens'
+import { DUR, EASE_MORPH_CSS, motionOK } from '@/lib/motion-tokens'
 
 const ToastProvider = ToastPrimitives.Provider
 
@@ -455,6 +455,9 @@ function ToastItem({
     // settling) is silent to screen readers, so announce it ourselves. Set
     // before the WAAPI guard - the announcement must not depend on el.animate.
     setAnnounceText([title, description].filter(Boolean).join('. '))
+    // Reduced motion: the in-place swap lands instantly (end states stand
+    // alone); the announcement above already happened.
+    if (!motionOK()) return
     if (typeof root.animate !== 'function') return
     if (prevHeight > 0 && prevHeight !== nextHeight) {
       // fill 'none' (default): lands back on natural auto height, no cleanup.

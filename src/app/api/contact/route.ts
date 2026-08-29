@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { rateLimit } from '@/lib/rate-limit';
-import { contactFormSchema } from '@/lib/validation';
+import { contactFormSchema, type ContactFormData } from '@/lib/validation';
 import { z } from 'zod';
 
 export async function POST(request: NextRequest) {
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate and sanitize input
-    let validatedData: z.infer<typeof contactFormSchema>;
+    let validatedData: ContactFormData;
     try {
       validatedData = contactFormSchema.parse(formData);
     } catch (validationError) {

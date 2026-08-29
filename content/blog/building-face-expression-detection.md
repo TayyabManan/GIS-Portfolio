@@ -2,7 +2,7 @@
 slug: "building-face-expression-detection"
 title: "Face Expression Detection: Tackling Class Imbalance with Ensemble Learning and Cloud GPUs"
 seoTitle: "Facial Expression Detection with ResNet-18"
-description: "Technical deep-dive into building a facial expression recognition system for group photos. From handling severe class imbalance to cloud GPU training on Modal.com, deploying on Hugging Face Spaces."
+description: "A facial expression recognition system for group photos: severe class imbalance handled with ensembles, cloud GPU training on Modal.com, and deployment on Hugging Face Spaces."
 date: "2025-12-08"
 author: "Tayyab Manan"
 category: "Computer Vision"
@@ -26,7 +26,9 @@ I built a **Face Expression Detection** system that identifies 7 emotions in gro
 
 The path from initial baseline to production taught me more about practical ML than any textbook did, mostly because textbooks don't cover the part where your second training run overwrites your first model.
 
-## Why is reading emotions in real-world photos hard?
+![the model reading a group · 8 faces, all 7 classes · 85–92% confidence](/projects/screens/face-expression-detection.webp "app")
+
+## Why Real-World Photos Are Hard
 
 **Real group photos are messy in ways lab datasets aren't: varied angles, occlusions, small faces, and subtle expressions.** The system has to reliably detect every face and then classify emotions that are genuinely ambiguous, all while the training data skews heavily toward a few common expressions like happiness.
 
@@ -145,7 +147,7 @@ Overall accuracy looked respectable at 82.14%, but the per-class breakdown told 
 
 This is what aggregate metrics hide. 82% accuracy sounds fine until you realize the model can't recognize two of seven emotions.
 
-## How do you fix severe class imbalance in an emotion dataset?
+## Fixing Severe Class Imbalance
 
 **No single trick fixes it. The win comes from stacking several.** A weighted sampler balances each batch, class weights and label smoothing curb overconfidence, high dropout limits overfitting to the majority classes, and ensembling models trained with different losses recovers the rare Fear and Disgust classes without wrecking the common ones.
 

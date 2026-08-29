@@ -14,10 +14,12 @@ import {
   SunIcon,
   MoonIcon,
   ComputerDesktopIcon,
+  SparklesIcon,
 } from '@heroicons/react/24/outline'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import { useTheme } from '@/contexts/ThemeContext'
+import { motionOK } from '@/lib/motion-tokens'
 
 interface CommandItem {
   id: string
@@ -61,6 +63,21 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
   })
   const listRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Motion override (only meaningful when the OS asks for reduced motion):
+  // signature JS motion honors prefers-reduced-motion by default; this
+  // personal escape hatch sets localStorage 'motion'='always' (see motionOK in
+  // src/lib/motion-tokens.ts). Reload after toggling - effects bind at mount.
+  const [reducedMotionOS] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+  const [motionOverride] = useState(() => {
+    try {
+      return localStorage.getItem('motion') === 'always'
+    } catch {
+      return false
+    }
+  })
 
   const navigate = useCallback((path: string) => {
     router.push(path)
@@ -160,7 +177,25 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
       keywords: ['theme', 'system', 'auto', 'os'],
       category: 'Settings',
     }] : []),
-  ], [navigate, onClose, theme, preference, toggleTheme, setPreference])
+    // Offered only to reduced-motion users - everyone else already has motion.
+    ...(reducedMotionOS ? [{
+      id: 'toggle-motion',
+      title: motionOverride ? 'Restore Reduced Motion' : 'Enable Motion',
+      description: motionOverride
+        ? 'Follow your system reduced-motion setting again'
+        : 'Play animations despite your reduced-motion setting',
+      icon: SparklesIcon,
+      action: () => {
+        try {
+          if (motionOverride) localStorage.removeItem('motion')
+          else localStorage.setItem('motion', 'always')
+        } catch { /* storage blocked - nothing to toggle */ }
+        window.location.reload()
+      },
+      keywords: ['motion', 'animation', 'reduced', 'accessibility', 'prefers-reduced-motion'],
+      category: 'Settings',
+    }] : []),
+  ], [navigate, onClose, theme, preference, toggleTheme, setPreference, reducedMotionOS, motionOverride])
 
   const executeCommand = useCallback((command: CommandItem) => {
     const updated = [command.id, ...recentCommands.filter(id => id !== command.id)].slice(0, 5)
@@ -248,13 +283,14 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
   }, [selectedIndex])
 
   // First-open row cascade (board: shell-open -> populating -> settled).
-  // WAAPI: zero bundle cost and immune to the reduced-motion CSS zeroing -
-  // for RM users the shell's CSS enter is zeroed, so this is the one motion
-  // they see. Mount-only by design: this content chunk remounts fresh per
-  // open, and filtering while typing must never stagger (rows re-render per
-  // keystroke). fill 'backwards' holds delayed rows invisible until their
-  // turn; missing WAAPI -> rows appear instantly (today's behavior).
+  // WAAPI for zero bundle cost; gated on motionOK() so reduced-motion users
+  // get instant rows (they already get the shell without its CSS enter).
+  // Mount-only by design: this content chunk remounts fresh per open, and
+  // filtering while typing must never stagger (rows re-render per keystroke).
+  // fill 'backwards' holds delayed rows invisible until their turn; missing
+  // WAAPI -> rows appear instantly.
   useEffect(() => {
+    if (!motionOK()) return
     const rows = listRef.current?.querySelectorAll<HTMLElement>('[data-index]')
     if (!rows || rows.length === 0 || typeof rows[0].animate !== 'function') return
     Array.from(rows)

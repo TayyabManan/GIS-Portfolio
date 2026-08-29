@@ -23,6 +23,8 @@ This project fine-tunes Qwen 2.5 7B Instruct to handle all three: Urdu script, R
 
 **[Read the full technical deep-dive →](/blog/building-urdu-llm-fine-tuning)**
 
+![the live space answering in roman urdu · python decorators, working code included](/projects/screens/urdu-llm-fine-tuning.webp "app")
+
 ## Key Features
 - **Bilingual, code-mixed Urdu**: One model that handles Urdu script, Roman Urdu (Latin-script Urdu, how most Pakistanis actually type), and Urdu/English code-switching, not just formal Urdu.
 - **79.5% win rate over the base model**: Pairwise preference across two independent LLM judges on a 100-prompt, hand-curated Urdu evaluation set, up from v2's 66%, with all three of v2's regressions recovered.

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon, ChatBubbleLeftRightIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon, DocumentTextIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline'
 import Logo from '@/components/ui/Logo'
 import { useCommandPalette, preloadCommandPalette } from '@/components/ui/CommandPaletteProvider'
 import { useTheme } from '@/contexts/ThemeContext'
@@ -227,13 +227,15 @@ export default function Header() {
               </span>
             </button>
 
-            {/* Resume Button */}
+            {/* Resume Button. Document icon: the label says "Resume", so the
+                icon must too - the old chat bubble hinted at the resume-page
+                chatbot, which no one can know before clicking. */}
             <Link
               href="/resume"
               className="ml-2 px-4 lg:px-5 py-2 text-[var(--on-primary)] font-medium text-sm lg:text-base rounded-lg transition-all duration-200 flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)]"
             >
               Resume
-              <ChatBubbleLeftRightIcon className="h-4 w-4" />
+              <DocumentTextIcon className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -406,7 +408,7 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Resume
-                <ChatBubbleLeftRightIcon className="h-4 w-4" />
+                <DocumentTextIcon className="h-4 w-4" />
               </Link>
             </div>
           </div>

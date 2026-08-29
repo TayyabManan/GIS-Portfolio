@@ -1,100 +1,65 @@
-import { AcademicCapIcon, BookOpenIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
 import Eyebrow from '@/components/ui/Eyebrow'
 
+/**
+ * Compact background strip (home restructure): education as quiet hairline
+ * rows instead of cards - degree, institution, mono period, nothing else.
+ * The detail (highlights, certifications, the journey) lives on /about,
+ * which the section-end link points at. Non-interactive surface = static
+ * ink, no hover styles. Carries its own data-reveal-group so it reveals
+ * independently of the CallToAction card beside it (nesting groups would
+ * double-arm the items).
+ */
 export default function Education() {
   const education = [
     {
       degree: "Master's in Artificial Intelligence Engineering",
-      institution: "COMSATS University Islamabad",
-      period: "2025 - 2027 (Expected)",
-      status: "In Progress",
-      icon: AcademicCapIcon,
-      highlights: [
-        "Focus: Deep Learning, Computer Vision, NLP",
-        "Excellence in AI Engineering with focus on Computer Vision"
-      ]
+      institution: 'COMSATS University Islamabad',
+      period: '2025 - 2027 (expected)',
     },
     {
-      degree: "Bachelor of Science in Geographic Information Science",
-      institution: "University of the Punjab, Lahore",
-      period: "2021 - 2025",
-      status: "Completed",
-      icon: BookOpenIcon,
-      highlights: [
-        "Quantitative coursework in remote sensing, spatial statistics, and Python-based satellite-data modeling",
-        "Strong foundation in geospatial analysis applied to ML problems"
-      ]
-    }
+      degree: 'BS Geographic Information Science',
+      institution: 'University of the Punjab, Lahore',
+      period: '2021 - 2025',
+    },
   ]
 
   return (
-    <section data-reveal-group className="py-16 sm:py-24 bg-[var(--background)]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div data-reveal="heading" className="mb-12 max-w-4xl">
-          <Eyebrow index="02">Background</Eyebrow>
-          <h2 className="text-3xl font-semibold tracking-tight text-[var(--text)] sm:text-4xl">
-            Education
-          </h2>
-          <p className="mt-4 text-lg text-[var(--text-secondary)]">
-            My academic journey in AI and Machine Learning
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {education.map((edu, index) => (
-            <div
-              key={index}
-              data-reveal="item"
-              className="relative bg-[var(--background-secondary)] border border-[var(--border)] rounded-xl p-6 sm:p-8"
-            >
-              {/* Status Badge */}
-              <div className="absolute top-6 right-6">
-                <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium ${
-                  edu.status === 'In Progress'
-                    ? 'bg-[var(--success)]/10 text-[var(--success)] border border-[var(--success)]/20'
-                    : 'bg-[var(--primary)]/10 text-[var(--primary)] border border-[var(--primary)]/20'
-                }`}>
-                  {edu.status === 'In Progress' && (
-                    <span className="w-2 h-2 rounded-full bg-[var(--success)] animate-pulse"></span>
-                  )}
-                  {edu.status}
-                </span>
-              </div>
-
-              {/* Icon */}
-              <div className="flex items-center gap-4 mb-4 pr-24 sm:pr-28">
-                <div className="p-3 bg-[var(--primary)]/10 rounded-xl flex-shrink-0">
-                  <edu.icon className="h-8 w-8 text-[var(--primary)]" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg sm:text-xl font-semibold text-[var(--text)] break-words">
-                    {edu.degree}
-                  </h3>
-                  <p className="text-sm sm:text-base text-[var(--text-secondary)] font-medium">
-                    {edu.institution}
-                  </p>
-                </div>
-              </div>
-
-              {/* Period */}
-              <p className="text-sm text-[var(--text-tertiary)] mb-4">
-                {edu.period}
-              </p>
-
-              {/* Highlights */}
-              <ul className="space-y-3">
-                {edu.highlights.map((highlight, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-sm text-[var(--text-secondary)]">
-                    <span className="text-[var(--accent-ink)] mt-1">•</span>
-                    <span>{highlight}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
+    <div data-reveal-group>
+      <div data-reveal="heading">
+        <Eyebrow index="03">Background</Eyebrow>
+        <h2 className="text-3xl font-semibold tracking-tight text-[var(--text)] sm:text-4xl">
+          Education
+        </h2>
       </div>
-    </section>
+
+      <ul className="mt-8">
+        {education.map((edu) => (
+          <li
+            key={edu.degree}
+            data-reveal="item"
+            className="flex flex-col gap-1 border-t border-[var(--border)] py-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+          >
+            <div>
+              <h3 className="text-base font-semibold text-[var(--text)] sm:text-lg">{edu.degree}</h3>
+              <p className="text-sm text-[var(--text-secondary)]">{edu.institution}</p>
+            </div>
+            <p className="shrink-0 font-mono text-xs font-medium tracking-[0.08em] text-[var(--text-secondary)]">
+              {edu.period}
+            </p>
+          </li>
+        ))}
+      </ul>
+
+      <div data-reveal="item" className="border-t border-[var(--border)] pt-5">
+        <Link
+          href="/about"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-[var(--primary)] transition-colors hover:text-[var(--primary-hover)]"
+        >
+          More about me
+          <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">&rarr;</span>
+        </Link>
+      </div>
+    </div>
   )
 }

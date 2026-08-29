@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { ArrowLeftIcon, ArrowRightIcon, ArrowTopRightOnSquareIcon, CodeBracketIcon, CalendarIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
@@ -76,8 +75,10 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
 
               {/* Meta row */}
               <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--text-tertiary)] pb-6 border-b border-[var(--border)]">
+                {/* Primary tint, not amber - warning is reserved for status
+                    semantics (DESIGN_SYSTEM §1), and "featured" is curation */}
                 {project.featured && (
-                  <span className="inline-flex items-center rounded-full bg-[var(--warning)]/10 px-3 py-1 text-sm font-medium text-[var(--warning)]">
+                  <span className="inline-flex items-center rounded-full bg-[var(--primary)]/10 px-3 py-1 text-sm font-medium text-[var(--primary)]">
                     Featured
                   </span>
                 )}
@@ -122,21 +123,13 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
               </div>
             </header>
 
-            {/* Project Image */}
-            {project.image && (
-              <div className="mb-12 rounded-2xl overflow-hidden border border-[var(--border)]">
-                <Image
-                  src={project.image}
-                  alt={`${project.title} - ${project.category} project`}
-                  width={960}
-                  height={540}
-                  className="w-full h-auto"
-                  priority
-                />
-              </div>
-            )}
+            {/* The cover image (frontmatter `image`) is deliberately NOT
+                rendered here: it repeats the header's title/subtitle/metric as
+                pixels and pushed the real evidence (the in-body screenshot
+                figure) below the fold. It remains the OG/social card via
+                generateMetadata - identity in text, proof in the figure. */}
 
-            {/* Action Buttons - after image, before content */}
+            {/* Action Buttons - before content */}
             {(project.demoUrl || project.githubUrl) && (
               <div className="flex flex-wrap gap-3 mb-12">
                 {project.demoUrl && (

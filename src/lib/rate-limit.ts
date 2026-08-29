@@ -156,14 +156,3 @@ export async function rateLimit(
     }
   }
 }
-
-// Export for testing purposes
-export const __testing = {
-  getRateLimiter,
-  resetInstance: () => {
-    if (rateLimiterInstance) {
-      rateLimiterInstance.destroy()
-      rateLimiterInstance = null
-    }
-  }
-}

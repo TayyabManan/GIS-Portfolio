@@ -3,23 +3,30 @@
  * registration, the lenis sync, and the global refresh plumbing happen exactly once.
  *
  * House rules (established by the hero effect in src/components/sections/Hero.tsx):
- * - Callers gate on DESKTOP_MOTION *before* calling a loader, so touch/narrow
- *   viewports never download a single gsap byte.
- * - GSAP is used (not CSS transitions) so motion survives the global
- *   prefers-reduced-motion rule in globals.css, which zeroes CSS transitions only.
- *   That bypass is deliberate: the owner runs reduced-motion ON but wants the motion.
+ * - Callers gate on desktopMotionOK() *before* calling a loader, so touch/narrow
+ *   viewports never download a single gsap byte - and reduced-motion users never
+ *   arm signature motion at all (motionOK in src/lib/motion-tokens.ts; the old
+ *   deliberate bypass is retired - the owner's want-motion-despite-RM preference
+ *   is now the localStorage 'motion'='always' override, not the default).
  */
 
 import { getLenis } from '@/components/providers/SmoothScrollProvider'
+import { motionOK } from '@/lib/motion-tokens'
 
 type GsapCore = typeof import('gsap')['default']
 type ScrollTriggerType = typeof import('gsap/ScrollTrigger')['ScrollTrigger']
 type FlipType = typeof import('gsap/Flip')['Flip']
-type SplitTextType = typeof import('gsap/SplitText')['SplitText']
 type MorphSVGType = typeof import('gsap/MorphSVGPlugin')['MorphSVGPlugin']
 
 /** Gate checked before any dynamic import - matches the hero's pill effect. */
 export const DESKTOP_MOTION = '(min-width: 1024px) and (pointer: fine)'
+
+/** The one gate every GSAP surface checks before arming: desktop + fine
+ * pointer + signature motion allowed (OS reduced-motion honored, personal
+ * override respected). SSR-safe. */
+export function desktopMotionOK(): boolean {
+  return typeof window !== 'undefined' && motionOK() && window.matchMedia(DESKTOP_MOTION).matches
+}
 
 /** Shared motion language, matched to the hero (framer 0.6s / [0.25,0.1,0.25,1] ~ power3.out). */
 export const MOTION = {
@@ -34,7 +41,6 @@ export const MOTION = {
 
 let corePromise: Promise<{ gsap: GsapCore; ScrollTrigger: ScrollTriggerType }> | null = null
 let flipPromise: Promise<{ gsap: GsapCore; Flip: FlipType }> | null = null
-let splitTextPromise: Promise<{ gsap: GsapCore; SplitText: SplitTextType }> | null = null
 let gsapCorePromise: Promise<{ gsap: GsapCore }> | null = null
 let morphPromise: Promise<{ gsap: GsapCore; MorphSVG: MorphSVGType }> | null = null
 let wired = false
@@ -119,19 +125,4 @@ export function loadFlip() {
     })
   }
   return flipPromise
-}
-
-/** gsap core + SplitText (footer name reveal). */
-export function loadSplitText() {
-  if (!splitTextPromise) {
-    splitTextPromise = Promise.all([import('gsap'), import('gsap/SplitText')]).then(([g, s]) => {
-      const gsap = g.default
-      gsap.registerPlugin(s.SplitText)
-      return { gsap, SplitText: s.SplitText }
-    }).catch((err) => {
-      splitTextPromise = null // don't cache the rejection - allow retry
-      throw err
-    })
-  }
-  return splitTextPromise
 }

@@ -23,7 +23,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div data-reveal="heading" className="mb-12 max-w-4xl">
           <Eyebrow index="01">Selected Work</Eyebrow>
-          <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)] mb-4">Featured Projects</h2>
+          <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)] mb-4">Projects</h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)]">
             A few projects I&apos;ve taken from first model to live demo.
           </p>

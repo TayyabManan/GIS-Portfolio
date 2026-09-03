@@ -167,13 +167,21 @@ export default function Hero() {
       {/* The original single-column hero, kept as-is for small screens (no marquee). */}
       <div className="flex min-h-[calc(100dvh-64px)] items-center px-4 sm:px-6 lg:hidden">
         <div className="mx-auto w-full max-w-4xl py-12 sm:py-16">
-          {/* Greeting - carries the job title now that the headline is the
-              claim (home restructure: title demoted, claim promoted). */}
-          <p className="text-base font-medium tracking-wide text-[var(--text-secondary)] sm:text-lg">
-            Hello, I&apos;m Tayyab Manan &middot; AI/ML engineer
+          {/* PARITY RULE (review 2026-09-03): this hero is the desktop hero's
+              content re-flowed for one column - same eyebrow, same claim,
+              same meta line, same lede, same actions. It used to carry its
+              own greeting (sentence case, larger), its own bio paragraph, a
+              four-item status row and a right-arrow CTA, so an iPad saw one
+              site in landscape (lg, 1024+) and another rotated. When the
+              desktop copy changes, change it here too. */}
+
+          {/* 1. Eyebrow - greeting + job title (title demoted here in the
+              home restructure; the headline carries the claim) */}
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
+            Tayyab Manan &middot; AI/ML Engineer
           </p>
 
-          {/* Headline = the claim, not the job title. font-sans! beats the
+          {/* 2. Headline = the claim, not the job title. font-sans! beats the
               global h1 rule (which would set the Bricolage heading face - and,
               being unlayered, outranks plain utilities): the hero headline is
               deliberately in the body voice, matching the desktop twin, a <p>
@@ -181,68 +189,68 @@ export default function Hero() {
               same unlayered-rule reason now that it wraps to several lines.
               The marker swipe rides the final word - the page's one lime
               moment lands in the headline on every breakpoint. */}
-          <h1 className="mt-3 font-sans! text-4xl font-semibold leading-[1.1]! tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">
+          <h1 className="mt-4 font-sans! text-4xl font-semibold leading-[1.1]! tracking-tight text-[var(--text)] sm:text-6xl md:text-7xl">
             I build ML systems that make it to{' '}
             <span className="marker-highlight">production</span>
           </h1>
 
-          {/* Focus areas - static, in the mono annotation voice (the word carousel
-              was cut in the premium pass: motion on a first-impression surface). */}
+          {/* 3. Meta - the desktop meta row's two halves, stacked. Same
+              size and case as desktop; the ink step (secondary vs tertiary)
+              carries the hierarchy. */}
+          <div className="mt-6 flex flex-col gap-1 text-sm">
+            <p className="text-[var(--text-secondary)]">
+              AI Developer at{' '}
+              <a href="https://cointegration.ai/" target="_blank" rel="noopener noreferrer" className={affiliationLinkClass}>
+                Cointegration
+                <ExternalArrow />
+              </a>
+              {' '}since 2025 &middot; Graduate student at{' '}
+              <a href="https://www.comsats.edu.pk/" target="_blank" rel="noopener noreferrer" className={affiliationLinkClass}>
+                COMSATS
+                <ExternalArrow />
+              </a>
+            </p>
+            <p className="text-[var(--text-tertiary)]">
+              Islamabad &middot; UTC+5 &middot; Available for remote contract work
+            </p>
+          </div>
+
+          {/* 4. Drawn rule */}
+          <div className="mt-6 h-px w-16 origin-left bg-[var(--border-hover)]" aria-hidden="true" />
+
+          {/* 5. Lede - the proof line, verbatim from desktop */}
+          <p className="mt-7 max-w-xl text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg">
+            Computer vision, NLP, geospatial AI, and multi-agent workflows.
+            Six deployed projects, every one with a live demo.
+          </p>
+
+          {/* 6. Focus areas - the desktop index pills' stand-in, static, in the
+              mono annotation voice (the word carousel was cut in the premium
+              pass: motion on a first-impression surface). */}
           <p className="mt-5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-[var(--text-secondary)]">
             {focusAreas.map((a) => a.label).join(' · ')}
           </p>
 
-          {/* Drawn rule */}
-          <div className="mt-7 h-px w-16 origin-left bg-[var(--border-hover)]" aria-hidden="true" />
-
-          {/* Bio */}
-          <p className="mt-7 max-w-xl text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg">
-            Graduate student at{' '}
-            <a href="https://www.comsats.edu.pk/" target="_blank" rel="noopener noreferrer" className={affiliationLinkClass}>
-              COMSATS
-              <ExternalArrow />
-            </a>
-            , building machine learning systems across computer vision, NLP, and geospatial AI.
-            Currently an AI Developer at{' '}
-            <a href="https://cointegration.ai/" target="_blank" rel="noopener noreferrer" className={affiliationLinkClass}>
-              Cointegration
-              <ExternalArrow />
-            </a>
-            {' '}since 2025.
-          </p>
-
-          {/* Status line */}
-          <div className="mt-6 flex flex-row flex-wrap items-center gap-4 text-sm text-[var(--text-tertiary)]">
-            <span className="inline-flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)]" aria-hidden="true" />
-              <span>Open to full-time AI/ML roles</span>
-            </span>
-            <span className="hidden text-[var(--border-hover)] sm:inline" aria-hidden="true">/</span>
-            <span>Islamabad, UTC+5</span>
-            <span className="hidden text-[var(--border-hover)] sm:inline" aria-hidden="true">/</span>
-            <span>Available for remote contract work</span>
-            <span className="hidden text-[var(--border-hover)] sm:inline" aria-hidden="true">/</span>
-            <span>Replies in 24h</span>
-          </div>
-
-          {/* Actions: primary CTAs + secondary profile links */}
+          {/* 7. Actions: primary CTAs + secondary profile links. Same arrows
+              as desktop: View Projects scrolls DOWN the page, so its glyph
+              points down. */}
           <div className="mt-10 flex flex-col gap-x-6 gap-y-6 sm:flex-row sm:items-center">
             <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4">
               <a
                 href="#projects"
                 onClick={scrollToProjects}
-                className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-[var(--on-primary)] transition-all duration-200 hover:bg-[var(--primary-hover)] active:scale-[0.98] sm:w-auto sm:justify-start sm:px-8 sm:py-4"
+                className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-[var(--on-primary)] transition-[background-color,transform] duration-200 hover:bg-[var(--primary-hover)] active:scale-[0.98] sm:w-auto sm:justify-start sm:px-8 sm:py-4"
               >
-                View Projects
-                <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
-                  &rarr;
+                View projects
+                <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-y-0.5">
+                  &darr;
                 </span>
               </a>
               <a
                 href="/contact"
-                className="group flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--border)] px-6 py-3 text-sm font-semibold text-[var(--text)] transition-all duration-200 hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-[0.98] sm:w-auto sm:justify-start sm:px-8 sm:py-4"
+                className="group flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--border)] px-6 py-3 text-sm font-semibold text-[var(--text)] transition-[color,border-color,transform] duration-200 hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-[0.98] sm:w-auto sm:justify-start sm:px-8 sm:py-4"
               >
-                Get in Touch
+                Get in touch
                 <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
                   &rarr;
                 </span>
@@ -299,7 +307,7 @@ export default function Hero() {
               home restructure; the headline below carries the claim) */}
           <div className="hero-reveal" style={{ animationDelay: '100ms' }}>
             <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
-              Hello, I&apos;m Tayyab Manan &middot; AI/ML Engineer
+              Tayyab Manan &middot; AI/ML Engineer
             </p>
           </div>
 
@@ -397,7 +405,7 @@ export default function Hero() {
                   onClick={scrollToProjects}
                   className="group flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-[var(--on-primary)] transition-[background-color,transform] duration-200 hover:bg-[var(--primary-hover)] active:scale-[0.98] sm:px-8 sm:py-4"
                 >
-                  View Projects
+                  View projects
                   <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-y-0.5">
                     &darr;
                   </span>
@@ -406,7 +414,7 @@ export default function Hero() {
                   href="/contact"
                   className="group flex items-center justify-center gap-2 rounded-lg border border-[var(--border)] px-6 py-3 text-sm font-semibold text-[var(--text)] transition-[color,border-color,transform] duration-200 hover:border-[var(--primary)] hover:text-[var(--primary)] active:scale-[0.98]"
                 >
-                  Get in Touch
+                  Get in touch
                   <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-0.5">
                     &rarr;
                   </span>

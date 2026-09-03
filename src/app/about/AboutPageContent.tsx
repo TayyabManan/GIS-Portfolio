@@ -1,12 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { resumeData, formatDate } from '@/lib/resume-data'
 import Link from 'next/link'
 import Image from 'next/image'
 import FAQ from '@/components/ui/FAQ'
 import { aboutFaqs } from '@/lib/faqs'
-import { desktopMotionOK, MOTION, loadScrollCore } from '@/lib/gsap'
 import { useSectionReveal } from '@/components/effects/useSectionReveal'
 import { ScatterOutlier } from '@/components/effects/NotebookDoodles'
 
@@ -26,7 +25,7 @@ const education = [
     degree: 'Masters in Artificial Intelligence Engineering',
     school: 'COMSATS Islamabad',
     year: '2027 (Expected)',
-    description: 'Graduate student specializing in computer vision, deep learning architectures, and practical AI system deployment.'
+    description: 'Focus on computer vision, deep learning architectures, and getting AI systems deployed.'
   },
   {
     degree: 'Bachelor of Science in Geographic Information Science',
@@ -54,61 +53,13 @@ const experience = [
 export default function AboutPage() {
   const rootRef = useRef<HTMLDivElement>(null)
 
-  // Certifications get the shared section reveal (the only [data-reveal-group] in scope).
+  // Education, Experience and Certifications each carry a [data-reveal-group]
+  // and share the one section reveal. The education/experience timeline
+  // (border-l rail + GSAP line-draw) was retired in the 2026-09-03 review:
+  // the rail was the last of the old generation's decoration on this page,
+  // and the hairline-row grammar the certifications (and the home
+  // Background strip) already use reads as one system.
   useSectionReveal(rootRef)
-
-  // Timeline draw (desktop, fine-pointer only): each education/experience entry's
-  // vertical line draws downward (an overlay span scaling from the top; the CSS
-  // border-l-2 stays as the no-JS/mobile fallback and is made transparent only
-  // while the effect is armed) as the entry's content fades in alongside it.
-  // Play-once, not scrubbed - the per-item segments are discontinuous, and
-  // scrubbing short segments reads as stutter. GSAP so it survives the global
-  // prefers-reduced-motion rule; lazy so mobile never ships it.
-  useEffect(() => {
-    if (!rootRef.current) return
-    if (!desktopMotionOK()) return
-    let cancelled = false
-    let revert: (() => void) | null = null
-    loadScrollCore().then(({ gsap }) => {
-      const root = rootRef.current
-      if (cancelled || !root) return
-      const mm = gsap.matchMedia()
-      mm.add('(min-width: 1024px)', () => {
-        const items = gsap.utils.toArray<HTMLElement>('[data-tl-item]', root)
-        const cleanups = items.map((item) => {
-          // Anti-FOUC: never hide an entry the user can already meaningfully see.
-          if (item.getBoundingClientRect().top < window.innerHeight - 40) return () => {}
-          const line = item.querySelector<HTMLElement>('[data-tl-line]')
-          const content = Array.from(item.children).filter((c) => c !== line) as HTMLElement[]
-          gsap.set(item, { borderLeftColor: 'transparent' })
-          gsap.set(content, { autoAlpha: 0, y: 16 })
-          const tl = gsap.timeline({
-            scrollTrigger: { trigger: item, start: 'top 82%', once: true },
-            onComplete: () => gsap.set(content, { clearProps: 'transform,opacity,visibility' }),
-          })
-          if (line) tl.to(line, { scaleY: 1, duration: 0.5, ease: MOTION.ease })
-          tl.to(
-            content,
-            { autoAlpha: 1, y: 0, duration: 0.5, ease: MOTION.ease, stagger: 0.08 },
-            line ? '-=0.3' : 0
-          )
-          return () => {
-            tl.scrollTrigger?.kill()
-            tl.kill()
-          }
-        })
-        return () => cleanups.forEach((dispose) => dispose())
-      })
-      revert = () => mm.revert()
-    }).catch(() => {
-      // Progressive enhancement: a failed gsap chunk load leaves the timeline
-      // fully visible with its static CSS border (nothing is hidden before this).
-    })
-    return () => {
-      cancelled = true
-      revert?.()
-    }
-  }, [])
 
   return (
     <div ref={rootRef} className="relative bg-[var(--background)] py-16 sm:py-24 min-h-[100dvh]">
@@ -117,8 +68,8 @@ export default function AboutPage() {
         <div className="mb-16 max-w-4xl">
           <h1 className="text-4xl sm:text-5xl font-semibold text-[var(--text)] mb-4">About Me</h1>
           <p className="text-xl text-[var(--text-secondary)]">
-            AI/ML Engineer building machine learning systems across Computer Vision, NLP,
-            and Geospatial AI. Open to full-time AI/ML roles.
+            I build ML systems, mostly computer vision, NLP, and geospatial work, and I&apos;m
+            looking for a full-time AI/ML role.
           </p>
         </div>
 
@@ -183,7 +134,7 @@ export default function AboutPage() {
             <div className="relative aspect-square w-64 mx-auto mb-8 rounded-xl overflow-hidden shadow-[0_8px_30px_-4px_rgba(28,25,23,0.12)]">
               <Image
                 src="/images/profile-picture.webp"
-                alt="Tayyab Manan - AI/ML Engineer specializing in Computer Vision, NLP, and Geospatial AI"
+                alt="Tayyab Manan"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 256px"
@@ -202,52 +153,50 @@ export default function AboutPage() {
 
         {/* Education & Experience */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Education */}
-          <section>
-            <h2 className="mb-6 text-2xl sm:text-3xl font-semibold text-[var(--text)]">Education</h2>
-            <div className="space-y-6">
+          {/* Education - hairline rows: title with the mono period on the
+              right, institution, one line of detail. Same row as the
+              certifications below and the home Background strip. Period is
+              SECONDARY ink (tertiary at 12px falls under AA on this page's
+              secondary surfaces - see the Education note in memory). */}
+          <section data-reveal-group>
+            <h2 data-reveal="heading" className="mb-2 text-2xl sm:text-3xl font-semibold text-[var(--text)]">Education</h2>
+            <ul>
               {education.map((edu, index) => (
-                <div key={index} data-tl-item className="relative border-l-2 border-[var(--primary-light)] pl-6 pb-6">
-                  {/* Draw-on-scroll overlay; sits exactly over the 2px border (fallback for no-JS/mobile) */}
-                  <span
-                    aria-hidden="true"
-                    data-tl-line
-                    className="absolute -left-0.5 top-0 h-full w-0.5 origin-top bg-[var(--primary-light)]"
-                    style={{ transform: 'scaleY(0)' }}
-                  />
-                  <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-lg font-semibold text-[var(--text)]">{edu.degree}</h3>
-                    <span className="font-mono text-xs font-medium tracking-[0.08em] text-[var(--text-tertiary)]">{edu.year}</span>
+                <li
+                  key={index}
+                  data-reveal="item"
+                  className="border-t border-[var(--border)] py-5"
+                >
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+                    <h3 className="text-base font-semibold text-[var(--text)] sm:text-lg">{edu.degree}</h3>
+                    <p className="shrink-0 font-mono text-xs font-medium tracking-[0.08em] text-[var(--text-secondary)]">{edu.year}</p>
                   </div>
-                  <p className="text-[var(--text-secondary)] font-medium mb-2">{edu.school}</p>
-                  <p className="text-[var(--text-secondary)]">{edu.description}</p>
-                </div>
+                  <p className="text-sm text-[var(--text-secondary)]">{edu.school}</p>
+                  <p className="mt-2 text-sm text-[var(--text-secondary)]">{edu.description}</p>
+                </li>
               ))}
-            </div>
+            </ul>
           </section>
 
-          {/* Experience */}
-          <section>
-            <h2 className="mb-6 text-2xl sm:text-3xl font-semibold text-[var(--text)]">Experience</h2>
-            <div className="space-y-6">
+          {/* Experience - the same row */}
+          <section data-reveal-group>
+            <h2 data-reveal="heading" className="mb-2 text-2xl sm:text-3xl font-semibold text-[var(--text)]">Experience</h2>
+            <ul>
               {experience.map((exp, index) => (
-                <div key={index} data-tl-item className="relative border-l-2 border-[var(--primary-light)] pl-6 pb-6">
-                  {/* Draw-on-scroll overlay; sits exactly over the 2px border (fallback for no-JS/mobile) */}
-                  <span
-                    aria-hidden="true"
-                    data-tl-line
-                    className="absolute -left-0.5 top-0 h-full w-0.5 origin-top bg-[var(--primary-light)]"
-                    style={{ transform: 'scaleY(0)' }}
-                  />
-                  <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-lg font-semibold text-[var(--text)]">{exp.role}</h3>
-                    <span className="font-mono text-xs font-medium tracking-[0.08em] text-[var(--text-tertiary)]">{exp.period}</span>
+                <li
+                  key={index}
+                  data-reveal="item"
+                  className="border-t border-[var(--border)] py-5"
+                >
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+                    <h3 className="text-base font-semibold text-[var(--text)] sm:text-lg">{exp.role}</h3>
+                    <p className="shrink-0 font-mono text-xs font-medium tracking-[0.08em] text-[var(--text-secondary)]">{exp.period}</p>
                   </div>
-                  <p className="text-[var(--text-secondary)] font-medium mb-2">{exp.company}</p>
-                  <p className="text-[var(--text-secondary)]">{exp.description}</p>
-                </div>
+                  <p className="text-sm text-[var(--text-secondary)]">{exp.company}</p>
+                  <p className="mt-2 text-sm text-[var(--text-secondary)]">{exp.description}</p>
+                </li>
               ))}
-            </div>
+            </ul>
           </section>
         </div>
 
@@ -293,16 +242,16 @@ export default function AboutPage() {
           <FAQ items={aboutFaqs} />
           <div className="lg:sticky lg:top-24 lg:self-start">
             <div className="rounded-2xl border border-[var(--border)] bg-[var(--background-secondary)] p-8">
-              <h2 className="text-2xl sm:text-3xl font-semibold text-[var(--text)] mb-3">Let&apos;s Work Together</h2>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-[var(--text)] mb-3">Looking for an ML engineer?</h2>
               <p className="text-[var(--text-secondary)] mb-6 text-base sm:text-lg">
-                I&apos;m always up for new opportunities, collaborating on ML projects, or just trading
-                notes on machine learning, computer vision, and MLOps.
+                I&apos;m looking for a full-time AI/ML role, and I&apos;m happy to talk through any of
+                the projects above in detail.
               </p>
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-2 bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 rounded-lg font-semibold hover:bg-[var(--primary-hover)] transition-all duration-200"
               >
-                Get in Touch
+                Get in touch
                 <span aria-hidden="true">→</span>
               </Link>
             </div>

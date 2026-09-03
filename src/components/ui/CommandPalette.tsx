@@ -92,7 +92,6 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
     {
       id: 'home',
       title: 'Go to Home',
-      description: 'Navigate to the homepage',
       icon: HomeIcon,
       action: () => { navigate('/'); onClose() },
       keywords: ['home', 'main', 'index'],
@@ -102,7 +101,6 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
     {
       id: 'projects',
       title: 'View Projects',
-      description: 'Browse all projects',
       icon: BriefcaseIcon,
       action: () => { navigate('/projects'); onClose() },
       keywords: ['work', 'portfolio'],
@@ -112,7 +110,6 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
     {
       id: 'blog',
       title: 'Read Blog',
-      description: 'Browse blog posts and articles',
       icon: NewspaperIcon,
       action: () => { navigate('/blog'); onClose() },
       keywords: ['blog', 'articles', 'posts', 'writing'],
@@ -122,7 +119,6 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
     {
       id: 'about',
       title: 'About Me',
-      description: 'Learn more about my background',
       icon: UserIcon,
       action: () => { navigate('/about'); onClose() },
       keywords: ['bio', 'background', 'experience'],
@@ -132,7 +128,6 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
     {
       id: 'resume',
       title: 'View Resume',
-      description: 'Download or view my resume',
       icon: DocumentTextIcon,
       action: () => { navigate('/resume'); onClose() },
       keywords: ['cv', 'download', 'pdf'],
@@ -406,7 +401,7 @@ export function CommandPalette({ onClose, additionalCommands = [] }: CommandPale
           </p>
           {search && (
             <p className="mt-2 text-xs text-[var(--text-secondary)]">
-              Try searching for: projects, about, resume, or theme
+              Try &quot;projects&quot; or &quot;theme&quot;
             </p>
           )}
         </div>

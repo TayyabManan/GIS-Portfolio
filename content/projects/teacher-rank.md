@@ -2,7 +2,7 @@
 slug: "teacher-rank"
 title: "TeacherRank"
 subtitle: "Student-Driven Teacher Review Platform"
-description: "A teacher rating and review platform that lets students share structured feedback about educators across multiple dimensions, helping others make more informed decisions during course registration. Built with React, TypeScript, and Supabase."
+description: "A teacher rating and review platform where students score educators on teaching quality, communication, helpfulness, and course difficulty, so others can choose courses with better information. Built with React, TypeScript, and Supabase."
 category: "Web Application"
 metric: "−60% bundle"
 metricChart: "bars-down"
@@ -15,26 +15,19 @@ date: "2025-01-06"
 ---
 
 ## Overview
-TeacherRank is a web app that lets students rate and review their teachers across multiple dimensions instead of reducing them to a single number. The platform supports ratings for teaching quality, communication, helpfulness, and course difficulty, with real-time data sync and a responsive interface. The goal is to help students make better decisions during course registration while giving institutions useful feedback.
+TeacherRank is a web app where students rate and review their teachers across several dimensions instead of reducing them to one number. It scores teaching quality, communication, helpfulness, and course difficulty separately, with live data sync and a responsive interface. The point is to help students pick courses with better information, and to give institutions feedback they can use.
 
-**[Read the full technical deep-dive →](/blog/building-teacherrank)**
+**[Read the full write-up →](/blog/building-teacherrank)**
 
 ![the live index · 377 teachers, 59 reviews, ranked](/projects/screens/teacher-rank.webp "app")
 
-## Key Features
-- **Multi-Dimensional Ratings**: Separate scores for teaching quality, communication, helpfulness, and course difficulty
-- **Search & Filtering**: Find teachers by name, subject, institution, or rating with real-time results
-- **User Authentication**: Login with email verification and password recovery via Supabase
-- **Teacher Profiles**: Detailed pages with ratings breakdown, student reviews, and teaching statistics
-- **Institution Management**: Browse teachers organized by educational institution
-- **Admin Dashboard**: Admin panel for managing teachers, reviews, and user reports
-- **Real-time Updates**: Live data sync using Supabase subscriptions with TanStack Query cache invalidation
-- **Mobile-First Design**: Responsive interface that works on phones first, desktops second
+## Features
+Ratings are split into four dimensions: teaching quality, communication, helpfulness, and course difficulty. Students can search by name, subject, institution, or rating with results updating as they type, browse teachers grouped by institution, and open a profile page with the ratings breakdown, student reviews, and teaching statistics. Accounts run on Supabase auth with email verification and password recovery. New reviews sync live through Supabase subscriptions with TanStack Query cache invalidation. Admins get a panel for managing teachers, reviews, and user reports. The interface is built for phones first, desktops second.
 
-## Technical Architecture
-Built with React 18 and TypeScript, using Vite for fast builds and hot module replacement. Supabase handles the backend: authentication, real-time database, and row-level security at the PostgreSQL level. TanStack Query manages server state with stale-while-revalidate caching. The UI uses Tailwind CSS and DaisyUI components.
+## Technical architecture
+React 18 and TypeScript, with Vite for builds and hot module replacement. Supabase handles the backend: authentication, the real-time database, and row-level security at the PostgreSQL level. TanStack Query manages server state with stale-while-revalidate caching. The UI uses Tailwind CSS and DaisyUI components.
 
-## Performance Optimizations
+## Performance
 
 | Optimization | Impact |
 |-------------|--------|
@@ -45,7 +38,7 @@ Built with React 18 and TypeScript, using Vite for fast builds and hot module re
 | Bundle Compression | Brotli compression reducing asset sizes by up to 80% |
 | PWA Features | Service worker for offline functionality |
 
-## User Experience
+## User experience
 
 | Feature | Description |
 |---------|-------------|
@@ -56,7 +49,7 @@ Built with React 18 and TypeScript, using Vite for fast builds and hot module re
 | Accessibility | WCAG 2.1 compliant with keyboard navigation and screen reader support |
 | Dark Mode | Respects OS theme preference by default |
 
-## Database Design
+## Database design
 
 | Table | Purpose |
 |-------|---------|
@@ -84,5 +77,5 @@ Built with React 18 and TypeScript, using Vite for fast builds and hot module re
 | Speed Insights | Core Web Vitals monitoring |
 | Sentry | Error tracking and performance monitoring in production |
 
-## Future Enhancements
-Planned additions include sentiment analysis on review text to surface patterns that numeric ratings miss, collaborative filtering to recommend professors based on similar students' preferences, and anomaly detection to flag suspicious review clusters. I'd also like to add automatic topic classification (teaching style, grading, workload) so students can filter reviews by what they care about, and eventually a natural language query interface using RAG so students can ask questions like "Which Data Structures professors have high ratings with manageable workload?"
+## What's next
+Sentiment analysis on review text, to surface patterns the numeric ratings miss. Collaborative filtering to recommend professors based on what similar students liked. Anomaly detection to flag suspicious review clusters. I'd also like automatic topic classification (teaching style, grading, workload) so students can filter reviews by what they care about, and eventually a natural language query interface using RAG so a student can ask "Which Data Structures professors have high ratings with manageable workload?"

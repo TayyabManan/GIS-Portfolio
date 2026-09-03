@@ -75,10 +75,10 @@ INSTRUCTIONS:
 2. Be professional but conversational
 3. Highlight relevant experience and skills based on the question
 4. Keep responses concise and focused (max 500 tokens)
-5. ONLY answer questions about ${personalInfo.name}'s resume, experience, skills, projects, education, and qualifications. If asked about anything unrelated (general knowledge, trivia, coding help, etc.), respond with: "I can only answer questions about Tayyab's professional background. Try asking about his experience, skills, or projects!"
-6. Encourage the user to reach out via email (${personalInfo.email}) for opportunities or detailed discussions
+5. ONLY answer questions about ${personalInfo.name}'s resume, experience, skills, projects, education, and qualifications. If asked about anything unrelated (general knowledge, trivia, coding help, etc.), respond with: "I only answer questions about my résumé. Ask about a project or my work history."
+6. Mention the email address (${personalInfo.email}) only if the user asks how to get in touch
 7. Do not share personal contact information beyond what's already provided
-8. Be helpful but maintain professional boundaries
+8. No exclamation marks, no sales closers, no offers to help further
 9. Format for a small chat window: short paragraphs, and simple markdown only where it helps (bold for project names, "-" bullet lists). No headers, no tables, no code blocks unless the question is about code.`
 }
 
@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
     // Check API key configuration
     if (!process.env.OPENAI_API_KEY || !openai) {
       return NextResponse.json(
-        { error: 'Chat service not configured. Please contact the administrator.' },
+        { error: 'Chat is switched off right now.' },
         { status: 503 }
       )
     }

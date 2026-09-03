@@ -2,7 +2,7 @@
 slug: "face-expression-detection"
 title: "Face Expression Detection"
 subtitle: "Deep Learning Emotion Recognition in Group Photos"
-description: "A deep learning web application that detects and classifies facial expressions in images. Built with PyTorch and Flask, featuring a ResNet-18 model trained on the RAF-DB dataset achieving 80% accuracy."
+description: "A PyTorch and Flask web app that finds every face in a photo and classifies its expression into one of 7 emotions. ResNet-18 fine-tuned on the RAF-DB dataset, 80% accuracy."
 category: "Computer Vision"
 metric: "80% acc · 7 classes"
 metricChart: "accuracy"
@@ -15,36 +15,30 @@ date: "2025-12-08"
 ---
 
 ## Overview
-A deep learning web app that detects and classifies facial expressions in images. Built with PyTorch and Flask, using a ResNet-18 model trained on the [RAF-DB dataset](http://www.whdeng.cn/raf/model1.html) at **80% accuracy**.
+A deep learning web app that detects and classifies facial expressions in images. Built with PyTorch and Flask, using a ResNet-18 model trained on the [RAF-DB dataset](http://www.whdeng.cn/raf/model1.html) at 80% accuracy.
 
-**[Read the full technical deep-dive →](/blog/building-face-expression-detection)**
+**[Read the full write-up →](/blog/building-face-expression-detection)**
 
 ![the model reading a group · 8 faces, all 7 classes · 85–92% confidence](/projects/screens/face-expression-detection.webp "app")
 
 ## Features
-- **7 Emotion Classes**: Surprise, Fear, Disgust, Happiness, Sadness, Anger, Neutral
-- **Multi-face Detection**: Detects and analyzes multiple faces in a single image
-- **MTCNN Face Detection**: Primary detector with Haar Cascade fallback for tough cases
-- **Real-time Visualization**: Annotated images with bounding boxes and emotion labels
-- **Confidence Scores**: Probability distribution across all emotion classes
-- **Dark/Light Mode**: Toggle between themes
-- **Responsive Design**: Works on desktop and mobile
+The model classifies 7 expressions: Surprise, Fear, Disgust, Happiness, Sadness, Anger, and Neutral. It handles multiple faces in a single image, using MTCNN as the primary detector with a Haar Cascade fallback for the hard cases. The app returns the annotated image with bounding boxes and emotion labels, plus the full probability distribution across all 7 classes for each face. There's a dark/light toggle, and the layout works on desktop and mobile.
 
-## What I Did
+## What I did
 
-### Face Detection Pipeline
-I used a two-stage approach with MTCNN as the primary face detector and Haar Cascade as fallback. MTCNN handles multiple faces in group photos well, and Haar Cascade picks up faces that MTCNN misses (unusual angles, extreme lighting).
+### Face detection pipeline
+A two-stage approach with MTCNN as the primary face detector and Haar Cascade as fallback. MTCNN handles multiple faces in group photos well, and Haar Cascade picks up faces that MTCNN misses (unusual angles, extreme lighting).
 
-### Model Training
-I used transfer learning with ResNet-18 pretrained on ImageNet and fine-tuned on RAF-DB (Real-world Affective Faces Database), which has 15,339 images across 7 emotion classes. The custom classification head uses batch normalization and dropout for regularization.
+### Model training
+Transfer learning with ResNet-18 pretrained on ImageNet and fine-tuned on RAF-DB (Real-world Affective Faces Database), which has 15,339 images across 7 emotion classes. The custom classification head uses batch normalization and dropout for regularization.
 
-### Handling Class Imbalance
-RAF-DB has serious class imbalance (Happiness: 39%, Fear: 2.3%). I addressed this with focal loss, class weights, and weighted sampling to improve performance on minority classes like Fear and Disgust. The ensemble of models trained with different loss functions ended up being the most effective approach.
+### Handling class imbalance
+RAF-DB has serious class imbalance (Happiness: 39%, Fear: 2.3%). I tried focal loss, class weights, and weighted sampling to improve performance on minority classes like Fear and Disgust. An ensemble of models trained with different loss functions ended up working best.
 
-### Web Application
-I built a Flask web app with image upload, real-time emotion detection, and annotated output showing bounding boxes and confidence scores. Deployed on Hugging Face Spaces using Docker.
+### Web application
+A Flask app with image upload, emotion detection, and annotated output showing bounding boxes and confidence scores. Deployed on Hugging Face Spaces using Docker.
 
-## Tech Stack
+## Stack
 
 | Component | Technology |
 |-----------|-----------|
@@ -55,7 +49,7 @@ I built a Flask web app with image upload, real-time emotion detection, and anno
 | Dataset | RAF-DB (Real-world Affective Faces Database) |
 | Deployment | Docker on Hugging Face Spaces |
 
-## Model Performance
+## Model performance
 
 | Metric | Value |
 |--------|-------|
@@ -64,7 +58,7 @@ I built a Flask web app with image upload, real-time emotion detection, and anno
 | Architecture | ResNet-18 |
 | Input Size | 100x100 |
 
-### Per-Class Performance
+### Per-class performance
 
 | Emotion | Performance | Notes |
 |---------|-------------|-------|
@@ -77,9 +71,9 @@ I built a Flask web app with image upload, real-time emotion detection, and anno
 | Disgust | Lower | Only 5% of training data |
 
 ## Authors
-- **Muhammad Tayyab**
-- **Syed Measum**
-- **Mustafa Rahim**
+- Muhammad Tayyab
+- Syed Measum
+- Mustafa Rahim
 
 ## Acknowledgments
 - RAF-DB Dataset for training data

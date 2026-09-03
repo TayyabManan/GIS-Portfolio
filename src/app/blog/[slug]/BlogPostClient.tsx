@@ -65,7 +65,9 @@ export default function BlogPostClient({ post, adjacentPosts }: BlogPostClientPr
             items={[
               { label: 'Home', href: '/' },
               { label: 'Blog', href: '/blog' },
-              { label: post.category, current: true },
+              // The page itself, not its category - the category already
+              // leads the eyebrow one line below.
+              { label: post.title, current: true },
             ]}
             size="sm"
           />

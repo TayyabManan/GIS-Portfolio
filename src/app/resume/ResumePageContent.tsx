@@ -143,7 +143,7 @@ export default function ResumePageContent() {
                     {edu.startDate} - {edu.endDate}
                   </div>
                 </div>
-                {edu.achievements && (
+                {edu.achievements && edu.achievements.length > 0 && (
                   <ul className="list-disc list-inside space-y-1 text-[var(--text-secondary)] ml-4">
                     {edu.achievements.map((achievement, achIndex) => (
                       <li key={achIndex} className="text-sm">{achievement}</li>

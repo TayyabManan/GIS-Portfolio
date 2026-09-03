@@ -2,7 +2,7 @@
 slug: "watertrace"
 title: "WaterTrace Pakistan"
 subtitle: "Groundwater Prediction Using Satellite Data and ML"
-description: "Machine learning system for groundwater monitoring and prediction in Pakistan, built on 22 years of satellite data (2002-2024) from GRACE and GLDAS. Features time-series forecasting with Gradient Boosting (R²=0.89), interactive district-level maps, and a Flask API for predictions."
+description: "Groundwater monitoring and forecasting for all 145 districts of Pakistan, built on 22 years of GRACE and GLDAS satellite data (2002-2024). Gradient Boosting time-series model (R²=0.89), interactive district-level maps, and a Flask prediction API."
 category: "Geospatial AI"
 metric: "R² 0.65→0.89"
 metricChart: "scatter-fit"
@@ -15,24 +15,19 @@ date: "2025-01-09"
 ---
 
 ## Overview
-WaterTrace is a machine learning system for predicting and monitoring groundwater levels across Pakistan. It processes 22 years of satellite data from NASA's [GRACE mission](https://grace.jpl.nasa.gov/) (2002-2017) and [GLDAS land surface models](https://ldas.gsfc.nasa.gov/gldas) (2018-2024) to forecast groundwater depletion patterns across all 145 districts. The model achieves R²=0.89, and the results are served through an interactive web dashboard with district-level maps and time-series charts.
+WaterTrace predicts and monitors groundwater levels across Pakistan. It processes 22 years of satellite data from NASA's [GRACE mission](https://grace.jpl.nasa.gov/) (2002-2017) and [GLDAS land surface models](https://ldas.gsfc.nasa.gov/gldas) (2018-2024) to forecast groundwater depletion across all 145 districts. The model reaches R²=0.89, and the results are served through a web dashboard with district-level maps and time-series charts.
 
-**[Read the full technical deep-dive →](/blog/building-watertrace)**
+**[Read the full write-up →](/blog/building-watertrace)**
 
 ![the live dashboard · 22-year anomaly series, observed to predicted · 145 districts](/projects/screens/watertrace.webp "app")
 
-## Key Features
-- **Satellite Data Integration**: Combines GRACE gravity anomaly data and GLDAS soil moisture measurements across 22 years
-- **District-Level Predictions**: Forecasts for all 145 districts of Pakistan with confidence intervals
-- **Interactive Visualizations**: Time-series charts showing 22-year groundwater trends with data source indicators
-- **Time-Series Forecasting**: Gradient Boosting model (R² = 0.89) for 6-month ahead predictions
-- **Responsive Dashboard**: Mobile-optimized interface for browsing predictions and maps
-- **RESTful API**: Endpoints for predictions and data access
+## What it does
+It combines GRACE gravity-anomaly data and GLDAS soil-moisture measurements across 22 years, and a Gradient Boosting model (R² = 0.89) forecasts 6 months ahead for each of the 145 districts, with confidence intervals. The dashboard shows 22-year time-series charts with a data-source indicator on each, plus district maps, and it works on mobile. A REST API exposes the predictions and the underlying data.
 
-## Technical Stack
-The frontend uses React 18 with Recharts for time-series visualization. Flask serves the ML API backend. Pandas and NumPy handle feature engineering and data processing. Google Earth Engine provides access to satellite datasets, and Scikit-learn runs the regression modeling, cross-validation, and hyperparameter tuning. District maps with depletion overlays are rendered using Leaflet. Tailwind CSS handles the responsive layout.
+## Stack
+The frontend is React 18 with Recharts for time-series charts. Flask serves the ML API. Pandas and NumPy handle feature engineering and data processing. Google Earth Engine provides the satellite datasets, and Scikit-learn runs the regression modelling, cross-validation, and hyperparameter tuning. District maps with depletion overlays are rendered with Leaflet. Tailwind CSS handles the responsive layout.
 
-## Satellite Data Sources
+## Satellite data sources
 
 | Source | Details |
 |--------|---------|
@@ -42,7 +37,7 @@ The frontend uses React 18 with Recharts for time-series visualization. Flask se
 | Spatial Coverage | All of Pakistan with district-level aggregation |
 | Data Volume | 163 GRACE observations + 72 GLDAS measurements |
 
-## Key Findings
+## Findings
 
 | Metric | Value |
 |--------|-------|
@@ -52,17 +47,7 @@ The frontend uses React 18 with Recharts for time-series visualization. Flask se
 | Recent trend (GLDAS era) | +1.5 kg/m²/year improvement in some regions |
 | Districts in critical stress | 15+ |
 
-## Dashboard Features
-
-| Feature | Description |
-|---------|-------------|
-| Time Series View | 22-year timeline with GRACE/GLDAS/prediction source indicators |
-| District Map | Color-coded by groundwater stress level |
-| Trend Analysis | Linear regression and seasonal decomposition |
-| Statistics Panel | Depletion rates, rankings, and summary metrics |
-| Data Export | Download for use in GIS software or further analysis |
-
-## ML Pipeline
+## ML pipeline
 
 | Component | Details |
 |-----------|---------|
@@ -73,19 +58,16 @@ The frontend uses React 18 with Recharts for time-series visualization. Flask se
 | Prediction Horizon | 6 months ahead with confidence intervals |
 | Interpretability | SHAP values for feature importance |
 
-## What I Learned
+## What I learned
 
-### Technical Skills
-Processing and merging 22 years of satellite data from two different sources (GRACE and GLDAS) with different formats and temporal coverage was the first real challenge. I got comfortable with the Google Earth Engine API for large-scale geospatial processing, which meant learning to work with data without downloading it locally. Time-series forecasting taught me about seasonality, trend decomposition, and why temporal cross-validation matters (random splits leak future information). Building the full stack from React frontend to Flask API to the ML model gave me a better sense of how these pieces fit together in practice.
+### Satellite data engineering
+Merging 22 years of data from two sources with different formats and temporal coverage was the first real problem. GRACE gives gravity anomalies through 2017; GLDAS gives deep soil moisture from 2018, which only works as a groundwater proxy after correlation analysis and calibration. Aggregating pixel-level rasters to irregular district boundaries was fiddly, and Google Earth Engine meant learning to process data I never downloaded. Getting the pipeline to handle 145 districts across 235 monthly observations without being painfully slow took work too. Most of the project's time went into this stage, which turned out to be normal rather than a sign something was wrong.
 
-### Problem-Solving
-The hardest problems were data problems. Merging GRACE with GLDAS proxy data while keeping predictions accurate required correlation analysis and calibration. Aggregating pixel-level satellite data to irregular district boundaries was fiddly. Model performance went from R² of 0.65 to 0.89 mostly through feature engineering (seasonal features and lag variables), not architecture changes. And optimizing the pipeline to handle 145 districts across 235 monthly observations without being painfully slow took some work.
+### Forecasting
+Model performance went from R² 0.65 to 0.89 almost entirely through feature engineering (lag variables, seasonal sine/cosine terms, rolling means), not through swapping algorithms. Temporal cross-validation mattered more than I expected: random splits leak future information into training, so the chronological splits are the only scores I trust. Monsoon seasonality and irrigation cycles, domain facts rather than ML ones, were the features that moved the number.
 
-### Domain Knowledge
-I came in knowing ML but not hydrology. Working on this taught me about Pakistan's water crisis, how monsoon cycles drive groundwater recharge, and how infrastructure decisions affect depletion. Learning to translate model outputs into something useful for non-technical audiences (confidence intervals instead of point estimates, maps instead of tables) changed how I think about ML deployment. And building a system that could influence policy decisions made me more careful about communicating uncertainty.
+### Communicating uncertainty
+I came in knowing ML but not hydrology. Building a tool that could feed into policy decisions changed how the outputs are presented: confidence intervals instead of point estimates, district maps instead of tables, and a data-source indicator on every chart so nobody mistakes a GLDAS proxy for a GRACE measurement.
 
-### Key Takeaways
-Starting with exploratory data analysis saved me weeks of debugging later. Real-world data is messy, and spending most of my time on data cleaning turned out to be normal, not a sign I was doing something wrong. Domain knowledge (monsoon seasonality, irrigation cycles) improved the model more than any algorithm swap. And iterative development with user feedback consistently led to better priorities than my initial assumptions.
-
-## Future Development
-Next steps include integrating GRACE Follow-On (GRACE-FO) data for direct measurements beyond 2018, experimenting with LSTM and Transformer architectures for multi-step forecasting, and adding real-time climate data (temperature, rainfall) as additional model inputs. I'd also like to build a district-level alert system for sudden depletion events and set up an MLOps pipeline for automated retraining as new satellite data becomes available.
+## What's next
+Integrating GRACE Follow-On (GRACE-FO) data for direct measurements beyond 2018, trying LSTM and Transformer architectures for multi-step forecasting, and adding real-time climate data (temperature, rainfall) as model inputs. I'd also like a district-level alert system for sudden depletion events, and an MLOps pipeline that retrains automatically as new satellite data lands.

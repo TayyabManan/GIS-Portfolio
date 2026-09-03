@@ -79,7 +79,7 @@ export const resumeData: ResumeData = {
     github: "https://github.com/TayyabManan",
     linkedin: "https://www.linkedin.com/in/tayyabmanan",
     summary:
-      "AI/ML Engineer building production ML systems with PyTorch, TensorFlow, and LangChain. Specializing in Computer Vision, Multi-Agent Systems, and Geospatial AI. Experienced in deploying models serving 145 districts, building multi-agent workflows that save 15+ hours/week, and reducing processing time by 40%. Currently pursuing a Master's in AI Engineering at COMSATS while working as an AI Developer at Cointegration.",
+      "AI/ML engineer working in PyTorch, TensorFlow, and LangChain. Shipped a groundwater model covering 145 districts, multi-agent workflows that save 15+ hours/week, and production ML models that cut processing time by 40%. MS in AI Engineering at COMSATS, AI Developer at Cointegration.",
   },
 
   skills: [
@@ -440,7 +440,6 @@ export const resumeData: ResumeData = {
         "Built 5+ production ML models reducing processing time by 40%",
         "Developed multi-agent systems using LangChain and AutoGen with 92% task completion accuracy",
         "Implemented automated workflows with Model Context Protocol, saving 15 hours/week",
-        "Collaborated in Agile methodology with cross-functional teams for iterative development",
       ],
       technologies: [
         "LangChain",
@@ -563,13 +562,13 @@ export const resumeData: ResumeData = {
       highlights: [
         "Built supervised ML model achieving 0.137 t/ha prediction error on test set",
         "Engineered features from multi-spectral satellite imagery and climate variables using Google Earth Engine",
-        "Applied cross-validation and hyperparameter tuning for optimal model performance",
+        "Tuned hyperparameters under cross-validation",
       ],
     },
     {
       name: "TeacherRank",
       description:
-        "Comprehensive teacher rating and review platform for educational institutions",
+        "Teacher rating and review platform for educational institutions",
       technologies: [
         "React",
         "TypeScript",
@@ -584,7 +583,6 @@ export const resumeData: ResumeData = {
       githubText: "GitHub",
       highlights: [
         "Built full-stack web application with REST APIs for real-time data synchronization",
-        "Implemented responsive design delivering seamless experience across all devices",
         "Achieved 60% bundle size reduction through code splitting and lazy loading optimizations",
       ],
     },
@@ -597,7 +595,6 @@ export const resumeData: ResumeData = {
         "Flask",
         "Google Earth Engine",
         "React",
-        "Predictive Analytics",
         "GRACE/GLDAS",
       ],
       url: "https://watertrace.vercel.app",
@@ -628,8 +625,7 @@ export const resumeData: ResumeData = {
       githubText: "GitHub",
       highlights: [
         "Implemented weighted scoring algorithm processing demographic, economic, and infrastructure layers for 5 tehsils",
-        "Applied geospatial ML techniques for optimal site selection achieving 90%+ coverage target",
-        "Integrated multi-criteria decision analysis with spatial data processing pipeline",
+        "Ranked candidate sites with multi-criteria decision analysis to a 90%+ coverage target",
       ],
     },
   ],
@@ -643,8 +639,6 @@ export const resumeData: ResumeData = {
       endDate: "Present (Expected 2027)",
       gpa: "",
       achievements: [
-        "Distinguished academic record in AI Engineering and Deep Learning",
-        "Excellence in AI Engineering with focus on Computer Vision",
       ],
     },
     {
@@ -656,7 +650,6 @@ export const resumeData: ResumeData = {
       gpa: "",
       achievements: [
         "Quantitative coursework in remote sensing, spatial statistics, and Python-based satellite-data modeling",
-        "Outstanding performance in GIS and Remote Sensing",
       ],
     },
   ],

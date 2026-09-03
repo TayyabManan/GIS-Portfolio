@@ -38,7 +38,7 @@ export default function CodeBlock({ children, className }: CodeBlockProps) {
       <button
         onClick={handleCopy}
         className="absolute top-3 right-3 p-2.5 min-h-[44px] min-w-[44px] rounded-lg bg-[var(--background)] border border-[var(--border)] hover:bg-[var(--background-secondary)] transition-colors cursor-pointer flex items-center justify-center"
-        title={copied ? 'Copied!' : 'Copy code'}
+        title={copied ? 'Copied' : 'Copy code'}
       >
         {/* Icon remounts on the idle <-> copied flip, replaying the
             icon-swap-in pop (board: idle -> copied -> idle). */}

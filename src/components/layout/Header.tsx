@@ -9,12 +9,15 @@ import { useCommandPalette, preloadCommandPalette } from '@/components/ui/Comman
 import { useTheme } from '@/contexts/ThemeContext'
 import { useNavUnderline, warmNavUnderline } from '@/components/effects/useNavUnderline'
 
+// Keyboard shortcuts (Alt+H etc.) are owned and documented by the command
+// palette; the nav no longer tooltips them on hover (a shortcut hint on
+// every nav hover was noise on the first-impression surface).
 const navigationItems = [
-  { name: 'Home', href: '/', shortcut: 'Alt+H' },
-  { name: 'Projects', href: '/projects', shortcut: 'Alt+P' },
-  { name: 'Blog', href: '/blog', shortcut: 'Alt+B' },
-  { name: 'About', href: '/about', shortcut: 'Alt+A' },
-  { name: 'Contact', href: '/contact', shortcut: 'Alt+C' },
+  { name: 'Home', href: '/' },
+  { name: 'Projects', href: '/projects' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
 ]
 
 // Stable identity so useNavUnderline's effect doesn't re-run per render.
@@ -130,29 +133,24 @@ export default function Header() {
         }}
       >
         <div
-          className={`nav-surface flex items-center justify-between transition-all duration-300 ${
+          className={`nav-surface flex items-center justify-between transition-[height,background-color,border-color,padding] duration-300 ${
             isScrolled
-              ? 'h-14 px-4 sm:px-6 rounded-full shadow-md border border-[var(--border)] bg-[var(--background)] opacity-95'
+              ? 'h-14 px-4 sm:px-6 rounded-full border border-[var(--border)] bg-[var(--background)]'
               : 'h-16 bg-transparent'
           }`}
         >
-          {/* Logo */}
+          {/* Logo. Opaque hairline pill when scrolled - no shadow (the last
+              one in the chrome) and no 95% opacity (page text bled through
+              the Resume button mid-scroll). The mark and wordmark keep one
+              size in both states: scaling text mid-transition blurs it. */}
           <Link
             href="/"
-            className="flex items-center gap-2 sm:gap-3 font-bold transition-all duration-300 hover:opacity-80"
+            className="flex items-center gap-2 sm:gap-3 font-bold transition-opacity duration-300 hover:opacity-80"
           >
             <div className="text-[var(--primary)]">
-              <Logo
-                className={`w-6 h-6 sm:w-7 sm:h-7 transition-transform duration-300 origin-left ${
-                  isScrolled ? 'scale-[0.85]' : ''
-                }`}
-              />
+              <Logo className="w-6 h-6 sm:w-7 sm:h-7" />
             </div>
-            <span
-              className={`whitespace-nowrap text-base sm:text-lg text-[var(--text)] transition-transform duration-300 origin-left ${
-                isScrolled ? 'scale-[0.9]' : ''
-              }`}
-            >
+            <span className="whitespace-nowrap text-base sm:text-lg text-[var(--text)]">
               Tayyab Manan
             </span>
           </Link>
@@ -170,10 +168,10 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`relative px-3 lg:px-4 py-2 rounded-lg font-medium text-sm lg:text-base transition-all duration-200 group ${
+                  className={`relative px-3 lg:px-4 py-2 rounded-lg font-medium text-sm lg:text-base transition-colors duration-200 ${
                     active
                       ? 'text-[var(--primary)]'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--primary)] hover:bg-[var(--background-secondary)]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--primary)]'
                   }`}
                   aria-current={active ? 'page' : undefined}
                 >
@@ -191,10 +189,6 @@ export default function Header() {
                       active ? '[transform:scaleX(1)]' : '[transform:scaleX(0)]'
                     }`}
                   />
-                  {/* Tooltip - 4px rise on reveal */}
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs rounded opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-[opacity,translate] duration-micro ease-out pointer-events-none whitespace-nowrap z-50 bg-[var(--background-tertiary)] text-[var(--text)] border border-[var(--border)]">
-                    {item.shortcut}
-                  </div>
                 </Link>
               )
             })}
@@ -205,7 +199,7 @@ export default function Header() {
               onMouseEnter={preloadCommandPalette}
               onFocus={preloadCommandPalette}
               type="button"
-              className="p-2 min-h-[44px] min-w-[44px] rounded-lg transition-all duration-200 group flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--primary)] hover:bg-[var(--background-secondary)]"
+              className="p-2 min-h-[44px] min-w-[44px] rounded-lg transition-colors duration-200 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--primary)]"
               aria-label="Open command palette"
             >
               <MagnifyingGlassIcon className="h-5 w-5" />
@@ -215,7 +209,7 @@ export default function Header() {
             <button
               onClick={toggleTheme}
               type="button"
-              className="p-2 min-h-[44px] min-w-[44px] rounded-lg transition-all duration-200 group flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--primary)] hover:bg-[var(--background-secondary)]"
+              className="p-2 min-h-[44px] min-w-[44px] rounded-lg transition-colors duration-200 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--primary)]"
               aria-label="Toggle theme"
             >
               {/* Both icons render stacked; [data-theme] CSS in globals.css
@@ -232,7 +226,7 @@ export default function Header() {
                 chatbot, which no one can know before clicking. */}
             <Link
               href="/resume"
-              className="ml-2 px-4 lg:px-5 py-2 text-[var(--on-primary)] font-medium text-sm lg:text-base rounded-lg transition-all duration-200 flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)]"
+              className="ml-2 px-4 lg:px-5 py-2 text-[var(--on-primary)] font-medium text-sm lg:text-base rounded-lg transition-colors duration-200 flex items-center gap-2 bg-[var(--primary)] hover:bg-[var(--primary-hover)]"
             >
               Resume
               <DocumentTextIcon className="h-4 w-4" />
@@ -265,7 +259,7 @@ export default function Header() {
           <div
             className={`nav-surface transition-all duration-300 ease-out ${
               isScrolled
-                ? 'rounded-full shadow-md border border-[var(--border)] bg-[var(--background)] opacity-95'
+                ? 'rounded-full border border-[var(--border)] bg-[var(--background)]'
                 : mobileMenuOpen
                 ? 'bg-[var(--background)]'
                 : 'bg-transparent'
@@ -279,20 +273,12 @@ export default function Header() {
               {/* Logo */}
               <Link
                 href="/"
-                className="flex items-center gap-2 font-bold transition-all duration-300 hover:opacity-80 z-10"
+                className="flex items-center gap-2 font-bold transition-opacity duration-300 hover:opacity-80 z-10"
               >
                 <div className="text-[var(--primary)]">
-                  <Logo
-                    className={`transition-all duration-300 ${
-                      isScrolled ? 'w-5 h-5' : 'w-6 h-6'
-                    }`}
-                  />
+                  <Logo className="w-6 h-6" />
                 </div>
-                <span
-                  className={`whitespace-nowrap transition-all duration-300 text-[var(--text)] ${
-                    isScrolled ? 'text-sm' : 'text-base'
-                  }`}
-                >
+                <span className="whitespace-nowrap text-base text-[var(--text)]">
                   Tayyab Manan
                 </span>
               </Link>

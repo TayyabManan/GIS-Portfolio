@@ -107,7 +107,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Tayyab Manan - AI/ML Engineer',
-    description: 'AI/ML Engineer building production ML systems, computer vision solutions, and multi-agent workflows. PyTorch, TensorFlow, LangChain.',
+    description: 'AI/ML engineer shipping production ML, computer vision, and multi-agent systems. Six deployed projects with live demos.',
     url: 'https://tayyabmanan.com',
     siteName: 'Tayyab Manan',
     locale: 'en_US',
@@ -117,7 +117,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Tayyab Manan - AI/ML Engineer',
-    description: 'AI/ML Engineer building production ML systems with PyTorch, TensorFlow & LangChain. Computer Vision, Multi-Agent Systems & Geospatial AI.',
+    description: 'AI/ML engineer shipping production ML, computer vision, and multi-agent systems. Six deployed projects with live demos.',
     creator: '@tayyabmanan',
   },
   robots: {
@@ -201,7 +201,7 @@ const jsonLd = [
       name: 'COMSATS University Islamabad',
       location: 'Islamabad, Pakistan'
     },
-    description: 'AI/ML Engineer building production machine learning systems with PyTorch, TensorFlow, and LangChain. Specializing in Computer Vision, Multi-Agent Systems, and Geospatial AI. Experienced in deploying ML models for computer vision tasks, multi-agent workflows, time-series forecasting, and geospatial analysis. Proficient in Python, deep learning frameworks, MLOps, model deployment, and AI system architecture.',
+    description: 'AI/ML engineer building production machine learning systems with PyTorch, TensorFlow, and LangChain, across computer vision, multi-agent workflows, time-series forecasting, and geospatial analysis.',
     knowsAbout: [
       'Machine Learning',
       'Artificial Intelligence',
@@ -233,7 +233,6 @@ const jsonLd = [
       'Flask',
       'Docker',
       'Time Series Forecasting',
-      'Predictive Analytics',
       'Geospatial AI',
       'Google Earth Engine',
       'Satellite Imagery Analysis',
@@ -274,7 +273,7 @@ const jsonLd = [
     url: 'https://tayyabmanan.com',
     name: 'Tayyab Manan',
     alternateName: ['Tayyab Manan Portfolio', 'Tayyab Manan - AI/ML Engineer'],
-    description: 'AI/ML Engineer portfolio showcasing production machine learning systems, computer vision applications, multi-agent workflows, and geospatial AI solutions built with PyTorch, TensorFlow, and LangChain.',
+    description: 'Projects, writing, and résumé of Tayyab Manan, AI/ML engineer.',
     about: {
       '@id': 'https://tayyabmanan.com/#person'
     },
@@ -300,7 +299,7 @@ const jsonLd = [
     '@id': 'https://tayyabmanan.com/#profilepage',
     url: 'https://tayyabmanan.com',
     name: 'Tayyab Manan',
-    description: 'Professional portfolio and profile of Tayyab Manan, AI/ML Engineer specializing in Computer Vision, Multi-Agent Systems, and Production ML.',
+    description: 'Tayyab Manan, AI/ML engineer in Islamabad.',
     mainEntity: {
       '@id': 'https://tayyabmanan.com/#person'
     },
@@ -330,7 +329,7 @@ const jsonLd = [
       {
         '@type': 'WebPage',
         name: 'Blog',
-        description: 'AI/ML Engineering Insights & Tutorials',
+        description: 'Write-ups on building ML systems',
         url: 'https://tayyabmanan.com/blog'
       },
       {

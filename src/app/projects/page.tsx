@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'ML & AI Projects Portfolio - Tayyab Manan',
-    description: 'Browse cutting-edge ML projects including groundwater prediction systems using machine learning, geospatial AI for infrastructure planning, and data-driven applications built with Python, Scikit-learn, and modern AI technologies.',
+    description: 'Six deployed ML/AI projects with live demos and open repos: groundwater prediction (R²=0.89), Urdu LLM fine-tuning, and face-expression detection.',
     url: 'https://tayyabmanan.com/projects',
     type: 'website',
     images: [
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'ML & AI Projects Portfolio - Tayyab Manan',
-    description: 'Innovative ML projects featuring predictive analytics, geospatial AI, and intelligent data-driven solutions.',
+    description: 'Six deployed ML/AI projects with live demos and open repos.',
     images: ['/projects/watertrace.webp'],
   },
   alternates: {

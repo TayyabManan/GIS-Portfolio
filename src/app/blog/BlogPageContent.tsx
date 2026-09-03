@@ -38,10 +38,10 @@ export default function BlogPageContent({ posts }: BlogPageContentProps) {
         {/* Header - Left aligned */}
         <div className="mb-12 max-w-4xl">
           <h1 className="text-4xl sm:text-5xl font-semibold text-[var(--text)] mb-4">
-            AI/ML Engineering, Built in Public
+            Notes on building ML systems
           </h1>
           <p className="text-lg sm:text-xl text-[var(--text-secondary)]">
-            Technical deep-dives on building AI/ML systems: LLM fine-tuning, computer vision, NLP, and production ML, with the metrics, trade-offs, and failures behind each project.
+            Write-ups on LLM fine-tuning, computer vision, NLP, and production ML, with the numbers and the failures kept in.
           </p>
         </div>
 

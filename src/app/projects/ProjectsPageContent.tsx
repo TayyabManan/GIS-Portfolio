@@ -36,8 +36,8 @@ export default function ProjectsPageContent({ projects }: ProjectsPageContentPro
         <div className="mb-12 max-w-4xl">
           <h1 className="text-4xl sm:text-5xl font-semibold text-[var(--text)] mb-4">ML & AI Projects</h1>
           <p className="text-lg sm:text-xl text-[var(--text-secondary)]">
-            A collection of machine learning and AI projects demonstrating expertise in computer vision,
-            NLP, geospatial AI, and MLOps, turning complex data into production-ready systems.
+            Six deployed ML systems across computer vision, NLP, geospatial AI, and MLOps.
+            Each one has a live demo and an open repo.
           </p>
         </div>
 

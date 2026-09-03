@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
         // Log detailed validation errors server-side only
         console.error('Validation error:', validationError.errors);
         return NextResponse.json(
-          { error: 'Invalid input. Please check your form data and try again.' },
+          { error: 'Check the form and try sending again.' },
           { status: 400 }
         );
       }
@@ -80,7 +80,7 @@ ${validatedData.message}`;
     if (!ntfyTopic) {
       console.error('NTFY_TOPIC environment variable is not set');
       return NextResponse.json(
-        { error: 'An unexpected error occurred. Please try again later.' },
+        { error: 'Could not send right now. Email me directly instead.' },
         { status: 500 }
       );
     }
@@ -121,7 +121,7 @@ ${validatedData.message}`;
 
     // Return generic error message to client (no details leaked)
     return NextResponse.json(
-      { error: 'An unexpected error occurred. Please try again later.' },
+      { error: 'Could not send right now. Email me directly instead.' },
       { status: 500 }
     );
   }

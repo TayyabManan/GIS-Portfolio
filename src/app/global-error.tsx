@@ -54,7 +54,7 @@ export default function GlobalError({
             Something went wrong
           </h2>
           <p style={{ color: themes.light.textSecondary, margin: '0 0 2rem' }}>
-            A critical error occurred while loading the page. Try again, or head back home.
+            The page failed to load. Try again, or head back home.
           </p>
           <div
             style={{

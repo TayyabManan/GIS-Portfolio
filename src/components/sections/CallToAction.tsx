@@ -14,18 +14,18 @@ export default function CallToAction() {
       className="rounded-2xl border border-[var(--border)] bg-[var(--background-secondary)] p-8 sm:p-10"
     >
       <h2 data-reveal="item" className="text-2xl sm:text-3xl font-semibold text-[var(--text)] mb-3">
-        Interested in collaborating?
+        Looking for an ML engineer?
       </h2>
       <p data-reveal="item" className="text-base sm:text-lg text-[var(--text-secondary)] mb-6">
-        I build production ML systems and I&apos;m looking for the right team to do it with. Happy to
-        talk about roles, projects, or just trade notes on AI.
+        I&apos;m looking for a full-time AI/ML role. If you have one, or a model that needs to
+        reach production, send me a note.
       </p>
       <div data-reveal="item">
         <Link
           href="/contact"
           className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3.5 text-base font-semibold text-[var(--on-primary)] transition-all duration-200 hover:bg-[var(--primary-hover)]"
         >
-          Get in Touch
+          Get in touch
           <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>

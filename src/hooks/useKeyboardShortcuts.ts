@@ -2,7 +2,6 @@
 
 import { useEffect, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { toast } from '@/components/ui/Toast'
 
 interface ShortcutConfig {
   key: string
@@ -93,7 +92,6 @@ export function useGlobalKeyboardShortcuts() {
       alt: true,
       action: () => {
         navigate('/')
-        toast.info('Navigated to Home')
       },
       description: 'Go to Home',
     },
@@ -102,7 +100,6 @@ export function useGlobalKeyboardShortcuts() {
       alt: true,
       action: () => {
         navigate('/projects')
-        toast.info('Navigated to Projects')
       },
       description: 'Go to Projects',
     },
@@ -111,7 +108,6 @@ export function useGlobalKeyboardShortcuts() {
       alt: true,
       action: () => {
         navigate('/blog')
-        toast.info('Navigated to Blog')
       },
       description: 'Go to Blog',
     },
@@ -120,7 +116,6 @@ export function useGlobalKeyboardShortcuts() {
       alt: true,
       action: () => {
         navigate('/about')
-        toast.info('Navigated to About')
       },
       description: 'Go to About',
     },
@@ -129,7 +124,6 @@ export function useGlobalKeyboardShortcuts() {
       alt: true,
       action: () => {
         navigate('/resume')
-        toast.info('Navigated to Resume')
       },
       description: 'Go to Resume',
     },
@@ -138,7 +132,6 @@ export function useGlobalKeyboardShortcuts() {
       alt: true,
       action: () => {
         navigate('/contact')
-        toast.info('Navigated to Contact')
       },
       description: 'Go to Contact',
     },
@@ -148,7 +141,6 @@ export function useGlobalKeyboardShortcuts() {
       alt: true,
       action: () => {
         window.open('https://github.com/TayyabManan/Portfolio', '_blank')
-        toast.info('Opened GitHub Repository')
       },
       description: 'Open GitHub Repository',
     },

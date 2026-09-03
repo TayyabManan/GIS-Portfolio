@@ -36,13 +36,13 @@ export class ErrorBoundary extends Component<Props, State> {
                 Something went wrong
               </h2>
               <p className="text-[var(--text-secondary)] mb-6">
-                We apologize for the inconvenience. Please try refreshing the page.
+                Something broke on my end. A refresh usually fixes it.
               </p>
               <button
                 onClick={() => window.location.reload()}
                 className="bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 rounded-lg hover:bg-[var(--primary-hover)] transition-colors"
               >
-                Refresh Page
+                Refresh
               </button>
             </div>
           </div>

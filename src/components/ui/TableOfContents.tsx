@@ -190,15 +190,21 @@ export default function TableOfContents({ content, variant = 'both' }: TableOfCo
     if (!activeId || !navRef.current) return
 
     // Find the button for the active heading
-    const activeButton = navRef.current.querySelector(`button[data-heading-id="${activeId}"]`)
+    const nav = navRef.current
+    const activeButton = nav.querySelector<HTMLElement>(`button[data-heading-id="${activeId}"]`)
     if (!activeButton) return
 
-    // Scroll the active button into view if it's not visible
-    activeButton.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-      inline: 'nearest'
-    })
+    // Scroll the NAV's own scroll box, never scrollIntoView: scrollIntoView
+    // may also scroll the window, and a second smooth scroll on the window
+    // cancels the in-flight one that scrollToHeading just started - clicking
+    // a TOC entry then stalled a few pixels down the page (QA, Sep 2026).
+    const navRect = nav.getBoundingClientRect()
+    const btnRect = activeButton.getBoundingClientRect()
+    if (btnRect.top < navRect.top) {
+      nav.scrollTo({ top: nav.scrollTop + (btnRect.top - navRect.top), behavior: 'smooth' })
+    } else if (btnRect.bottom > navRect.bottom) {
+      nav.scrollTo({ top: nav.scrollTop + (btnRect.bottom - navRect.bottom), behavior: 'smooth' })
+    }
   }, [activeId, tocItems.length])
 
   // Handle sticky behavior with article boundary protection

@@ -1,8 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-import { ArrowLeftIcon, ArrowRightIcon, ArrowTopRightOnSquareIcon, CodeBracketIcon, CalendarIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon, ArrowRightIcon, ArrowTopRightOnSquareIcon, CodeBracketIcon } from '@heroicons/react/24/outline'
 import { DynamicReactMarkdown } from '@/lib/dynamic-imports'
 import { readingComponents, READING_BODY_CLASS } from '@/lib/reading-prose'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
@@ -36,7 +35,7 @@ interface ProjectPageClientProps {
 
 export default function ProjectPageClient({ project, adjacentProjects }: ProjectPageClientProps) {
   const projectUrl = `https://tayyabmanan.com/projects/${project.slug}`
-  const [showTech, setShowTech] = useState(false)
+  const projectDate = new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
 
   return (
     <>
@@ -50,77 +49,75 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
               items={[
                 { label: 'Home', href: '/' },
                 { label: 'Projects', href: '/projects' },
-                { label: project.category, current: true },
+                // The page itself, not its category - the category leads
+                // the eyebrow one line below.
+                { label: project.title, current: true },
               ]}
               size="sm"
             />
           </div>
 
           <article>
-            {/* Header */}
-            <header className="mb-8">
+            {/* Header - the SAME grammar as the blog-post header (the two
+                long-form templates cross-link, so they must read as one
+                site): mono annotation eyebrow (category · date),
+                title, one lede, then the rule. The old version stacked
+                subtitle + description (the description repeats the body's
+                Overview paragraph almost verbatim - it stays SEO metadata
+                only), a "Featured" pill, a calendar icon and an
+                "N technologies" disclosure - the icon-meta generation the
+                blog header already retired. The stack is a plain mono line
+                now (nothing to click to learn what a project is built with),
+                and the demo/source actions close the header above the rule. */}
+            <header className="mb-8 border-b border-[var(--border)] pb-6">
+              <p className="mb-3 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+                {project.category} &middot; <time dateTime={project.date}>{projectDate}</time>
+              </p>
+
               <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[var(--text)] mb-4">
                 {project.title}
               </h1>
 
               {project.subtitle && (
-                <p className="text-xl text-[var(--text-secondary)] mb-6">
+                <p className="text-xl text-[var(--text-secondary)]">
                   {project.subtitle}
                 </p>
               )}
 
-              <p className="text-base sm:text-lg text-[var(--text-secondary)] mb-6">
-                {project.description}
-              </p>
+              {project.techStack.length > 0 && (
+                <p className="mt-5 font-mono text-xs tracking-[0.04em] text-[var(--text-tertiary)]">
+                  <span className="sr-only">Built with </span>
+                  {project.techStack.join(' · ')}
+                </p>
+              )}
 
-              {/* Meta row */}
-              <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--text-tertiary)] pb-6 border-b border-[var(--border)]">
-                {/* Primary tint, not amber - warning is reserved for status
-                    semantics (DESIGN_SYSTEM §1), and "featured" is curation */}
-                {project.featured && (
-                  <span className="inline-flex items-center rounded-full bg-[var(--primary)]/10 px-3 py-1 text-sm font-medium text-[var(--primary)]">
-                    Featured
-                  </span>
-                )}
-                <div className="flex items-center gap-2">
-                  <CalendarIcon className="h-4 w-4" />
-                  <span>{new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</span>
-                </div>
-                <button
-                  onClick={() => setShowTech(!showTech)}
-                  aria-expanded={showTech}
-                  className="flex items-center gap-1 text-[var(--text-tertiary)] hover:text-[var(--primary)] transition-colors cursor-pointer"
-                >
-                  <span>{project.techStack.length} technologies</span>
-                  <ChevronDownIcon className={`h-3.5 w-3.5 transition-transform duration-200 ${showTech ? 'rotate-180' : ''}`} />
-                </button>
-              </div>
-
-              {/* Tech Stack - collapsible (board: collapsed -> expanded -> collapsed).
-                  grid-template-rows 0fr<->1fr morphs to natural height (the old
-                  max-h-40 clipped past 160px and eased against the wrong height);
-                  spacing lives inside as pt-4 so it animates with the track. */}
-              <div
-                data-state={showTech ? 'expanded' : 'collapsed'}
-                className={`grid transition-[grid-template-rows,opacity] ${
-                  showTech
-                    ? 'grid-rows-[1fr] opacity-100 duration-morph ease-morph'
-                    : 'grid-rows-[0fr] opacity-0 duration-200 ease-in'
-                }`}
-              >
-                <div className="overflow-hidden min-h-0">
-                  <div className="flex flex-wrap gap-2 pt-4">
-                  {project.techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 text-xs font-medium bg-[var(--background-secondary)] text-[var(--text-secondary)] rounded-full border border-[var(--border)]"
+              {/* Actions - the header's last row, above the rule */}
+              {(project.demoUrl || project.githubUrl) && (
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {project.demoUrl && (
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 rounded-lg text-sm font-medium hover:bg-[var(--primary-hover)] transition-colors"
                     >
-                      {tech}
-                    </span>
-                  ))}
-                  </div>
+                      <ArrowTopRightOnSquareIcon className="h-4 w-4 mr-2" />
+                      Live Demo
+                    </a>
+                  )}
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center border border-[var(--border)] text-[var(--text)] px-6 py-3 rounded-lg text-sm font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
+                    >
+                      <CodeBracketIcon className="h-4 w-4 mr-2" />
+                      Source Code
+                    </a>
+                  )}
                 </div>
-              </div>
+              )}
             </header>
 
             {/* The cover image (frontmatter `image`) is deliberately NOT
@@ -128,34 +125,6 @@ export default function ProjectPageClient({ project, adjacentProjects }: Project
                 pixels and pushed the real evidence (the in-body screenshot
                 figure) below the fold. It remains the OG/social card via
                 generateMetadata - identity in text, proof in the figure. */}
-
-            {/* Action Buttons - before content */}
-            {(project.demoUrl || project.githubUrl) && (
-              <div className="flex flex-wrap gap-3 mb-12">
-                {project.demoUrl && (
-                  <a
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 rounded-lg text-sm font-medium hover:bg-[var(--primary-hover)] transition-colors"
-                  >
-                    <ArrowTopRightOnSquareIcon className="h-4 w-4 mr-2" />
-                    Live Demo
-                  </a>
-                )}
-                {project.githubUrl && (
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center border border-[var(--border)] text-[var(--text)] px-6 py-3 rounded-lg text-sm font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
-                  >
-                    <CodeBracketIcon className="h-4 w-4 mr-2" />
-                    Source Code
-                  </a>
-                )}
-              </div>
-            )}
 
             {/* Content */}
             <div className={READING_BODY_CLASS}>

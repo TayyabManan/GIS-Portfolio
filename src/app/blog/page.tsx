@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Blog - Tayyab Manan | AI/ML Engineer',
-    description: 'Technical writing on production ML systems, Computer Vision, Multi-Agent Systems, and Geospatial AI.',
+    description: 'Write-ups on LLM fine-tuning, computer vision, NLP, and production ML, with the numbers and the failures kept in.',
     url: 'https://tayyabmanan.com/blog',
     type: 'website',
     images: [
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Blog - Tayyab Manan | AI/ML Engineer',
-    description: 'Technical writing on production ML systems, Computer Vision, and Geospatial AI.',
+    description: 'Write-ups on LLM fine-tuning, computer vision, and production ML, with the numbers kept in.',
     images: ['/images/profile-picture.webp'],
   },
   alternates: {

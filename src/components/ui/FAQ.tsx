@@ -27,7 +27,8 @@ function FaqHeader({ title, description, eyebrow }: { title: string; description
       <h2 id="faq-heading" className="text-3xl sm:text-4xl font-semibold tracking-tight text-[var(--text)]">
         {title}
       </h2>
-      <div className="mt-4 h-1 w-12 rounded-full bg-[var(--primary)]" />
+      {/* No accent bar under the heading: no other H2 on the site carries one
+          (review 2026-09-03), and the FAQ is a section, not a hero. */}
       {description && (
         <p className="mt-5 text-base leading-relaxed text-[var(--text-secondary)]">{description}</p>
       )}

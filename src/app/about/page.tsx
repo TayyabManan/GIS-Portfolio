@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'About Tayyab Manan - AI/ML Engineer',
-    description: 'AI/ML Engineer specializing in Computer Vision, Multi-Agent Systems, and Geospatial AI. Building production ML systems with PyTorch, TensorFlow & LangChain.',
+    description: 'From a GIS degree to production ML: computer vision, multi-agent systems, and geospatial AI. MS in AI Engineering at COMSATS; AI Developer at Cointegration.',
     url: 'https://tayyabmanan.com/about',
     type: 'profile',
     images: [
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'About Tayyab Manan - AI/ML Engineer',
-    description: 'AI/ML Engineer with expertise in Computer Vision, Multi-Agent Systems, and Geospatial AI. PyTorch, TensorFlow, and LangChain.',
+    description: 'From a GIS degree to production ML. MS in AI Engineering at COMSATS; AI Developer at Cointegration.',
     images: ['/images/profile-picture.webp'],
   },
   alternates: {

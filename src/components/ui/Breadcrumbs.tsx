@@ -85,8 +85,13 @@ export function Breadcrumbs({
           const itemContent = (
             <>
               {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
+              {/* The current crumb is the page TITLE (not its category - a
+                  trail that ends in "Geospatial AI" on the WaterTrace page
+                  is wayfinding that lies), so it gets more room than the
+                  parent crumbs before truncating. */}
               <span className={cn(
-                'truncate max-w-[200px]',
+                'truncate',
+                isLast ? 'max-w-[14rem] sm:max-w-md' : 'max-w-[200px]',
                 variant === 'minimal' && 'max-w-[120px] sm:max-w-[200px]'
               )}>
                 {item.label}

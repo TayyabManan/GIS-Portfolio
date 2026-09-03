@@ -78,7 +78,7 @@ color utilities (`bg-primary` and friends); one convention only.
 - Transparent fills and hovers use opacity modifiers: `bg-[var(--primary)]/10`,
   `border-[var(--success)]/30`, etc.
 - `--primary-light` is the **solid** tint color — use it where transparency would stack
-  wrong (e.g. About timeline borders).
+  wrong (e.g. a tinted fill that sits over another tint).
 
 ### Elevation & motion tokens
 
@@ -144,6 +144,19 @@ Post headers use the annotation voice for meta — one mono line
 blog cards. No icon meta rows, no visible byline (the author lives in the
 JSON-LD), and at most **three** tag chips.
 
+**Project headers use the SAME grammar (review, Sep 2026):** mono eyebrow
+(`category · month year`), title, the subtitle as the one lede,
+the tech stack as a plain mono line (`React · Flask · …`, never a
+disclosure or chip row), then the Live Demo / Source Code actions, then the
+rule. The frontmatter `description` is SEO metadata only — it repeats the
+body's Overview paragraph and is not rendered in the header. No "Featured"
+pill, no calendar icon, no "N technologies" toggle.
+
+**Breadcrumbs end in the page**, not its category: `Home › Projects ›
+WaterTrace Pakistan`. The category already leads the eyebrow one line
+below; a trail that ends in "Geospatial AI" on a project page is wayfinding
+that lies. The current crumb truncates at `max-w-md`.
+
 **One reading voice, everywhere (uniformity rule, Aug 2026):** every
 markdown-rendered body — blog posts AND project pages — uses the same
 treatment, supplied by `src/lib/reading-prose.tsx` (`READING_BODY_CLASS` +
@@ -167,7 +180,7 @@ gesture, section CTAs on the arrow.
 | Role | Classes |
 |---|---|
 | H1 — page title | `text-4xl sm:text-5xl font-semibold` |
-| H1 — Hero only (intentionally oversized, fluid) | `text-[clamp(2.5rem,8.6vw,7.25rem)] font-semibold leading-[1.05]! tracking-[-0.02em]!` |
+| H1 — Hero only (intentionally oversized, fluid) | `text-[clamp(2.5rem,7.3vw,6.25rem)] font-semibold leading-[1.05]! tracking-[-0.02em]!` — owner taste call, deliberately under the 7.25rem measure-fill ceiling |
 | H2 — section heading | `text-3xl sm:text-4xl font-semibold` |
 | H2 — interior subsection (About page sections) | `text-2xl sm:text-3xl font-semibold` — display-size H2s on utility sections read as shouting |
 | H3 — card title | `text-lg sm:text-xl font-semibold` |
@@ -178,16 +191,18 @@ gesture, section CTAs on the arrow.
 > The **Hero H1** is a sanctioned exception to the fixed scale — and since the
 > home restructure it is **the claim, not the job title**: "I build ML systems
 > that make it to production", with the marker swipe on the final word and the
-> title demoted to the greeting eyebrow ("Hello, I'm Tayyab Manan · AI/ML
-> Engineer"). The homepage hero renders two responsive layouts
+> title demoted to the eyebrow ("Tayyab Manan · AI/ML Engineer" — no
+> "Hello, I'm": template greetings read as generated). The homepage hero renders two responsive layouts
 > (`src/components/sections/Hero.tsx`): **below `lg`** the single-column hero
 > sets the claim at `text-4xl sm:text-6xl md:text-7xl font-semibold
 > leading-[1.1]!` (this `<h1>` is the page's sole H1); **at `lg` and up** the
-> editorial twin (a `<p>`) uses the fluid `clamp(2.5rem, 8.6vw, 7.25rem)`
-> above across **two balanced lines with a manual `<br/>`** — the cap is
+> editorial twin (a `<p>`) uses the fluid `clamp(2.5rem, 7.3vw, 6.25rem)`
+> above across **two balanced lines with a manual `<br/>`**. The ceiling is
 > **measured, not guessed**: line one runs ~10em in Hanken at −0.02em
 > tracking, so 7.25rem is the largest cap that clears the container's 1216px
-> inner width (~95% measure-fill; don't "round up" without re-measuring).
+> inner width (~95% measure-fill) — but the shipped cap is the OWNER'S taste
+> call at 6.25rem (~77% fill, Aug 2026); fill is the ceiling, not the target.
+> Don't "round up" without re-measuring, and don't push it back to the ceiling.
 > Leading 1.05 (display band); kicker rhythm is tight-above/air-below —
 > eyebrow→headline `mt-4`, headline→meta `mt-7`. No other heading may use a
 > fluid `clamp()` scale.
@@ -344,6 +359,41 @@ Press feedback: `active:scale-[0.98]` with `transition-[background-color,transfo
 Section-end CTAs are **quiet text links** on the grid's edge
 (`All projects →`, primary color, arrow nudge on hover) — never a centered
 filled button below a grid.
+
+### Filter tabs (`src/components/ui/CategoryFilter.tsx`)
+
+The projects and blog indexes filter with a **text tab strip** in the nav's
+grammar: a hairline under the row, the active tab in `--text` with the same
+2px `--primary` underline as the active nav link, the rest `--text-secondary`
+inking on hover. One row, horizontally scrollable below `lg` (edge-bled by
+`-mx-4 sm:-mx-6`, scrollbar hidden). Never filled chips — the old six-chip
+row was the loudest element on the page and stacked three rows deep on a
+phone before the first card.
+
+### Hairline rows (Education / Experience / Certifications / home Background)
+
+The one list grammar for résumé-shaped content: `border-t` per row, title
+left with the mono period right (`sm:justify-between`), institution line,
+optional one-line detail. No left rails, no timelines, no icon boxes, no
+cards. Period ink is `--text-secondary` (tertiary at 12px falls under AA on
+secondary surfaces).
+
+### Contact page
+
+Speaks the About/hero grammar: a `<dl>` of mono-eyebrow labels (Email /
+Elsewhere / Where and when) over ink-link text, one availability sentence
+above a hairline, and the form's hairline inputs directly on the page — no
+icon-in-tinted-box rows, no bordered social squares, no card around the
+form. The submit button is auto-width from `sm` up.
+
+### Header chrome
+
+The scrolled nav is an opaque hairline pill (`border` + `--background`) —
+no shadow, no 95% opacity (page text bled through the Resume button
+mid-scroll). Mark and wordmark keep one size in both states. Nav links
+change **color only** on hover (no background tint, no shortcut tooltip —
+keyboard shortcuts belong to the command palette); the active link carries
+the 2px underline.
 
 ### Numbered index pills
 

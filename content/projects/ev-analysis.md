@@ -2,7 +2,7 @@
 slug: "ev-analysis"
 title: "EV Suitability Analysis"
 subtitle: "Geospatial Analysis for EV Infrastructure Planning"
-description: "Multi-criteria spatial optimization for EV charging station site selection in Lahore using weighted scoring algorithms, demographic analysis, and geospatial data to find the best locations for charging infrastructure."
+description: "Multi-criteria site selection for EV charging stations in Lahore: weighted scoring over census, OpenStreetMap, and infrastructure data to rank candidate locations across the city's 5 tehsils."
 category: "Geospatial AI"
 metric: "90%+ coverage"
 metricChart: "coverage"
@@ -15,50 +15,23 @@ date: "2024-11-20"
 ---
 
 ## Overview
-A geospatial project for figuring out where to put EV charging stations in Lahore. The system combines demographic data, economic indicators, infrastructure networks, and spatial analysis to score and rank potential sites across Lahore's 5 tehsils using multi-criteria decision analysis and weighted scoring.
+A geospatial analysis of where to put EV charging stations in Lahore. It scores and ranks candidate sites across the city's 5 tehsils with multi-criteria decision analysis, combining demographic data, economic indicators, infrastructure networks, and spatial analysis into a single weighted score.
 
 ![the site-selection map · 10 ranked sites across 3 rollout phases](/projects/screens/ev-analysis.webp)
 
-## Key Features
-- **Site Selection Algorithm**: Multi-criteria optimization for EV charging station placement across Lahore's 5 tehsils
-- **Weighted Scoring Model**: Scoring algorithm that integrates demographic, accessibility, and growth factors with tunable weights (population 30%, growth 20%, accessibility 25%, infrastructure 15%, economic 10%)
-- **Interactive Maps**: Dynamic geospatial visualizations showing suitability scores and ranked results
-- **Reproducible Pipeline**: Python-based analysis pipeline that can be rerun with updated data
-- **Results**: 5 priority sites identified and ranked, 3-phase deployment strategy, 90%+ coverage target
-- **Multi-Source Data**: 2023 Pakistan Census, OpenStreetMap, administrative boundaries
+## What it does
+The scoring model weights population at 30%, growth at 20%, accessibility at 25%, infrastructure at 15%, and economic factors at 10%, and the weights are tunable. Inputs are the 2023 Pakistan Census, OpenStreetMap, and administrative boundaries. The output is an interactive map of suitability scores and ranked results: 5 priority sites, a 3-phase deployment plan, and a 90%+ coverage target. The whole thing is a Python pipeline that can be rerun when the data changes.
 
-## Technical Architecture
-Python-based geospatial pipeline using GeoPandas and Shapely for spatial operations, NumPy for numerical computation, and Folium for interactive map visualizations. OpenStreetMap Overpass API pulls infrastructure data. The core algorithm is a multi-criteria decision analysis (MCDA) with weighted linear combination for site scoring. The frontend is HTML/JavaScript for exploring the ranked results. CSV/JSON data interchange keeps the analysis reproducible.
+## Technical architecture
+A Python geospatial pipeline using GeoPandas and Shapely for spatial operations, NumPy for numerical work, and Folium for the interactive maps. The OpenStreetMap Overpass API pulls infrastructure data. The core algorithm is multi-criteria decision analysis (MCDA) with a weighted linear combination for site scoring. The frontend is HTML/JavaScript for browsing the ranked results, and CSV/JSON interchange keeps the analysis reproducible. Demographics come from the 2023 Pakistan Census, road and infrastructure networks from OpenStreetMap, and tehsil boundaries from administrative boundary data.
 
-## Environmental Impact
+## What I learned
 
-| Impact Area | How |
-|-------------|-----|
-| Air Quality | Site selection targets areas where EV adoption would reduce the most vehicle emissions |
-| Greenhouse Gas Reduction | Coverage optimization aims for maximum carbon offset per station |
-| Noise Pollution | Placement prioritizes high-traffic areas where EVs would reduce noise |
-| Urban Planning | Analysis accounts for green infrastructure and urban heat considerations |
+### Spatial analysis
+Combining census data, OpenStreetMap extracts, and administrative boundaries with different coordinate reference systems was the recurring headache; geospatial work lives and dies by CRS handling and data quality. Working across QGIS and ArcGIS showed me where each is stronger for spatial analysis. GeoPandas and Shapely covered the spatial joins and geometry, the Overpass API pulled real-world infrastructure data, and Folium turned out to be the right tool for showing ranked sites to people who don't use GIS.
 
-## Data Sources
+### Weighting trade-offs
+The hard part was the weights, not the code. There is no objectively correct balance between population, growth, accessibility, infrastructure, and economic factors, so the scoring has to be tunable and the choices explained. I also had to check the algorithm's picks against reality: whether a site has available land or grid capacity can override a top score. Accessibility and equity matter as much as the optimization number, and the gap between what a model recommends and what is buildable is where the project got its weight.
 
-| Source | Description |
-|--------|-------------|
-| OpenStreetMap | Freely available geospatial data |
-| Census Data | Demographic data from the 2023 Pakistan Census |
-
-## What I Learned
-
-### Technical Skills
-Working with multiple GIS platforms (QGIS, ArcGIS) taught me their different strengths for spatial analysis tasks. Implementing the MCDA algorithm was where I learned the most about balancing competing priorities in site selection. I got comfortable with the OpenStreetMap Overpass API for extracting real-world infrastructure data, and with GeoPandas and Shapely for geometric operations and spatial joins. Folium turned out to be a good fit for communicating spatial results to people who don't work with GIS.
-
-### Problem-Solving
-The hardest part was weight optimization: finding the right balance between demographic, accessibility, and infrastructure factors. There's no objectively correct answer, which made it interesting. Combining census data, OSM data, and administrative boundaries with different coordinate reference systems was a recurring headache. I also had to develop ways to validate the algorithmically-generated recommendations against real-world feasibility, things like whether a site actually has available land or grid capacity. The pipeline is designed to be reproducible and applicable to other cities with minimal changes.
-
-### Domain Knowledge
-I came into this thinking it was mostly a technical problem, but urban infrastructure planning has layers I didn't expect. Accessibility and equity matter as much as optimization scores. EV adoption barriers go beyond charging availability. And the gap between what an algorithm recommends and what's actually buildable is real. Understanding how this kind of analysis can inform government investment decisions gave the project more weight than a pure technical exercise.
-
-### Key Insights
-Geospatial analysis lives and dies by coordinate reference systems and data quality. Multi-criteria optimization always involves tradeoffs that benefit from domain expertise, not just parameter tuning. Visualization matters more than I initially thought for communicating spatial results to non-technical audiences. And real-world constraints (land availability, grid capacity) can override what the algorithm thinks is optimal.
-
-## Future Development
-The next steps include deep learning for demand prediction, scaling the pipeline to other Pakistani cities, and integrating real-time traffic data for dynamic optimization. I'd also like to add economic feasibility modeling for ROI estimates, energy grid capacity analysis for load balancing, and satellite imagery analysis for automated site validation.
+## What's next
+Deep learning for demand prediction, running the pipeline on other Pakistani cities, and real-time traffic data for dynamic re-scoring are the obvious next steps. Further out: ROI estimates from economic feasibility modelling, grid capacity analysis for load balancing, and satellite imagery for validating sites automatically.

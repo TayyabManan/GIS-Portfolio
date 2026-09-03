@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { XMarkIcon, ChatBubbleLeftRightIcon, MinusIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
-import { toast } from '@/components/ui/Toast'
 import { DynamicReactMarkdown } from '@/lib/dynamic-imports'
 
 interface Message {
@@ -14,12 +13,11 @@ interface Message {
 export default function ResumeChatbot() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
-  const [hasInteracted, setHasInteracted] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome',
       role: 'assistant',
-      content: "Hi! I'm Tayyab's AI assistant. I can answer questions about his experience, skills, projects, and qualifications. What would you like to know?"
+      content: "This answers questions from my résumé. Ask about a project, where I've worked, or what I studied."
     }
   ])
   const [input, setInput] = useState('')
@@ -50,7 +48,6 @@ export default function ResumeChatbot() {
   const handleOpen = () => {
     setIsOpen(true)
     setIsMinimized(false)
-    setHasInteracted(true)
   }
 
   const handleClose = () => {
@@ -63,10 +60,10 @@ export default function ResumeChatbot() {
   }
 
   const quickQuestions = [
-    "Tell me about your experience",
-    "What are your main skills?",
-    "Describe your recent projects",
-    "What's your educational background?"
+    "What did you do at Cointegration?",
+    "Which project used SHAP?",
+    "Have you fine-tuned an LLM?",
+    "Where did you study?"
   ]
 
   const sendMessage = async (text: string) => {
@@ -149,23 +146,17 @@ export default function ResumeChatbot() {
       // Unmount abort: component is gone - no error UI, no global toast.
       if (!mountedRef.current) return
       const error = err as { status?: number; message?: string; name?: string }
+      // One place for the error: the inline bubble in the chat window. The
+      // global toast used to repeat the same sentence over it (QA, Sep 2026).
       if (error?.name === 'AbortError') {
-        const errorMsg = 'Request timed out. Please try again.'
-        setError(errorMsg)
-        toast.error('Request timed out', 'The chat service took too long to respond.')
+        setError('That took too long. Try again.')
       } else if (error?.status === 429 || error?.message?.includes('429')) {
-        const errorMsg = 'Too many messages. Please wait a moment before sending another.'
-        setError(errorMsg)
-        toast.warning('Slow down', errorMsg)
+        setError('Too many messages in a row. Give it a moment.')
       } else if (error?.status === 503 || error?.message?.includes('503')) {
-        const errorMsg = 'Chat service is temporarily unavailable. Please try again later.'
-        setError(errorMsg)
+        setError('Chat is down right now. The résumé itself still works.')
         setServiceDown(true)
-        toast.error('Chat is down', errorMsg)
       } else {
-        const errorMsg = 'Failed to get response. Please try again.'
-        setError(errorMsg)
-        toast.error('Couldn\'t get a response', errorMsg)
+        setError("Couldn't get a response. Try again.")
       }
     } finally {
       clearTimeout(timeout)
@@ -188,24 +179,12 @@ export default function ResumeChatbot() {
       <div className={`fixed bottom-4 right-4 z-[100] ${isOpen ? 'hidden' : 'block'}`}>
         <button
           onClick={handleOpen}
-          className="relative bg-[var(--primary)] text-[var(--on-primary)] p-4 rounded-full shadow-lg hover:bg-[var(--primary-hover)] transition-all duration-300 group"
-          aria-label="Open resume assistant"
+          className="relative bg-[var(--primary)] text-[var(--on-primary)] p-4 rounded-full hover:bg-[var(--primary-hover)] transition-[background-color] duration-200"
+          aria-label="Ask about my résumé"
         >
+          {/* No "new" ping dot and no "Chat with my resume!" hover bubble:
+              both were support-widget pastiche. The aria-label names it. */}
           <ChatBubbleLeftRightIcon className="h-6 w-6" />
-          {!hasInteracted && (
-            <span className="absolute -top-1 -right-1 flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--success)] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--success)]"></span>
-            </span>
-          )}
-          <div className="absolute bottom-full right-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-            <div className="bg-[var(--text)] text-[var(--background)] text-sm py-2 px-3 rounded-lg whitespace-nowrap shadow-lg border border-[var(--border)]">
-              Chat with my resume!
-              <div className="absolute top-full right-4 transform -translate-y-1">
-                <div className="border-4 border-transparent border-t-[var(--text)]"></div>
-              </div>
-            </div>
-          </div>
         </button>
       </div>
 
@@ -233,20 +212,16 @@ export default function ResumeChatbot() {
             <div className="flex items-center space-x-2">
               <div className="relative">
                 <ChatBubbleLeftRightIcon className="h-5 w-5 text-[var(--text-secondary)]" />
+                {/* Static status dot (no pulse): green = reachable, red = down. */}
                 <span
-                  className="absolute -bottom-1 -right-1 flex h-2 w-2"
-                  title={serviceDown ? 'Chat service unavailable' : 'Online'}
-                >
-                  {!serviceDown && (
-                    <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-[var(--success)] opacity-75"></span>
-                  )}
-                  <span className={`relative inline-flex rounded-full h-2 w-2 ${serviceDown ? 'bg-[var(--error)]' : 'bg-[var(--success)]'}`}></span>
-                </span>
+                  className={`absolute -bottom-1 -right-1 h-2 w-2 rounded-full ${serviceDown ? 'bg-[var(--error)]' : 'bg-[var(--success)]'}`}
+                  title={serviceDown ? 'Chat is down' : 'Chat is up'}
+                />
               </div>
               <div>
-                <h3 className="font-semibold text-[var(--text)]">Resume Assistant</h3>
+                <h3 className="font-semibold text-[var(--text)]">Résumé Q&amp;A</h3>
                 {!isMinimized && (
-                  <p className="text-xs text-[var(--text-tertiary)]">Ask about my experience</p>
+                  <p className="text-xs text-[var(--text-tertiary)]">Answers come from the résumé on this page</p>
                 )}
               </div>
             </div>
@@ -368,8 +343,8 @@ export default function ResumeChatbot() {
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Ask about my experience..."
-                    aria-label="Ask about my experience"
+                    placeholder="Ask something"
+                    aria-label="Ask a question about the résumé"
                     className="flex-1 px-3 py-2 bg-[var(--background-secondary)] text-[var(--text)] rounded-lg border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] text-sm"
                     disabled={isLoading}
                   />

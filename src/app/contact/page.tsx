@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Contact Tayyab Manan - AI/ML Engineer',
-    description: 'Reach out for collaboration opportunities or AI/ML project inquiries. Specializing in Computer Vision, Multi-Agent Systems & Geospatial AI.',
+    description: 'Hiring for an AI/ML role, or need a model shipped? Islamabad, UTC+5, remote-friendly. I usually reply within 24 hours.',
     url: 'https://tayyabmanan.com/contact',
     type: 'website',
     images: [
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Contact Tayyab Manan - AI/ML Engineer',
-    description: 'Get in touch for collaboration opportunities or AI/ML project discussions.',
+    description: 'Hiring for an AI/ML role, or need a model shipped? I usually reply within 24 hours.',
     images: ['/images/profile-picture.webp'],
   },
   alternates: {

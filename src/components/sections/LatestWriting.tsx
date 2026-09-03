@@ -18,9 +18,9 @@ export default function LatestWriting({ posts }: { posts: BlogPost[] }) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div data-reveal="heading" className="mb-12 max-w-4xl">
           <Eyebrow index="02">Writing</Eyebrow>
-          <h2 className="mb-4 text-3xl font-semibold text-[var(--text)] sm:text-4xl">Built in Public</h2>
+          <h2 className="mb-4 text-3xl font-semibold text-[var(--text)] sm:text-4xl">Notes from the projects</h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)]">
-            Technical deep-dives on the projects above, with the metrics, trade-offs, and failures kept in.
+            Write-ups on the projects above, with the numbers and the failures kept in.
           </p>
         </div>
 

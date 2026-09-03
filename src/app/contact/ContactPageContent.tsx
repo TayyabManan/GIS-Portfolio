@@ -2,12 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import {
-  EnvelopeIcon,
-  MapPinIcon,
-  ArrowTopRightOnSquareIcon,
-} from "@heroicons/react/24/outline";
-import { Github, Linkedin } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { toast } from "@/components/ui/Toast";
 import ObfuscatedEmail from "@/components/ui/ObfuscatedEmail";
 import FAQ from "@/components/ui/FAQ";
@@ -21,21 +16,13 @@ interface ContactForm {
   honeypot?: string; // Anti-spam field
 }
 
-const contactInfo = [
-  {
-    icon: EnvelopeIcon,
-    label: "Email",
-    value: null,
-    href: null,
-    obfuscated: true,
-  },
-  {
-    icon: MapPinIcon,
-    label: "Location",
-    value: "Islamabad, Pakistan",
-    href: null,
-  },
-];
+// Ink-link grammar for the plain-text profile links (matches the hero's
+// affiliation links): underline as affordance, decoration inks on hover.
+const profileLinkClass =
+  "inline-flex items-center gap-0.5 font-medium text-[var(--text)] underline underline-offset-[0.15em] decoration-[var(--text)]/30 transition-[text-decoration-color] duration-200 hover:decoration-[var(--text)]";
+
+const inputClass =
+  "w-full px-4 py-3 border border-[var(--border)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--background)] text-[var(--text)]";
 
 export default function ContactPageContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,7 +41,6 @@ export default function ContactPageContent() {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors },
   } = useForm<ContactForm>({
     mode: 'onBlur',
@@ -122,95 +108,84 @@ export default function ContactPageContent() {
         {/* Header - Left aligned */}
         <div className="mb-16 max-w-4xl">
           <h1 className="text-4xl sm:text-5xl font-semibold text-[var(--text)] mb-4">
-            Get in Touch
+            Contact
           </h1>
           <p className="text-lg sm:text-xl text-[var(--text-secondary)]">
-            Have a role, a project, or a question? Send a note below and I&apos;ll get back to you.
+            Hiring, or have something you want built? Write to me and I&apos;ll usually reply within 24 hours.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
-          <div>
-            <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)] mb-6">
-              Contact Information
+        {/* Two columns: the ways to reach me (left) and the form (right).
+            This page was the last one still in the retired template
+            generation - icon-in-tinted-box rows, bordered social squares
+            with corner arrows, an "Availability" card, the form inside a
+            second card. It now speaks the About/hero grammar: plain text
+            in the ink-link grammar, a mono annotation for the where/when,
+            hairline inputs directly on the page. */}
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
+          {/* Ways to reach me */}
+          <div className="max-w-md">
+            <h2 className="mb-6 text-2xl sm:text-3xl font-semibold text-[var(--text)]">
+              Reach me directly
             </h2>
 
-            <div className="space-y-6 mb-8">
-              {contactInfo.map((item, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-[var(--primary)]/10 rounded-lg flex items-center justify-center">
-                    <item.icon className="h-6 w-6 text-[var(--primary)]" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-[var(--text)]">
-                      {item.label}
-                    </p>
-                    {'obfuscated' in item && item.obfuscated ? (
-                      <ObfuscatedEmail className="text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors" />
-                    ) : item.href ? (
-                      <a
-                        href={item.href}
-                        className="text-[var(--text-secondary)] hover:text-[var(--primary)] transition-colors"
-                      >
-                        {item.value}
-                      </a>
-                    ) : (
-                      <p className="text-[var(--text-secondary)]">
-                        {item.value}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <h3 className="text-lg font-semibold text-[var(--text)] mb-4">
-                Connect Online
-              </h3>
-              <div className="flex items-center gap-4">
-                <a
-                  href="https://www.linkedin.com/in/tayyabmanan"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative p-3 rounded-lg border border-[var(--border)] hover:border-[var(--primary)] transition-[border-color,color] text-[var(--primary)] hover:text-[var(--primary-hover)]"
-                  aria-label="LinkedIn (opens in new window)"
-                >
-                  <Linkedin className="h-6 w-6" />
-                  <ArrowTopRightOnSquareIcon className="absolute -top-1 -right-1 h-3 w-3 bg-[var(--background)] rounded" />
-                </a>
-                <a
-                  href="https://github.com/TayyabManan"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative p-3 rounded-lg border border-[var(--border)] hover:border-[var(--primary)] transition-[border-color,color] text-[var(--text)] hover:text-[var(--text-secondary)]"
-                  aria-label="GitHub (opens in new window)"
-                >
-                  <Github className="h-6 w-6" />
-                  <ArrowTopRightOnSquareIcon className="absolute -top-1 -right-1 h-3 w-3 bg-[var(--background)] rounded" />
-                </a>
+            <dl className="space-y-5">
+              <div>
+                <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+                  Email
+                </dt>
+                <dd className="mt-1 text-base">
+                  <ObfuscatedEmail className={profileLinkClass} />
+                </dd>
               </div>
-            </div>
+              <div>
+                <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+                  Elsewhere
+                </dt>
+                <dd className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-base">
+                  <a
+                    href="https://github.com/TayyabManan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={profileLinkClass}
+                  >
+                    GitHub
+                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span className="sr-only"> (opens in new window)</span>
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/tayyabmanan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={profileLinkClass}
+                  >
+                    LinkedIn
+                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    <span className="sr-only"> (opens in new window)</span>
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+                  Where and when
+                </dt>
+                <dd className="mt-1 text-base text-[var(--text-secondary)]">
+                  Islamabad, Pakistan &middot; UTC+5
+                </dd>
+              </div>
+            </dl>
 
-            {/* Availability */}
-            <div className="mt-8 p-6 bg-[var(--background-secondary)] rounded-lg">
-              <h3 className="text-lg font-semibold text-[var(--text)] mb-2">
-                Availability
-              </h3>
-              <p className="text-[var(--text-secondary)]">
-                Currently open to full-time AI/ML roles. I typically respond
-                to messages within 24 hours.
-              </p>
-            </div>
+            <p className="mt-8 border-t border-[var(--border)] pt-6 text-base text-[var(--text-secondary)]">
+              Open to full-time AI/ML roles and remote contract work.
+              I usually reply within 24 hours.
+            </p>
           </div>
 
-          {/* Contact Form */}
+          {/* Contact Form - hairline inputs on the page surface, no card */}
           <div>
-            <div className="bg-[var(--background-secondary)] p-6 sm:p-8 rounded-xl">
-              <h2 className="text-3xl sm:text-4xl font-semibold text-[var(--text)] mb-6">
-                Send a Message
+            <div>
+              <h2 className="mb-6 text-2xl sm:text-3xl font-semibold text-[var(--text)]">
+                Send a message
               </h2>
 
               {/* Status banner (board: closed -> open -> closed). Always-mounted
@@ -239,7 +214,7 @@ export default function ContactPageContent() {
                   ) : lastStatus === "success" ? (
                     <div className="mb-6 p-4 bg-[var(--success)]/10 border border-[var(--success)]/20 rounded-lg">
                       <p className="text-[var(--success)]">
-                        Message sent. I&apos;ll reply within 24 hours.
+                        Message sent. I&apos;ll usually reply within 24 hours.
                       </p>
                     </div>
                   ) : null}
@@ -258,8 +233,7 @@ export default function ContactPageContent() {
                     type="text"
                     id="name"
                     {...register("name", { required: "Name is required" })}
-                    className="w-full px-4 py-3 border border-[var(--border)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--background)] text-[var(--text)]"
-                    placeholder="Jane Smith"
+                    className={inputClass}
                     autoComplete="name"
                     aria-required="true"
                     aria-invalid={errors.name ? "true" : "false"}
@@ -289,8 +263,7 @@ export default function ContactPageContent() {
                         message: "Enter a valid email address",
                       },
                     })}
-                    className="w-full px-4 py-3 border border-[var(--border)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--background)] text-[var(--text)]"
-                    placeholder="your.email@example.com"
+                    className={inputClass}
                     autoComplete="email"
                     aria-required="true"
                     aria-invalid={errors.email ? "true" : "false"}
@@ -320,8 +293,7 @@ export default function ContactPageContent() {
                         message: "Subject must be at least 2 characters long"
                       }
                     })}
-                    className="w-full px-4 py-3 border border-[var(--border)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--background)] text-[var(--text)]"
-                    placeholder="Project collaboration, job opportunity..."
+                    className={inputClass}
                     aria-required="true"
                     aria-invalid={errors.subject ? "true" : "false"}
                     aria-describedby={errors.subject ? "subject-error" : undefined}
@@ -350,21 +322,14 @@ export default function ContactPageContent() {
                         message: "Message must be at least 10 characters long"
                       }
                     })}
-                    className="w-full px-4 py-3 border border-[var(--border)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--background)] text-[var(--text)]"
-                    placeholder="Tell me about your project, opportunity, or question..."
+                    className={inputClass}
                     aria-required="true"
                     aria-invalid={errors.message ? "true" : "false"}
                     aria-describedby={errors.message ? "message-error" : undefined}
                   />
-                  <div className="flex justify-between text-xs mt-1">
-                    <span className={`${
-                      (watch('message')?.length || 0) >= 10
-                        ? 'text-[var(--success)]'
-                        : 'text-[var(--text-tertiary)]'
-                    }`}>
-                      {watch('message')?.length || 0} / 10 minimum
-                    </span>
-                  </div>
+                  {/* No live character counter: the minLength error below
+                      says everything a "0 / 10 minimum" readout did, without
+                      the form-builder feel. */}
                   {errors.message && (
                     <p id="message-error" role="alert" className="mt-1 text-sm text-[var(--error)] animate-in fade-in slide-in-from-top-1 duration-micro ease-out">
                       {errors.message.message}
@@ -384,7 +349,7 @@ export default function ContactPageContent() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[var(--primary)] text-[var(--on-primary)] px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium hover:bg-[var(--primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 active:scale-[0.98] transition-[background-color,transform] duration-200"
+                  className="w-full sm:w-auto bg-[var(--primary)] text-[var(--on-primary)] px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-sm font-semibold hover:bg-[var(--primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 active:scale-[0.98] transition-[background-color,transform] duration-200"
                 >
                   {isSubmitting && (
                     <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
@@ -392,7 +357,7 @@ export default function ContactPageContent() {
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
                     </svg>
                   )}
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {isSubmitting ? "Sending..." : "Send"}
                 </button>
               </form>
             </div>
@@ -403,7 +368,6 @@ export default function ContactPageContent() {
             it uses the full width instead of leaving space on the right. */}
         <FAQ
           items={contactFaqs}
-          description="A few things people usually ask before getting in touch."
           layout="aside"
           className="mt-16 border-t border-[var(--border)] pt-16"
         />

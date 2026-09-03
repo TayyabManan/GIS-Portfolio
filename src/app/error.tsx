@@ -40,7 +40,7 @@ export default function Error({
             className="inline-flex items-center justify-center gap-2 bg-[var(--primary)] text-[var(--on-primary)] px-6 py-3 rounded-lg font-medium hover:bg-[var(--primary-hover)] transition-colors"
           >
             <ArrowPathIcon className="h-5 w-5" />
-            Try Again
+            Try again
           </button>
 
           <Link
@@ -48,7 +48,7 @@ export default function Error({
             className="inline-flex items-center justify-center gap-2 border border-[var(--border)] text-[var(--text)] px-6 py-3 rounded-lg font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
           >
             <HomeIcon className="h-5 w-5" />
-            Go Home
+            Home
           </Link>
         </div>
       </div>
